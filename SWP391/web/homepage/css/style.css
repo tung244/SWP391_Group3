@@ -75,7 +75,11 @@
 /*** Language Switcher ***/
 @import url(../assets/language-switcher/polyglot-language-switcher.css);
 
-
+/*** Box Icon***/
+@import url(../css/boxicon/boxicons.css);
+@import url(../css/boxicon/boxicons.min.css);
+@import url(../css/boxicon/animations.css);
+@import url(../css/boxicon/transformations.css);
 
 
 
@@ -4170,13 +4174,13 @@ select:focus {
     position: relative;
     display: inline-block;
     background: 0;
-    width: 230px;
+    width: 350px;
     border: 2px solid #e3e3e3;
     padding: 10px 0;
     font-size: 18px;
     font-weight: 600;
     line-height: 1;
-    border-radius: 10px;
+    border-radius: 6px;
     text-transform: uppercase;
     overflow: hidden;
     transition: 0.3s ease;
@@ -4195,8 +4199,8 @@ select:focus {
     left: 50%;
     display: block;
     background: #ed2553;
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     border-radius: 100%;
     margin: -15px 0 0 -15px;
     opacity: 0;
