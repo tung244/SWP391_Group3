@@ -4101,7 +4101,7 @@ select:focus {
   }
   .form-login-signup .card .input-container {
     position: relative;
-    margin: 0 60px 50px;
+    margin: 0 60px 30px;
   }
   .form-login-signup .card .input-container input {
     outline: none;
@@ -4170,7 +4170,7 @@ select:focus {
     background: 0;
     width: 280px;
     border: 2px solid #e3e3e3;
-    padding: 20px 0;
+    padding: 10px 0;
     font-size: 18px;
     font-weight: 600;
     line-height: 1;
