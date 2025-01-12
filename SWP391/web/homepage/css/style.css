@@ -4013,15 +4013,15 @@ select:focus {
 }
 .form-login-signup .container{
     position: relative;
-  max-width: 400px;
+  max-width: 500px;
   width: 100%;
-  margin: 30 auto 100px;
-  background-color: white;
+  /* margin: 30 auto 100px; */
+  
   padding:10px 0px 30px 0px;
 }
 .form-login-signup .container.active .card:first-child {
     background: #f2f2f2;
-    margin: 0 15px;
+    margin: 10px 15px;
   }
   .form-login-signup .container.active .card:nth-child(2) {
     background: #fafafa;
@@ -4037,12 +4037,13 @@ select:focus {
     padding: 60px 0 40px;
     overflow: hidden;
   }
+  /** scale nút**/
   .form-login-signup .container.active .card.alt .toggle {
     position: absolute;
     top: 40px;
     right: -70px;
     box-shadow: none;
-    transform: scale(10);
+    transform: scale(15);
     transition: transform 0.3s ease;
   }
   .form-login-signup .container.active .card.alt .toggle:before {
@@ -4071,23 +4072,24 @@ select:focus {
   .form-login-signup .container.active .card.alt .button-container {
     transition-delay: 0.7s;
   }
-  .form-login-signup.card {
+  .form-login-signup .card {
     position: relative;
     background: #ffffff;
     border-radius: 5px;
-    padding: 60px 0 40px 0;
+    padding: 50px 0 40px 0;
     box-sizing: border-box;
+    border-radius: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     transition: 0.3s ease;
     
   }
-  .form-login-signup .card:first-child {
+  /* .form-login-signup .card:first-child {
     background: #fafafa;
-    height: 10px;
+    
     border-radius: 5px 5px 0 0;
     margin: 0 10px;
     padding: 0;
-  }
+  } */
   .form-login-signup .card .title {
     position: relative;
     z-index: 1;
@@ -4101,7 +4103,7 @@ select:focus {
   }
   .form-login-signup .card .input-container {
     position: relative;
-    margin: 0 60px 30px;
+    margin: 0 60px 20px;
   }
   .form-login-signup .card .input-container input {
     outline: none;
@@ -4109,10 +4111,10 @@ select:focus {
     position: relative;
     background: none;
     width: 100%;
-    height: 20px;
+    height: 30px;
     border: 0;
     color: #212121;
-    font-size: 24px;
+    font-size: 14px;
     font-weight: 400;
   }
   .form-login-signup .card .input-container input:focus ~ label {
@@ -4159,7 +4161,7 @@ select:focus {
     right: 50%;
   }
   .form-login-signup .card .button-container {
-    margin: 0 60px;
+    margin: 0px;
     text-align: center;
   }
   .form-login-signup .card .button-container button {
@@ -4168,15 +4170,17 @@ select:focus {
     position: relative;
     display: inline-block;
     background: 0;
-    width: 280px;
+    width: 230px;
     border: 2px solid #e3e3e3;
     padding: 10px 0;
     font-size: 18px;
     font-weight: 600;
     line-height: 1;
+    border-radius: 10px;
     text-transform: uppercase;
     overflow: hidden;
     transition: 0.3s ease;
+    margin-top: 30px;
   }
   .form-login-signup .card .button-container button span {
     position: relative;
@@ -4212,11 +4216,13 @@ select:focus {
     transform: scale(10);
   }
   .form-login-signup .card .footer {
-    margin: 40px 0 0;
-    color: #d3d3d3;
-    font-size: 24px;
+    margin: 0px 20px 0px 0px;
+    color: rgb(50,205,50);
+    font-size: 16px;
     font-weight: 300;
-    text-align: center;
+    padding-right: 20px;
+    text-align: end;
+    margin-bottom: 20px;
   }
   .form-login-signup .card .footer a {
     color: inherit;
@@ -4307,7 +4313,7 @@ select:focus {
     background: rgba(255, 255, 255, 0.8);
   }
   .form-login-signup .card.alt .button-container button {
-    width: 100%;
+    
     background: #ffffff;
     border-color: #ffffff;
   }
