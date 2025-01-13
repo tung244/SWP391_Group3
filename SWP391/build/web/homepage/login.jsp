@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <jsp:include page="Common/Css.jsp"/>
-        <script src="js/jquery.js"></script>
+        <script src="homepage/js/jquery.js"></script>
     </head>
     <body>
         <div class="boxed_wrapper">         
@@ -13,7 +13,7 @@
                     <div class="card">
                         <h1 class="title">Login</h1>
                         <div class="col-md-6 image-login">
-                            <img src="images/resources/login.svg" width="350px"/>
+                            <img src="homepage/images/resources/login.svg" width="350px"/>
                         </div>
                         <div class="col-md-6">
                             <form>
@@ -58,36 +58,38 @@
                             <div class="close"></div>
                         </h1>
                         <div class="col-md-6">
-                            <form>
+                            <form method="post" action="register">
                                 <div class="input-container">
-                                    <input type="text" id="register-username" required />
+                                    <input type="text" id="register-username" name="register-username" required />
                                     <label for="register-username">Username</label>
                                     <div class="bar"></div>
                                 </div>
 
                                 <div class="input-container">
-                                    <input type="password" id="register-password" required />
+                                    <input type="password" id="register-password" name="register-password" required />
                                     <label for="register-password">Password</label>
                                     <div class="bar"></div>
                                 </div>
                                 <div class="input-container">
-                                    <input type="password" id="repeat-password" required />
+                                    <input type="password" id="repeat-password" name="repeat-password" required />
                                     <label for="repeat-password">Repeat Password</label>
                                     <div class="bar"></div>
                                 </div>
                                 <div class="input-container">
-                                    <input type="text" id="register-name" required />
+                                    <input type="text" id="register-name" name="register-name" required />
                                     <label for="register-name">Full Name</label>
                                     <div class="bar"></div>
                                 </div>
                                 <div class="input-container">
-                                    <input type="text" id="register-phone" required />
+                                    <input type="text" id="register-phone" name="register-phone" required />
                                     <label for="register-phone">PhoneNumber</label>
                                     <div class="bar"></div>
                                 </div>
                                 <div class="button-container">
-                                    <button><span>Next</span></button>
+                                    <button type="submit"><span>Next</span></button>
                                 </div>
+                                
+                            </form>
                                 <div class="register-other-platform" style="margin-top: 15px; text-align: center; font-size: 16px; color: white;">
                                     <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  </span>Or resigter with
                                     <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</span>
@@ -105,10 +107,9 @@
                                     </div>
 
                                 </div>
-                            </form>
                         </div>
                         <div class="col-md-6 image-signup">
-                            <img src="images/resources/register.png" width="450px" height="auto"/>
+                            <img src="homepage/images/resources/register.png" width="450px" height="auto"/>
                         </div>
 
                     </div>
