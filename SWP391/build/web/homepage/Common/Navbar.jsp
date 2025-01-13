@@ -26,18 +26,19 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <div class="logo text-center">
                                 <a href="index.html">
-                                    <img src="images/resources/logo.png" alt="Awesome Logo">
+                                    <img src="homepage/images/resources/logo.png" alt="Awesome Logo">
                                 </a>
                             </div>   
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <div class="top-social-links">
-                                <ul>
+                                <ul style="font-size: 16px; margin-top: 15px">
                                     <!-- <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                                     <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                                     <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                                     <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li> -->
-                                    <li><a href="login.jsp"><i class="bx bxs-user"></i>Đăng nhập</a></li>
+                                    <li><a href="login.jsp" style="color: rgb(34,139,34)"><i style="margin-right: 5px;vertical-align: central;" class="bx bxs-user"></i>Đăng nhập / </a></li>
+                                    <li style="margin-left: 0;"><a style="color: rgb(34,139,34)" href="login.jsp">Đăng kí</a></li>
                                 </ul>
                             </div>     
                         </div>

@@ -20,24 +20,24 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="header-contact-info">
-                                <ul>
-                                    <li>
+                                <ul style="text-align: center">
+                                    <li class="col-md-4">
                                         <div class="iocn-holder">
                                             <span class="flaticon-signs"></span>
                                         </div>
                                         <div class="text-holder">
-                                            <h3>45 West Dental Street, Newyork 1003</h3>
+                                            <h3>KM29_Láng Hòa Lạc</h3>
                                         </div>
                                     </li>
-                                    <li>
+                                    <li class="col-md-4">
                                         <div class="iocn-holder">
                                             <span class="flaticon-interface"></span>
                                         </div>
                                         <div class="text-holder">
-                                            <h3>Supportuteam@Dentalcare.com</h3>
+                                            <h3>Group3_SWP391@fpt.edu.vn</h3>
                                         </div>
                                     </li>
-                                    <li>
+                                    <li class="col-md-4">
                                         <div class="iocn-holder">
                                             <span class="flaticon-clock"></span>
                                         </div>
@@ -58,7 +58,7 @@
                 <div id="slider1" class="rev_slider"  data-version="5.0">
                     <ul>
                         <li data-transition="random">
-                            <img src="images/slides/1.jpg"  alt="" width="1920" height="600" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1" >
+                            <img src="homepage/images/slides/1.jpg"  alt="" width="1920" height="600" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1" >
 
                             <div class="tp-caption  tp-resizeme" 
                                  data-x="left" data-hoffset="0" 
@@ -92,13 +92,13 @@
                                  data-start="2900">
                                 <div class="slide-content-box">
                                     <div class="img-holder">  
-                                        <img src="images/slides/slide-1-img.png" alt="Awesome Image">   
+                                        <img src="homepage/images/slides/slide-1-img.png" alt="Awesome Image">   
                                     </div>
                                 </div>
                             </div>
                         </li>
                         <li data-transition="fade">
-                            <img src="images/slides/2.jpg"  alt="" width="1920" height="600" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1" >
+                            <img src="homepage/images/slides/2.jpg"  alt="" width="1920" height="600" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1" >
 
                             <div class="tp-caption  tp-resizeme" 
                                  data-x="right" data-hoffset="0" 
@@ -132,13 +132,13 @@
                                  data-start="2900">
                                 <div class="slide-content-box">
                                     <div class="img-holder">  
-                                        <img src="images/slides/slide-2-img.png" alt="Awesome Image">   
+                                        <img src="homepage/images/slides/slide-2-img.png" alt="Awesome Image">   
                                     </div>
                                 </div>
                             </div>
                         </li>
                         <li data-transition="random">
-                            <img src="images/slides/3.jpg"  alt="" width="1920" height="600" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1" >
+                            <img src="homepage/images/slides/3.jpg"  alt="" width="1920" height="600" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1" >
 
                             <div class="tp-caption  tp-resizeme" 
                                  data-x="left" data-hoffset="0" 
@@ -172,7 +172,7 @@
                                  data-start="2900">
                                 <div class="slide-content-box">
                                     <div class="img-holder">  
-                                        <img src="images/slides/slide-3-img.png" alt="Awesome Image">   
+                                        <img src="homepage/images/slides/slide-3-img.png" alt="Awesome Image">   
                                     </div>
                                 </div>
                             </div>
@@ -249,7 +249,7 @@
                                     </div>
                                 </div>
                                 <div class="icon-box pull-right">
-                                    <img src="images/services/icon.png" alt="Icon">
+                                    <img src="homepage/images/services/icon.png" alt="Icon">
                                 </div>
                             </div>
                         </div>
@@ -260,7 +260,7 @@
                                 <!--Start single item-->
                                 <div class="single-service-item text-center wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="1s" data-wow-offset="0">
                                     <div class="img-holder">
-                                        <img src="images/services/1.jpg" alt="Awesome Image">
+                                        <img src="homepage/images/services/1.jpg" alt="Awesome Image">
                                         <div class="overlay-style-one">
                                             <div class="box">
                                                 <div class="content">
@@ -283,7 +283,7 @@
                                 <!--Start single item-->
                                 <div class="single-service-item text-center wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="1s" data-wow-offset="0">
                                     <div class="img-holder">
-                                        <img src="images/services/2.jpg" alt="Awesome Image">
+                                        <img src="homepage/images/services/2.jpg" alt="Awesome Image">
                                         <div class="overlay-style-one">
                                             <div class="box">
                                                 <div class="content">
@@ -306,7 +306,7 @@
                                 <!--Start single item-->
                                 <div class="single-service-item text-center wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="1s" data-wow-offset="0">
                                     <div class="img-holder">
-                                        <img src="images/services/3.jpg" alt="Awesome Image">
+                                        <img src="homepage/images/services/3.jpg" alt="Awesome Image">
                                         <div class="overlay-style-one">
                                             <div class="box">
                                                 <div class="content">
@@ -334,12 +334,12 @@
             <!--End special services area-->
 
             <!--Start appoinment area-->
-            <section class="appoinment-area" style="background-image:url(images/resources/appoinment-bg.jpg);">
+            <section class="appoinment-area" style="background-image:url(homepage/images/resources/appoinment-bg.jpg);">
                 <div class="container inner-content">
                     <div class="row">
                         <div class="col-md-6 col-sm-12 col-xs-12">
                             <div class="img-holder">
-                                <img src="images/resources/appoinment.png" alt="Awesome Image">
+                                <img src="homepage/images/resources/appoinment.png" alt="Awesome Image">
                             </div>    
                         </div>
                         <div class="col-md-6 col-sm-12 col-xs-12">
@@ -409,14 +409,14 @@
                                     <!--Start single item-->
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div class="single-item">
-                                            <img src="images/about/1.jpg" alt="Awesome Image">
+                                            <img src="homepage/images/about/1.jpg" alt="Awesome Image">
                                         </div>
                                     </div>
                                     <!--End single item-->
                                     <!--Start single item-->
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div class="single-item">
-                                            <img src="images/about/2.jpg" alt="Awesome Image">
+                                            <img src="homepage/images/about/2.jpg" alt="Awesome Image">
                                         </div>
                                     </div>
                                     <!--End single item-->
@@ -429,7 +429,7 @@
                                             <div class="button">
                                                 <a class="thm-btn bg-1" href="#">Meet Doctors</a>
                                                 <div class="signature">
-                                                    <img src="images/about/signature.jpg" alt="Signature">
+                                                    <img src="homepage/images/about/signature.jpg" alt="Signature">
                                                 </div>
                                             </div>
                                         </div>
@@ -516,7 +516,7 @@
                                 <!--Start single team member-->
                                 <div class="single-team-member">
                                     <div class="img-holder">
-                                        <img src="images/team/1.jpg" alt="Awesome Image">
+                                        <img src="homepage/images/team/1.jpg" alt="Awesome Image">
                                         <div class="overlay-one">
                                             <div class="overlay-inner">
                                                 <div class="content"></div>
@@ -540,7 +540,7 @@
                                 <!--Start single team member-->
                                 <div class="single-team-member">
                                     <div class="img-holder">
-                                        <img src="images/team/2.jpg" alt="Awesome Image">
+                                        <img src="homepage/images/team/2.jpg" alt="Awesome Image">
                                         <div class="overlay-one">
                                             <div class="overlay-inner">
                                                 <div class="content"></div>
@@ -564,7 +564,7 @@
                                 <!--Start single team member-->
                                 <div class="single-team-member">
                                     <div class="img-holder">
-                                        <img src="images/team/3.jpg" alt="Awesome Image">
+                                        <img src="homepage/images/team/3.jpg" alt="Awesome Image">
                                         <div class="overlay-one">
                                             <div class="overlay-inner">
                                                 <div class="content"></div>
@@ -588,7 +588,7 @@
                                 <!--Start single team member-->
                                 <div class="single-team-member">
                                     <div class="img-holder">
-                                        <img src="images/team/4.jpg" alt="Awesome Image">
+                                        <img src="homepage/images/team/4.jpg" alt="Awesome Image">
                                         <div class="overlay-one">
                                             <div class="overlay-inner">
                                                 <div class="content"></div>
@@ -617,7 +617,7 @@
             <!--End team area-->
 
             <!--Start newsletter area-->
-            <section class="newsletter-area" style="background-image:url(images/resources/newsletter-bg.jpg);">
+            <section class="newsletter-area" style="background-image:url(homepage/images/resources/newsletter-bg.jpg);">
                 <div class="container">
                     <div class="sec-title center text-center">
                         <h1>Subscribe for Offers, Coupons and Deals</h1>
@@ -678,7 +678,7 @@
                                     <div class="row">
                                         <div class="col-md-5 col-sm-5 col-xs-12">
                                             <div class="img-holder">
-                                                <img src="images/testimonial/large-testimonial.jpg" alt="Awesome Image">
+                                                <img src="homepage/images/testimonial/large-testimonial.jpg" alt="Awesome Image">
                                                 <div class="client-name text-center"> <h3>Stephan Vanel</h3> <p>Newyork</p> </div>
                                             </div>
                                         </div>
@@ -708,7 +708,7 @@
                                     <div class="row">
                                         <div class="col-md-5 col-sm-5 col-xs-12">
                                             <div class="img-holder">
-                                                <img src="images/testimonial/large-testimonial.jpg" alt="Awesome Image">
+                                                <img src="homepage/images/testimonial/large-testimonial.jpg" alt="Awesome Image">
                                                 <div class="client-name text-center"> <h3>Stephan Vanel</h3> <p>Newyork</p> </div>
                                             </div>
                                         </div>
@@ -753,22 +753,22 @@
                             <div class="brand">
                                 <!--Start single item-->
                                 <div class="single-item">
-                                    <a href="#"><img src="images/brand/1.png" alt="Awesome Brand Image"></a>
+                                    <a href="#"><img src="homepage/images/brand/1.png" alt="Awesome Brand Image"></a>
                                 </div>
                                 <!--End single item-->
                                 <!--Start single item-->
                                 <div class="single-item">
-                                    <a href="#"><img src="images/brand/2.png" alt="Awesome Brand Image"></a>
+                                    <a href="#"><img src="homepage/images/brand/2.png" alt="Awesome Brand Image"></a>
                                 </div>
                                 <!--End single item-->
                                 <!--Start single item-->
                                 <div class="single-item">
-                                    <a href="#"><img src="images/brand/3.png" alt="Awesome Brand Image"></a>
+                                    <a href="#"><img src="homepage/images/brand/3.png" alt="Awesome Brand Image"></a>
                                 </div>
                                 <!--End single item-->
                                 <!--Start single item-->
                                 <div class="single-item">
-                                    <a href="#"><img src="images/brand/4.png" alt="Awesome Brand Image"></a>
+                                    <a href="#"><img src="homepage/images/brand/4.png" alt="Awesome Brand Image"></a>
                                 </div>
                                 <!--End single item-->
                             </div>
@@ -872,7 +872,7 @@
                                 <ul class="latest-work-list">
                                     <li>
                                         <div class="image-holder">
-                                            <img src="images/footer/latest-work-1.jpg" alt="Awesome Image">
+                                            <img src="homepage/images/footer/latest-work-1.jpg" alt="Awesome Image">
                                             <div class="overlay-style-one">
                                                 <div class="box">
                                                     <div class="content">
@@ -884,7 +884,7 @@
                                     </li>
                                     <li>
                                         <div class="image-holder">
-                                            <img src="images/footer/latest-work-2.jpg" alt="Awesome Image">
+                                            <img src="homepage/images/footer/latest-work-2.jpg" alt="Awesome Image">
                                             <div class="overlay-style-one">
                                                 <div class="box">
                                                     <div class="content">
@@ -896,7 +896,7 @@
                                     </li>
                                     <li>
                                         <div class="image-holder">
-                                            <img src="images/footer/latest-work-3.jpg" alt="Awesome Image">
+                                            <img src="homepage/images/footer/latest-work-3.jpg" alt="Awesome Image">
                                             <div class="overlay-style-one">
                                                 <div class="box">
                                                     <div class="content">
@@ -908,7 +908,7 @@
                                     </li>
                                     <li>
                                         <div class="image-holder">
-                                            <img src="images/footer/latest-work-4.jpg" alt="Awesome Image">
+                                            <img src="homepage/images/footer/latest-work-4.jpg" alt="Awesome Image">
                                             <div class="overlay-style-one">
                                                 <div class="box">
                                                     <div class="content">
@@ -920,7 +920,7 @@
                                     </li>
                                     <li>
                                         <div class="image-holder">
-                                            <img src="images/footer/latest-work-5.jpg" alt="Awesome Image">
+                                            <img src="homepage/images/footer/latest-work-5.jpg" alt="Awesome Image">
                                             <div class="overlay-style-one">
                                                 <div class="box">
                                                     <div class="content">
@@ -932,7 +932,7 @@
                                     </li>
                                     <li>
                                         <div class="image-holder">
-                                            <img src="images/footer/latest-work-6.jpg" alt="Awesome Image">
+                                            <img src="homepage/images/footer/latest-work-6.jpg" alt="Awesome Image">
                                             <div class="overlay-style-one">
                                                 <div class="box">
                                                     <div class="content">
