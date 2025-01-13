@@ -39,10 +39,11 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <div class="top-social-links">
                                 <ul>
-                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                    <!-- <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                                     <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                                     <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li> -->
+                                    <li><a href="login.jsp"><i class="bx bxs-user"></i>Đăng nhập</a></li>
                                 </ul>
                             </div>     
                         </div>

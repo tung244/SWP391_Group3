@@ -861,7 +861,7 @@ select:focus {
 =============================================
 ***/
 .welcome-area {
-  background: #f3fbff;
+  background: #F1F9F2;
   padding: 80px 0 40px;
 }
 .welcome-area .single-item {
@@ -869,7 +869,7 @@ select:focus {
     position: relative;
     display: block;
     max-width: 100%;
-    background-color: #f3fbff;
+    background-color: #F1F9F2;
     color: #fff;
     overflow: hidden;
     -webkit-box-shadow: 0px 1px 10px 1px rgba(223,228,231,1);
@@ -1288,7 +1288,7 @@ select:focus {
 =============================================
 ***/
 .team-area{
-    background: #f3fbff;
+    background: #F1F9F2;
     padding-top: 80px;
     padding-bottom: 50px;
 }
