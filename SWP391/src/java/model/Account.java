@@ -8,19 +8,31 @@ package model;
 public class Account {
     public int account_id;
     public String username;
-    public String phonenumber;
+    public String password;
     public String email;
+    public String phonenumber;
     public String created_date;
     public Role role;
 
-    public Account(int account_id, String username, String phonenumber, String email, String created_date, Role role) {
+    public Account(int account_id, String username, String password, String email, String phonenumber, String created_date, Role role) {
         this.account_id = account_id;
         this.username = username;
-        this.phonenumber = phonenumber;
+        this.password = password;
         this.email = email;
+        this.phonenumber = phonenumber;
         this.created_date = created_date;
         this.role = role;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    
 
     public int getAccount_id() {
         return account_id;
