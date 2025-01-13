@@ -18,12 +18,13 @@
                         <div class="col-md-6">
                             <form>
                                 <div class="input-container">
-                                    <input type="text" id="username" required />
+                                    <input type="text" id="username" required/>
                                     <label for="username">Username</label>
                                     <div class="bar"></div>
                                 </div>
+
                                 <div class="input-container">
-                                    <input type="password" id="password" required />
+                                    <input type="password" id="password" required/>
                                     <label for="password">Password</label>
                                     <div class="bar"></div>
                                 </div>
@@ -60,10 +61,12 @@
                         <div class="col-md-6">
                             <form method="post" action="register">
                                 <div class="input-container">
-                                    <input type="text" id="register-username" name="register-username" required />
+                                    <input type="text" id="register-username" name="register-username" onblur="checkUser()" required />
                                     <label for="register-username">Username</label>
                                     <div class="bar"></div>
+                                    <span id="username-error" style="font-size: 14px;"></span>
                                 </div>
+
 
                                 <div class="input-container">
                                     <input type="password" id="register-password" name="register-password" required />
@@ -71,9 +74,10 @@
                                     <div class="bar"></div>
                                 </div>
                                 <div class="input-container">
-                                    <input type="password" id="repeat-password" name="repeat-password" required />
+                                    <input type="password" id="repeat-password" name="repeat-password" onblur="checkRepeatPassword()" required />
                                     <label for="repeat-password">Repeat Password</label>
                                     <div class="bar"></div>
+                                    <span id="repeat-error" style="font-size: 14px;"></span>
                                 </div>
                                 <div class="input-container">
                                     <input type="text" id="register-name" name="register-name" required />
@@ -85,28 +89,40 @@
                                     <label for="register-phone">PhoneNumber</label>
                                     <div class="bar"></div>
                                 </div>
+                                <div class="input-container">
+                                    <select style="width: 360px; height: 35px; border-radius: 7px; font-size: 14px; padding: 5px 10px" 
+                                            id="register-gender" 
+                                            name="register-gender" 
+                                            required>
+                                        <option value="">Hãy chọn giới tính</option> <!-- Giá trị trống -->
+                                        <option value="male">Nam</option>
+                                        <option value="female">Nữ</option>
+                                    </select>
+                                </div>
+
+
                                 <div class="button-container">
                                     <button type="submit"><span>Next</span></button>
                                 </div>
-                                
-                            </form>
-                                <div class="register-other-platform" style="margin-top: 15px; text-align: center; font-size: 16px; color: white;">
-                                    <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  </span>Or resigter with
-                                    <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</span>
-                                    <div class="d-flex justify-content-center align-items-center register-with">
-                                        <div class="">
-                                            <button class="circle-btn facebook">
-                                                <i class='bx bxl-facebook'></i>
-                                            </button>
-                                        </div>
-                                        <div class="">
-                                            <button class="circle-btn google">
-                                                <i class='bx bxl-google'></i>
-                                            </button>
-                                        </div>
-                                    </div>
 
+                            </form>
+                            <div class="register-other-platform" style="margin-top: 15px;margin-bottom: 20px; text-align: center; font-size: 16px; color: white;">
+                                <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  </span>Or resigter with
+                                <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</span>
+                                <div class="d-flex justify-content-center align-items-center register-with">
+                                    <div class="">
+                                        <button class="circle-btn facebook">
+                                            <i class='bx bxl-facebook'></i>
+                                        </button>
+                                    </div>
+                                    <div class="">
+                                        <button class="circle-btn google">
+                                            <i class='bx bxl-google'></i>
+                                        </button>
+                                    </div>
                                 </div>
+
+                            </div>
                         </div>
                         <div class="col-md-6 image-signup">
                             <img src="homepage/images/resources/register.png" width="450px" height="auto"/>
@@ -116,15 +132,80 @@
                 </div>
             </div>
             <script>
-                $(".toggle").on("click", function () {
-                    $(".container").stop().addClass("active");
+                $(document).ready(function () {
 
+                    function toggleContainer() {
+                        $(".container").stop().addClass("active");
+                    }
+
+                    function closeContainer() {
+                        $(".container").stop().removeClass("active");
+                    }
+                    function checkUser() {
+                        const username = document.getElementById("register-username").value; 
+                        const errorSpan = document.getElementById("username-error");
+
+                        $.ajax({
+                            url: "register", 
+                            type: "POST",
+                            data: {
+                                action: "checkUser", 
+                                user_name: username 
+                            },
+                            success: function (response) {
+                                if (response.status === "exist") {
+                                    errorSpan.textContent = "Tên người dùng đã tồn tại! Vui lòng đổi username khác";
+                                    errorSpan.style.color = "#FF4D4D";
+                                } else if (response.status === "oke") {
+                                    errorSpan.textContent = "Tên người dùng hợp lệ";
+                                    errorSpan.style.color = "white";
+                                } else {
+                                    toastr.error("Không thể add sản phẩm. Vui lòng thử lại.");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert("Đã có lỗi xảy ra. Vui lòng thử lại.");
+                            }
+                        });
+                    }
+                    function checkRepeatPassword() {
+                        const repeatpassword = document.getElementById("repeat-password").value; 
+                        const registerpassword = document.getElementById("register-password").value;
+                        const errorSpan = document.getElementById("repeat-error");
+
+                        $.ajax({
+                            url: "register", 
+                            type: "POST",
+                            data: {
+                                action: "checkRepeat", 
+                                password : registerpassword,
+                                repeat_password : repeatpassword,
+                            },
+                            success: function (response) {
+                                if (response.status === "wrong") {
+                                    errorSpan.textContent = "Mật khẩu không trùng khớp.Vui lòng thử lại!!!";
+                                    errorSpan.style.color = "#FF4D4D";
+                                } 
+                            },
+                            error: function (xhr, status, error) {
+                                alert("Đã có lỗi xảy ra. Vui lòng thử lại.");
+                            }
+                        });
+                    }
+
+                    
+                    $(".toggle").on("click", toggleContainer);
+                    $(".close").on("click", closeContainer);
+
+                    
+                    $("#register-username").on("blur", function () {
+                        checkUser(this); 
+                    });
+                    $("#repeat-password").on("blur", function () {
+                        checkRepeatPassword()(this); 
+                    });
                 });
 
-                $(".close").on("click", function () {
-                    $(".container").stop().removeClass("active");
-
-                });
             </script>
             <jsp:include page="Common/Js.jsp"/>
     </body>
