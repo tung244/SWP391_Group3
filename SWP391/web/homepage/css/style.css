@@ -4109,7 +4109,7 @@ select:focus {
   }
   .form-login-signup .card .input-container {
     position: relative;
-    margin: 0 60px 20px;
+    margin: 0 30px 20px;
   }
   .form-login-signup .card .input-container input {
     outline: none;
