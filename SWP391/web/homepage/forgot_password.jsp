@@ -9,6 +9,8 @@
     <body>
         <div class="boxed_wrapper">         
             <!--            <div class="preloader"></div>-->
+            
+            
             <div class="forgot-password-form">
 
             </div>
