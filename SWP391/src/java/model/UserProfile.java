@@ -17,7 +17,7 @@ public class UserProfile {
         this.gender = gender;
         this.image_profile_user = image_profile_user;
     }
-
+    
     public Account getAccount() {
         return account;
     }

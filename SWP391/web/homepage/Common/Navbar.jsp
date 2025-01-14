@@ -37,8 +37,8 @@
                                     <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                                     <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                                     <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li> -->
-                                    <li><a href="login" style="color: rgb(34,139,34)"><i style="margin-right: 5px;vertical-align: central;" class="bx bxs-user"></i>Đăng nhập / </a></li>
-                                    <li style="margin-left: 0;"><a style="color: rgb(34,139,34)" href="login">Đăng kí</a></li>
+                                    <li><a href="login" style="color: rgb(34,139,34)"><i style="margin-right: 5px;vertical-align: central;" class="bx bxs-user"></i>Login / </a></li>
+                                    <li style="margin-left: 0;"><a style="color: rgb(34,139,34)" href="login">Register</a></li>
                                 </ul>
                             </div>     
                         </div>

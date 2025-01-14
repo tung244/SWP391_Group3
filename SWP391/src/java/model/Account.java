@@ -24,6 +24,25 @@ public class Account {
         this.role = role;
     }
 
+    public Account(String username, String password, String email, String phonenumber, String created_date, Role role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.created_date = created_date;
+        this.role = role;
+    }
+    
+    
+
+    public Account(String username, String password, String email, String phonenumber, Role role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.role = role;
+    }
+    
     public String getPassword() {
         return password;
     }
