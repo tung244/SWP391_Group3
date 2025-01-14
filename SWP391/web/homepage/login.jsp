@@ -59,7 +59,7 @@
                             <div class="close"></div>
                         </h1>
                         <div class="col-md-6">
-                            <form method="post" action="register">
+                            <form method="post" action="register" id="register-form">
                                 <div class="input-container">
                                     <input type="text" id="register-username" name="register-username" onblur="checkUser()" required />
                                     <label for="register-username">Username</label>
@@ -75,13 +75,13 @@
                                 </div>
                                 <div class="input-container">
                                     <input type="password" id="repeat-password" name="repeat-password" onblur="checkRepeatPassword()" required />
-                                    <label for="repeat-password">Repeat Password</label>
+                                    <label for="repeat-password">Nhập lại mật khẩu</label>
                                     <div class="bar"></div>
                                     <span id="repeat-error" style="font-size: 14px;"></span>
                                 </div>
                                 <div class="input-container">
                                     <input type="text" id="register-name" name="register-name" required />
-                                    <label for="register-name">Full Name</label>
+                                    <label for="register-name">FullName</label>
                                     <div class="bar"></div>
                                 </div>
                                 <div class="input-container">
@@ -94,17 +94,17 @@
                                             id="register-gender" 
                                             name="register-gender" 
                                             required>
-                                        <option value="">Hãy chọn giới tính</option> <!-- Giá trị trống -->
-                                        <option value="male">Nam</option>
-                                        <option value="female">Nữ</option>
+                                        <option value="">Choose your gender</option> <!-- Giá trị trống -->
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
                                     </select>
                                 </div>
 
 
                                 <div class="button-container">
-                                    <button type="submit"><span>Next</span></button>
+                                    <button name="resigter-button" id="register-button" type="submit"><span>Next</span></button>
                                 </div>
-
+                                <input type="hidden" name="action" id ="action" value="register"/>
                             </form>
                             <div class="register-other-platform" style="margin-top: 15px;margin-bottom: 20px; text-align: center; font-size: 16px; color: white;">
                                 <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  </span>Or resigter with
@@ -131,9 +131,10 @@
                     </div>
                 </div>
             </div>
+            <jsp:include page="Common/Message.jsp"/>
             <script>
                 $(document).ready(function () {
-
+                    
                     function toggleContainer() {
                         $(".container").stop().addClass("active");
                     }
@@ -154,17 +155,19 @@
                             },
                             success: function (response) {
                                 if (response.status === "exist") {
-                                    errorSpan.textContent = "Tên người dùng đã tồn tại! Vui lòng đổi username khác";
-                                    errorSpan.style.color = "#FF4D4D";
+                                    errorSpan.textContent = "Username is existed. Please try again!!";
+                                    errorSpan.style.color = "#EA4335";
+                                    document.getElementById("register-button").style.display='none';
                                 } else if (response.status === "oke") {
-                                    errorSpan.textContent = "Tên người dùng hợp lệ";
+                                    errorSpan.textContent = "Username is valid";
                                     errorSpan.style.color = "white";
+                                    document.getElementById("register-button").style.display='inline-block';
                                 } else {
-                                    toastr.error("Không thể add sản phẩm. Vui lòng thử lại.");
+                                    toastr.error("Error.");
                                 }
                             },
                             error: function (xhr, status, error) {
-                                alert("Đã có lỗi xảy ra. Vui lòng thử lại.");
+                                alert("Error");
                             }
                         });
                     }
@@ -183,12 +186,16 @@
                             },
                             success: function (response) {
                                 if (response.status === "wrong") {
-                                    errorSpan.textContent = "Mật khẩu không trùng khớp.Vui lòng thử lại!!!";
-                                    errorSpan.style.color = "#FF4D4D";
-                                } 
+                                    errorSpan.textContent = "Password is incorrect!!";
+                                    errorSpan.style.color = "#EA4335";
+                                    document.getElementById("register-button").style.display='none';
+                                }
+                                else{
+                                    document.getElementById("register-button").style.display='inline-block';
+                                }
                             },
                             error: function (xhr, status, error) {
-                                alert("Đã có lỗi xảy ra. Vui lòng thử lại.");
+                                alert("Error");
                             }
                         });
                     }
