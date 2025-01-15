@@ -4386,7 +4386,21 @@ select:focus {
 =============================================
 ***/
 
-
+.forgot-password-form{
+                display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image:url('../images/resources/v870-tang-36.jpg') ;
+    background-size: cover;
+    background-position: center;
+    
+    color: #666666;
+    font-family: "RobotoDraft", "Roboto", sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+            }
 .forgot-password-card {
             background: white;
             padding: 2rem;

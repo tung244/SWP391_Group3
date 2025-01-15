@@ -34,7 +34,7 @@
                                         <a>Remember me</a>
                                     </div>
 
-                                    <a class="col-md-6" style="padding: 0;" href="#">Forgot password?</a>
+                                    <a class="col-md-6" style="padding: 0;" href="forgot_password">Forgot password?</a>
 
                                 </div>
                                 <div class="button-container">
