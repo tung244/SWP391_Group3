@@ -5,13 +5,14 @@
         <group>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/AccountDAO.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/UserProfile.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/index.jsp</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/Common/Message.jsp</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Forgot_Password.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Login.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/forgot_password.jsp</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/UserProfileDAO.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/getFormatDate.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/css/style.css</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/css/bootstrap-select.min.css</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/login.jsp</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Register.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/Account.java</file>

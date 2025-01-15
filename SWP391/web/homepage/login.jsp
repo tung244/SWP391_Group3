@@ -68,17 +68,49 @@
                                 </div>
 
 
-                                <div class="input-container">
-                                    <input type="password" id="register-password" name="register-password" required />
-                                    <label for="register-password">Password</label>
+                                <div class="input-container" style="position: relative;">
+                                    <input 
+                                        type="password" 
+                                        id="register-password" 
+                                        name="register-password" 
+                                        required 
+                                        style="width: 100%; padding-right: 40px;" 
+                                        />
+                                    <label for="register-password" style="pointer-events: none;">Password</label>
                                     <div class="bar"></div>
+                                    <a 
+                                        class="toggle-password"
+                                        id="toggle-password"
+                                        data-password="register-password"
+                                        onclick="togglePassword(this)" 
+                                        style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer; z-index: 10;"
+                                        >
+                                        <i class="bx bx-show"></i>
+                                    </a>
                                 </div>
-                                <div class="input-container">
-                                    <input type="password" id="repeat-password" name="repeat-password" onblur="checkRepeatPassword()" required />
-                                    <label for="repeat-password">Nhập lại mật khẩu</label>
+                                <div class="input-container" style="position: relative;">
+                                    <input 
+                                        type="password" 
+                                        id="repeat-password" 
+                                        name="repeat-password" 
+                                        required 
+                                        style="width: 100%; padding-right: 40px;" 
+                                        />
+                                    <label for="repeat-password" style="pointer-events: none;">RepeatPassword</label>
                                     <div class="bar"></div>
-                                    <span id="repeat-error" style="font-size: 14px;"></span>
+                                    <a 
+                                        class="toggle-password" 
+                                        id="toggle-password"
+                                        data-password="repeat-password"
+                                        onclick="togglePassword(this)" 
+                                        style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer; z-index: 10;"
+                                        >
+                                        <i class="bx bx-show"></i>
+                                    </a>
                                 </div>
+
+
+
                                 <div class="input-container">
                                     <input type="text" id="register-name" name="register-name" required />
                                     <label for="register-name">FullName</label>
@@ -134,7 +166,25 @@
             <jsp:include page="Common/Message.jsp"/>
             <script>
                 $(document).ready(function () {
-                    
+                    function togglePassword(element) {
+                        Console.log("hehe");
+                        const inputId = element.getAttribute("data-password");
+                        const passwordField = document.getElementById(inputId);
+                        const icon = element.querySelector("i");
+                        
+                        if (passwordField.type === "password") {
+                            passwordField.type = "text";
+                            icon.classList.remove("bx-show");
+                            icon.classList.add("bx-hide");
+                        } else {
+                            passwordField.type = "password";
+                            icon.classList.remove("bx-hide");
+                            icon.classList.add("bx-show");
+                        }
+                    }
+
+
+
                     function toggleContainer() {
                         $(".container").stop().addClass("active");
                     }
@@ -143,25 +193,27 @@
                         $(".container").stop().removeClass("active");
                     }
                     function checkUser() {
-                        const username = document.getElementById("register-username").value; 
+                        const username = document.getElementById("register-username").value;
                         const errorSpan = document.getElementById("username-error");
 
                         $.ajax({
-                            url: "register", 
+                            url: "register",
                             type: "POST",
                             data: {
-                                action: "checkUser", 
-                                user_name: username 
+                                action: "checkUser",
+                                user_name: username
                             },
                             success: function (response) {
                                 if (response.status === "exist") {
                                     errorSpan.textContent = "Username is existed. Please try again!!";
                                     errorSpan.style.color = "#EA4335";
-                                    document.getElementById("register-button").style.display='none';
+//                                    document.getElementById("register-button").style.display='none';
+
                                 } else if (response.status === "oke") {
                                     errorSpan.textContent = "Username is valid";
                                     errorSpan.style.color = "white";
-                                    document.getElementById("register-button").style.display='inline-block';
+
+//                                    document.getElementById("register-button").style.display='inline-block';
                                 } else {
                                     toastr.error("Error.");
                                 }
@@ -172,27 +224,26 @@
                         });
                     }
                     function checkRepeatPassword() {
-                        const repeatpassword = document.getElementById("repeat-password").value; 
+                        const repeatpassword = document.getElementById("repeat-password").value;
                         const registerpassword = document.getElementById("register-password").value;
                         const errorSpan = document.getElementById("repeat-error");
 
                         $.ajax({
-                            url: "register", 
+                            url: "register",
                             type: "POST",
                             data: {
-                                action: "checkRepeat", 
-                                password : registerpassword,
-                                repeat_password : repeatpassword,
+                                action: "checkRepeat",
+                                password: registerpassword,
+                                repeat_password: repeatpassword,
                             },
                             success: function (response) {
                                 if (response.status === "wrong") {
                                     errorSpan.textContent = "Password is incorrect!!";
                                     errorSpan.style.color = "#EA4335";
-                                    document.getElementById("register-button").style.display='none';
+//                                    document.getElementById("register-button").style.display='none';
+
                                 }
-                                else{
-                                    document.getElementById("register-button").style.display='inline-block';
-                                }
+
                             },
                             error: function (xhr, status, error) {
                                 alert("Error");
@@ -200,17 +251,29 @@
                         });
                     }
 
-                    
+
                     $(".toggle").on("click", toggleContainer);
                     $(".close").on("click", closeContainer);
 
-                    
+
                     $("#register-username").on("blur", function () {
-                        checkUser(this); 
+                        checkUser(this);
                     });
                     $("#repeat-password").on("blur", function () {
-                        checkRepeatPassword()(this); 
+                        checkRepeatPassword()(this);
                     });
+                    $(".toggle-password").on("click",function (){
+                       togglePassword(this); 
+                    });
+                    document.getElementById("register-form").addEventListener('submit', (event) => {
+                        const usernamespan = document.getElementById("username-error").textContent;
+                        const repeatspan = document.getElementById("repeat-error").textContent;
+                        if (usernamespan.includes("existed") || repeatspan.includes("incorrect")) {
+                            toastr.error("Please fix the error before submit!!");
+                            event.preventDefault();
+                        }
+                    });
+
                 });
 
             </script>
