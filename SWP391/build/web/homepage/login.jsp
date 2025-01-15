@@ -16,15 +16,15 @@
                             <img src="homepage/images/resources/login.svg" width="350px"/>
                         </div>
                         <div class="col-md-6">
-                            <form>
+                            <form method="post" action="login">
                                 <div class="input-container">
-                                    <input type="text" id="username" required/>
+                                    <input type="text" name="username" id="username" required/>
                                     <label for="username">Username</label>
                                     <div class="bar"></div>
                                 </div>
 
                                 <div class="input-container">
-                                    <input type="password" id="password" required/>
+                                    <input type="password" name="password" id="password" required/>
                                     <label for="password">Password</label>
                                     <div class="bar"></div>
                                 </div>
@@ -38,7 +38,7 @@
 
                                 </div>
                                 <div class="button-container">
-                                    <button><span>Go</span></button>
+                                    <button type="submit"><span>Go</span></button>
                                 </div>
                                 <div class="d-flex" style="margin-top: 15px; text-align: center; font-size: 16px;">
                                     <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  </span>Or login with

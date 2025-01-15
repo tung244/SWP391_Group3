@@ -31,6 +31,45 @@ public class AccountDAO extends DBContext{
 
     }
     
+    public boolean CheckLogin(String username, String password){
+        String sql= "Select count(*) from Account where username =? and password = ?";
+        try{
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            st.setString(2, password);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()){
+                int arrow = rs.getInt(1);
+                if(arrow >0){
+                    return true;
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
     
     
+    public Account GetAccount(String username){
+        String sql = "Select * from Account where username = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()){
+                Account ac = new Account();
+                ac.setUsername(rs.getString("username"));
+                ac.setPassword(rs.getString("password"));
+                ac.setAccount_id(rs.getInt("Account_id"));
+                return ac;
+                
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
+    
