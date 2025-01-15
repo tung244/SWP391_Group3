@@ -4521,8 +4521,136 @@ select:focus {
     margin-top: 1rem;
     transition: background 0.3s;
 }
+/*** 
+=============================================
+    UserProfile
+=============================================
+***/
+.userprofile-sidebar {
+            width: 260px;
+            background-color: #4EB09B;
+            color: black;
+            padding: 20px 0;
+        }
 
+        .userprofile-nav-header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid #34495e;
+        }
 
+        .userprofile-nav-list {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .userprofile-nav-item {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .userprofile-nav-item:hover {
+            background-color: #4EB09B;
+        }
+
+        .userprofile-nav-item--active {
+            background-color: white;
+        }
+
+        .userprofile-main-content {
+            flex: 1;
+            padding: 30px;
+            background-color: #f5f6fa;
+        }
+
+        .userprofile-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .userprofile-header {
+            margin-bottom: 30px;
+        }
+
+        .userprofile-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .userprofile-form-group {
+            margin-bottom: 15px;
+        }
+
+        .userprofile-form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .userprofile-form-input,
+        .userprofile-form-select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .userprofile-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .userprofile-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .userprofile-avatar-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .userprofile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #3498db;
+        }
+
+        .userprofile-history-container {
+            display: none;
+        }
+
+        .userprofile-change-password-container {
+            display: none;
+        }
+
+        .userprofile-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .userprofile-table-cell {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .userprofile-table-header {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
 
 
 
