@@ -101,9 +101,29 @@ public class UserProfileDAO extends DBContext{
         return null;
     }
     
+    public String[] loadPhoneAndEmailUser(String username){
+        String [] info = new String[2];
+        String sql = "Select phone_number,email from Account where username = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                info[0] = rs.getString("phone_number");
+                info[1] = rs.getString("email");
+                
+
+            }
+            return info;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     public static void main(String[] args) {
         UserProfileDAO u = new UserProfileDAO();
-        UserProfile user = u.GetAccount("swp391");
-        System.out.println(user.getAccount().getAccount_id());
+        String[] hehe = u.loadPhoneAndEmailUser("swp391");
+        System.out.println(hehe[0]+","+ hehe[1]);
     }
 }

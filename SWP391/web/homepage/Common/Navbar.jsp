@@ -59,7 +59,7 @@
             <c:if test="${not empty sessionScope.user}">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="display: flex; justify-content: end; margin-top: 10px;">
                 <div style="position: relative; display: inline-block; width: 225px;">
-                    <!-- Dropdown Title -->
+                    
                     <div id="dropdown-title" 
                          style="background-color: white; border: white; padding: 8px;
                          border-radius: 6px; display: flex; align-items: center;
@@ -68,7 +68,7 @@
                         <span style="color: black;">Hello ${sessionScope.user.fullname}<i class='bx bx-chevron-down'></i></span>
                     </div>
 
-                    <!-- Dropdown Menu -->
+                    
                     <ul id="dropdown-menu" 
                         style="list-style: none; padding: 0; margin: 0;
                         position: absolute; top: 100%; left: 0; width: 100%;

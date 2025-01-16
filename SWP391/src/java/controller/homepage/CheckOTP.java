@@ -1,8 +1,11 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 
 package controller.homepage;
 
-import dal.AccountDAO;
+import bo.randomSixNumber;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,9 +16,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 
-@WebServlet(name="Forgot_Password", urlPatterns={"/forgot_password"})
-public class Forgot_Password extends HttpServlet {
-    AccountDAO adao = new AccountDAO();
+@WebServlet(name="CheckOTP", urlPatterns={"/otp_checking"})
+public class CheckOTP extends HttpServlet {
+   
+  
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -24,42 +28,33 @@ public class Forgot_Password extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Forgot_Password</title>");  
+            out.println("<title>Servlet CheckOTP</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Forgot_Password at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet CheckOTP at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     } 
 
-  
+   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("homepage/forgot_password.jsp").forward(request, response);
+        randomSixNumber s = new randomSixNumber();
+        String number = s.generateRandomSixDigits();
+        
+        request.getRequestDispatcher("homepage/checkOTP.jsp").forward(request, response);
     } 
 
    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String username_forgot  = request.getParameter("forgotPasswordUsername").trim();
-        String error = "";
-        if(username_forgot ==null){
-            error = "Please input the username!!";
-            response.sendRedirect(error);
-        }
-        if(!adao.checkTonTaiUser(username_forgot)){
-            error = "Username is not existed!!";
-        }
-        HttpSession session =  request.getSession();
-        session.setAttribute("username_forgot", username_forgot);
-        session.setAttribute("error", error);
-        response.sendRedirect("verification_method");
+        processRequest(request, response);
     }
 
-    
+   
     @Override
     public String getServletInfo() {
         return "Short description";
