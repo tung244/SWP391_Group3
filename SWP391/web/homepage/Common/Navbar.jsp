@@ -74,12 +74,12 @@
                         position: absolute; top: 100%; left: 0; width: 100%;
                         background-color: white; border: 1px solid #ddd;
                         border-radius: 6px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                        display: none; z-index: 1000; padding: 20px; color:black">
-                        <li style="padding: 8px; cursor: pointer;" onclick="handleSelect('profile')">Thông tin tài khoản</li>
-                        <li style="padding: 8px; cursor: pointer;" onclick="handleSelect('history')">Lịch sử dịch vụ</li>
-                        <li style="padding: 8px; cursor: pointer;" onclick="handleSelect('change-password')">Đổi mật khẩu</li>
+                        display: none; z-index: 1000; padding: 20px; color:black; font-size: 16px">
+                        <li style="padding: 4px; cursor: pointer;" ><a><i style="margin-right: 10px" class='bx bxs-user'></i>Thông tin tài khoản</a></li>
+                        <li style="padding: 4px; cursor: pointer;" ><a><i style="margin-right: 10px" class='bx bx-history' ></i>Lịch sử dịch vụ<a></li>
+                                    <li style="padding: 4px; cursor: pointer;" ><a><i style="margin-right: 10px" class='bx bxs-edit'></i>Đổi mật khẩu</a></li>
                         <li style="border-top: 1px solid #ddd; margin: 4px 0;"></li>
-                        <li style="padding: 8px; cursor: pointer;" onclick="handleSelect('logout')">Đăng xuất</li>
+                        <li style="padding: 4px; cursor: pointer;" ><a href="logout"><i style="margin-right: 10px" class='bx bx-log-in'></i>Đăng xuất</a></li>
                     </ul>
                 </div>
                 </div>
@@ -178,19 +178,11 @@
     const dropdownTitle = document.getElementById('dropdown-title');
     const dropdownMenu = document.getElementById('dropdown-menu');
 
-    // Toggle dropdown visibility
     dropdownTitle.addEventListener('click', () => {
         const isMenuVisible = dropdownMenu.style.display === 'block';
         dropdownMenu.style.display = isMenuVisible ? 'none' : 'block';
     });
 
-    // Handle option selection
-    function handleSelect(value) {
-        alert(`Bạn đã chọn: ${value}`);
-        dropdownMenu.style.display = 'none';
-    }
-
-    // Close dropdown when clicking outside
     document.addEventListener('click', (event) => {
         if (!dropdownTitle.contains(event.target) && !dropdownMenu.contains(event.target)) {
             dropdownMenu.style.display = 'none';
