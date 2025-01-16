@@ -38,27 +38,27 @@
                         <div class="userprofile-form">
                             <div class="userprofile-form-group">
                                 <label class="userprofile-form-label">Họ và tên</label>
-                                <input type="text" class="userprofile-form-input" value="Nguyễn Văn A" readonly>
+                                <input type="text" class="userprofile-form-input" value="${user.fullname}" readonly>
                             </div>
                             <div class="userprofile-form-group">
                                 <label class="userprofile-form-label">Email</label>
-                                <input type="email" class="userprofile-form-input" value="nguyenvana@email.com" readonly>
+                                <input type="email" class="userprofile-form-input" value="${user.account.email}" readonly>
                             </div>
                             <div class="userprofile-form-group">
                                 <label class="userprofile-form-label">Số điện thoại</label>
-                                <input type="tel" class="userprofile-form-input" value="0123456789" readonly>
+                                <input type="tel" class="userprofile-form-input" value="${user.account.phonenumber}" readonly>
                             </div>
                             <div class="userprofile-form-group">
                                 <label class="userprofile-form-label">Địa chỉ</label>
-                                <input type="text" class="userprofile-form-input" value="123 Đường ABC, Quận XYZ, TP.HCM" readonly>
+                                <input type="text" class="userprofile-form-input" value="${user.address}" readonly>
                             </div>
                             <div class="userprofile-form-group">
                                 <label class="userprofile-form-label">Giới tính</label>
-                                <input type="text" class="userprofile-form-input" value="Nam" readonly>
+                                <input type="text" class="userprofile-form-input" value="${user.address}" readonly>
                             </div>
                             <div class="userprofile-form-group">
                                 <label class="userprofile-form-label">Ngày sinh</label>
-                                <input type="text" class="userprofile-form-input" value="01/01/1990" readonly>
+                                <input type="text" class="userprofile-form-input" value="${user.dob}" readonly>
                             </div>
                         </div>
                     </div>
