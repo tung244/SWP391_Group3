@@ -1,6 +1,7 @@
 package controller.homepage;
 
 import dal.AccountDAO;
+import dal.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -10,12 +11,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
+import model.UserProfile;
 
 @WebServlet(name = "Login", urlPatterns = {"/login"})
 public class Login extends HttpServlet {
 
     AccountDAO dao = new AccountDAO();
-
+    UserProfileDAO  udao = new UserProfileDAO();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -45,19 +47,18 @@ public class Login extends HttpServlet {
         HttpSession session = request.getSession();
         String username = request.getParameter("username").trim();
         String password = request.getParameter("password").trim();
-   
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             session.setAttribute("error", "Username or Password cannot be blank");
             response.sendRedirect("login");
         } else {
             if (dao.CheckLogin(username, password)) {
-                Account ac = dao.GetAccount(username);
+                UserProfile user = udao.GetAccount(username);
 
-                if (ac == null) {
+                if (user == null) {
                     request.setAttribute("error", "Error loading user");
 
                 } else {
-                    session.setAttribute("account", ac);
+                    session.setAttribute("user", user);
                     session.setAttribute("ms", "Login Successfully!");
                     response.sendRedirect("trangchu");
                 }

@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 
 @WebServlet(name="UserProfile", urlPatterns={"/userprofile"})
-public class UserProfile extends HttpServlet {
+public class UsersProfile extends HttpServlet {
    
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

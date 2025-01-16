@@ -9,9 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Account;
+import model.Role;
 import model.UserProfile;
 
-public class AccountDAO extends DBContext{
+public class AccountDAO extends DBContext {
+
     public boolean checkTonTaiUser(String username) {
         String sql = "select * from Account where username = ?";
         try {
@@ -30,46 +32,27 @@ public class AccountDAO extends DBContext{
         return false;
 
     }
-    
-    public boolean CheckLogin(String username, String password){
-        String sql= "Select count(*) from Account where username =? and password = ?";
-        try{
+
+    public boolean CheckLogin(String username, String password) {
+        String sql = "Select count(*) from Account where username =? and password = ?";
+        try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
             st.setString(2, password);
             ResultSet rs = st.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 int arrow = rs.getInt(1);
-                if(arrow >0){
+                if (arrow > 0) {
                     return true;
                 }
             }
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
+
     
+
     
-    public Account GetAccount(String username){
-        String sql = "Select * from Account where username = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, username);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()){
-                Account ac = new Account();
-                ac.setUsername(rs.getString("username"));
-                ac.setPassword(rs.getString("password"));
-                ac.setAccount_id(rs.getInt("Account_id"));
-                return ac;
-                
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
-    

@@ -209,14 +209,14 @@ input:-webkit-autofill:focus {
     width: 100% !important;
 }
 .bootstrap-select > .dropdown-toggle {
-    background: #252525 none repeat scroll 0 0;
+    background: white none repeat scroll 0 0;
     border-radius: 0;
-    color: #6d6d6d;
+    color: white;
     cursor: pointer;
-    height: 45px;
+    height: 35px;
     transition: all 500ms ease 0s;
     z-index: 1;
-    border: 1px solid #2f2f2f;
+    
 }
 .dropdown-menu {
     background-color: #fff !important;
