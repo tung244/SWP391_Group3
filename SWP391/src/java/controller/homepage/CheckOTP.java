@@ -42,7 +42,7 @@ public class CheckOTP extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         randomSixNumber s = new randomSixNumber();
-        String number = s.generateRandomSixDigits();
+        String number = s.generateRandomSixDigits()[0];
         
         request.getRequestDispatcher("homepage/checkOTP.jsp").forward(request, response);
     } 
