@@ -57,19 +57,25 @@
                 </div>
             </c:if>
             <c:if test="${not empty sessionScope.user}">
-                <select style="background-color: white; border: white; width: 225px; 
-                        box-shadow:none; color: black; border-radius:6px" 
-                        class="selectpicker" 
-                        data-style="btn-primary" 
-                        title="
-                        Hello ${sessionScope.user.fullname}" 
-                        data-width="fit">
-                    <option value="profile">Thông tin tài khoản</option>
-                    <option value="history">Lịch sử dịch vụ</option>
-                    <option value="change-password">Đổi mật khẩu</option>
-                    <option data-divider="true"></option>
-                    <option value="logout">Đăng xuất</option>
-                </select>
+                <div style="display: flex; align-items: end; justify-content:end; margin-top:20px" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <label for="user-options" style="display: flex; align-items: center; gap: 10px;">
+                        <img src="homepage/images/resources/avatar.jpg" alt="Icon" style="width: 35px; height: 35px;vertical-align: ; border-radius: 40px">
+                        
+                    </label>
+                    <select id="user-options" 
+                            style="background-color: white; border: white; width: 225px;
+                            box-shadow: none; color: black; border-radius: 6px;" 
+                            class="selectpicker" 
+                            data-style="btn-primary" 
+                            title="Hello ${sessionScope.user.fullname}" 
+                            data-width="fit">
+                        <option value="profile">Thông tin tài khoản</option>
+                        <option value="history">Lịch sử dịch vụ</option>
+                        <option value="change-password">Đổi mật khẩu</option>
+                        <option data-divider="true"></option>
+                        <option value="logout">Đăng xuất</option>
+                    </select>
+                </div>
             </c:if>
 
         </div>

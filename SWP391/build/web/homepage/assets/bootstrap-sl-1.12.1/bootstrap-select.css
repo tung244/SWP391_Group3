@@ -27,6 +27,7 @@ select.selectpicker {
 .bootstrap-select > .dropdown-toggle.bs-placeholder:focus,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:active {
   color: black;
+  border-radius: 6px;
 }
 .bootstrap-select > select {
   position: absolute !important;
