@@ -57,24 +57,31 @@
                 </div>
             </c:if>
             <c:if test="${not empty sessionScope.user}">
-                <div style="display: flex; align-items: end; justify-content:end; margin-top:20px" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <label for="user-options" style="display: flex; align-items: center; gap: 10px;">
-                        <img src="homepage/images/resources/avatar.jpg" alt="Icon" style="width: 35px; height: 35px;vertical-align: ; border-radius: 40px">
-                        
-                    </label>
-                    <select id="user-options" 
-                            style="background-color: white; border: white; width: 225px;
-                            box-shadow: none; color: black; border-radius: 6px;" 
-                            class="selectpicker" 
-                            data-style="btn-primary" 
-                            title="Hello ${sessionScope.user.fullname}" 
-                            data-width="fit">
-                        <option value="profile">Thông tin tài khoản</option>
-                        <option value="history">Lịch sử dịch vụ</option>
-                        <option value="change-password">Đổi mật khẩu</option>
-                        <option data-divider="true"></option>
-                        <option value="logout">Đăng xuất</option>
-                    </select>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="display: flex; justify-content: end; margin-top: 10px;">
+                <div style="position: relative; display: inline-block; width: 225px;">
+                    <!-- Dropdown Title -->
+                    <div id="dropdown-title" 
+                         style="background-color: white; border: white; padding: 8px;
+                         border-radius: 6px; display: flex; align-items: center;
+                         gap: 10px; cursor: pointer; box-shadow: none;">
+                        <img src="homepage/images/resources/avatar.jpg" alt="Icon" style="width: 35px; height: 35px; border-radius: 40px">
+                        <span style="color: black;">Hello ${sessionScope.user.fullname}<i class='bx bx-chevron-down'></i></span>
+                    </div>
+
+                    <!-- Dropdown Menu -->
+                    <ul id="dropdown-menu" 
+                        style="list-style: none; padding: 0; margin: 0;
+                        position: absolute; top: 100%; left: 0; width: 100%;
+                        background-color: white; border: 1px solid #ddd;
+                        border-radius: 6px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        display: none; z-index: 1000; padding: 20px; color:black">
+                        <li style="padding: 8px; cursor: pointer;" onclick="handleSelect('profile')">Thông tin tài khoản</li>
+                        <li style="padding: 8px; cursor: pointer;" onclick="handleSelect('history')">Lịch sử dịch vụ</li>
+                        <li style="padding: 8px; cursor: pointer;" onclick="handleSelect('change-password')">Đổi mật khẩu</li>
+                        <li style="border-top: 1px solid #ddd; margin: 4px 0;"></li>
+                        <li style="padding: 8px; cursor: pointer;" onclick="handleSelect('logout')">Đăng xuất</li>
+                    </ul>
+                </div>
                 </div>
             </c:if>
 
@@ -167,4 +174,27 @@
         </div>
     </div>
 </section>
+<script>
+    const dropdownTitle = document.getElementById('dropdown-title');
+    const dropdownMenu = document.getElementById('dropdown-menu');
+
+    // Toggle dropdown visibility
+    dropdownTitle.addEventListener('click', () => {
+        const isMenuVisible = dropdownMenu.style.display === 'block';
+        dropdownMenu.style.display = isMenuVisible ? 'none' : 'block';
+    });
+
+    // Handle option selection
+    function handleSelect(value) {
+        alert(`Bạn đã chọn: ${value}`);
+        dropdownMenu.style.display = 'none';
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!dropdownTitle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            dropdownMenu.style.display = 'none';
+        }
+    });
+</script>
 
