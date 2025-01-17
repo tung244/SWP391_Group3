@@ -62,11 +62,6 @@ public class Verification_Method extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    public static void main(String[] args) {
-        String email = "nguyenluongk2k4@gmail.com";
-        String phone = "0936971273";
-        System.out.println(email.substring(0, 5)+"**********"+ email.substring(email.length()-9,email.length()));
-        System.out.println(phone.substring(0, 3)+"**********"+phone.substring(phone.length()-2,phone.length()));
-    }
+    
 
 }

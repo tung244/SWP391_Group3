@@ -8,12 +8,7 @@
 
     </head>
     <body>
-        <%
         
-
-        
-        
-        %>
         <div class="">
             <div class="forgot-password-form">
                 <div class="forgot-password-card" id="forgotPasswordStep3">
