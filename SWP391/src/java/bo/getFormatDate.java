@@ -10,14 +10,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class getFormatDate {
-    public String getFormString(){
+    public static String getFormString(){
         Date currentDate = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         String formattedDate = formatter.format(currentDate);
         return formattedDate;
     }
     
-    public String plusFiveMinutes(String dateNow){
+    public static String plusFiveMinutes(String dateNow){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
         LocalDateTime formatDate = LocalDateTime.parse(dateNow,formatter);
         LocalDateTime newDate = formatDate.plusMinutes(5);

@@ -2,66 +2,60 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.homepage;
 
+import bo.getFormatDate;
 import bo.randomSixNumber;
+import bo.sendMail;
+import dal.OTPServicesDAO;
+import dal.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.OTP_Services;
 import model.UserProfile;
 
-
-@WebServlet(name="CheckOTP", urlPatterns={"/otp_checking"})
+@WebServlet(name = "CheckOTP", urlPatterns = {"/otp_checking"})
 public class CheckOTP extends HttpServlet {
-   
-  
+
+    OTPServicesDAO otpdao = new OTPServicesDAO();
+    UserProfileDAO udao = new UserProfileDAO();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CheckOTP</title>");  
+            out.println("<title>Servlet CheckOTP</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CheckOTP at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet CheckOTP at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
-
-   
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        randomSixNumber s = new randomSixNumber();
-        HttpSession session  = request.getSession();
-        
-        UserProfile u = (UserProfile) session.getAttribute("user");
-        String[] otp = s.generateRandomSixDigits(u.getAccount().getAccount_id());
-        Cookie cookie = new Cookie("otp", otp[0]);
-        cookie.setMaxAge(300);
-        session.setAttribute("otp", otp);
-        request.getRequestDispatcher("homepage/checkOTP.jsp").forward(request, response);
-    } 
-
-   
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
     }
 
-   
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("homepage/checkOTP.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+
+    }
+
     @Override
     public String getServletInfo() {
         return "Short description";

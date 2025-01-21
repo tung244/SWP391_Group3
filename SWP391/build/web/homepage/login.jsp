@@ -43,11 +43,16 @@
                                 <div class="d-flex" style="margin-top: 15px; text-align: center; font-size: 16px;">
                                     <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  </span>Or login with
                                     <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</span>
-                                    <div class="button-container">
-                                        <button style="background-color: #1877F2;"><span style=" font-size: 14px; color: white !important;"><i style="margin-right: 10px;" class='bx bxl-facebook'></i>Continue with facebook</span></button>
+                                    <div class="button-container" style="display: flex;justify-content: center;">
+                                        <a style="background-color: #1877F2;border-radius: 60px;padding: 3px 10px;display: block;width: 320px;margin-top: 20px;"><span style=" font-size: 14px; color: white !important;"><i style="margin-right: 10px;" class='bx bxl-facebook'></i>Continue with facebook</span></a>
                                     </div>
-                                    <div class="button-container">
-                                        <button style="background-color: #EA4335;margin-top: 5px;"><span style=" font-size: 14px; color: white !important;"><i style="margin-right: 10px;" class='bx bxl-google'></i>Continue with google</span></button>
+                                    <div class="button-container" style="display: flex;justify-content: center;">
+                                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/SWP391/login&response_type=code&client_id=145515751218-1me7sleh0t92gmt599s2vnrh7bct77th.apps.googleusercontent.com&approval_prompt=force"
+                                           style="background-color: red;border-radius: 60px;padding: 3px 10px;display: block;width: 320px;margin-top: 10px;"><span style=" font-size: 14px; color: white !important;"><i style="margin-right: 10px;" class='bx bxl-google'></i>Continue with google</span></a>
+                                    </div>
+                                    <div class="button-container" style="display: flex;justify-content: center;">
+                                        <a href="trangchu"
+                                           style="background-color: #4EB09B;border-radius: 60px;padding: 3px 10px;display: block;width: 320px;margin-top: 10px;"><span style=" font-size: 14px; color: white !important;"><i style="margin-right: 10px;" class="bx bx-home"></i>Back to home page</span></a>
                                     </div>
                                 </div>
                             </form>
@@ -143,14 +148,14 @@
                                 <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</span>
                                 <div class="d-flex justify-content-center align-items-center register-with">
                                     <div class="">
-                                        <button class="circle-btn facebook">
+                                        <a href="https://www.facebook.com/v19.0/dialog/oauth?fields=id,name,email,profile_pic&client_id=1277437356785264&redirect_uri=http://localhost:8080/SWP391/login_facebook" class="circle-btn facebook">
                                             <i class='bx bxl-facebook'></i>
-                                        </button>
+                                        </a>
                                     </div>
                                     <div class="">
-                                        <button class="circle-btn google">
+                                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/SWP391/login_google&response_type=code&client_id=145515751218-1me7sleh0t92gmt599s2vnrh7bct77th.apps.googleusercontent.com&approval_prompt=force" class="circle-btn google">
                                             <i class='bx bxl-google'></i>
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
 
@@ -171,7 +176,7 @@
                         const inputId = element.getAttribute("data-password");
                         const passwordField = document.getElementById(inputId);
                         const icon = element.querySelector("i");
-                        
+
                         if (passwordField.type === "password") {
                             passwordField.type = "text";
                             icon.classList.remove("bx-show");
@@ -262,8 +267,8 @@
                     $("#repeat-password").on("blur", function () {
                         checkRepeatPassword()(this);
                     });
-                    $(".toggle-password").on("click",function (){
-                       togglePassword(this); 
+                    $(".toggle-password").on("click", function () {
+                        togglePassword(this);
                     });
                     document.getElementById("register-form").addEventListener('submit', (event) => {
                         const usernamespan = document.getElementById("username-error").textContent;
