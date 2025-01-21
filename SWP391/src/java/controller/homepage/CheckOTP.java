@@ -10,12 +10,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.UserProfile;
 
 
 @WebServlet(name="CheckOTP", urlPatterns={"/otp_checking"})
@@ -44,13 +42,8 @@ public class CheckOTP extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         randomSixNumber s = new randomSixNumber();
-        HttpSession session  = request.getSession();
+        String number = s.generateRandomSixDigits()[0];
         
-        UserProfile u = (UserProfile) session.getAttribute("user");
-        String[] otp = s.generateRandomSixDigits(u.getAccount().getAccount_id());
-        Cookie cookie = new Cookie("otp", otp[0]);
-        cookie.setMaxAge(300);
-        session.setAttribute("otp", otp);
         request.getRequestDispatcher("homepage/checkOTP.jsp").forward(request, response);
     } 
 

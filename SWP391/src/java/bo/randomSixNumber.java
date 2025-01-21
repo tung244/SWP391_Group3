@@ -6,17 +6,16 @@ package bo;
 
 import java.util.Random;
 
-    
+
 public class randomSixNumber {
-    getFormatDate getDate = new getFormatDate();
-    Random random = new Random();
-    public String[] generateRandomSixDigits(int account_id) {
-        
+    public String[] generateRandomSixDigits() {
+        Random random = new Random();
         String[] s = new String[4];
         int randomNumber = 100000 + random.nextInt(900000);
-        s[0] = String.valueOf(randomNumber); // 6 số ngẫu nhiên  
-        s[1] = getDate.getFormString(); // thời gian tạo otp
-        s[3] = String.valueOf(account_id); // account lay otp
+        s[0] = String.valueOf(randomNumber);
+        getFormatDate getDate = new getFormatDate();
+        s[1] = getDate.getFormString();
+       
         return s;
     }
 }

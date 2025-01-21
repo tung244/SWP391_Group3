@@ -48,7 +48,7 @@
                                 </a>
                             </li>
                             <li style="margin-left: 0;">
-                                <a href="login" style="color: rgb(34,139,34)">Register</a>
+                                <a href="register" style="color: rgb(34,139,34)">Register</a>
                             </li>
 
 

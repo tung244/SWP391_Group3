@@ -6,7 +6,7 @@
     <head>
         <jsp:include page="Common/Css.jsp"/>
 
-
+        
     </head>
     <body>
         <div class="">
@@ -14,22 +14,20 @@
                 <div class="forgot-password-card" id="forgotPasswordStep2">
                     <h2 class="forgot-password-title">Verification Method</h2>
                     <div class="verification-method-group">
-                        <form method="post" action="otp_checking">
-                            <div class="verification-method-option">
-                                <input type="radio" id="verificationEmail" name="verificationMethod" value="email" checked>
-                                <label for="verificationEmail">Email: ${infoUser[1]}</label>
-                            </div>
-                            <div class="verification-method-option">
-                                <input type="radio" id="verificationPhone" name="verificationMethod" value="phone">
-                                <label for="verificationPhone">PhoneNumber: ${infoUser[0]}</label>
-                            </div>
-                        </form>
+                        <div class="verification-method-option">
+                            <input type="radio" id="verificationEmail" name="verificationMethod" value="email" checked>
+                            <label for="verificationEmail">Email: ${infoUser[1]}</label>
+                        </div>
+                        <div class="verification-method-option">
+                            <input type="radio" id="verificationPhone" name="verificationMethod" value="phone">
+                            <label for="verificationPhone">PhoneNumber: ${infoUser[0]}</label>
+                        </div>
                     </div>
-                    <a href="otp_checking" style="display: block; text-align: center" class="forgot-password-submit">Send Verification Code</a>
-                    <a style="display: block; text-align: center" href="forgot_password" class="forgot-password-back-btn">Back</a>
+                        <a href="otp_checking" style="display: block; text-align: center" class="forgot-password-submit">Send Verification Code</a>
+                    <button class="forgot-password-back-btn" onclick="backToUsername()">Back</button>
                 </div>
             </div>
-
+        
         </div>
         <jsp:include page="Common/Message.jsp"/>
         <jsp:include page="Common/Js.jsp"/>
