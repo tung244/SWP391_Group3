@@ -14,19 +14,18 @@
                 <div class="forgot-password-card" id="forgotPasswordStep2">
                     <h2 class="forgot-password-title">Verification Method</h2>
                     <div class="verification-method-group">
-                        <form method="post" action="verification_method">
+                        <form method="post" action="otp_checking">
                             <div class="verification-method-option">
                                 <input type="radio" id="verificationEmail" name="verificationMethod" value="email" checked>
-                                <label for="verificationEmail">Email: ${encryptUser[1]}</label>
+                                <label for="verificationEmail">Email: ${infoUser[1]}</label>
                             </div>
                             <div class="verification-method-option">
                                 <input type="radio" id="verificationPhone" name="verificationMethod" value="phone">
-                                <label for="verificationPhone">PhoneNumber: ${encryptUser[0]}</label>
+                                <label for="verificationPhone">PhoneNumber: ${infoUser[0]}</label>
                             </div>
-                            <button type="submit" class="forgot-password-submit">Send Verification Code</button>
                         </form>
                     </div>
-                    
+                    <a href="otp_checking" style="display: block; text-align: center" class="forgot-password-submit">Send Verification Code</a>
                     <a style="display: block; text-align: center" href="forgot_password" class="forgot-password-back-btn">Back</a>
                 </div>
             </div>

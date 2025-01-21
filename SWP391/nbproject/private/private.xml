@@ -3,32 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/sendMail.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/Common/Css.jsp</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/UserProfile.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/consts/Google.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Verification_Method.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/getToken.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/consts/Facebook.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/forgot_password.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/LoginFacebook.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/userprofile.jsp</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/checkOTP.jsp</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/login.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/LoginGoogle.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/Account.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/assets/bootstrap-sl-1.12.1/bootstrap-select.css</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/OTPServicesDAO.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/AccountDAO.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/SMS.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/CheckOTP.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/index.jsp</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/randomSixNumber.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/consts/Mail.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/Common/Message.jsp</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/verification_method.jsp</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Forgot_Password.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/SendVerificationCode.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Login.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/UserProfileDAO.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/css/imp.css</file>
@@ -36,9 +26,6 @@
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/getFormatDate.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/css/style.css</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/css/bootstrap-select.min.css</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/OTP_Services.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/GoogleAccount.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/FaceBookAccount.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Register.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/Common/Navbar.jsp</file>
         </group>

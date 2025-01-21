@@ -101,9 +101,9 @@ public class UserProfileDAO extends DBContext{
         return null;
     }
     
-    public String[] loadBasicInfoUser(String username){
-        String [] info = new String[3];
-        String sql = "Select phone_number,email,account_id from Account where username = ?";
+    public String[] loadPhoneAndEmailUser(String username){
+        String [] info = new String[2];
+        String sql = "Select phone_number,email from Account where username = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
@@ -111,7 +111,7 @@ public class UserProfileDAO extends DBContext{
             if (rs.next()) {
                 info[0] = rs.getString("phone_number");
                 info[1] = rs.getString("email");
-                info[2] = String.valueOf(rs.getInt("account_id"));
+                
 
             }
             return info;
@@ -121,5 +121,9 @@ public class UserProfileDAO extends DBContext{
         return null;
     }
     
-    
+    public static void main(String[] args) {
+        UserProfileDAO u = new UserProfileDAO();
+        String[] hehe = u.loadPhoneAndEmailUser("swp391");
+        System.out.println(hehe[0]+","+ hehe[1]);
+    }
 }
