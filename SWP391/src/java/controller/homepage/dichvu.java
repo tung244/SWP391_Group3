@@ -5,8 +5,6 @@
 
 package controller.homepage;
 
-import bo.getToken;
-import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,38 +12,42 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.GoogleAccount;
 
-
-@WebServlet(name="LoginGoogle", urlPatterns={"/login_google"})
-public class LoginGoogle extends HttpServlet {
-    AccountDAO dao = new AccountDAO();
-    
+@WebServlet(name="dichvu", urlPatterns={"/dichvu"})
+public class dichvu extends HttpServlet {
+   
+   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String code = request.getParameter("code");
-            String accessToken = getToken.getToken(code);
-            GoogleAccount gg = getToken.getUserInfo(accessToken);
-            
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet dichvu</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet dichvu at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     } 
 
+   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("homepage/dental-implant.jsp").forward(request, response);
     } 
 
-  
+   
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
     }
 
-  
     @Override
     public String getServletInfo() {
         return "Short description";
