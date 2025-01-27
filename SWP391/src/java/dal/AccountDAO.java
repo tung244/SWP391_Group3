@@ -52,7 +52,22 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    
-
+    public boolean CheckExistEmail(String email) {
+        String sql = "Select count(*) from Account where email = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int arrow = rs.getInt(1);
+                if (arrow > 0) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     
 }

@@ -190,17 +190,10 @@ button{
     overflow: hidden;  
 }
 
-
-
-
-
 /*________________Preloader_______________ */
 
 .preloader{ position:fixed; left:0px; top:0px; width:100%; height:100%; z-index:999999; background-color:#0D7E16; background-position:center center; background-repeat:no-repeat; background-image:url(../images/icon/eye.gif);}
 
-
-
-/* Update header Style */
 @keyframes menu_sticky {
 
 }
