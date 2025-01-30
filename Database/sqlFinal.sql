@@ -170,14 +170,10 @@ CREATE TABLE Appointment(
 	time_begin DATETIME,
 	time_end DATETIME,
 	service_id INT,
-	customer_id int,
 	FOREIGN KEY (service_id) REFERENCES [Services](service_id) ,
 	patient_id int,
-	FOREIGN KEY (patient_id) REFERENCES Accounts(account_id) ,
+	FOREIGN KEY (patient_id) REFERENCES dbo.Customers(account_id) ,
 	phonenumber_patient NVARCHAR(50),
-	FOREIGN KEY (customer_id) REFERENCES Customers(account_id) 
-	
-
 );
 
 
