@@ -57,7 +57,7 @@ VALUES
 (3, 12, 600000); -- Tầm soát bệnh lý võng mạc tiểu đường chuyên sâu
 
 
-INSERT INTO Appointment (appointment_date, appointment_status, doctor_id, time_begin, time_end, service_id, customer_id, patient_id, phonenumber_patient) 
+INSERT INTO Appointment (appointment_date, appointment_status, doctor_id, time_begin, time_end, service_id, patient_id, phonenumber_patient) 
 VALUES 
 ('2025-02-01 10:00:00', 'Scheduled', 1, '2025-02-01 10:00:00', '2025-02-01 10:30:00', 1, 7, 1, '0123456789'),
 ('2025-02-02 14:00:00', 'Completed', 2, '2025-02-02 14:00:00', '2025-02-02 14:45:00', 2, 7, 2, '0987654321'),
