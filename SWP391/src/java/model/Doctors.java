@@ -17,7 +17,7 @@ public class Doctors {
     private String gender;
     private String dob;
     private String address;
-
+ 
     public Doctors() {
     }
 
