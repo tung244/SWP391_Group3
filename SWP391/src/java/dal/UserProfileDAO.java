@@ -129,24 +129,22 @@ public class UserProfileDAO extends DBContext {
 
     public boolean isertAccountGoogle(GoogleAccount gg) {
         String sqlAccount = "INSERT INTO dbo.Accounts\n"
-                + "(username,password,email,phone_number,created_date,role_id,google_id,facebook_id)\n"
+                + "(username,email,created_date,role_id,google_id)\n"
                 + "VALUES\n" +
-        "(?,?,?,?,?,?,?,?)";
-        String sqlGetAccountId = "SELECT account_id FROM dbo.Account WHERE username = ?";
-        String sqlUserProfile = "insert into UserProfile(account_id,full_name,gender,image_profile_user)\n"
-                + "values(?,?,?,?)";
+        "(?,?,?,?,?)";
+        String sqlGetAccountId = "SELECT account_id FROM dbo.Accounts WHERE username = ?";
+        String sqlUserProfile = "insert into Customers(account_id,full_name,image_profile_user)\n"
+                + "values(?,?,?)";
         try {
 
             connection.setAutoCommit(false);
             
             PreparedStatement stAccount = connection.prepareStatement(sqlAccount);
             stAccount.setString(1, gg.getEmail());
-            stAccount.setString(2, "");
-            stAccount.setString(3, gg.getEmail());
-            stAccount.setString(4, "");
-            stAccount.setString(5, getFormatDate.getFormString());
-            stAccount.setInt(6, 4);
-            stAccount.setString(7, gg.getId());
+            stAccount.setString(2, gg.getEmail());
+            stAccount.setString(3, getFormatDate.getFormString());
+            stAccount.setInt(4, 4);
+            stAccount.setString(5, gg.getId());
 
             int affectedRows = stAccount.executeUpdate();
 
@@ -167,14 +165,10 @@ public class UserProfileDAO extends DBContext {
 
                 stUserProfile.setInt(1, accountId);
                 stUserProfile.setString(2, gg.getName());
-                stUserProfile.setString(3, "");
 
-                stUserProfile.setString(4, gg.getPicture());
+                stUserProfile.setString(3, gg.getPicture());
 
                 stUserProfile.executeUpdate();
-
- 
-
 
                 connection.commit();
                 return true;
