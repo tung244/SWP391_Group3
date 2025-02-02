@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.homepage;
 
 import bo.getToken;
@@ -17,18 +16,23 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.GoogleAccount;
 
-
-@WebServlet(name="LoginGoogle", urlPatterns={"/login_google"})
+@WebServlet(name = "LoginGoogle", urlPatterns = {"/login_google"})
 public class LoginGoogle extends HttpServlet {
+
     AccountDAO dao = new AccountDAO();
     UserProfileDAO udao = new UserProfileDAO();
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String code = request.getParameter("code");
             String accessToken = getToken.getToken(code);
             GoogleAccount gg = getToken.getUserInfo(accessToken);
+<<<<<<< Updated upstream
             String ms,error = "";
             
             if(!dao.CheckExistGGAccount(gg)){
@@ -41,25 +45,36 @@ public class LoginGoogle extends HttpServlet {
             }
             else{
                 error= "Tài khoản google này đã được đăng kí trước đây ! Vui lòng thử lại với tài khoản khác!";
+=======
+            String ms = "";
+            String error = "";
+            if (!dao.checkExistGGAcount(gg)) {
+                if (udao.isertAccountGoogle(gg)) {
+                    ms = "Đăng kí thành công !!!";
+                } else {
+                    error = "Đăng kí thất bại!!";
+                }
+            }
+            else{
+                error = "Tài khoản google này đã được đăng kí trước đây!!";
+>>>>>>> Stashed changes
             }
             response.sendRedirect("trangchu");
         }
-    } 
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    } 
-
-  
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-  
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
     @Override
     public String getServletInfo() {
         return "Short description";
