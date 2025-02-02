@@ -74,7 +74,7 @@ CREATE TABLE Permission_Role (
 CREATE TABLE Accounts (
     account_id INT PRIMARY KEY IDENTITY(1,1),
     username NVARCHAR(255) NOT NULL UNIQUE,
-    password NVARCHAR(255) NOT NULL,
+    password NVARCHAR(255),
     email NVARCHAR(255),
     phone_number NVARCHAR(50),
     created_date DATETIME DEFAULT GETDATE(),
