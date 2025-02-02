@@ -147,7 +147,7 @@ duration_service NVARCHAR(50),
 CREATE TABLE [Services](
 service_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 service_name NVARCHAR(255),
-service_descriptprion NVARCHAR(255),
+service_description NVARCHAR(255),
 specialization_id INT,
 FOREIGN KEY(specialization_id) REFERENCES dbo.Specialization(specialization_id)
 )

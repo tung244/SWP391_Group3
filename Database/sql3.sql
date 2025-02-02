@@ -6,20 +6,20 @@ VALUES
 (N'Chuyên sâu', N'90 phút');
 
 -- Chèn dữ liệu vào bảng Services (Dịch vụ cụ thể)
-INSERT INTO Services (service_name, service_descriptprion) 
+INSERT INTO Services (service_name, service_description, specialization_id) 
 VALUES 
-(N'Khám mắt tổng quát', N'Kiểm tra thị lực, đo khúc xạ'),
-(N'Kiểm tra viêm giác mạc', N'Đánh giá tình trạng viêm nhiễm'),
-(N'Tư vấn khô mắt', N'Hướng dẫn điều trị và phòng ngừa khô mắt'),
-(N'Khám tật khúc xạ', N'Kiểm tra cận thị, viễn thị, loạn thị'),
-(N'Đo nhãn áp', N'Kiểm tra áp lực nội nhãn'),
-(N'Khám đáy mắt', N'Kiểm tra võng mạc, phát hiện bệnh lý mắt'),
-(N'Chụp cắt lớp OCT', N'Kiểm tra bệnh lý võng mạc, thần kinh thị giác'),
-(N'Phẫu thuật LASIK', N'Điều trị tật khúc xạ bằng laser'),
-(N'Điều trị đục thủy tinh thể', N'Phẫu thuật thay thủy tinh thể nhân tạo'),
-(N'Xét nghiệm nước mắt', N'Đánh giá chất lượng và số lượng nước mắt'),
-(N'Khám mắt trẻ em', N'Kiểm tra mắt cho trẻ em từ 3 tuổi trở lên'),
-(N'Tầm soát bệnh lý võng mạc tiểu đường', N'Phát hiện sớm biến chứng tiểu đường lên mắt');
+(N'Khám mắt tổng quát', N'Kiểm tra thị lực, đo khúc xạ', 1),
+(N'Kiểm tra viêm giác mạc', N'Đánh giá tình trạng viêm nhiễm', 5),
+(N'Tư vấn khô mắt', N'Hướng dẫn điều trị và phòng ngừa khô mắt', 5),
+(N'Khám tật khúc xạ', N'Kiểm tra cận thị, viễn thị, loạn thị', 8),
+(N'Đo nhãn áp', N'Kiểm tra áp lực nội nhãn', 1),
+(N'Khám đáy mắt', N'Kiểm tra võng mạc, phát hiện bệnh lý mắt', 6),
+(N'Chụp cắt lớp OCT', N'Kiểm tra bệnh lý võng mạc, thần kinh thị giác', 4),
+(N'Phẫu thuật LASIK', N'Điều trị tật khúc xạ bằng laser', 8),
+(N'Điều trị đục thủy tinh thể', N'Phẫu thuật thay thủy tinh thể nhân tạo', 2),
+(N'Xét nghiệm nước mắt', N'Đánh giá chất lượng và số lượng nước mắt', 5),
+(N'Khám mắt trẻ em', N'Kiểm tra mắt cho trẻ em từ 3 tuổi trở lên', 10),
+(N'Tầm soát bệnh lý võng mạc tiểu đường', N'Phát hiện sớm biến chứng tiểu đường lên mắt', 6);
 
 -- Chèn dữ liệu vào bảng Services_Detail (Chi tiết dịch vụ, combo khám mắt)
 INSERT INTO Services_Detail (service_type_id, service_id, cost) 
@@ -57,12 +57,9 @@ VALUES
 (3, 12, 600000); -- Tầm soát bệnh lý võng mạc tiểu đường chuyên sâu
 
 
-INSERT INTO Appointment (appointment_date, appointment_status, doctor_id, time_begin, time_end, service_id, patient_id, phonenumber_patient) 
+INSERT INTO Appointment (appointment_date, appointment_status, doctor_id, time_begin, time_end, service_detail_id, patient_id, phonenumber_patient) 
 VALUES 
 ('2025-02-01 10:00:00', 'Scheduled', 1, '2025-02-01 10:00:00', '2025-02-01 10:30:00', 1, 7,  '0123456789'),
 ('2025-02-02 14:00:00', 'Completed', 2, '2025-02-02 14:00:00', '2025-02-02 14:45:00', 2, 7,  '0987654321'),
 ('2025-02-03 09:30:00', 'Canceled', 3, '2025-02-03 09:30:00', '2025-02-03 10:00:00', 3, 7,  '0369857412');
-
-
-
 
