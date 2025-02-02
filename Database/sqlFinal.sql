@@ -108,6 +108,7 @@ CREATE TABLE Certificate_Doctor(
 	certificate_id INT ,
 	doctor_id INT,
 	date_certificate DATETIME,
+	issued_by NVARCHAR(255),
 	PRIMARY KEY (doctor_id, certificate_id),
 	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ,
     FOREIGN KEY (certificate_id) REFERENCES Certificate(certificate_id) 
@@ -147,6 +148,8 @@ CREATE TABLE [Services](
 service_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 service_name NVARCHAR(255),
 service_descriptprion NVARCHAR(255),
+specialization_id INT,
+FOREIGN KEY(specialization_id) REFERENCES dbo.Specialization(specialization_id)
 )
 
 CREATE TABLE Services_Detail (
@@ -155,7 +158,7 @@ CREATE TABLE Services_Detail (
 	service_id INT,
     cost DECIMAL(18,2) NOT NULL
 	FOREIGN KEY(service_type_id) REFERENCES dbo.Services_Type(service_type_id),
-	FOREIGN KEY(service_detail_id) REFERENCES dbo.Services_Detail(service_detail_id)
+	FOREIGN KEY(service_id) REFERENCES dbo.Services(service_id)
 );
 
 
@@ -169,8 +172,8 @@ CREATE TABLE Appointment(
 	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
 	time_begin DATETIME,
 	time_end DATETIME,
-	service_id INT,
-	FOREIGN KEY (service_id) REFERENCES [Services](service_id) ,
+	service_detail_id INT,
+	FOREIGN KEY (service_detail_id) REFERENCES dbo.Services_Detail(service_detail_id) ,
 	patient_id int,
 	FOREIGN KEY (patient_id) REFERENCES dbo.Customers(account_id) ,
 	phonenumber_patient NVARCHAR(50),
