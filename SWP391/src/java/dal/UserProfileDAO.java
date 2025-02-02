@@ -1,19 +1,21 @@
 
 package dal;
 
+import bo.getFormatDate;
 import model.UserProfile;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Account;
+import model.GoogleAccount;
 import model.Role;
 
 public class UserProfileDAO extends DBContext{
     public boolean addAccount(UserProfile p) {
-        String sqlAccount = "insert into Account( username, password,email,phone_number,created_date,role_id)\n" +
+        String sqlAccount = "insert into Accounts( username, password,email,phone_number,created_date,role_id)\n" +
                             "values(?,?,?,?,?,?)";
-        String sqlGetAccountId = "SELECT account_id FROM dbo.Account WHERE username = ?";
-        String sqlUserProfile = "insert into UserProfile(account_id,full_name,gender,image_profile_user)\n" +
+        String sqlGetAccountId = "SELECT account_id FROM dbo.Accounts WHERE username = ?";
+        String sqlUserProfile = "insert into Customers(account_id,full_name,gender,image_profile_user)\n" +
                             "values(?,?,?,?)";
         try {
 
@@ -73,8 +75,8 @@ public class UserProfileDAO extends DBContext{
     }
     public UserProfile GetAccount(String username) {
         String sql = "select *\n"
-                + "from Account a join \n"
-                + "UserProfile u on a.account_id = u.account_id "
+                + "from Accounts a join \n"
+                + "Customers u on a.account_id = u.account_id "
                 + "join Role r on r.role_id = a.role_id where a.username= ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -103,7 +105,7 @@ public class UserProfileDAO extends DBContext{
     
     public String[] loadBasicInfoUser(String username){
         String [] info = new String[3];
-        String sql = "Select phone_number,email,account_id from Account where username = ?";
+        String sql = "Select phone_number,email,account_id from Accounts where username = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
@@ -120,6 +122,69 @@ public class UserProfileDAO extends DBContext{
         }
         return null;
     }
-    
+    public boolean addAccountGG(GoogleAccount gg) {
+        String sqlAccount = "insert into Accounts(username,email,created_date,role_id, google_id)\n" +
+                            "values(?,?,?,?,?)";
+        String sqlGetAccountId = "SELECT account_id FROM dbo.Accounts WHERE username = ?";
+        String sqlUserProfile = "insert into Customers(account_id,full_name,gender,image_profile_user)\n" +
+                            "values(?,?,?,?)";
+        try {
+
+            connection.setAutoCommit(false);
+
+            PreparedStatement stAccount = connection.prepareStatement(sqlAccount);
+            stAccount.setString(1, gg.getEmail());
+            
+            stAccount.setString(2, gg.getEmail());
+
+            stAccount.setString(3, getFormatDate.getFormString());
+            stAccount.setInt(4, 4);
+            stAccount.setString(5 ,gg.getId());
+
+
+            int affectedRows = stAccount.executeUpdate();
+
+            if (affectedRows == 0) {
+                System.out.println("Không thể thêm tài khoản, không có hàng nào bị ảnh hưởng.");
+            }
+
+            PreparedStatement stGetId = connection.prepareStatement(sqlGetAccountId);
+            stGetId.setString(1, gg.getEmail());
+            ResultSet rs = stGetId.executeQuery();
+
+            if (rs.next()) {
+                int accountId = rs.getInt("account_id");
+
+                PreparedStatement stUserProfile = connection.prepareStatement(sqlUserProfile);
+                stUserProfile.setInt(1, accountId); 
+                stUserProfile.setString(2, gg.getName());
+
+                stUserProfile.setString(4, gg.getPicture());
+
+                stUserProfile.executeUpdate();
+
+ 
+
+                connection.commit();
+                return true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            e.printStackTrace();
+            try {
+                connection.rollback(); // Rollback nếu có lỗi
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+        } finally {
+            try {
+                connection.setAutoCommit(true); // Bật lại chế độ AutoCommit
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return false;
+    }
     
 }
