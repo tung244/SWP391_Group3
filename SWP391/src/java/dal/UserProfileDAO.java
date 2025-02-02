@@ -12,19 +12,13 @@ import model.Role;
 public class UserProfileDAO extends DBContext {
 
     public boolean addAccount(UserProfile p) {
-<<<<<<< Updated upstream
+
         String sqlAccount = "insert into Accounts( username, password,email,phone_number,created_date,role_id)\n" +
                             "values(?,?,?,?,?,?)";
         String sqlGetAccountId = "SELECT account_id FROM dbo.Accounts WHERE username = ?";
         String sqlUserProfile = "insert into Customers(account_id,full_name,gender,image_profile_user)\n" +
                             "values(?,?,?,?)";
-=======
-        String sqlAccount = "insert into Account( username, password,email,phone_number,created_date,role_id)\n"
-                + "values(?,?,?,?,?,?)";
-        String sqlGetAccountId = "SELECT account_id FROM dbo.Account WHERE username = ?";
-        String sqlUserProfile = "insert into UserProfile(account_id,full_name,gender,image_profile_user)\n"
-                + "values(?,?,?,?)";
->>>>>>> Stashed changes
+
         try {
 
             connection.setAutoCommit(false);
@@ -109,17 +103,12 @@ public class UserProfileDAO extends DBContext {
         }
         return null;
     }
-<<<<<<< Updated upstream
-    
-    public String[] loadBasicInfoUser(String username){
-        String [] info = new String[3];
-        String sql = "Select phone_number,email,account_id from Accounts where username = ?";
-=======
+
 
     public String[] loadBasicInfoUser(String username) {
         String[] info = new String[3];
-        String sql = "Select phone_number,email,account_id from Account where username = ?";
->>>>>>> Stashed changes
+        String sql = "Select phone_number,email,account_id from Accounts where username = ?";
+
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
@@ -136,28 +125,7 @@ public class UserProfileDAO extends DBContext {
         }
         return null;
     }
-<<<<<<< Updated upstream
-    public boolean addAccountGG(GoogleAccount gg) {
-        String sqlAccount = "insert into Accounts(username,email,created_date,role_id, google_id)\n" +
-                            "values(?,?,?,?,?)";
-        String sqlGetAccountId = "SELECT account_id FROM dbo.Accounts WHERE username = ?";
-        String sqlUserProfile = "insert into Customers(account_id,full_name,gender,image_profile_user)\n" +
-                            "values(?,?,?,?)";
-        try {
 
-            connection.setAutoCommit(false);
-
-            PreparedStatement stAccount = connection.prepareStatement(sqlAccount);
-            stAccount.setString(1, gg.getEmail());
-            
-            stAccount.setString(2, gg.getEmail());
-
-            stAccount.setString(3, getFormatDate.getFormString());
-            stAccount.setInt(4, 4);
-            stAccount.setString(5 ,gg.getId());
-
-
-=======
 
     public boolean isertAccountGoogle(GoogleAccount gg) {
         String sqlAccount = "INSERT INTO dbo.Accounts\n"
@@ -179,7 +147,7 @@ public class UserProfileDAO extends DBContext {
             stAccount.setString(5, getFormatDate.getFormString());
             stAccount.setInt(6, 4);
             stAccount.setString(7, gg.getId());
->>>>>>> Stashed changes
+
             int affectedRows = stAccount.executeUpdate();
 
             if (affectedRows == 0) {
@@ -187,35 +155,27 @@ public class UserProfileDAO extends DBContext {
             }
 
             PreparedStatement stGetId = connection.prepareStatement(sqlGetAccountId);
-<<<<<<< Updated upstream
+
             stGetId.setString(1, gg.getEmail());
-=======
-            stGetId.setString(1,gg.getEmail());
->>>>>>> Stashed changes
+
             ResultSet rs = stGetId.executeQuery();
 
             if (rs.next()) {
                 int accountId = rs.getInt("account_id");
 
                 PreparedStatement stUserProfile = connection.prepareStatement(sqlUserProfile);
-<<<<<<< Updated upstream
-                stUserProfile.setInt(1, accountId); 
-                stUserProfile.setString(2, gg.getName());
 
-=======
                 stUserProfile.setInt(1, accountId);
                 stUserProfile.setString(2, gg.getName());
                 stUserProfile.setString(3, "");
->>>>>>> Stashed changes
+
                 stUserProfile.setString(4, gg.getPicture());
 
                 stUserProfile.executeUpdate();
 
-<<<<<<< Updated upstream
  
 
-=======
->>>>>>> Stashed changes
+
                 connection.commit();
                 return true;
             }
@@ -237,9 +197,5 @@ public class UserProfileDAO extends DBContext {
         }
         return false;
     }
-<<<<<<< Updated upstream
-    
-=======
 
->>>>>>> Stashed changes
 }

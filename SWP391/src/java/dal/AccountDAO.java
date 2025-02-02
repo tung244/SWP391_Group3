@@ -8,15 +8,15 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-<<<<<<< Updated upstream
+
 import model.Account;
 import model.GoogleAccount;
 import model.Role;
 import model.UserProfile;
-=======
+
 import model.GoogleAccount;
 
->>>>>>> Stashed changes
+
 
 public class AccountDAO extends DBContext {
 
@@ -75,21 +75,14 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-<<<<<<< Updated upstream
+
     public boolean CheckExistGGAccount(GoogleAccount gg) {
         String sql = "Select count(*) from Accounts where username = ? and google_id = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, gg.getEmail());
             st.setString(2, gg.getId());
-=======
-    public boolean checkExistGGAcount(GoogleAccount gg){
-        String sql = "Select count(*) from Account where google_id = ? and username = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, gg.getId());
-            st.setString(2, gg.getEmail());
->>>>>>> Stashed changes
+
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 int arrow = rs.getInt(1);
@@ -102,8 +95,5 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-<<<<<<< Updated upstream
-    
-=======
->>>>>>> Stashed changes
+
 }

@@ -21,10 +21,7 @@ public class LoginGoogle extends HttpServlet {
 
     AccountDAO dao = new AccountDAO();
     UserProfileDAO udao = new UserProfileDAO();
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -32,23 +29,10 @@ public class LoginGoogle extends HttpServlet {
             String code = request.getParameter("code");
             String accessToken = getToken.getToken(code);
             GoogleAccount gg = getToken.getUserInfo(accessToken);
-<<<<<<< Updated upstream
-            String ms,error = "";
-            
-            if(!dao.CheckExistGGAccount(gg)){
-                if(udao.addAccountGG(gg)){
-                    ms = "Đăng kí thành công !!!";
-                }
-                else{
-                    error = "Đăng kí thất bại !!";
-                }
-            }
-            else{
-                error= "Tài khoản google này đã được đăng kí trước đây ! Vui lòng thử lại với tài khoản khác!";
-=======
+
             String ms = "";
             String error = "";
-            if (!dao.checkExistGGAcount(gg)) {
+            if (!dao.CheckExistGGAccount(gg)) {
                 if (udao.isertAccountGoogle(gg)) {
                     ms = "Đăng kí thành công !!!";
                 } else {
@@ -57,7 +41,7 @@ public class LoginGoogle extends HttpServlet {
             }
             else{
                 error = "Tài khoản google này đã được đăng kí trước đây!!";
->>>>>>> Stashed changes
+
             }
             response.sendRedirect("trangchu");
         }
