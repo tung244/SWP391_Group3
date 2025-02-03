@@ -6,8 +6,10 @@
 
     </head>
     <body>
-        <div class="">     
-            <div class="preloader"></div>
+        <div class="boxed_wrapper">         
+                        <div class="preloader"></div>
+            
+            
             <div class="forgot-password-form">
                 <div class="forgot-password-card" id="forgotPasswordStep1">
                     <form method="post" action="forgot_password">
