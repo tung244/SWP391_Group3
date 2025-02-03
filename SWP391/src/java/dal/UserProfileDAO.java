@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Account;
+import model.FaceBookAccount;
 import model.GoogleAccount;
 import model.Role;
 
@@ -167,6 +168,70 @@ public class UserProfileDAO extends DBContext {
                 stUserProfile.setString(2, gg.getName());
 
                 stUserProfile.setString(3, gg.getPicture());
+
+                stUserProfile.executeUpdate();
+
+                connection.commit();
+                return true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            e.printStackTrace();
+            try {
+                connection.rollback(); // Rollback nếu có lỗi
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+        } finally {
+            try {
+                connection.setAutoCommit(true); // Bật lại chế độ AutoCommit
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return false;
+    }
+    public boolean isertAccountFB(FaceBookAccount gg) {
+        String sqlAccount = "INSERT INTO dbo.Accounts\n"
+                + "(username,email,created_date,role_id,google_id)\n"
+                + "VALUES\n" +
+        "(?,?,?,?,?)";
+        String sqlGetAccountId = "SELECT account_id FROM dbo.Accounts WHERE username = ?";
+        String sqlUserProfile = "insert into Customers(account_id,full_name,image_profile_user)\n"
+                + "values(?,?,?)";
+        try {
+
+            connection.setAutoCommit(false);
+            
+            PreparedStatement stAccount = connection.prepareStatement(sqlAccount);
+            stAccount.setString(1, gg.getEmail());
+            stAccount.setString(2, gg.getEmail());
+            stAccount.setString(3, getFormatDate.getFormString());
+            stAccount.setInt(4, 4);
+            stAccount.setString(5, gg.getId());
+
+            int affectedRows = stAccount.executeUpdate();
+
+            if (affectedRows == 0) {
+                System.out.println("Không thể thêm tài khoản, không có hàng nào bị ảnh hưởng.");
+            }
+
+            PreparedStatement stGetId = connection.prepareStatement(sqlGetAccountId);
+
+            stGetId.setString(1, gg.getEmail());
+
+            ResultSet rs = stGetId.executeQuery();
+
+            if (rs.next()) {
+                int accountId = rs.getInt("account_id");
+
+                PreparedStatement stUserProfile = connection.prepareStatement(sqlUserProfile);
+
+                stUserProfile.setInt(1, accountId);
+                stUserProfile.setString(2, gg.getName());
+
+//                stUserProfile.setString(3, gg.getPicture());
 
                 stUserProfile.executeUpdate();
 
