@@ -14,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.GoogleAccount;
 
 @WebServlet(name = "LoginGoogle", urlPatterns = {"/login_google"})
@@ -29,7 +30,7 @@ public class LoginGoogle extends HttpServlet {
             String code = request.getParameter("code");
             String accessToken = getToken.getToken(code);
             GoogleAccount gg = getToken.getUserInfo(accessToken);
-
+            HttpSession session = request.getSession();
             String ms = "";
             String error = "";
             if (!dao.CheckExistGGAccount(gg)) {
@@ -40,9 +41,10 @@ public class LoginGoogle extends HttpServlet {
                 }
             }
             else{
-                error = "Tài khoản google này đã được đăng kí trước đây!!";
-
+                error = "Tài khoản google này đã được đăng kí trước đây!!";     
             }
+            session.setAttribute("ms", ms);
+            session.setAttribute("error", error);
             response.sendRedirect("trangchu");
         }
     }
