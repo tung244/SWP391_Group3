@@ -45,6 +45,7 @@ public class DoctorsDAO extends DBContext {
         List<Doctors> list = dao.getAllDoctors();
         for (Doctors doctors : list) {
             System.out.println(doctors);
+            
         }
     }
 
