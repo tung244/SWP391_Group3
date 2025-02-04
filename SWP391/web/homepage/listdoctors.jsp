@@ -27,7 +27,10 @@
                 padding: 10px;
                 border-radius: 5px;
                 border: 1px solid #ccc;
+                height: 45px;
+                
             }
+         
 
             .search-filter-box .btn-search {
                 background-color: #007bff;
@@ -113,22 +116,23 @@
                             </div>    
                         </div>
                     </div>
+
             </section>
-            
-            <div class="container">
-                <div class="search-filter-box">
-                    
-                    <select id="filterSpecialization" class="form-control">
-                        <option value="">All specialization</option>
+            <div style="margin-top: 30px" class="container">
+                <div class="search-filter-box">  
+                    <select   id="filterSpecialization" class="form-control" onchange="window.location.href = 'specialization?sid=' + this.value">
+                        <option  ${param.specialization_id ? 'selected' : ''} value="">All specialization</option>
                         <c:forEach items="${requestScope.listSpecialization}" var="s">
-                            <option value="${s.specialization_name}">${s.specialization_name}</option>
+                            <option ${param.sid == s.specialization_id ? 'selected' : ''} value="${s.specialization_id}">${s.specialization_name}</option>
                         </c:forEach>
                     </select>
-                    <input type="text" id="searchName" class="form-control" placeholder="Find doctor by name">
-                    <button type="submit" class="btn-search">Search</button>
+                        <input type="text" id="searchName" class="form-control" placeholder="Find doctor by name">
+                        <button type="submit" class="btn-search">Search</button> 
                 </div>
+                        
             </div>
         </div>
+
 
 
         <!--End breadcrumb area  -->
