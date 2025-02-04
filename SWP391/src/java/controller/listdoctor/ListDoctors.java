@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Doctors;
+import model.Specialization;
 
 /**
  *
@@ -59,9 +60,12 @@ public class ListDoctors extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-//        DoctorsDAO dao = new DoctorsDAO();
-//        List<Doctors> listDoctor = dao.getAllDoctors();
-//        request.setAttribute("listDoctor", listDoctor);
+        DoctorsDAO dao = new DoctorsDAO();
+        List<Doctors> listDoctor = dao.getAllDoctors();
+        List<Specialization> listSpecialization = dao.getAllSpecialization();
+        
+        request.setAttribute("listSpecialization", listSpecialization);
+        request.setAttribute("listDoctor", listDoctor);
         request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
     } 
 
@@ -75,11 +79,6 @@ public class ListDoctors extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
-        DoctorsDAO dao = new DoctorsDAO();
-        List<Doctors> listDoctor = dao.getAllDoctors();
-        request.setAttribute("listDoctor", listDoctor);
-        request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
     }
 
     /** 
