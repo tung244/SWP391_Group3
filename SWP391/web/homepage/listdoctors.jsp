@@ -1,15 +1,15 @@
 <%-- 
-    Document   : listdoctor
-    Created on : Feb 3, 2025, 1:20:43 AM
+    Document   : listdoctors
+    Created on : Feb 4, 2025, 6:21:15 PM
     Author     : PC
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"  %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <jsp:include page="homepage/Common/Css.jsp"/>  
+        <jsp:include page="Common/Css.jsp"/>  
     </head>
     <body>
         <div class="boxed_wrapper">
@@ -18,7 +18,7 @@
             <!--End Preloader -->  
 
             <!--Start Top bar area -->  
-            <jsp:include page="homepage/Common/Navbar.jsp"/>
+            <jsp:include page="Common/Navbar.jsp"/>
             <!--End mainmenu area-->     
 
             <!--Start header area-->
@@ -88,141 +88,40 @@
             <section class="team-area team-page">
                 <div class="container">
                     <div class="row">
+                        
                         <!--Start single team member-->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="single-team-member">
-                                <div class="img-holder">
-                                    <img src="images/team/1.jpg" alt="Awesome Image">
-                                    <div class="overlay-one">
-                                        <div class="overlay-inner">
-                                            <div class="content"></div>
+                        <!-- Start single team member -->
+                        <c:forEach items="${requestScope.listDoctor}" var="d">
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+
+
+                                <div class="single-team-member">
+                                    <div class="img-holder">
+                                        <img src="${d.profile_image}" alt="Profile Image">
+                                        <div class="overlay-one">
+                                            <div class="overlay-inner">
+                                                <div class="content"></div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <ul class="member-social-info">
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="text-holder text-center">
-                                    <h3>Dr.Eliot Aldwin</h3>
-                                    <span>Hygienist</span>
-                                    <p>Denouncing pleasure and praising pain was born expound.</p>
-                                    <span class="border"></span>
-                                    <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                </div>    
-                            </div> 
-                        </div>
+                                    <div class="text-holder text-center">
+                                        <h3>${d.doctor_name}</h3>
+                                        <span>${d.specialization.specialization_name}</span>
+                                        <p>${d.gender}</p>
+                                        <p>${d.rating}</p>
+                                        <span class="border"></span>
+                                        <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                    </div>    
+                                </div> 
+
+                            </div>
+                        </c:forEach>
+
                         <!--End single team member-->
-                        
+
                     </div>
 
-                    <div class="row">
-                        <!--Start single team member-->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="single-team-member">
-                                <div class="img-holder">
-                                    <img src="images/team/5.jpg" alt="Awesome Image">
-                                    <div class="overlay-one">
-                                        <div class="overlay-inner">
-                                            <div class="content"></div>
-                                        </div>
-                                    </div>
-                                    <ul class="member-social-info">
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="text-holder text-center">
-                                    <h3>Dr.Owen Smith</h3>
-                                    <span>Dentist</span>
-                                    <p>Circumstances occurs in which toil all pain great pleasure.</p>
-                                    <span class="border"></span>
-                                    <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                </div>    
-                            </div> 
-                        </div>
-                        <!--End single team member-->
-                        <!--Start single team member-->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="single-team-member">
-                                <div class="img-holder">
-                                    <img src="images/team/6.jpg" alt="Awesome Image">
-                                    <div class="overlay-one">
-                                        <div class="overlay-inner">
-                                            <div class="content"></div>
-                                        </div>
-                                    </div>
-                                    <ul class="member-social-info">
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="text-holder text-center">
-                                    <h3>Dr.Julia Anderson</h3>
-                                    <span>Hygienist</span>
-                                    <p>Undertakes laborious physically all exercise, except to obtain.</p>
-                                    <span class="border"></span>
-                                    <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                </div>    
-                            </div>
-                        </div> 
-                        <!--End single team member-->
-                        <!--Start single team member-->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="single-team-member">
-                                <div class="img-holder">
-                                    <img src="images/team/7.jpg" alt="Awesome Image">
-                                    <div class="overlay-one">
-                                        <div class="overlay-inner">
-                                            <div class="content"></div>
-                                        </div>
-                                    </div>
-                                    <ul class="member-social-info">
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="text-holder text-center">
-                                    <h3>Dr.Charlotte King</h3>
-                                    <span>Dentist</span>
-                                    <p>Circumstances occurs in which toil all pain great pleasure.</p>
-                                    <span class="border"></span>
-                                    <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                </div>    
-                            </div>
-                        </div> 
-                        <!--End single team member-->
-                        <!--Start single team member-->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="single-team-member">
-                                <div class="img-holder">
-                                    <img src="images/team/8.jpg" alt="Awesome Image">
-                                    <div class="overlay-one">
-                                        <div class="overlay-inner">
-                                            <div class="content"></div>
-                                        </div>
-                                    </div>
-                                    <ul class="member-social-info">
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="text-holder text-center">
-                                    <h3>Dr.Archie White</h3>
-                                    <span>Hygienist</span>
-                                    <p>Undertakes laborious physically all exercise, except to obtain.</p>
-                                    <span class="border"></span>
-                                    <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                </div>    
-                            </div>
-                        </div>
-                        <!--End single team member-->
-                    </div>
+
 
                 </div>
             </section>
@@ -428,10 +327,10 @@
         </div>
         <!--Scroll to top-->
         <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
-            <jsp:include page="homepage/Common/Message.jsp"/>
+            <jsp:include page="Common/Message.jsp"/>
 
         <!-- main jQuery -->
-        <jsp:include page="homepage/Common/Js.jsp"/>
+        <jsp:include page="Common/Js.jsp"/>
 
     </body>
 </html>

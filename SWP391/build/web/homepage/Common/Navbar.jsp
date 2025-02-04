@@ -111,7 +111,7 @@
                                 <li class="dropdown"><a href="about.html">About Us</a>
                                     <ul>
                                         <li><a href="about.html">About Dentalcare</a></li>
-                                        <li><a href="listdoctor.jsp">Meet Our Dentist</a></li>
+                                        <li><a href="listDoctors">Meet Our Dentist</a></li>
                                         <li><a href="special-offers.html">Special Offers</a></li>
                                         <li><a href="faq.html">FAQâs</a></li>
                                         <li><a href="testimonials.html">Testimonials</a></li>
