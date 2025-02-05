@@ -164,19 +164,19 @@
         <!--End doctor detail area-->
 
         <!-- Start Related Doctors Section -->
-        <section class="related-doctors">
+        <section style="margin-top: 50px; margin-bottom: 50px" class="related-doctors">
             <div class="container">
                 <div class="section-title text-center mb-5">
                     <h2 class="text-success">Related Doctors</h2>
-                    <p>Other specialists in ${doctor.specialty}</p>
+                    
                 </div>
 
                 <div class="row">
-                    <!--  <c:forEach items="${relatedDoctors}" var="related">-->
-                        <div class="col-lg-3 col-md-6 mb-4">
+                    <!--  <c:forEach items="${listRelated}" begin="0" end="3" var="related">-->
+                        <div style="margin: 20px; justify-content: space-between" class="col-lg-3 col-md-6 mb-4">
                             <div class="doctor-card bg-white rounded-lg shadow-sm">
                                 <div class="doctor-image position-relative">
-                                    <img src="#" alt="#" class="img-fluid w-100">
+                                    <img src="${related.profile_image}" alt="Doctor Profile" class="img-fluid w-100">
                                     <div class="doctor-social">
                                         <a href="#" class="text-success"><i class="fa fa-facebook"></i></a>
                                         <a href="#" class="text-success"><i class="fa fa-twitter"></i></a>
@@ -184,9 +184,14 @@
                                     </div>
                                 </div>
                                 <div class="doctor-info p-3 text-center">
-                                    <h4><a href="#" class="text-dark">name</a></h4>
-                                    <p class="text-success mb-2">specialty</p>
-                                    <div class="star-rating small">★★★★★</div>
+                                    <h4><a href="doctorDetail?doctorid=${related.doctor_id}" class="text-dark">${related.doctor_name}</a></h4>
+                                    <p class="text-success mb-2">${related.specialization.specialization_name}</p>
+                                    <div class="star-rating text-warning mb-2">
+                                            <span class="text-muted ml-2">Rating: ${d.rating}</span> ★
+                                            </br>
+                                            <!--                                            <span class="text-muted ml-2">(45 reviews)</span>-->
+
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -195,37 +200,7 @@
                 </div>
             </section>
 
-            <!-- Start Other Doctors Section -->
-            <section class="other-doctors bg-light py-5">
-                <div class="container">
-                    <div class="section-title text-center mb-5">
-                        <h2 class="text-success">Other Doctors</h2>
-                        <p>Explore our team of specialists</p>
-                    </div>
-
-                    <!--                <div class="row">
-                <c:forEach items="${otherDoctors}" var="other">
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="doctor-card bg-white rounded-lg shadow-sm">
-                            <div class="doctor-image position-relative">
-                                <img src="${other.image}" alt="${other.name}" class="img-fluid w-100">
-                                <div class="doctor-social">
-                                    <a href="#" class="text-success"><i class="fa fa-facebook"></i></a>
-                                    <a href="#" class="text-success"><i class="fa fa-twitter"></i></a>
-                                    <a href="#" class="text-success"><i class="fa fa-linkedin"></i></a>
-                                </div>
-                            </div>
-                            <div class="doctor-info p-3 text-center">
-                                <h4><a href="doctor?id=${other.id}" class="text-dark">${other.name}</a></h4>
-                                <p class="text-success mb-2">${other.specialty}</p>
-                                <div class="star-rating small">★★★★★</div>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>-->
-            </div>
-        </section>
+            
         <!--Start footer area-->  
         <footer class="footer-area">
             <div class="container">
