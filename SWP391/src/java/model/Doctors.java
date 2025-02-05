@@ -18,9 +18,25 @@ public class Doctors {
     private String dob;
     private String address;
     private Specialization specialization;
+    private Certificate certificate;
  
     public Doctors() {
     }
+
+    public Doctors(int doctor_id, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, Specialization specialization, Certificate certificate) {
+        this.doctor_id = doctor_id;
+        this.doctor_name = doctor_name;
+        this.experience_years = experience_years;
+        this.profile_image = profile_image;
+        this.rating = rating;
+        this.gender = gender;
+        this.dob = dob;
+        this.address = address;
+        this.specialization = specialization;
+        this.certificate = certificate;
+    }
+    
+    
 
     public Doctors(int doctor_id, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, Specialization specialization) {
         this.doctor_id = doctor_id;
@@ -45,6 +61,15 @@ public class Doctors {
         this.address = address;
     }
 
+    public Certificate getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(Certificate certificate) {
+        this.certificate = certificate;
+    }
+    
+    
     public Specialization getSpecialization() {
         return specialization;
     }
@@ -119,9 +144,10 @@ public class Doctors {
 
     @Override
     public String toString() {
-        return "Doctors{" + "doctor_id=" + doctor_id + ", doctor_name=" + doctor_name + ", experience_years=" + experience_years + ", profile_image=" + profile_image + ", rating=" + rating + ", gender=" + gender + ", dob=" + dob + ", address=" + address + ", specialization=" + specialization + '}';
+        return "Doctors{" + "doctor_id=" + doctor_id + ", doctor_name=" + doctor_name + ", experience_years=" + experience_years + ", profile_image=" + profile_image + ", rating=" + rating + ", gender=" + gender + ", dob=" + dob + ", address=" + address + ", specialization=" + specialization + ", certificate=" + certificate + '}';
     }
 
+   
    
     
     
