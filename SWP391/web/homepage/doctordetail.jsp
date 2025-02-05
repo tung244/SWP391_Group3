@@ -125,7 +125,7 @@
                                     <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
                                     <li><i class="" aria-hidden="true"></i><a href="listDoctors">Meet Our Dentist</a></li>
                                     <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                                    <li class="active">Meet Our Dentist</li>
+                                    <li class="active">Dr.${d.doctor_name}</li>
                                 </ul> 
                             </div>    
                         </div>
@@ -145,10 +145,11 @@
                                 <!-- Doctor Profile Image -->
                                 <div class="col-lg-3 col-md-4">
                                     <div class="doctor-thumb text-center">
-                                        <img src="#" alt="Doctor Photo" class="rounded-circle img-fluid mb-3">
+                                        <img src="${d.profile_image}" alt="Doctor Photo" class="rounded-circle img-fluid mb-3">
                                         <div class="star-rating text-warning mb-2">
-                                            ★★★★★
-                                            <span class="text-muted ml-2">(45 reviews)</span>
+<!--                                            ★★★★★
+                                            <span class="text-muted ml-2">(45 reviews)</span>-->
+                                            <span class="text-muted ml-2">Rating: ${d.rating}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -156,27 +157,29 @@
                                 <!-- Doctor Information -->
                                 <div class="col-lg-9 col-md-8">
                                     <div class="doctor-info">
-                                        <h2 class="text-success mb-3">name</h2>
-                                        <h4 class="text-muted mb-4">specialty</h4>
+                                        <h2 class="text-success mb-3">${d.doctor_name}</h2>
+                                        <h4 class="text-muted mb-4">Specialization: ${d.specialization.specialization_name}</h4>
 
                                         <!-- Personal Details -->
                                         <div class="row mb-4">
                                             <div class="col-md-6">
                                                 <h5 class="text-success border-bottom pb-2">Personal Information</h5>
                                                 <ul class="list-unstyled">
-                                                    <li class="mb-2"><strong>Degree:</strong> degree</li>
-                                                    <li class="mb-2"><strong>Title:</strong> title</li>
-                                                    <li class="mb-2"><strong>Experience:</strong> experience</li>
-                                                    <li class="mb-2"><strong>Workplace:</strong> workplace</li>
+                                                    <li class="mb-2"><strong>Gender:</strong>${d.gender}</li>
+                
+                                                    <li class="mb-2"><strong>Certificate:</strong> ${d.certificate.certificate_name}</li>
+                                                    <li class="mb-2"><strong>Certificate issued by:</strong> ${d.certificate.cer_doct.issued_by}</li>
+                                                    <li class="mb-2"><strong>Experience:</strong> ${d.experience_years} years</li>
+                                                    <li class="mb-2"><strong>Workplace:</strong> EyeCare hospital</li>
                                                 </ul>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <h5 class="text-success border-bottom pb-2">Specialties</h5>
                                                 <ul class="list-unstyled">
-                                                    <!--    <c:forEach items="specialties" var="specialty">-->
+                                                        <c:forEach items="specialties" var="specialty">
                                                         <li class="mb-2">🦷 ${specialty}</li>
-                                                        <!--   </c:forEach>-->
+                                                           </c:forEach>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -242,7 +245,7 @@
                     <p>Explore our team of specialists</p>
                 </div>
 
-                <div class="row">
+<!--                <div class="row">
                     <c:forEach items="${otherDoctors}" var="other">
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="doctor-card bg-white rounded-lg shadow-sm">
@@ -262,7 +265,7 @@
                             </div>
                         </div>
                     </c:forEach>
-                </div>
+                </div>-->
             </div>
         </section>
         <!--Start footer area-->  

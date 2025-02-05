@@ -6,6 +6,7 @@
 package controller.homepage.doctor;
 
 
+import dal.DoctorsDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Doctors;
 
 /**
  *
@@ -57,7 +59,10 @@ public class DoctorDetail extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         String doctor_id = request.getParameter("doctorid");
+        DoctorsDAO dao = new DoctorsDAO();
+        Doctors doctordetail = dao.getDoctorsById(doctor_id);
         
+        request.setAttribute("d", doctordetail);
         request.getRequestDispatcher("homepage/doctordetail.jsp").forward(request, response);
     } 
 
