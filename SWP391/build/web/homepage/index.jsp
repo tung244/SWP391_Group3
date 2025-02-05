@@ -75,7 +75,7 @@
                                      data-start="1500">
                                     <div class="slide-content-box content-box mar-lft">
                                         <h1>${blist.banner_title}</h1>
-                                        <p style="max-width: 850px; word-wrap: break-word; white-space: normal;">${blist.banner_description}</p>
+                                        <p style="max-width: 650px; word-wrap: break-word; white-space: normal;">${blist.banner_description}</p>
                                         <div class="button">
                                             <a class="thm-btn" href="#">Read More</a>       
                                         </div>
@@ -189,7 +189,7 @@
             <section class="welcome-area">
                 <div class="container">
                     <div class="sec-title text-center">
-                        <h1>Welcome to Dentalcare</h1>
+                        <h1>Chào mừng đến với Eyecare</h1>
                         <span class="border"></span>
                     </div>
                     <div class="row">
@@ -197,11 +197,12 @@
                         <div class="col-md-4">
                             <div class="single-item text-center">
                                 <div class="icon-holder">
-                                    <span class="flaticon-medical-6"></span>
+                                    <img src="homepage/images/icon/crown.png" style="margin-bottom: 25px; height: 50px!important"/>
+                                    <!--                                    <span><i style="font-size: 65px; color: rgb(228, 173, 19); margin-bottom: 25px;" class='bx bx-crown'></i></span>-->
                                 </div>
                                 <div class="text-holder">
-                                    <h3>General & Cosmetic</h3>
-                                    <p>The master-builder of human happiness one reject, dislikes avoid all our pleasure itself because it is pleasure pursue.</p>
+                                    <h3>Dịch vụ cao cấp</h3>
+                                    <p>Chúng tôi mang đến dịch vụ nhãn khoa tiêu chuẩn quốc tế, đảm bảo mỗi bệnh nhân được chăm sóc tận tâm với phương pháp điều trị tiên tiến.</p>
                                 </div>
                             </div>
                         </div>
@@ -210,11 +211,12 @@
                         <div class="col-md-4">
                             <div class="single-item text-center">
                                 <div class="icon-holder">
-                                    <span class="flaticon-medical-8"></span>
+                                    <!--                                    <span><i style="font-size: 65px; color: rgb(228, 173, 19); margin-bottom: 25px" class='bx bx-user-check'></i></span>-->
+                                    <img src="homepage/images/icon/checked.png" style="margin-bottom: 25px; height: 50px!important"/>
                                 </div>
                                 <div class="text-holder">
-                                    <h3>Dental Surgeries</h3>
-                                    <p>Pleasure and praising pain was born will give a complete account the systems expound eachings of great explorer.</p>
+                                    <h3>Bác sĩ chuyên môn cao</h3>
+                                    <p>Đội ngũ bác sĩ giàu kinh nghiệm, luôn áp dụng những phương pháp hiện đại nhất để bảo vệ và cải thiện thị lực cho bệnh nhân.</p>
                                 </div>
                             </div>
                         </div>
@@ -223,11 +225,12 @@
                         <div class="col-md-4">
                             <div class="single-item text-center">
                                 <div class="icon-holder">
-                                    <span class="flaticon-factory"></span>
+
+                                    <img src="homepage/images/icon/machine.png" style="margin-bottom: 25px; height: 50px!important"/>
                                 </div>
                                 <div class="text-holder">
-                                    <h3>Laser Treatments</h3>
-                                    <p>There anyone who loves or pursues desire too obtain pain of itself, because it is pain, but occasionally sed circumstances.</p>
+                                    <h3>Trang thiết bị hiện đại</h3>
+                                    <p>Hệ thống máy móc tiên tiến giúp chẩn đoán chính xác và điều trị hiệu quả, mang lại đôi mắt sáng khỏe cho mọi bệnh nhân.</p>
                                 </div>
                             </div>
                         </div>
@@ -244,7 +247,7 @@
                         <div class="col-md-12">
                             <div class="top">
                                 <div class="sec-title pull-left">
-                                    <h1>Special Services</h1>
+                                    <h1>Dịch vụ nổi bật</h1>
                                     <span class="border"></span>
                                     <div class="text-box">
                                         <h3>Affortable and Quality Dental Care</h3>

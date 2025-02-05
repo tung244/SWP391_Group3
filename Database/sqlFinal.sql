@@ -291,7 +291,9 @@ banner_id INT IDENTITY(1,1) PRIMARY KEY,
 banner_name NVARCHAR(255),
 banner_title NVARCHAR(255),
 banner_description NVARCHAR(255),
-banner_status NVARCHAR(10)
+banner_status NVARCHAR(10),
+link_banner NVARCHAR(255),
+href_banner NVARCHAR(255)
 )
 
 
