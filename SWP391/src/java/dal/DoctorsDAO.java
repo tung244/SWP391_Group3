@@ -71,26 +71,7 @@ public class DoctorsDAO extends DBContext {
         return list;
     }
 
-    public List<Specialization> getAllSpecialization() {
-        List<Specialization> list = new ArrayList<>();
-        String sql = "select * from [dbo].[Specialization]";
-
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Specialization specialization = new Specialization();
-                specialization.setSpecialization_id(rs.getInt("specialization_id"));
-                specialization.setSpecialization_name(rs.getString("specialization_name"));
-                specialization.setSpecialization_status(rs.getString("specialization_status"));
-
-                list.add(specialization);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
+    
 
     public List<Doctors> getDoctorsBySpecializationId(String sid) {
         List<Doctors> list = new ArrayList<>();
@@ -147,7 +128,7 @@ public class DoctorsDAO extends DBContext {
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
         List<Doctors> list = dao.getAllDoctors();
-        List<Specialization> listsp = dao.getAllSpecialization();
+
 //        for (Doctors doctors : list) {
 //            System.out.println(doctors);
 //
@@ -155,8 +136,7 @@ public class DoctorsDAO extends DBContext {
 //        for (Specialization sp : listsp) {
 //            System.out.println(sp);
 //        }
-//          List<Doctors> listbySid = dao.getDoctorsBySpecializationId("2");
-//          System.out.println(listbySid);
+
     }
 
 }

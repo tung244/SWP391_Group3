@@ -6,6 +6,7 @@
 package controller.homepage.doctor;
 
 import dal.DoctorsDAO;
+import dal.SpecializationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -36,8 +37,9 @@ public class SpecializationControll extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String specializationId = request.getParameter("sid");
         DoctorsDAO dao = new DoctorsDAO();
+        SpecializationDAO spdao = new SpecializationDAO();
         
-        List<Specialization> listSpecialization = dao.getAllSpecialization();
+        List<Specialization> listSpecialization = spdao.getAllSpecialization();
         
         request.setAttribute("listSpecialization", listSpecialization);
         List<Doctors> listD;

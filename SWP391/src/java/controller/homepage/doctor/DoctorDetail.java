@@ -5,7 +5,7 @@
 
 package controller.homepage.doctor;
 
-import controller.doctordetail.*;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -56,7 +56,9 @@ public class DoctorDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("homepage/userprofile.jsp").forward(request, response);
+        String doctor_id = request.getParameter("doctorid");
+        
+        request.getRequestDispatcher("homepage/doctordetail.jsp").forward(request, response);
     } 
 
     /** 
