@@ -4,10 +4,7 @@
  */
 package consts;
 
-/**
- *
- * @author fptshop
- */
+
 public class Cloudinary {
     
 }
