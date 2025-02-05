@@ -1,4 +1,4 @@
-USE [master]
+﻿USE [master]
 GO
 
 /*******************************************************************************
@@ -144,13 +144,16 @@ service_type_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 service_type_name NVARCHAR(255),
 duration_service NVARCHAR(50),
 )
-CREATE TABLE [Services](
-service_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-service_name NVARCHAR(255),
-service_description NVARCHAR(255),
-specialization_id INT,
-FOREIGN KEY(specialization_id) REFERENCES dbo.Specialization(specialization_id)
-)
+CREATE TABLE [Services] (
+    service_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    service_name NVARCHAR(255) NOT NULL,
+    service_description NVARCHAR(255),
+    specialization_id INT,
+    parent_id INT NULL, -- Thêm cột parent_id để tạo quan hệ cha-con
+    FOREIGN KEY (specialization_id) REFERENCES dbo.Specialization(specialization_id),
+    FOREIGN KEY (parent_id) REFERENCES [Services](service_id) -- Self-referencing FK
+);
+
 
 CREATE TABLE Services_Detail (
     service_detail_id INT PRIMARY KEY IDENTITY(1,1),
