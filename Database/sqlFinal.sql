@@ -147,7 +147,7 @@ duration_service NVARCHAR(50),
 CREATE TABLE [Services] (
     service_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     service_name NVARCHAR(255) NOT NULL,
-    service_description NVARCHAR(255),
+    service_description NVARCHAR(MAX),
     specialization_id INT,
     parent_id INT NULL, -- Thêm cột parent_id để tạo quan hệ cha-con
     FOREIGN KEY (specialization_id) REFERENCES dbo.Specialization(specialization_id),
@@ -297,6 +297,14 @@ banner_description NVARCHAR(255),
 banner_status NVARCHAR(10),
 link_banner NVARCHAR(255),
 href_banner NVARCHAR(255)
+)
+
+CREATE TABLE Machine(
+machine_id INT IDENTITY(1,1) PRIMARY KEY,
+machine_name NVARCHAR(255),
+machine_description NVARCHAR(max),
+machine_img NVARCHAR(255),
+
 )
 
 
