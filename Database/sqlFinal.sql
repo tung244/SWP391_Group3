@@ -286,6 +286,15 @@ PRIMARY KEY(patient_name),
 FOREIGN KEY(image_id) REFERENCES dbo.Images_Video(image_id)
 
 )
+CREATE TABLE Banner(
+banner_id INT IDENTITY(1,1) PRIMARY KEY,
+banner_name NVARCHAR(255),
+banner_title NVARCHAR(255),
+banner_description NVARCHAR(255),
+banner_status NVARCHAR(10)
+)
+
+
 
 
 

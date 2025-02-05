@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,126 +58,128 @@
             <section class="rev_slider_wrapper">
                 <div id="slider1" class="rev_slider"  data-version="5.0">
                     <ul>
-                        <li data-transition="random">
-                            <img src="homepage/images/slides/1.jpg"  alt="" width="1920" height="600" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1" >
+                        <c:forEach var="blist" items="${blist}">
+                            <li data-transition="random">
+                                <img src="${blist.link_banner}"  alt="" width="1920" height="600" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1" >
 
-                            <div class="tp-caption  tp-resizeme" 
-                                 data-x="left" data-hoffset="0" 
-                                 data-y="top" data-voffset="165" 
-                                 data-transform_idle="o:1;"         
-                                 data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" 
-                                 data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" 
-                                 data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" 
-                                 data-splitin="none" 
-                                 data-splitout="none"
-                                 data-responsive_offset="on"
-                                 data-start="1500">
-                                <div class="slide-content-box content-box mar-lft">
-                                    <h3>Welcome to the Dentalcare</h3>
-                                    <h1>Your smiles with us</h1>
-                                    <p>Explain to you how all this mistaken idea  denouncing  was<br>born in our clinic you a complete.</p>
-                                    <div class="button">
-                                        <a class="thm-btn" href="#">Read More</a>       
+                                <div class="tp-caption  tp-resizeme" 
+                                     data-x="left" data-hoffset="0" 
+                                     data-y="top" data-voffset="165" 
+                                     data-transform_idle="o:1;"         
+                                     data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" 
+                                     data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" 
+                                     data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" 
+                                     data-splitin="none" 
+                                     data-splitout="none"
+                                     data-responsive_offset="on"
+                                     data-start="1500">
+                                    <div class="slide-content-box content-box mar-lft">
+                                        <h1>${blist.banner_title}</h1>
+                                        <p style="max-width: 850px; word-wrap: break-word; white-space: normal;">${blist.banner_description}</p>
+                                        <div class="button">
+                                            <a class="thm-btn" href="#">Read More</a>       
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="tp-caption tp-resizeme" 
-                                 data-x="right" data-hoffset="0" 
-                                 data-y="bottom" data-voffset="0" 
-                                 data-transform_idle="o:1;"                         
-                                 data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" 
-                                 data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"                     
-                                 data-splitin="none" 
-                                 data-splitout="none" 
-                                 data-responsive_offset="on"
-                                 data-start="2900">
-                                <div class="slide-content-box">
-                                    <div class="img-holder">  
-                                        <img src="homepage/images/slides/slide-1-img.png" alt="Awesome Image">   
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li data-transition="fade">
-                            <img src="homepage/images/slides/2.jpg"  alt="" width="1920" height="600" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1" >
+                            </li>
+                        </c:forEach>
+                        <!--                            <div class="tp-caption tp-resizeme" 
+                                                         data-x="right" data-hoffset="0" 
+                                                         data-y="bottom" data-voffset="0" 
+                                                         data-transform_idle="o:1;"                         
+                                                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" 
+                                                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"                     
+                                                         data-splitin="none" 
+                                                         data-splitout="none" 
+                                                         data-responsive_offset="on"
+                                                         data-start="2900">
+                                                        <div class="slide-content-box">
+                                                            <div class="img-holder">  
+                                                                <img src="homepage/images/slides/slide-1-img.png" alt="Awesome Image">   
+                                                            </div>
+                                                        </div>
+                                                    </div>-->
 
-                            <div class="tp-caption  tp-resizeme" 
-                                 data-x="right" data-hoffset="0" 
-                                 data-y="top" data-voffset="165" 
-                                 data-transform_idle="o:1;"         
-                                 data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" 
-                                 data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" 
-                                 data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" 
-                                 data-splitin="none" 
-                                 data-splitout="none"
-                                 data-responsive_offset="on"
-                                 data-start="700">
-                                <div class="slide-content-box content-box">
-                                    <h3>World Class Treatments With</h3>
-                                    <h1>Quality & Affortable</h1>
-                                    <p>Explain to you how all this mistaken idea  denouncing  was<br>born in our clinic you a complete.</p>
-                                    <div class="button">
-                                        <a class="thm-btn bgclr-1" href="#">Special Offers</a>       
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tp-caption tp-resizeme" 
-                                 data-x="left" data-hoffset="0" 
-                                 data-y="bottom" data-voffset="0" 
-                                 data-transform_idle="o:1;"                         
-                                 data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" 
-                                 data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"                     
-                                 data-splitin="none" 
-                                 data-splitout="none" 
-                                 data-responsive_offset="on"
-                                 data-start="2900">
-                                <div class="slide-content-box">
-                                    <div class="img-holder">  
-                                        <img src="homepage/images/slides/slide-2-img.png" alt="Awesome Image">   
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li data-transition="random">
-                            <img src="homepage/images/slides/3.jpg"  alt="" width="1920" height="600" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1" >
-
-                            <div class="tp-caption  tp-resizeme" 
-                                 data-x="left" data-hoffset="0" 
-                                 data-y="top" data-voffset="165" 
-                                 data-transform_idle="o:1;"         
-                                 data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" 
-                                 data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" 
-                                 data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" 
-                                 data-splitin="none" 
-                                 data-splitout="none"
-                                 data-responsive_offset="on"
-                                 data-start="1500">
-                                <div class="slide-content-box content-box mar-lft">
-                                    <h3>Regain your confidence with</h3>
-                                    <h1>Dental Implants</h1>
-                                    <p>Explain to you how all this mistaken idea  denouncing  was <br>born in our clinic you a complete.</p>
-                                    <div class="button">
-                                        <a class="thm-btn bgclr-1" href="#">Meet Dentist</a>       
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tp-caption tp-resizeme" 
-                                 data-x="right" data-hoffset="0" 
-                                 data-y="bottom" data-voffset="0" 
-                                 data-transform_idle="o:1;"                         
-                                 data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" 
-                                 data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"                     
-                                 data-splitin="none" 
-                                 data-splitout="none" 
-                                 data-responsive_offset="on"
-                                 data-start="2900">
-                                <div class="slide-content-box">
-                                    <div class="img-holder">  
-                                        <img src="homepage/images/slides/slide-3-img.png" alt="Awesome Image">   
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                        <!--                        <li data-transition="fade">
+                                                    <img src="homepage/images/slides/2.jpg"  alt="" width="1920" height="600" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1" >
+                        
+                                                    <div class="tp-caption  tp-resizeme" 
+                                                         data-x="right" data-hoffset="0" 
+                                                         data-y="top" data-voffset="165" 
+                                                         data-transform_idle="o:1;"         
+                                                         data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" 
+                                                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" 
+                                                         data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" 
+                                                         data-splitin="none" 
+                                                         data-splitout="none"
+                                                         data-responsive_offset="on"
+                                                         data-start="700">
+                                                        <div class="slide-content-box content-box">
+                                                            <h3>World Class Treatments With</h3>
+                                                            <h1>Quality & Affortable</h1>
+                                                            <p>Explain to you how all this mistaken idea  denouncing  was<br>born in our clinic you a complete.</p>
+                                                            <div class="button">
+                                                                <a class="thm-btn bgclr-1" href="#">Special Offers</a>       
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tp-caption tp-resizeme" 
+                                                         data-x="left" data-hoffset="0" 
+                                                         data-y="bottom" data-voffset="0" 
+                                                         data-transform_idle="o:1;"                         
+                                                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" 
+                                                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"                     
+                                                         data-splitin="none" 
+                                                         data-splitout="none" 
+                                                         data-responsive_offset="on"
+                                                         data-start="2900">
+                                                        <div class="slide-content-box">
+                                                            <div class="img-holder">  
+                                                                <img src="homepage/images/slides/slide-2-img.png" alt="Awesome Image">   
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>-->
+                        <!--                        <li data-transition="random">
+                                                    <img src="homepage/images/slides/3.jpg"  alt="" width="1920" height="600" data-bgposition="top center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="1" >
+                        
+                                                    <div class="tp-caption  tp-resizeme" 
+                                                         data-x="left" data-hoffset="0" 
+                                                         data-y="top" data-voffset="165" 
+                                                         data-transform_idle="o:1;"         
+                                                         data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;" 
+                                                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" 
+                                                         data-mask_in="x:[100%];y:0;s:inherit;e:inherit;" 
+                                                         data-splitin="none" 
+                                                         data-splitout="none"
+                                                         data-responsive_offset="on"
+                                                         data-start="1500">
+                                                        <div class="slide-content-box content-box mar-lft">
+                                                            <h3>Regain your confidence with</h3>
+                                                            <h1>Dental Implants</h1>
+                                                            <p>Explain to you how all this mistaken idea  denouncing  was <br>born in our clinic you a complete.</p>
+                                                            <div class="button">
+                                                                <a class="thm-btn bgclr-1" href="#">Meet Dentist</a>       
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tp-caption tp-resizeme" 
+                                                         data-x="right" data-hoffset="0" 
+                                                         data-y="bottom" data-voffset="0" 
+                                                         data-transform_idle="o:1;"                         
+                                                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" 
+                                                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"                     
+                                                         data-splitin="none" 
+                                                         data-splitout="none" 
+                                                         data-responsive_offset="on"
+                                                         data-start="2900">
+                                                        <div class="slide-content-box">
+                                                            <div class="img-holder">  
+                                                                <img src="homepage/images/slides/slide-3-img.png" alt="Awesome Image">   
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>-->
                     </ul>
                 </div>
             </section>
