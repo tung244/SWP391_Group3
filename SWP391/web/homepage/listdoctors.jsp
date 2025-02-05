@@ -167,7 +167,7 @@
 
 
                                     <span class="border"></span>
-                                    <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                    <a href="doctorDetail">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
                                 </div>    
                             </div> 
 
