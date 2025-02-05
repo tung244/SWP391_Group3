@@ -10,55 +10,9 @@
 <html lang="en">
     <head>
         <jsp:include page="Common/Css.jsp"/>  
-        <style>
-            .doctor-details-area {
-                padding: 80px 0;
-                background: #f8f9fa;
-            }
 
-            .doctor-details {
-                border: 1px solid #e9ecef;
-            }
-
-            .doctor-thumb img {
-                width: 200px;
-                height: 200px;
-                object-fit: cover;
-                border: 3px solid #28a745;
-            }
-
-            .star-rating {
-                color: #ffc107;
-                font-size: 18px;
-            }
-
-            .doctor-actions .btn {
-                padding: 10px 30px;
-            }
-            .doctor-social {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: rgba(255,255,255,0.9);
-                padding: 10px;
-                opacity: 0;
-                transition: all 0.3s ease;
-            }
-
-            .doctor-card:hover .doctor-social {
-                opacity: 1;
-            }
-
-            .doctor-social a {
-                margin: 0 10px;
-            }
-
-            .star-rating.small {
-                font-size: 14px;
-            }
-        </style>
-
+        <!--Style -->
+        <jsp:include page="Common/StyleDocDetail.jsp"/>
     </head>
     <body>
         <div class="boxed_wrapper">
@@ -147,9 +101,10 @@
                                     <div class="doctor-thumb text-center">
                                         <img  src="${d.profile_image}" alt="Doctor Photo" class="rounded-circle img-fluid mb-3">
                                         <div class="star-rating text-warning mb-2">
-                                            <!--                                            ★★★★★
-                                                                                        <span class="text-muted ml-2">(45 reviews)</span>-->
-                                            <span class="text-muted ml-2">Rating: ${d.rating}</span>
+                                            <span class="text-muted ml-2">Rating: ${d.rating}</span> ★
+                                            </br>
+                                            <span class="text-muted ml-2">(45 reviews)</span>
+
                                         </div>
                                     </div>
                                 </div>
@@ -190,13 +145,13 @@
                                             <h5 class="text-success border-bottom pb-2">Professional Biography</h5>
                                             <p class="text-muted">Certificate: ${d.certificate.certificate_name}</p>
                                             <p class="text-muted">Working at: EyeCare hospital</p>
-                                            <p class="text-muted">Experience years: ${d.experience_years}</p>
+                                            <p class="text-muted">Experience years: ${d.experience_years} years</p>
                                         </div>
 
                                         <!-- Action Buttons -->
                                         <div class="doctor-actions text-center">
                                             <a href="appointment?id=#" class="btn btn-success btn-lg mr-3">Book Appointment</a>
-<!--                                            <a href="consultation?id=#" class="btn btn-outline-success btn-lg">Free Consultation</a>-->
+                                            <!--                                            <a href="consultation?id=#" class="btn btn-outline-success btn-lg">Free Consultation</a>-->
                                         </div>
                                     </div>
                                 </div>

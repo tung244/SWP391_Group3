@@ -60,8 +60,27 @@ public class SpecializationDAO extends DBContext {
         return list;
     }
 
+    public String getSpecializationIdByDoctorId(String did) {
+        String sql = " select sp.specialization_id from [dbo].[Specialization] sp join [dbo].[Doctors] d "
+                + "on sp.specialization_id = d.specialization_id\n"
+                + " where d.doctor_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, did);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getString("specialization_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         SpecializationDAO dao = new SpecializationDAO();
+//        String speid = dao.getSpecializationIdByDoctorId("1");
+//        System.out.println(speid);
 //        List<Specialization> sp = dao.getSpecializationByDoctorId("1");
 //        for (Specialization specialization : sp) {
 //            System.out.println(specialization);

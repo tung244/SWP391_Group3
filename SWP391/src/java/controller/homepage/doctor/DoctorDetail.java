@@ -68,6 +68,10 @@ public class DoctorDetail extends HttpServlet {
         SpecializationDAO spdao = new SpecializationDAO();
         List<Specialization> listSpecializationByDocId = spdao.getSpecializationByDoctorId(doctor_id);
         
+        String related_specid = spdao.getSpecializationIdByDoctorId(doctor_id);
+        List<Doctors> listRelatedDoctor = dao.getDoctorsBySpecializationId(related_specid);
+        
+        request.setAttribute("listRelated", listRelatedDoctor);
         request.setAttribute("listSpecById", listSpecializationByDocId);
         request.setAttribute("d", doctordetail);
         request.getRequestDispatcher("homepage/doctordetail.jsp").forward(request, response);
