@@ -250,8 +250,8 @@
                                     <h1>Dịch vụ nổi bật</h1>
                                     <span class="border"></span>
                                     <div class="text-box">
-                                        <h3>Affortable and Quality Dental Care</h3>
-                                        <p>How all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer.</p>
+                                        <h3>Chăm sóc tận tình, quan tâm chu đáo</h3>
+                                        <p>“Chúng tôi đặt mình vào vị trí của người bệnh để thấu hiểu, chia sẻ và cảm thông. Đồng thời chúng tôi mang đến dịch vụ y tế toàn diện giúp người bệnh có thể an tâm thăm khám và phẫu thuật ngay cả khi không có người thân đi cùng.”</p>
                                     </div>
                                 </div>
                                 <div class="icon-box pull-right">
