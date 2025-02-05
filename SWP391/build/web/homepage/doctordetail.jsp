@@ -145,10 +145,10 @@
                                 <!-- Doctor Profile Image -->
                                 <div class="col-lg-3 col-md-4">
                                     <div class="doctor-thumb text-center">
-                                        <img src="${d.profile_image}" alt="Doctor Photo" class="rounded-circle img-fluid mb-3">
+                                        <img  src="${d.profile_image}" alt="Doctor Photo" class="rounded-circle img-fluid mb-3">
                                         <div class="star-rating text-warning mb-2">
-<!--                                            ★★★★★
-                                            <span class="text-muted ml-2">(45 reviews)</span>-->
+                                            <!--                                            ★★★★★
+                                                                                        <span class="text-muted ml-2">(45 reviews)</span>-->
                                             <span class="text-muted ml-2">Rating: ${d.rating}</span>
                                         </div>
                                     </div>
@@ -166,7 +166,7 @@
                                                 <h5 class="text-success border-bottom pb-2">Personal Information</h5>
                                                 <ul class="list-unstyled">
                                                     <li class="mb-2"><strong>Gender:</strong>${d.gender}</li>
-                
+
                                                     <li class="mb-2"><strong>Certificate:</strong> ${d.certificate.certificate_name}</li>
                                                     <li class="mb-2"><strong>Certificate issued by:</strong> ${d.certificate.cer_doct.issued_by}</li>
                                                     <li class="mb-2"><strong>Experience:</strong> ${d.experience_years} years</li>
@@ -177,24 +177,26 @@
                                             <div class="col-md-6">
                                                 <h5 class="text-success border-bottom pb-2">Specialties</h5>
                                                 <ul class="list-unstyled">
-                                                        <c:forEach items="specialties" var="specialty">
-                                                        <li class="mb-2">🦷 ${specialty}</li>
-                                                           </c:forEach>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                                    <c:forEach items="${listSpecById}" var="spec">
+                                                        <li class="mb-2">🦷 ${spec.specialization_name}</li>
+                                                        </c:forEach>
 
-                                            <!-- Biography -->
-                                            <div class="doctor-bio mb-4">
-                                                <h5 class="text-success border-bottom pb-2">Professional Biography</h5>
-                                                <p class="text-muted">biography</p>
+                                                </ul>
                                             </div>
+                                        </div>
 
-                                            <!-- Action Buttons -->
-                                            <div class="doctor-actions text-center">
-                                                <a href="appointment?id=#" class="btn btn-success btn-lg mr-3">Book Appointment</a>
-                                                <a href="consultation?id=#" class="btn btn-outline-success btn-lg">Free Consultation</a>
-                                            </div>
+                                        <!-- Biography -->
+                                        <div class="doctor-bio mb-4">
+                                            <h5 class="text-success border-bottom pb-2">Professional Biography</h5>
+                                            <p class="text-muted">Certificate: ${d.certificate.certificate_name}</p>
+                                            <p class="text-muted">Working at: EyeCare hospital</p>
+                                            <p class="text-muted">Experience years: ${d.experience_years}</p>
+                                        </div>
+
+                                        <!-- Action Buttons -->
+                                        <div class="doctor-actions text-center">
+                                            <a href="appointment?id=#" class="btn btn-success btn-lg mr-3">Book Appointment</a>
+<!--                                            <a href="consultation?id=#" class="btn btn-outline-success btn-lg">Free Consultation</a>-->
                                         </div>
                                     </div>
                                 </div>
@@ -202,19 +204,20 @@
                         </div>
                     </div>
                 </div>
-            </section>
-            <!--End doctor detail area-->
+            </div>
+        </section>
+        <!--End doctor detail area-->
 
-            <!-- Start Related Doctors Section -->
-            <section class="related-doctors">
-                <div class="container">
-                    <div class="section-title text-center mb-5">
-                        <h2 class="text-success">Related Doctors</h2>
-                        <p>Other specialists in ${doctor.specialty}</p>
+        <!-- Start Related Doctors Section -->
+        <section class="related-doctors">
+            <div class="container">
+                <div class="section-title text-center mb-5">
+                    <h2 class="text-success">Related Doctors</h2>
+                    <p>Other specialists in ${doctor.specialty}</p>
                 </div>
 
                 <div class="row">
-                  <!--  <c:forEach items="${relatedDoctors}" var="related">-->
+                    <!--  <c:forEach items="${relatedDoctors}" var="related">-->
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="doctor-card bg-white rounded-lg shadow-sm">
                                 <div class="doctor-image position-relative">
@@ -232,40 +235,40 @@
                                 </div>
                             </div>
                         </div>
-                    <!-- </c:forEach>-->
+                        <!-- </c:forEach>-->
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Start Other Doctors Section -->
-        <section class="other-doctors bg-light py-5">
-            <div class="container">
-                <div class="section-title text-center mb-5">
-                    <h2 class="text-success">Other Doctors</h2>
-                    <p>Explore our team of specialists</p>
-                </div>
+            <!-- Start Other Doctors Section -->
+            <section class="other-doctors bg-light py-5">
+                <div class="container">
+                    <div class="section-title text-center mb-5">
+                        <h2 class="text-success">Other Doctors</h2>
+                        <p>Explore our team of specialists</p>
+                    </div>
 
-<!--                <div class="row">
-                    <c:forEach items="${otherDoctors}" var="other">
-                        <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="doctor-card bg-white rounded-lg shadow-sm">
-                                <div class="doctor-image position-relative">
-                                    <img src="${other.image}" alt="${other.name}" class="img-fluid w-100">
-                                    <div class="doctor-social">
-                                        <a href="#" class="text-success"><i class="fa fa-facebook"></i></a>
-                                        <a href="#" class="text-success"><i class="fa fa-twitter"></i></a>
-                                        <a href="#" class="text-success"><i class="fa fa-linkedin"></i></a>
-                                    </div>
-                                </div>
-                                <div class="doctor-info p-3 text-center">
-                                    <h4><a href="doctor?id=${other.id}" class="text-dark">${other.name}</a></h4>
-                                    <p class="text-success mb-2">${other.specialty}</p>
-                                    <div class="star-rating small">★★★★★</div>
+                    <!--                <div class="row">
+                <c:forEach items="${otherDoctors}" var="other">
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="doctor-card bg-white rounded-lg shadow-sm">
+                            <div class="doctor-image position-relative">
+                                <img src="${other.image}" alt="${other.name}" class="img-fluid w-100">
+                                <div class="doctor-social">
+                                    <a href="#" class="text-success"><i class="fa fa-facebook"></i></a>
+                                    <a href="#" class="text-success"><i class="fa fa-twitter"></i></a>
+                                    <a href="#" class="text-success"><i class="fa fa-linkedin"></i></a>
                                 </div>
                             </div>
+                            <div class="doctor-info p-3 text-center">
+                                <h4><a href="doctor?id=${other.id}" class="text-dark">${other.name}</a></h4>
+                                <p class="text-success mb-2">${other.specialty}</p>
+                                <div class="star-rating small">★★★★★</div>
+                            </div>
                         </div>
-                    </c:forEach>
-                </div>-->
+                    </div>
+                </c:forEach>
+            </div>-->
             </div>
         </section>
         <!--Start footer area-->  

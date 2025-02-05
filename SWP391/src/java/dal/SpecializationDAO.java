@@ -36,4 +36,36 @@ public class SpecializationDAO extends DBContext {
         }
         return list;
     }
+
+    public List<Specialization> getSpecializationByDoctorId(String did) {
+        List<Specialization> list = new ArrayList<>();
+        String sql = " select sp.specialization_id,sp.specialization_name,sp.specialization_status from [dbo].[Specialization] sp join [dbo].[Doctors] d on sp.specialization_id = d.specialization_id\n"
+                + " where d.doctor_id = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, did);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Specialization specialization = new Specialization();
+                specialization.setSpecialization_id(rs.getInt("specialization_id"));
+                specialization.setSpecialization_name(rs.getString("specialization_name"));
+                specialization.setSpecialization_status(rs.getString("specialization_status"));
+
+                list.add(specialization);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        SpecializationDAO dao = new SpecializationDAO();
+//        List<Specialization> sp = dao.getSpecializationByDoctorId("1");
+//        for (Specialization specialization : sp) {
+//            System.out.println(specialization);
+//            
+//        }
+    }
 }

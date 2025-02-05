@@ -7,6 +7,7 @@ package controller.homepage.doctor;
 
 
 import dal.DoctorsDAO;
+import dal.SpecializationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,7 +15,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import model.Doctors;
+import model.Specialization;
 
 /**
  *
@@ -62,6 +65,10 @@ public class DoctorDetail extends HttpServlet {
         DoctorsDAO dao = new DoctorsDAO();
         Doctors doctordetail = dao.getDoctorsById(doctor_id);
         
+        SpecializationDAO spdao = new SpecializationDAO();
+        List<Specialization> listSpecializationByDocId = spdao.getSpecializationByDoctorId(doctor_id);
+        
+        request.setAttribute("listSpecById", listSpecializationByDocId);
         request.setAttribute("d", doctordetail);
         request.getRequestDispatcher("homepage/doctordetail.jsp").forward(request, response);
     } 
