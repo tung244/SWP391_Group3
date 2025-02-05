@@ -5,7 +5,7 @@
 
 package controller.homepage.doctor;
 
-import controller.doctordetail.*;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
