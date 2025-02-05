@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.homepage.doctor;
+package controller.listdoctor;
 
-import controller.doctordetail.*;
+
+import dal.DoctorsDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,13 +14,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Doctors;
+import model.Specialization;
 
 /**
  *
  * @author PC
  */
-@WebServlet(name="DoctorDetail", urlPatterns={"/doctorDetail"})
-public class DoctorDetail extends HttpServlet {
+@WebServlet(name="ListDoctors", urlPatterns={"/listDoctors"})
+public class ListDoctors extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +40,10 @@ public class DoctorDetail extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DoctorDetail</title>");  
+            out.println("<title>Servlet ListDoctors</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DoctorDetail at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ListDoctors at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,7 +60,13 @@ public class DoctorDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("homepage/userprofile.jsp").forward(request, response);
+        DoctorsDAO dao = new DoctorsDAO();
+        List<Doctors> listDoctor = dao.getAllDoctors();
+        List<Specialization> listSpecialization = dao.getAllSpecialization();
+        
+        request.setAttribute("listSpecialization", listSpecialization);
+        request.setAttribute("listDoctor", listDoctor);
+        request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
     } 
 
     /** 
@@ -69,7 +79,6 @@ public class DoctorDetail extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /** 
