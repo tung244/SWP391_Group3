@@ -17,7 +17,7 @@ import model.UserProfile;
 
 
 @WebServlet(name="Logout", urlPatterns={"/logout"})
-public class Logout extends HttpServlet {
+public class LogOut extends HttpServlet {
    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

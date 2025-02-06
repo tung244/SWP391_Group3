@@ -178,6 +178,7 @@
                                 <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</span>
                                 <div class="d-flex justify-content-center align-items-center register-with">
 <<<<<<< HEAD
+<<<<<<< HEAD
                                     <div class="">
                                         <button class="circle-btn facebook">
                                             <i class='bx bxl-facebook'></i>
@@ -188,6 +189,8 @@
                                             <i class='bx bxl-google'></i>
                                         </button>
 =======
+=======
+>>>>>>> Luongndhe181876
 <!--                                    <div class="">
                                         <a href="https://www.facebook.com/v19.0/dialog/oauth?fields=id,name,email,profile_pic&client_id=1277437356785264&redirect_uri=http://localhost:8080/SWP391/login_facebook" class="circle-btn facebook">
                                             <i class='bx bxl-facebook'></i>

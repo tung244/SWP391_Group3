@@ -18,21 +18,13 @@
                         <div class="col-md-6">
                             <form method="post" action="login">
                                 <div class="input-container">
-<<<<<<< HEAD
-                                    <input type="text" id="username" required/>
-=======
                                     <input type="text" name="username" id="username" required/>
->>>>>>> Tungdthe181764
                                     <label for="username">Username</label>
                                     <div class="bar"></div>
                                 </div>
 
                                 <div class="input-container">
-<<<<<<< HEAD
-                                    <input type="password" id="password" required/>
-=======
                                     <input type="password" name="password" id="password" required/>
->>>>>>> Tungdthe181764
                                     <label for="password">Password</label>
                                     <div class="bar"></div>
                                 </div>
@@ -81,11 +73,6 @@
                                 </div>
 
 
-<<<<<<< HEAD
-                                <div class="input-container">
-                                    <input type="password" id="register-password" name="register-password" required />
-                                    <label for="register-password">Password</label>
-=======
                                 <div class="input-container" style="position: relative;">
                                     <input 
                                         type="password" 
@@ -95,7 +82,6 @@
                                         style="width: 100%; padding-right: 40px;" 
                                         />
                                     <label for="register-password" style="pointer-events: none;">Password</label>
->>>>>>> Tungdthe181764
                                     <div class="bar"></div>
                                     <a 
                                         class="toggle-password"
@@ -107,13 +93,6 @@
                                         <i class="bx bx-show"></i>
                                     </a>
                                 </div>
-<<<<<<< HEAD
-                                <div class="input-container">
-                                    <input type="password" id="repeat-password" name="repeat-password" onblur="checkRepeatPassword()" required />
-                                    <label for="repeat-password">Nhập lại mật khẩu</label>
-                                    <div class="bar"></div>
-                                    <span id="repeat-error" style="font-size: 14px;"></span>
-=======
                                 <div class="input-container" style="position: relative;">
                                     <input 
                                         type="password" 
@@ -133,7 +112,6 @@
                                         >
                                         <i class="bx bx-show"></i>
                                     </a>
->>>>>>> Tungdthe181764
                                 </div>
 
 
@@ -149,14 +127,11 @@
                                     <div class="bar"></div>
                                 </div>
                                 <div class="input-container">
-<<<<<<< HEAD
-=======
                                     <input type="text" id="register-email" name="register-phone" required />
                                     <label for="register-email">Email</label>
                                     <div class="bar"></div>
                                 </div>
                                 <div class="input-container">
->>>>>>> Tungdthe181764
                                     <select style="width: 360px; height: 35px; border-radius: 7px; font-size: 14px; padding: 5px 10px" 
                                             id="register-gender" 
                                             name="register-gender" 
@@ -177,7 +152,7 @@
                                 <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  </span>Or resigter with
                                 <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</span>
                                 <div class="d-flex justify-content-center align-items-center register-with">
-<<<<<<< HEAD
+
                                     <div class="">
                                         <button class="circle-btn facebook">
                                             <i class='bx bxl-facebook'></i>
@@ -187,7 +162,7 @@
                                         <button class="circle-btn google">
                                             <i class='bx bxl-google'></i>
                                         </button>
-=======
+
 <!--                                    <div class="">
                                         <a href="https://www.facebook.com/v19.0/dialog/oauth?fields=id,name,email,profile_pic&client_id=1277437356785264&redirect_uri=http://localhost:8080/SWP391/login_facebook" class="circle-btn facebook">
                                             <i class='bx bxl-facebook'></i>
@@ -197,7 +172,7 @@
                                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/SWP391/login_google&response_type=code&client_id=145515751218-1me7sleh0t92gmt599s2vnrh7bct77th.apps.googleusercontent.com&approval_prompt=force" class="circle-btn google">
                                             <i class='bx bxl-google'></i>
                                         </a>
->>>>>>> Tungdthe181764
+
                                     </div>
                                 </div>
 
@@ -213,12 +188,6 @@
             <jsp:include page="Common/Message.jsp"/>
             <script>
                 $(document).ready(function () {
-<<<<<<< HEAD
-                    
-                    function toggleContainer() {
-                        $(".container").stop().addClass("active");
-                    }
-=======
                     function togglePassword(element) {
                         Console.log("hehe");
                         const inputId = element.getAttribute("data-password");
@@ -326,7 +295,6 @@
                             event.preventDefault();
                         }
                     });
->>>>>>> Tungdthe181764
 
                     function closeContainer() {
                         $(".container").stop().removeClass("active");
