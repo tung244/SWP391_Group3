@@ -50,11 +50,17 @@ public class Verification_Method extends HttpServlet {
         String username = (String) session.getAttribute("username_forgot");
 
         String[] infoUser = udao.loadBasicInfoUser(username);
-
-        String[] encryptUser = new String[2];
-        encryptUser[1] = infoUser[1].substring(0, 5) + "**********" + infoUser[1].substring(infoUser[1].length() - 9, infoUser[1].length());
-        encryptUser[0] = infoUser[0].substring(0, 3) + "**********" + infoUser[0].substring(infoUser[0].length() - 2, infoUser[0].length());
-        request.setAttribute("encryptUser", encryptUser);
+        if (infoUser != null) {
+            String[] encryptUser = new String[2];
+            if (infoUser[1] != null) {
+                encryptUser[1] = infoUser[1].substring(0, 5) + "**********" + infoUser[1].substring(infoUser[1].length() - 9, infoUser[1].length());
+            }
+            if (infoUser[0] != null) {
+                encryptUser[0] = infoUser[0].substring(0, 3) + "**********" + infoUser[0].substring(infoUser[0].length() - 2, infoUser[0].length());
+            }
+            session.setAttribute("infoUser", infoUser);
+            request.setAttribute("encryptUser", encryptUser);
+        }
 
         request.getRequestDispatcher("homepage/verification_method.jsp").forward(request, response);
     }
@@ -71,7 +77,7 @@ public class Verification_Method extends HttpServlet {
         String[] userInfo = udao.loadBasicInfoUser((String) session.getAttribute("username_forgot"));
         OTP_Services otp_old = otpdao.getOTPNewest((String) session.getAttribute("username_forgot")); //lấy otp gần nhất
         String ms = "";
-            
+
         while (otp_old.getOtp().equals(otp)) {  //so sánh otp
             otp = s.generateRandomSixDigits();
         }
@@ -86,11 +92,11 @@ public class Verification_Method extends HttpServlet {
                 final String email = userInfo[1];
                 final String otpcode = otp;
                 ms = "Please wait some second for the email otp!";
-                
+
                 Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
                     try {
                         sendMail.guiMail(email, otpcode, "Bạn");
-                        
+
                     } catch (Exception e) {
                         e.printStackTrace();  // Log lỗi nếu có
                     }
@@ -98,9 +104,9 @@ public class Verification_Method extends HttpServlet {
                 emailThread.start();
             }
             if (method.equals("phone")) {
-                
+
             }
-            
+
         } catch (Exception e) {
         }
         response.sendRedirect("otp_checking");

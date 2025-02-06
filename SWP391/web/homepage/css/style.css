@@ -195,8 +195,6 @@ button{
 /*________________Preloader_______________ */
 
 
-.preloader{ position:fixed; left:0px; top:0px; width:100%; height:100%; z-index:999999; background-color:#0D7E16; background-position:center center; background-repeat:no-repeat; background-image:url(../images/icon/eye.gif);}
-
 .preloader{
     position:fixed;
     left:0px;
@@ -790,7 +788,7 @@ select:focus {
 .rev_slider_wrapper .slide-content-box.content-box{
     display: block;
     padding: 23px 30px 30px;
-    background: rgba(255, 255, 255, .20);
+    /*    background: rgba(255, 255, 255, .20);*/
 }
 .rev_slider_wrapper .slide-content-box h3 {
     color: #ffffff;
@@ -860,7 +858,7 @@ select:focus {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.15);
+/*    background: rgba(0, 0, 0, 0.15);*/
     z-index: 9;
 }
 
@@ -1084,7 +1082,7 @@ select:focus {
 =============================================
 ***/
 .appoinment-area {
-    padding: 80px 0 0px;
+/*    padding: 80px 0 0px;*/
 }
 .appoinment-area .inner-content{
     position: relative;
@@ -1094,7 +1092,7 @@ select:focus {
     display: block;
     background: #ffffff;
     padding: 40px 40px 40px;
-    margin-bottom: 80px;
+/*    margin-bottom: 80px;*/
 }
 .appoinment-area .appoinment .sec-title {
     padding-bottom: 22px;
@@ -4378,16 +4376,6 @@ select:focus {
 }
 
 .circle-btn {
-
-    width: 50px; 
-    height: 50px; 
-    border-radius: 50%; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none; 
-    cursor: pointer;
-    font-size: 18px; 
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -4397,7 +4385,6 @@ select:focus {
     border: none;
     cursor: pointer;
     font-size: 18px;
-
     transition: all 0.3s ease;
 }
 
@@ -4421,10 +4408,7 @@ select:focus {
     justify-content: center;
     gap: 10px;
     margin-top: 8px;
-
-  }
-
-
+}
 /*** 
 =============================================
     Forgot_Password
@@ -4439,9 +4423,10 @@ select:focus {
     background-image:url('../images/resources/v870-tang-36.jpg') ;
     background-size: cover;
     background-position: center;
+
     color: #666666;
     font-family: "RobotoDraft", "Roboto", sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     margin: 0;
     padding: 0;
 }
@@ -4536,130 +4521,208 @@ select:focus {
 =============================================
 ***/
 .userprofile-sidebar {
-            width: 260px;
-            background-color: #4EB09B;
-            color: black;
-            padding: 20px 0;
-        }
+    width: 260px;
+    background-color: #4EB09B;
+    color: black;
+    padding: 20px 0;
+}
 
-        .userprofile-nav-header {
-            text-align: center;
-            padding: 20px;
-            border-bottom: 1px solid #34495e;
-        }
+.userprofile-nav-header {
+    text-align: center;
+    padding: 20px;
+    border-bottom: 1px solid #34495e;
+}
 
-        .userprofile-nav-list {
-            list-style: none;
-            padding: 20px 0;
-        }
+.userprofile-nav-list {
+    list-style: none;
+    padding: 20px 0;
+}
 
-        .userprofile-nav-item {
-            padding: 15px 25px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+.userprofile-nav-item {
+    padding: 15px 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-        .userprofile-nav-item:hover {
-            background-color: #4EB09B;
-        }
+.userprofile-nav-item:hover {
+    background-color: #4EB09B;
+}
 
-        .userprofile-nav-item--active {
-            background-color: white;
-        }
+.userprofile-nav-item--active {
+    background-color: white;
+}
 
-        .userprofile-main-content {
-            flex: 1;
-            padding: 30px;
-            background-color: #f5f6fa;
-        }
+.userprofile-main-content {
+    flex: 1;
+    padding: 30px;
+    background-color: #f5f6fa;
+}
 
-        .userprofile-section {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+.userprofile-section {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 
-        .userprofile-header {
-            margin-bottom: 30px;
-        }
+.userprofile-header {
+    margin-bottom: 30px;
+}
 
-        .userprofile-form {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
+.userprofile-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
 
-        .userprofile-form-group {
-            margin-bottom: 15px;
-        }
+.userprofile-form-group {
+    margin-bottom: 15px;
+}
 
-        .userprofile-form-label {
-            display: block;
-            margin-bottom: 5px;
-            color: #2c3e50;
-            font-weight: bold;
-        }
+.userprofile-form-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    font-weight: bold;
+}
 
-        .userprofile-form-input,
-        .userprofile-form-select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
+.userprofile-form-input,
+.userprofile-form-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
 
-        .userprofile-btn {
-            background-color: #3498db;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+.userprofile-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-        .userprofile-btn:hover {
-            background-color: #2980b9;
-        }
+.userprofile-btn:hover {
+    background-color: #2980b9;
+}
 
-        .userprofile-avatar-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+.userprofile-avatar-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-        .userprofile-avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #3498db;
-        }
+.userprofile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #3498db;
+}
 
-        .userprofile-history-container {
-            display: none;
-        }
+.userprofile-history-container {
+    display: none;
+}
 
-        .userprofile-change-password-container {
-            display: none;
-        }
+.userprofile-change-password-container {
+    display: none;
+}
 
-        .userprofile-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+.userprofile-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
 
-        .userprofile-table-cell {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
+.userprofile-table-cell {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
 
-        .userprofile-table-header {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
+.userprofile-table-header {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+/* ----- TỔNG QUAN MEGA MENU ----- */
+.mega-menu-container {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 400px;
+    background: white; /* Nền đồng bộ */
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: none; /* Ẩn mặc định */
+}
 
+/* Khi hover vào menu Services, hiển thị mega menu */
+li.dropdown:hover .mega-menu-container {
+    display: flex;
+}
 
+/* ----- MENU BÊN TRÁI ----- */
+.menu-left {
+    width: 50%;
+    padding: 15px;
+    background: #f5f5f5; /* Nền cố định cho bên trái */
+    border-right: 2px solid #ddd; /* Ngăn cách bên phải */
+}
 
+/* Định dạng từng mục trong menu trái */
+.menu-item {
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    display: flex;
+    justify-content: space-between; /* Căn chỉnh chữ trái phải */
+    align-items: center;
+}
+
+/* Khi hover vào menu trái, đổi màu */
+.menu-item:hover {
+    background: #e0e0e0;
+    border-radius: 4px;
+}
+
+/* Hiệu ứng mũi tên bên phải */
+.menu-item i {
+    font-size: 14px;
+}
+
+/* ----- MENU BÊN PHẢI (SUBMENU) ----- */
+.menu-right {
+    width: 50%;
+    padding: 15px;
+    background: white; /* Nền đồng bộ với toàn bộ menu */
+    display: none; /* Mặc định ẩn */
+}
+
+/* Khi hover vào menu-item, hiển thị menu-right */
+.menu-item:hover + .menu-right {
+    display: block;
+}
+
+/* Định dạng submenu */
+.submenu {
+    list-style: none;
+    padding: 0;
+}
+
+.submenu li {
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+/* Hover submenu */
+.submenu li:hover {
+    background: #e8f5e9;
+    border-radius: 4px;
+}

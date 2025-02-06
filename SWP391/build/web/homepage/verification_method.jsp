@@ -14,7 +14,7 @@
                 <div class="forgot-password-card" id="forgotPasswordStep2">
                     <h2 class="forgot-password-title">Verification Method</h2>
                     <div class="verification-method-group">
-                        <form method="post" action="verification_method">
+                        <form method="post" action="otp_checking">
                             <div class="verification-method-option">
                                 <input type="radio" id="verificationEmail" name="verificationMethod" value="email" checked>
                                 <label for="verificationEmail">Email: ${encryptUser[1]}</label>
