@@ -36,23 +36,7 @@ public class SpecializationControll extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        String specializationId = request.getParameter("sid");
-//        DoctorsDAO dao = new DoctorsDAO();
-//        SpecializationDAO spdao = new SpecializationDAO();
-//        
-//        List<Specialization> listSpecialization = spdao.getAllSpecialization();
-//        
-//        request.setAttribute("listSpecialization", listSpecialization);
-//        List<Doctors> listD;
-//        if (specializationId == null || specializationId.isEmpty()) {
-//            
-//            listD = dao.getAllDoctors();
-//        } else {
-//            
-//            listD = dao.getDoctorsBySpecializationId(specializationId);
-//        }
-//         request.setAttribute("listDoctor", listD);
-//         request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
+
         String specializationId = request.getParameter("sid");
         String searchName = request.getParameter("name");
         DoctorsDAO dao = new DoctorsDAO();
@@ -80,6 +64,7 @@ public class SpecializationControll extends HttpServlet {
         request.setAttribute("txtS", searchName);
         request.setAttribute("listDoctor", listD);
         request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
+
 
     }
 

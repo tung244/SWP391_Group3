@@ -7,6 +7,8 @@ package dal;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import model.Certificate;
 import model.Certificate_Doctor;
@@ -21,13 +23,13 @@ public class DoctorsDAO extends DBContext {
 
     public List<Doctors> getAllDoctors() {
         List<Doctors> list = new ArrayList<>();
-        String sql = "SELECT d.doctor_id, d.doctor_name, d.experience_years, d.profile_image, d.rating, d.gender, d.dob, d.address,"
-                + "sp.specialization_id, sp.specialization_name, sp.specialization_status,"
-                + " c.certificate_id, c.certificate_name, cd.date_certificate,cd.issued_by\n"
-                + "FROM [dbo].[Doctors] d \n"
-                + "JOIN [dbo].[Specialization] sp ON d.specialization_id = sp.specialization_id\n"
-                + "JOIN [dbo].[Certificate_Doctor] cd on d.doctor_id = cd.doctor_id\n"
-                + "JOIN [dbo].[Certificate] c on c.certificate_id = cd.certificate_id";
+        String sql = "SELECT d.doctor_id, d.doctor_name, d.experience_years, d.profile_image, d.rating, d.gender, d.dob, d.address, "
+                + "sp.specialization_id, sp.specialization_name, sp.specialization_status, "
+                + "c.certificate_id, c.certificate_name, cd.date_certificate, cd.issued_by "
+                + "FROM [dbo].[Doctors] d "
+                + "LEFT JOIN [dbo].[Specialization] sp ON d.specialization_id = sp.specialization_id "
+                + "LEFT JOIN [dbo].[Certificate_Doctor] cd ON d.doctor_id = cd.doctor_id "
+                + "LEFT JOIN [dbo].[Certificate] c ON c.certificate_id = cd.certificate_id";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -177,7 +179,7 @@ public class DoctorsDAO extends DBContext {
         return null;
     }
 
-    public List<Doctors>  searchByName(String name) {
+    public List<Doctors> searchByName(String name) {
         List<Doctors> list = new ArrayList<>();
         String sql = "SELECT d.doctor_id, d.doctor_name, d.experience_years, d.profile_image, d.rating, d.gender, d.dob, d.address, sp.specialization_id, sp.specialization_name, sp.specialization_status, c.certificate_id, c.certificate_name, cd.date_certificate,cd.issued_by\n"
                 + "FROM [dbo].[Doctors] d \n"
@@ -188,10 +190,10 @@ public class DoctorsDAO extends DBContext {
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1,"%" + name + "%");
+            st.setString(1, "%" + name + "%");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                 Doctors doctor = new Doctors();
+                Doctors doctor = new Doctors();
                 doctor.setDoctor_id(rs.getInt("doctor_id"));
                 doctor.setDoctor_name(rs.getString("doctor_name"));
                 doctor.setExperience_years(rs.getInt("experience_years"));
@@ -230,7 +232,8 @@ public class DoctorsDAO extends DBContext {
 
         return list;
     }
-    public List<Doctors> getDoctorsBySpecializationAndName(String specializationId, String name){
+
+    public List<Doctors> getDoctorsBySpecializationAndName(String specializationId, String name) {
         List<Doctors> list = new ArrayList<>();
         String sql = "SELECT d.doctor_id, d.doctor_name, d.experience_years, d.profile_image, d.rating, d.gender, d.dob, d.address, sp.specialization_id, sp.specialization_name, sp.specialization_status, c.certificate_id, c.certificate_name, cd.date_certificate,cd.issued_by\n"
                 + "FROM [dbo].[Doctors] d \n"
@@ -242,10 +245,10 @@ public class DoctorsDAO extends DBContext {
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, specializationId);
-            st.setString(2,"%" + name + "%");
+            st.setString(2, "%" + name + "%");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                 Doctors doctor = new Doctors();
+                Doctors doctor = new Doctors();
                 doctor.setDoctor_id(rs.getInt("doctor_id"));
                 doctor.setDoctor_name(rs.getString("doctor_name"));
                 doctor.setExperience_years(rs.getInt("experience_years"));
@@ -284,43 +287,67 @@ public class DoctorsDAO extends DBContext {
 
         return list;
     }
-    
+
     public boolean deleteDoctor(String doctorId) {
-    String deleteCertificateDoctorSql = "DELETE FROM Certificate_Doctor WHERE doctor_id = ?";
-    String deleteDoctorSql = "DELETE FROM Doctors WHERE doctor_id = ?";
-    boolean isDeleted = false; 
+        String deleteCertificateDoctorSql = "DELETE FROM Certificate_Doctor WHERE doctor_id = ?";
+        String deleteDoctorSql = "DELETE FROM Doctors WHERE doctor_id = ?";
+        boolean isDeleted = false;
 
-    try ( 
-         PreparedStatement pstmt1 = connection.prepareStatement(deleteCertificateDoctorSql);
-         PreparedStatement pstmt2 = connection.prepareStatement(deleteDoctorSql)) {
+        try (
+                PreparedStatement pstmt1 = connection.prepareStatement(deleteCertificateDoctorSql); PreparedStatement pstmt2 = connection.prepareStatement(deleteDoctorSql)) {
 
-        // Start transaction
-        connection.setAutoCommit(false);
+            // Start transaction
+            connection.setAutoCommit(false);
 
-        // Delete from Certificate_Doctor
-        pstmt1.setString(1, doctorId);
-        pstmt1.executeUpdate();
+            // Delete from Certificate_Doctor
+            pstmt1.setString(1, doctorId);
+            pstmt1.executeUpdate();
 
-        // Delete from Doctors
-        pstmt2.setString(1, doctorId);
-        pstmt2.executeUpdate();
+            // Delete from Doctors
+            pstmt2.setString(1, doctorId);
+            pstmt2.executeUpdate();
 
-        // Commit transaction
-        connection.commit();
-        isDeleted = true; // Mark as deleted successfully
-    } catch (Exception e) {
-        e.printStackTrace(); // Log the exception
-        try {
-            connection.rollback(); // Roll back on error
-        } catch (Exception rollbackEx) {
-            rollbackEx.printStackTrace();
+            // Commit transaction
+            connection.commit();
+            isDeleted = true; // Mark as deleted successfully
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception
+            try {
+                connection.rollback(); // Roll back on error
+            } catch (Exception rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+        }
+        return isDeleted; // Return success status
+    }
+
+    // Sắp xếp theo tên
+    public static void sortByName(List<Doctors> doctors, String order) {
+        if (order.equals("A-Z")) {
+            Collections.sort(doctors, Comparator.comparing(Doctors::getDoctor_name));
+        } else if (order.equals("Z-A")) {
+            Collections.sort(doctors, Comparator.comparing(Doctors::getDoctor_name).reversed());
         }
     }
-    return isDeleted; // Return success status
-}
-    
-    
-    
+
+    // Sắp xếp theo kinh nghiệm
+    public static void sortByExperience(List<Doctors> doctors, String order) {
+        if (order.equals("High-low")) {
+            Collections.sort(doctors, Comparator.comparingInt(Doctors::getExperience_years).reversed());
+        } else if (order.equals("Low-high")) {
+            Collections.sort(doctors, Comparator.comparingInt(Doctors::getExperience_years));
+        }
+    }
+
+    // Sắp xếp theo đánh giá
+    public static void sortByRating(List<Doctors> doctors, String order) {
+        if (order.equals("High-low")) {
+            Collections.sort(doctors, Comparator.comparingDouble(Doctors::getRating).reversed());
+        } else if (order.equals("Low-high")) {
+            Collections.sort(doctors, Comparator.comparingDouble(Doctors::getRating));
+        }
+    }
+
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
         System.out.println("");
@@ -328,7 +355,10 @@ public class DoctorsDAO extends DBContext {
 //        for (Doctors doctors : list) {
 //            System.out.println(doctors);
 //        }
-//        List<Doctors> list = dao.getAllDoctors();
+        List<Doctors> list = dao.getAllDoctors();
+        for (Doctors doctors : list) {
+            System.out.println(doctors);
+        }
 //        List<Doctors> l = dao.getDoctorsBySpecializationId("3");
 //        for (Doctors doctors : l) {
 //            System.out.println(doctors.getSpecialization().getSpecialization_id());

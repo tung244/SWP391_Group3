@@ -27,24 +27,66 @@
                 padding: 10px;
                 border-radius: 5px;
                 border: 1px solid #ccc;
-                height: 45px;
-
+                height: 40px; /* Adjust height as needed */
             }
 
-
             .search-filter-box .btn-search {
-                background-color: #007bff;
+                background-color: #28a745; /* Match sort button color */
                 color: white;
                 border: none;
                 padding: 10px 20px;
                 border-radius: 5px;
                 cursor: pointer;
                 transition: 0.3s;
+                height: 40px; /* Match form control height */
+                line-height: 1.5; /* Vertically center text */
             }
 
             .search-filter-box .btn-search:hover {
-                background-color: #0056b3;
+                background-color: #218838;
             }
+
+            .sort-container {
+                display: flex;
+                justify-content: space-around; /* Distribute space evenly */
+                align-items: center;  /* Vertically center items */
+                margin-bottom: 20px;
+            }
+
+            .sort-box {
+                display: flex;
+                align-items: center;
+                gap: 30px; /* Spacing between label, select, and button */
+                margin-top: 40px;
+                
+                    
+            }
+
+            .sort-box label {
+                margin-bottom: 0; /* Remove default margin from label */
+            }
+
+            .sort-box select, .btn-sort { /* Style both select and button together */
+                height: 40px; /* Consistent height */
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                width: 150px;
+            }
+
+            .btn-sort {
+                background-color: #28a745;
+                color: white;
+                border: none;
+                cursor: pointer;
+                transition: 0.3s;
+                margin-left: 20px;
+            }
+
+            .btn-sort:hover {
+                background-color: #218838;
+            }
+
         </style>
 
     </head>
@@ -134,6 +176,59 @@
                     <button type="submit" class="btn-search">Search</button>
                 </div>
             </form>
+
+            <!-- Start sorting area -->
+            <div class="container">
+                <div class="sort-container">
+                    
+                    <div  class="sort-box">
+                        <form action="listDoctors" method="GET">
+                            <label for="sortByName">Sort by Name:</label>
+                            <div style="display: flex" class="row">
+                                <select name="sortByName" id="sortByName" class="form-control">
+                                    <option value="A-Z" >A-Z</option>
+                                    <option value="Z-A" >Z-A</option>
+                                </select>
+                                <button type="submit" class="btn-sort">Sort</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div class="sort-box">
+                        <form action="listDoctors" method="GET">
+                            <label for="sortByExperience">Sort by Experience (Years):</label>
+                            <div style="display: flex" class="row">
+                                <select name="sortByExperience" id="sortByExperience" class="form-control">
+                                    <option value="High-low" >High to Low</option>
+                                    <option value="Low-high" >Low to High</option>
+                                </select>
+                                <button type="submit" class="btn-sort">Sort</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="sort-box">
+                        <form action="listDoctors" method="GET">
+                            <label for="sortByRating">Sort by Rating:</label>
+                            <div style="display: flex" class="row">
+
+                                <select name="sortByRating" id="sortByRating" class="form-control">
+                                    <option value="High-low" >High to Low</option>
+                                    <option value="Low-high" >Low to High</option>
+
+                                </select>
+                                <button type="submit" class="btn-sort">Sort</button>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End sorting area -->      
+
+
         </div>
 
 

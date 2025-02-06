@@ -62,14 +62,41 @@ public class ListDoctors extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+//        DoctorsDAO dao = new DoctorsDAO();
+//        List<Doctors> listDoctor = dao.getAllDoctors();
+//        SpecializationDAO spdao = new SpecializationDAO();
+//
+//        List<Specialization> listSpecialization = spdao.getAllSpecialization();
+//
+//        request.setAttribute("listSpecialization", listSpecialization);
+//        request.setAttribute("listDoctor", listDoctor);
+//        request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
+
         DoctorsDAO dao = new DoctorsDAO();
         List<Doctors> listDoctor = dao.getAllDoctors();
         SpecializationDAO spdao = new SpecializationDAO();
-
         List<Specialization> listSpecialization = spdao.getAllSpecialization();
 
+        // Nhận các tham số sắp xếp từ yêu cầu
+        String sortByName = request.getParameter("sortByName");
+        String sortByExperience = request.getParameter("sortByExperience");
+        String sortByRating = request.getParameter("sortByRating");
+
+        // Sắp xếp danh sách bác sĩ theo các tiêu chí
+        if (sortByName != null) {
+            dao.sortByName(listDoctor, sortByName);
+        }
+        if (sortByExperience != null) {
+            dao.sortByExperience(listDoctor, sortByExperience);
+        }
+        if (sortByRating != null) {
+            dao.sortByRating(listDoctor, sortByRating);
+        }
+
+        // Gán danh sách chuyên môn và bác sĩ vào yêu cầu
+         request.setAttribute("listDoctor", listDoctor);
         request.setAttribute("listSpecialization", listSpecialization);
-        request.setAttribute("listDoctor", listDoctor);
+       
         request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
     }
 
