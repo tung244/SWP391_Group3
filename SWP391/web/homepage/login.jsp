@@ -127,7 +127,7 @@
                                     <div class="bar"></div>
                                 </div>
                                 <div class="input-container">
-                                    <input type="text" id="register-email" name="register-phone" required />
+                                    <input type="text" id="register-email" name="register-email" required />
                                     <label for="register-email">Email</label>
                                     <div class="bar"></div>
                                 </div>

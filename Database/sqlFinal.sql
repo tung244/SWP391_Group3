@@ -307,7 +307,14 @@ machine_img NVARCHAR(255),
 
 )
 
+CREATE TABLE OTP_Services(
+otp_id INT IDENTITY(1,1) PRIMARY KEY,
+account_id INT,
+otp NVARCHAR(20),
+created_otp_time NVARCHAR(255),
+otp_expiry_date NVARCHAR(255),
 
+)
 
 
 

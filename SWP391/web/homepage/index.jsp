@@ -719,7 +719,7 @@
             <!--End testimonial area-->
 
             <!--Start Brand area-->  
-            <section class="brand-area">
+<!--            <section class="brand-area">
                 <div class="container">
                     <div class="sec-title text-center">
                         <h1>Supporting Partners</h1>
@@ -728,31 +728,31 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="brand">
-                                <!--Start single item-->
+                                Start single item
                                 <div class="single-item">
                                     <a href="#"><img src="homepage/images/brand/1.png" alt="Awesome Brand Image"></a>
                                 </div>
-                                <!--End single item-->
-                                <!--Start single item-->
+                                End single item
+                                Start single item
                                 <div class="single-item">
                                     <a href="#"><img src="homepage/images/brand/2.png" alt="Awesome Brand Image"></a>
                                 </div>
-                                <!--End single item-->
-                                <!--Start single item-->
+                                End single item
+                                Start single item
                                 <div class="single-item">
                                     <a href="#"><img src="homepage/images/brand/3.png" alt="Awesome Brand Image"></a>
                                 </div>
-                                <!--End single item-->
-                                <!--Start single item-->
+                                End single item
+                                Start single item
                                 <div class="single-item">
                                     <a href="#"><img src="homepage/images/brand/4.png" alt="Awesome Brand Image"></a>
                                 </div>
-                                <!--End single item-->
+                                End single item
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </section>-->
             <!--End Brand area-->        
 
             <!--Start footer area-->  
@@ -936,7 +936,7 @@
                         <div class="col-md-12">
                             <div class="footer-bottom">
                                 <div class="copyright-text pull-left">
-                                    <p>Copyrights Â© 2017 All Rights Reserved by <a href="#">Dentalcare.</a></p> 
+                                    <p>Copyrights Â© 2017 All Rights Reserved by <a href="#">EyeCare.</a></p> 
                                 </div>
                                 <div class="footer-menu pull-right">
                                     <ul>
