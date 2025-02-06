@@ -9,7 +9,7 @@
 	<!-- responsive meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- For IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<!-- master stylesheet -->
 	<link rel="stylesheet" href="homepage/css/style.css">
 	<!-- Responsive stylesheet -->

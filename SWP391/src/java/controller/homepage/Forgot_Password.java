@@ -2,6 +2,9 @@
 
 package controller.homepage;
 
+
+import dal.AccountDAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,9 +14,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 
+import jakarta.servlet.http.HttpSession;
+
+
+
 @WebServlet(name="Forgot_Password", urlPatterns={"/forgot_password"})
 public class Forgot_Password extends HttpServlet {
- 
+
+    AccountDAO adao = new AccountDAO();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -43,6 +51,20 @@ public class Forgot_Password extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
+
+        String username_forgot  = request.getParameter("forgotPasswordUsername").trim();
+        String error = "";
+        if(username_forgot ==null){
+            error = "Please input the username!!";
+            response.sendRedirect(error);
+        }
+        if(!adao.checkTonTaiUser(username_forgot)){
+            error = "Username is not existed!!";
+        }
+        HttpSession session =  request.getSession();
+        session.setAttribute("username_forgot", username_forgot);
+        session.setAttribute("error", error);
+        response.sendRedirect("verification_method");
     }
 
     

@@ -24,7 +24,16 @@ public class DBContext {
             System.out.println(ex);
         }
     }
+    public Connection getConnection() {
+        return connection;
+    }
+
     public static void main(String[] args) {
-        
+        DBContext db = new DBContext();
+        if (db.getConnection() != null) {
+            System.out.println("Kết nối đến CSDL thành công!");
+        } else {
+            System.out.println("Kết nối đến CSDL thất bại!");
+        }
     }
 }
