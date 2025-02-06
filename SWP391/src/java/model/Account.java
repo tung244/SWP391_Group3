@@ -17,6 +17,15 @@ public class Account {
     public Account() {
     }
 
+    public Account(int account_id, String username, String email, String phonenumber, String created_date, Role role) {
+        this.account_id = account_id;
+        this.username = username;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.created_date = created_date;
+        this.role = role;
+    }
+
     
     public Account(int account_id, String username, String password, String email, String phonenumber, String created_date, Role role) {
         this.account_id = account_id;
@@ -103,6 +112,11 @@ public class Account {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" + "account_id=" + account_id + ", username=" + username + ", password=" + password + ", email=" + email + ", phonenumber=" + phonenumber + ", created_date=" + created_date + ", role=" + role + '}';
     }
     
 }

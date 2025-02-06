@@ -148,6 +148,8 @@ CREATE TABLE [Services](
 service_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 service_name NVARCHAR(255),
 service_description NVARCHAR(255),
+service_introduce nvarchar(1000),
+service_benefit nvarchar(1000),
 specialization_id INT,
 FOREIGN KEY(specialization_id) REFERENCES dbo.Specialization(specialization_id)
 )

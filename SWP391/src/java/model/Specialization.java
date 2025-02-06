@@ -4,19 +4,20 @@
  */
 package model;
 
-import java.util.logging.Logger;
-
 /**
  *
- * @author PC
+ * @author DELL
  */
 public class Specialization {
-
     private int specialization_id;
     private String specialization_name;
     private String specialization_status;
 
     public Specialization() {
+    }
+
+    public Specialization(int specialization_id) {
+        this.specialization_id = specialization_id;
     }
 
     public Specialization(int specialization_id, String specialization_name, String specialization_status) {
@@ -53,6 +54,7 @@ public class Specialization {
     public String toString() {
         return "Specialization{" + "specialization_id=" + specialization_id + ", specialization_name=" + specialization_name + ", specialization_status=" + specialization_status + '}';
     }
+    
     
     
 }
