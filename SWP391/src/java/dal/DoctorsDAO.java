@@ -321,6 +321,38 @@ public class DoctorsDAO extends DBContext {
         return isDeleted; // Return success status
     }
 
+    public boolean updateDoctor(Doctors doctor) {
+    String sql = "UPDATE Doctors SET "
+            + "doctor_name = ?, "
+            + "experience_years = ?, "
+            + "profile_image = ?, "
+            + "rating = ?, "
+            + "gender = ?, "
+            + "dob = ?, "
+            + "address = ?, "
+            + "specialization_id = ? "
+            + "WHERE doctor_id = ?";
+
+    try (
+         PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setString(1, doctor.getDoctor_name());
+        st.setInt(2, doctor.getExperience_years());
+        st.setString(3, doctor.getProfile_image());
+        st.setDouble(4, doctor.getRating());
+        st.setString(5, doctor.getGender());
+        st.setString(6, doctor.getDob());
+        st.setString(7, doctor.getAddress());
+        st.setInt(8, doctor.getSpecialization().getSpecialization_id());
+        st.setInt(9, doctor.getDoctor_id());
+
+        int rowsUpdated = st.executeUpdate();
+        return rowsUpdated > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
     // Sắp xếp theo tên
     public static void sortByName(List<Doctors> doctors, String order) {
         if (order.equals("A-Z")) {
@@ -350,6 +382,20 @@ public class DoctorsDAO extends DBContext {
 
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
+//        dao.updateDoctor(
+//                1, // doctor_id
+//                "Dr. John Doe", // doctor_name
+//                10, // experience_years
+//                "path/to/image.jpg", // profile_image
+//                4.5, // rating
+//                "Male", // gender
+//                "1980-01-01", // dob
+//                "123 Main St, City, Country", // address
+//                2 // specialization_id
+//        );
+
+        
+
         System.out.println("");
 //        List<Doctors> list = dao.getDoctorsBySpecializationAndName("2", "o");
 //        for (Doctors doctors : list) {

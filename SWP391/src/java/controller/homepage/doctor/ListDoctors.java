@@ -62,15 +62,7 @@ public class ListDoctors extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        DoctorsDAO dao = new DoctorsDAO();
-//        List<Doctors> listDoctor = dao.getAllDoctors();
-//        SpecializationDAO spdao = new SpecializationDAO();
-//
-//        List<Specialization> listSpecialization = spdao.getAllSpecialization();
-//
-//        request.setAttribute("listSpecialization", listSpecialization);
-//        request.setAttribute("listDoctor", listDoctor);
-//        request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
+
 
         DoctorsDAO dao = new DoctorsDAO();
         List<Doctors> listDoctor = dao.getAllDoctors();

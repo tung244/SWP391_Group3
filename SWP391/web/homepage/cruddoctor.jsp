@@ -56,7 +56,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="m-0">Manage <strong>Product</strong></h4>
                     <div>
-                        <button style="border: 1px solid black" class="btn btn-danger"> <i class="fas fa-trash"></i> Delete</button>
+<!--                        <button style="border: 1px solid black" class="btn btn-danger"> <i class="fas fa-trash"></i> Delete</button>-->
                         <button style="border: 1px solid black" class="btn btn-success"> <i class="fas fa-plus"></i> Add New Product</button>
                         <button style="border: 1px solid black" class="btn btn-success"> <i class="fas fa-plus"></i><a style="color: white" href="trangchu">Home</a> </button>
                     </div>
@@ -65,7 +65,7 @@
                     <table class="table table-bordered table-hover">
                         <thead class="table-success">
                             <tr>
-                                <th><input type="checkbox"></th>
+<!--                                <th><input type="checkbox"></th>-->
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Image</th>
@@ -77,7 +77,7 @@
                         <tbody>
                             <c:forEach var="doc" items="${listDoctor}">
                                 <tr>
-                                    <td><input type="checkbox"></td>
+<!--                                    <td><input type="checkbox"></td>-->
                                     <td>${doc.doctor_id}</td>
                                     <td>${doc.doctor_name}</td>
                                     <td><img src="${doc.profile_image}" alt="Doctor Image" class="product-img"></td>
@@ -85,9 +85,12 @@
                                     <td>${doc.certificate.certificate_name}</td>
                                     <td>
 
-                                        <form action="" method="">
+                                        <form action="updateDoctor" method="GET" onsubmit="return confirm('Are you sure you want to update this doctor?');">
                                             <button class="btn btn-warning btn-sm"><i class="fas fa-edit">Update</i></button>
+                                            <input type="hidden" name="doctor_id" value="${doc.doctor_id}">
                                         </form>
+                                        
+                                        
                                         <form action="deleteDoctor" method="post" onsubmit="return confirm('Are you sure you want to delete this doctor?');">
                                             <input type="hidden" name="doctor_id" value="${doc.doctor_id}">
                                             <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</button>
