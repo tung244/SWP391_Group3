@@ -284,9 +284,46 @@ public class DoctorsDAO extends DBContext {
 
         return list;
     }
+    
+    public boolean deleteDoctor(String doctorId) {
+    String deleteCertificateDoctorSql = "DELETE FROM Certificate_Doctor WHERE doctor_id = ?";
+    String deleteDoctorSql = "DELETE FROM Doctors WHERE doctor_id = ?";
+    boolean isDeleted = false; 
 
+    try ( 
+         PreparedStatement pstmt1 = connection.prepareStatement(deleteCertificateDoctorSql);
+         PreparedStatement pstmt2 = connection.prepareStatement(deleteDoctorSql)) {
+
+        // Start transaction
+        connection.setAutoCommit(false);
+
+        // Delete from Certificate_Doctor
+        pstmt1.setString(1, doctorId);
+        pstmt1.executeUpdate();
+
+        // Delete from Doctors
+        pstmt2.setString(1, doctorId);
+        pstmt2.executeUpdate();
+
+        // Commit transaction
+        connection.commit();
+        isDeleted = true; // Mark as deleted successfully
+    } catch (Exception e) {
+        e.printStackTrace(); // Log the exception
+        try {
+            connection.rollback(); // Roll back on error
+        } catch (Exception rollbackEx) {
+            rollbackEx.printStackTrace();
+        }
+    }
+    return isDeleted; // Return success status
+}
+    
+    
+    
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
+        System.out.println("");
 //        List<Doctors> list = dao.getDoctorsBySpecializationAndName("2", "o");
 //        for (Doctors doctors : list) {
 //            System.out.println(doctors);

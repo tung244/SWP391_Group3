@@ -88,9 +88,11 @@
                                         <form action="" method="">
                                             <button class="btn btn-warning btn-sm"><i class="fas fa-edit">Update</i></button>
                                         </form>
-                                        <form action="" method="">
-                                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash">Delete</i></button>
+                                        <form action="deleteDoctor" method="post" onsubmit="return confirm('Are you sure you want to delete this doctor?');">
+                                            <input type="hidden" name="doctor_id" value="${doc.doctor_id}">
+                                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</button>
                                         </form>
+                                        
 
                                     </td>
                                 </tr>
