@@ -141,7 +141,7 @@
                                         <li><a href="blog-single.html">Blog Single Post</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="doctordash">Contact Us</a></li>
                             </ul>
                         </div>
                     </nav>

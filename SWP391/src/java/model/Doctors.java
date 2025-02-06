@@ -19,10 +19,27 @@ public class Doctors {
     private String address;
     private Specialization specialization;
     private Certificate certificate;
+    private Account acc;
+    
  
     public Doctors() {
     }
 
+    public Doctors(int doctor_id, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, Specialization specialization, Certificate certificate, Account acc) {
+        this.doctor_id = doctor_id;
+        this.doctor_name = doctor_name;
+        this.experience_years = experience_years;
+        this.profile_image = profile_image;
+        this.rating = rating;
+        this.gender = gender;
+        this.dob = dob;
+        this.address = address;
+        this.specialization = specialization;
+        this.certificate = certificate;
+        this.acc = acc;
+    }
+    
+    
     public Doctors(int doctor_id, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, Specialization specialization, Certificate certificate) {
         this.doctor_id = doctor_id;
         this.doctor_name = doctor_name;
@@ -61,6 +78,15 @@ public class Doctors {
         this.address = address;
     }
 
+    public Account getAcc() {
+        return acc;
+    }
+
+    public void setAcc(Account acc) {
+        this.acc = acc;
+    }
+    
+    
     public Certificate getCertificate() {
         return certificate;
     }
