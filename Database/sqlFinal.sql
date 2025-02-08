@@ -101,6 +101,18 @@ CREATE TABLE Doctors (
 	FOREIGN KEY(specialization_id) REFERENCES dbo.Specialization(specialization_id)
 );
 
+CREATE TABLE [Degree](
+	degree_id INT PRIMARY KEY IDENTITY(1,1),
+	degree_name NVARCHAR(255)
+)
+
+CREATE TABLE [Degree_Doctor](
+	doctor_id INT,
+	degree_id INT,
+	PRIMARY KEY(doctor_id,degree_id),
+	FOREIGN KEY (doctor_id) REFERENCES dbo.Doctors(doctor_id),
+	FOREIGN KEY (degree_id) REFERENCES dbo.Degree(degree_id)
+)
 CREATE TABLE [Certificate](
 	certificate_id INT PRIMARY KEY IDENTITY(1,1),
 	certificate_name  NVARCHAR(255),

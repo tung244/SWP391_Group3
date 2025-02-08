@@ -20,14 +20,13 @@ public class Doctors {
     private String doctor_status;
     private Specialization specialization;
     private Certificate certificate;
-    private Account acc;
-    private Schedules schedule;
+    private Degree_Doctor degree_doctor;
     
  
     public Doctors() {
     }
 
-    public Doctors(int doctor_id, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, String doctor_status, Specialization specialization, Certificate certificate, Account acc, Schedules schedule) {
+    public Doctors(int doctor_id, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, String doctor_status, Specialization specialization, Certificate certificate, Degree_Doctor degree_doctor) {
         this.doctor_id = doctor_id;
         this.doctor_name = doctor_name;
         this.experience_years = experience_years;
@@ -39,8 +38,15 @@ public class Doctors {
         this.doctor_status = doctor_status;
         this.specialization = specialization;
         this.certificate = certificate;
-        this.acc = acc;
-        this.schedule = schedule;
+        this.degree_doctor = degree_doctor;
+    }
+
+    public Degree_Doctor getDegree_doctor() {
+        return degree_doctor;
+    }
+
+    public void setDegree_doctor(Degree_Doctor degree_doctor) {
+        this.degree_doctor = degree_doctor;
     }
 
     public String getDoctor_status() {
@@ -51,24 +57,7 @@ public class Doctors {
         this.doctor_status = doctor_status;
     }
 
-    public Schedules getSchedule() {
-        return schedule;
-    }
 
-    public void setSchedule(Schedules schedule) {
-        this.schedule = schedule;
-    }
-
-
-    public Account getAcc() {
-        return acc;
-    }
-
-    public void setAcc(Account acc) {
-        this.acc = acc;
-    }
-    
-    
     public Certificate getCertificate() {
         return certificate;
     }
@@ -152,9 +141,10 @@ public class Doctors {
 
     @Override
     public String toString() {
-        return "Doctors{" + "doctor_id=" + doctor_id + ", doctor_name=" + doctor_name + ", experience_years=" + experience_years + ", profile_image=" + profile_image + ", rating=" + rating + ", gender=" + gender + ", dob=" + dob + ", address=" + address + ", doctor_status=" + doctor_status + ", specialization=" + specialization + ", certificate=" + certificate + ", acc=" + acc + ", schedule=" + schedule + '}';
+        return "Doctors{" + "doctor_id=" + doctor_id + ", doctor_name=" + doctor_name + ", experience_years=" + experience_years + ", profile_image=" + profile_image + ", rating=" + rating + ", gender=" + gender + ", dob=" + dob + ", address=" + address + ", doctor_status=" + doctor_status + ", specialization=" + specialization + ", certificate=" + certificate + ", degree_doctor=" + degree_doctor + '}';
     }
 
+  
    
    
     

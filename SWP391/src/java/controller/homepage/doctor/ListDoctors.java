@@ -4,6 +4,7 @@
  */
 package controller.homepage.doctor;
 
+import dal.DegreeDAO;
 import dal.DoctorsDAO;
 import dal.SpecializationDAO;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Degree;
 import model.Doctors;
 import model.Specialization;
 
@@ -63,11 +65,14 @@ public class ListDoctors extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-
+        String doctor_id = request.getParameter("doctorId");
+        
         DoctorsDAO dao = new DoctorsDAO();
-        List<Doctors> listDoctor = dao.getAllDoctors();
+        List<Doctors> listDoctor = dao.getActiveDoctors();
         SpecializationDAO spdao = new SpecializationDAO();
         List<Specialization> listSpecialization = spdao.getAllSpecialization();
+        DegreeDAO dedao = new DegreeDAO();
+        List<Degree> listDegree = dedao.getDegreeByDoctorId(doctor_id);
 
         // Nhận các tham số sắp xếp từ yêu cầu
         String sortByName = request.getParameter("sortByName");
@@ -85,8 +90,8 @@ public class ListDoctors extends HttpServlet {
             dao.sortByRating(listDoctor, sortByRating);
         }
 
-        // Gán danh sách chuyên môn và bác sĩ vào yêu cầu
-         request.setAttribute("listDoctor", listDoctor);
+        request.setAttribute("listDegree", listDegree);
+        request.setAttribute("listDoctor", listDoctor);
         request.setAttribute("listSpecialization", listSpecialization);
        
         request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);

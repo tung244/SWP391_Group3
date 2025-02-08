@@ -58,8 +58,8 @@
                 align-items: center;
                 gap: 30px; /* Spacing between label, select, and button */
                 margin-top: 40px;
-                
-                    
+
+
             }
 
             .sort-box label {
@@ -180,7 +180,7 @@
             <!-- Start sorting area -->
             <div class="container">
                 <div class="sort-container">
-                    
+
                     <div  class="sort-box">
                         <form action="listDoctors" method="GET">
                             <label for="sortByName">Sort by Name:</label>
@@ -260,8 +260,15 @@
                                     <span>${d.specialization.specialization_name}</span>
                                     <p>Rating: ${d.rating}</p>
                                     <p>Gender: ${d.gender}</p>
-                                    <p>Experience years: ${d.experience_years}</p>
-
+                                    <p>Experience years: ${d.experience_years} years</p>
+                                    
+                                    <jsp:useBean id="degreeDAO" class="dal.DegreeDAO" />
+                                    <c:set var="degrees" value="${degreeDAO.getDegreeByDoctorId(d.doctor_id)}" />
+                                    <p>Degree: 
+                                        <c:forEach items="${degrees}" var="degree" varStatus="status">
+                                            ${degree.degree_name}${!status.last ? ', ' : ''}
+                                        </c:forEach>
+                                    </p>
 
 
                                     <span class="border"></span>

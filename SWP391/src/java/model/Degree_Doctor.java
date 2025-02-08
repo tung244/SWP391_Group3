@@ -8,26 +8,31 @@ package model;
  *
  * @autho
 
-CREATE TABLE Degree_Doctor(
-	doctor_id INT,
-	degree_id INT,
-	PRIMARY KEY(doctor_id,degree_id),
-	FOREIGN KEY (doctor_id) REFERENCES dbo.Doctors(doctor_id),
-	FOREIGN KEY (degree_id) REFERENCES dbo.Degree(degree_id)
-)r PC
  */
 public class Degree_Doctor {
     private int doctor_id;
     private int degree_id;
+    private Degree degree;
+    
 
     public Degree_Doctor() {
     }
 
-    public Degree_Doctor(int doctor_id, int degree_id) {
+    public Degree_Doctor(int doctor_id, int degree_id, Degree degree) {
         this.doctor_id = doctor_id;
         this.degree_id = degree_id;
+        this.degree = degree;
     }
 
+    public Degree getDegree() {
+        return degree;
+    }
+
+    public void setDegree(Degree degree) {
+        this.degree = degree;
+    }
+
+   
     public int getDoctor_id() {
         return doctor_id;
     }

@@ -6,6 +6,7 @@
 package controller.homepage.doctor;
 
 
+import dal.DegreeDAO;
 import dal.DoctorsDAO;
 import dal.SpecializationDAO;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Degree;
 import model.Doctors;
 import model.Specialization;
 
@@ -68,10 +70,15 @@ public class DoctorDetail extends HttpServlet {
         SpecializationDAO spdao = new SpecializationDAO();
         List<Specialization> listSpecializationByDocId = spdao.getSpecializationByDoctorId(doctor_id);
         
+        DegreeDAO dedao = new DegreeDAO();
+        List<Degree> listDegree = dedao.getDegreeByDoctorId(doctor_id);
+        
         String related_specid = spdao.getSpecializationIdByDoctorId(doctor_id);
         List<Doctors> listRelatedDoctor = dao.getDoctorsBySpecializationId(related_specid);
         
+        
         request.setAttribute("listRelated", listRelatedDoctor);
+        request.setAttribute(" listDegree", listDegree);
         request.setAttribute("listSpecById", listSpecializationByDocId);
         request.setAttribute("d", doctordetail);
         request.getRequestDispatcher("homepage/doctordetail.jsp").forward(request, response);
