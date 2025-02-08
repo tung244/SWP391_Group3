@@ -95,6 +95,8 @@ CREATE TABLE Doctors (
     gender NVARCHAR(50),
     dob DATE,
     address NVARCHAR(500),
+	doctor_status NVARCHAR(255),
+	doctor_description NVARCHAR(255),
     FOREIGN KEY(account_id) REFERENCES dbo.Accounts(account_id),
 	FOREIGN KEY(specialization_id) REFERENCES dbo.Specialization(specialization_id)
 );
