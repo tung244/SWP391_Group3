@@ -17,15 +17,17 @@ public class Doctors {
     private String gender;
     private String dob;
     private String address;
+    private String doctor_status;
     private Specialization specialization;
     private Certificate certificate;
     private Account acc;
+    private Schedules schedule;
     
  
     public Doctors() {
     }
 
-    public Doctors(int doctor_id, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, Specialization specialization, Certificate certificate, Account acc) {
+    public Doctors(int doctor_id, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, String doctor_status, Specialization specialization, Certificate certificate, Account acc, Schedules schedule) {
         this.doctor_id = doctor_id;
         this.doctor_name = doctor_name;
         this.experience_years = experience_years;
@@ -34,49 +36,29 @@ public class Doctors {
         this.gender = gender;
         this.dob = dob;
         this.address = address;
+        this.doctor_status = doctor_status;
         this.specialization = specialization;
         this.certificate = certificate;
         this.acc = acc;
+        this.schedule = schedule;
     }
-    
-    
-    public Doctors(int doctor_id, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, Specialization specialization, Certificate certificate) {
-        this.doctor_id = doctor_id;
-        this.doctor_name = doctor_name;
-        this.experience_years = experience_years;
-        this.profile_image = profile_image;
-        this.rating = rating;
-        this.gender = gender;
-        this.dob = dob;
-        this.address = address;
-        this.specialization = specialization;
-        this.certificate = certificate;
-    }
-    
-    
 
-    public Doctors(int doctor_id, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, Specialization specialization) {
-        this.doctor_id = doctor_id;
-        this.doctor_name = doctor_name;
-        this.experience_years = experience_years;
-        this.profile_image = profile_image;
-        this.rating = rating;
-        this.gender = gender;
-        this.dob = dob;
-        this.address = address;
-        this.specialization = specialization;
+    public String getDoctor_status() {
+        return doctor_status;
     }
-    
-    public Doctors(int doctor_id, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address) {
-        this.doctor_id = doctor_id;
-        this.doctor_name = doctor_name;
-        this.experience_years = experience_years;
-        this.profile_image = profile_image;
-        this.rating = rating;
-        this.gender = gender;
-        this.dob = dob;
-        this.address = address;
+
+    public void setDoctor_status(String doctor_status) {
+        this.doctor_status = doctor_status;
     }
+
+    public Schedules getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedules schedule) {
+        this.schedule = schedule;
+    }
+
 
     public Account getAcc() {
         return acc;
@@ -170,7 +152,7 @@ public class Doctors {
 
     @Override
     public String toString() {
-        return "Doctors{" + "doctor_id=" + doctor_id + ", doctor_name=" + doctor_name + ", experience_years=" + experience_years + ", profile_image=" + profile_image + ", rating=" + rating + ", gender=" + gender + ", dob=" + dob + ", address=" + address + ", specialization=" + specialization + ", certificate=" + certificate + '}';
+        return "Doctors{" + "doctor_id=" + doctor_id + ", doctor_name=" + doctor_name + ", experience_years=" + experience_years + ", profile_image=" + profile_image + ", rating=" + rating + ", gender=" + gender + ", dob=" + dob + ", address=" + address + ", doctor_status=" + doctor_status + ", specialization=" + specialization + ", certificate=" + certificate + ", acc=" + acc + ", schedule=" + schedule + '}';
     }
 
    

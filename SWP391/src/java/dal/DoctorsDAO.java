@@ -10,26 +10,27 @@ import java.sql.ResultSet;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import model.Account;
 import model.Certificate;
 import model.Certificate_Doctor;
 import model.Doctors;
+import model.Role;
+import model.Schedules;
+import model.Slots;
 import model.Specialization;
 
-/**
- *
- * @author PC
- */
 public class DoctorsDAO extends DBContext {
 
     public List<Doctors> getAllDoctors() {
         List<Doctors> list = new ArrayList<>();
-        String sql = "SELECT d.doctor_id, d.doctor_name, d.experience_years, d.profile_image, d.rating, d.gender, d.dob, d.address, "
-                + "sp.specialization_id, sp.specialization_name, sp.specialization_status, "
-                + "c.certificate_id, c.certificate_name, cd.date_certificate, cd.issued_by "
-                + "FROM [dbo].[Doctors] d "
-                + "LEFT JOIN [dbo].[Specialization] sp ON d.specialization_id = sp.specialization_id "
-                + "LEFT JOIN [dbo].[Certificate_Doctor] cd ON d.doctor_id = cd.doctor_id "
-                + "LEFT JOIN [dbo].[Certificate] c ON c.certificate_id = cd.certificate_id";
+        String sql = "SELECT * FROM [dbo].[Doctors] d\n"
+                + "LEFT JOIN [dbo].[Specialization] sp ON d.specialization_id = sp.specialization_id \n"
+                + "LEFT JOIN [dbo].[Certificate_Doctor] cd ON d.doctor_id = cd.doctor_id \n"
+                + "LEFT JOIN [dbo].[Certificate] c ON c.certificate_id = cd.certificate_id\n"
+                + "LEFT JOIN dbo.Accounts acc ON acc.account_id = d.account_id\n"
+                + "LEFT JOIN dbo.Role r ON r.role_id = acc.role_id\n"
+                + "LEFT JOIN dbo.Schedules sch ON sch.doctor_id = d.doctor_id\n"
+                + "LEFT JOIN dbo.Slots sl ON sl.slot_id = sch.slot_id";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -54,17 +55,30 @@ public class DoctorsDAO extends DBContext {
                 Certificate certificate = new Certificate();
                 certificate.setCertificate_id(rs.getInt("certificate_id"));
                 certificate.setCertificate_name(rs.getString("certificate_name"));
-
                 Certificate_Doctor cer_doct = new Certificate_Doctor();
-                cer_doct.setDoctor_id(rs.getInt("doctor_id"));
-                cer_doct.setCertificate_id(rs.getInt("certificate_id"));
                 cer_doct.setDate_certificate(rs.getString("date_certificate"));
                 cer_doct.setIssued_by(rs.getString("issued_by"));
-
                 certificate.setCer_doct(cer_doct);
-
                 doctor.setCertificate(certificate);
-
+                
+                Account acc = new Account();
+                acc.setAccount_id(rs.getInt("account_id"));
+                acc.setEmail(rs.getString("email"));
+                Role role = new Role();
+                role.setRole_id(rs.getInt("role_id"));
+                role.setRole_name(rs.getString("role_name"));
+                acc.setRole(role);
+                doctor.setAcc(acc);
+                
+                Schedules schedule = new Schedules();
+                schedule.setSchedule_status(rs.getString("schedule_status"));
+                Slots slot = new Slots();
+                slot.setSlot_id(rs.getInt("slot_id"));
+                slot.setSlot_begin(rs.getString("slot_begin"));
+                slot.setSlot_end(rs.getString("slot_end"));
+                schedule.setSlot(slot);
+                doctor.setSchedule(schedule);
+                
                 list.add(doctor);
             }
         } catch (Exception e) {
@@ -322,36 +336,36 @@ public class DoctorsDAO extends DBContext {
     }
 
     public boolean updateDoctor(Doctors doctor) {
-    String sql = "UPDATE Doctors SET "
-            + "doctor_name = ?, "
-            + "experience_years = ?, "
-            + "profile_image = ?, "
-            + "rating = ?, "
-            + "gender = ?, "
-            + "dob = ?, "
-            + "address = ?, "
-            + "specialization_id = ? "
-            + "WHERE doctor_id = ?";
+        String sql = "UPDATE Doctors SET "
+                + "doctor_name = ?, "
+                + "experience_years = ?, "
+                + "profile_image = ?, "
+                + "rating = ?, "
+                + "gender = ?, "
+                + "dob = ?, "
+                + "address = ?, "
+                + "specialization_id = ? "
+                + "WHERE doctor_id = ?";
 
-    try (
-         PreparedStatement st = connection.prepareStatement(sql)) {
-        st.setString(1, doctor.getDoctor_name());
-        st.setInt(2, doctor.getExperience_years());
-        st.setString(3, doctor.getProfile_image());
-        st.setDouble(4, doctor.getRating());
-        st.setString(5, doctor.getGender());
-        st.setString(6, doctor.getDob());
-        st.setString(7, doctor.getAddress());
-        st.setInt(8, doctor.getSpecialization().getSpecialization_id());
-        st.setInt(9, doctor.getDoctor_id());
+        try (
+                PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, doctor.getDoctor_name());
+            st.setInt(2, doctor.getExperience_years());
+            st.setString(3, doctor.getProfile_image());
+            st.setDouble(4, doctor.getRating());
+            st.setString(5, doctor.getGender());
+            st.setString(6, doctor.getDob());
+            st.setString(7, doctor.getAddress());
+            st.setInt(8, doctor.getSpecialization().getSpecialization_id());
+            st.setInt(9, doctor.getDoctor_id());
 
-        int rowsUpdated = st.executeUpdate();
-        return rowsUpdated > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
+            int rowsUpdated = st.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
 
     // Sắp xếp theo tên
     public static void sortByName(List<Doctors> doctors, String order) {
@@ -382,21 +396,7 @@ public class DoctorsDAO extends DBContext {
 
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
-//        dao.updateDoctor(
-//                1, // doctor_id
-//                "Dr. John Doe", // doctor_name
-//                10, // experience_years
-//                "path/to/image.jpg", // profile_image
-//                4.5, // rating
-//                "Male", // gender
-//                "1980-01-01", // dob
-//                "123 Main St, City, Country", // address
-//                2 // specialization_id
-//        );
 
-        
-
-        System.out.println("");
 //        List<Doctors> list = dao.getDoctorsBySpecializationAndName("2", "o");
 //        for (Doctors doctors : list) {
 //            System.out.println(doctors);

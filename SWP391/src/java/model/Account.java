@@ -104,5 +104,11 @@ public class Account {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" + "account_id=" + account_id + ", username=" + username + ", password=" + password + ", email=" + email + ", phonenumber=" + phonenumber + ", created_date=" + created_date + ", role=" + role + '}';
+    }
+    
     
 }
