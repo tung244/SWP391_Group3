@@ -2,7 +2,14 @@
 INSERT INTO Role (role_name) VALUES
 ('Admin'),
 ('Sales'),
-('Doctors'),
+(N'Bác sĩ'),
+(N'Thạc sĩ'),
+(N'Tiến sĩ'),
+(N'Bác sĩ chuyên khoa I'),
+(N'Bác sĩ chuyên khoa II'),
+(N'Bác sĩ nội trú'),
+(N'Giáo sư'),
+(N'Phó giáo sư'),
 ('Customer')
 
 -- Insert data into Specialization
