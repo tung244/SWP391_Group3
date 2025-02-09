@@ -58,7 +58,7 @@ public class SpecializationControll extends HttpServlet {
             if (searchName == null || searchName.isEmpty()) {
                 listD = dao.getDoctorsBySpecializationId(specializationId);
             } else {
-                listD = dao.getDoctorsBySpecializationAndName(specializationId, searchName); 
+                listD = dao.getDoctorsBySpecializationIdAndName(specializationId, searchName); 
             }
         }
         request.setAttribute("txtS", searchName);
