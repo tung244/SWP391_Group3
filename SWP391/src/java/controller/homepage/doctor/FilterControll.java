@@ -4,6 +4,7 @@
  */
 package controller.homepage.doctor;
 
+import dal.DegreeDAO;
 import dal.DoctorsDAO;
 import dal.SpecializationDAO;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Degree;
 import model.Doctors;
 import model.Specialization;
 
@@ -21,8 +23,8 @@ import model.Specialization;
  *
  * @author PC
  */
-@WebServlet(name = "SpecializationControll", urlPatterns = {"/specialization"})
-public class SpecializationControll extends HttpServlet {
+@WebServlet(name = "FilterControll", urlPatterns = {"/filter"})
+public class FilterControll extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,32 +38,45 @@ public class SpecializationControll extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        //Get param to filter
         String specializationId = request.getParameter("sid");
-        String searchName = request.getParameter("name");
-        DoctorsDAO dao = new DoctorsDAO();
+        String degreeId = request.getParameter("deid");
+        String searchName = request.getParameter("searchName");
+        //Get param to sort
+        String sortByName = request.getParameter("sortByName");
+        String sortByExperience = request.getParameter("sortByExperience");
+        String sortByRating = request.getParameter("sortByRating");
+        //Get all chuyen khoa     
         SpecializationDAO spdao = new SpecializationDAO();
-
         List<Specialization> listSpecialization = spdao.getAllSpecialization();
-        request.setAttribute("listSpecialization", listSpecialization);
-
+        //Get all bang cap
+        DegreeDAO dedao = new DegreeDAO();
+        List<Degree> listDegree = dedao.getAllDegree();
+        //List doctor after filter
+        DoctorsDAO dao = new DoctorsDAO();
+        
         List<Doctors> listD;
-
-       
-        if (specializationId == null || specializationId.isEmpty()) {
-            if (searchName == null || searchName.isEmpty()) {
-                listD = dao.getAllDoctors();
-            } else {
-                listD = dao.searchByName(searchName); 
-            }
+        if ((specializationId == null || specializationId.isEmpty()) && 
+            (degreeId == null || degreeId.isEmpty()) && 
+            (searchName == null || searchName.trim().isEmpty())) {
+            
+            listD = dao.getActiveDoctors();
         } else {
-            if (searchName == null || searchName.isEmpty()) {
-                listD = dao.getDoctorsBySpecializationId(specializationId);
-            } else {
-                listD = dao.getDoctorsBySpecializationIdAndName(specializationId, searchName); 
-            }
+            
+            listD = dao.getDoctorsByFilter(specializationId, degreeId, searchName);
         }
-        request.setAttribute("txtS", searchName);
+        if(sortByName != null){
+            dao.sortByName(listD, sortByName);
+        }
+        if(sortByExperience != null){
+            dao.sortByExperience(listD, sortByExperience);
+        }
+        if(sortByRating != null){
+            dao.sortByRating(listD, sortByRating);
+        }
+        
+        request.setAttribute("listDegree", listDegree);
+        request.setAttribute("listSpecialization", listSpecialization);
         request.setAttribute("listDoctor", listD);
         request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
 

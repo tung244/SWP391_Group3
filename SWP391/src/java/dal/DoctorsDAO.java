@@ -72,7 +72,7 @@ public class DoctorsDAO extends DBContext {
                 + "LEFT JOIN dbo.Specialization sp ON sp.specialization_id = d.specialization_id "
                 + "LEFT JOIN dbo.Certificate_Doctor cd ON cd.doctor_id = d.doctor_id "
                 + "LEFT JOIN dbo.Certificate c ON c.certificate_id = cd.certificate_id "
-                + "WHERE d.doctor_status LIKE 'Active'";
+                + "WHERE d.doctor_status = 'Active'";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -120,7 +120,8 @@ public class DoctorsDAO extends DBContext {
                 + "LEFT JOIN dbo.Specialization sp  ON sp.specialization_id = d.specialization_id\n"
                 + "LEFT JOIN dbo.Certificate_Doctor cd ON cd.doctor_id = d.doctor_id\n"
                 + "LEFT JOIN dbo.Certificate c ON c.certificate_id = cd.certificate_id\n"
-                + "WHERE sp.specialization_id = ?";
+                + "WHERE d.doctor_status = 'Active'"
+                + "AND sp.specialization_id = ?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -167,7 +168,8 @@ public class DoctorsDAO extends DBContext {
                 + "LEFT JOIN dbo.Specialization sp  ON sp.specialization_id = d.specialization_id\n"
                 + "LEFT JOIN dbo.Certificate_Doctor cd ON cd.doctor_id = d.doctor_id\n"
                 + "LEFT JOIN dbo.Certificate c ON c.certificate_id = cd.certificate_id\n"
-                + "WHERE d.doctor_id =?";
+                + "WHERE d.doctor_status = 'Active'"
+                + "AND d.doctor_id =?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -217,7 +219,8 @@ public class DoctorsDAO extends DBContext {
                 + "LEFT JOIN dbo.Specialization sp  ON sp.specialization_id = d.specialization_id\n"
                 + "LEFT JOIN dbo.Certificate_Doctor cd ON cd.doctor_id = d.doctor_id\n"
                 + "LEFT JOIN dbo.Certificate c ON c.certificate_id = cd.certificate_id\n"
-                + "WHERE d.doctor_name LIKE ?";
+                + "WHERE d.doctor_status = 'Active'"
+                + "AND d.doctor_name LIKE ?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -260,18 +263,36 @@ public class DoctorsDAO extends DBContext {
         return list;
     }
 
-    public List<Doctors> getDoctorsBySpecializationIdAndName(String specializationId, String name) {
+    public List<Doctors> getDoctorsByFilter(String specializationId, String degreeId, String searchName) {
         List<Doctors> list = new ArrayList<>();
-        String sql = "SELECT * FROM [dbo].[Doctors] d\n"
-                + "LEFT JOIN dbo.Specialization sp  ON sp.specialization_id = d.specialization_id\n"
-                + "LEFT JOIN dbo.Certificate_Doctor cd ON cd.doctor_id = d.doctor_id\n"
-                + "LEFT JOIN dbo.Certificate c ON c.certificate_id = cd.certificate_id\n"
-                + "WHERE d.specialization_id = ? AND d.doctor_name LIKE ?";
+        StringBuilder sql = new StringBuilder("SELECT DISTINCT d.*, sp.* "
+                + "FROM dbo.Doctors d "
+                + "LEFT JOIN dbo.Specialization sp ON sp.specialization_id = d.specialization_id "
+                + "LEFT JOIN dbo.Degree_Doctor dd ON dd.doctor_id = d.doctor_id "
+                + "LEFT JOIN dbo.Degree de ON de.degree_id = dd.degree_id "
+                + "WHERE d.doctor_status = 'Active' ");
+
+        List<String> param = new ArrayList<>();
+        if (specializationId != null && !specializationId.isEmpty()) {
+            sql.append("AND d.specialization_id = ? ");
+            param.add(specializationId);
+        }
+        if (degreeId != null && !degreeId.isEmpty()) {
+            sql.append("AND dd.degree_id = ? ");
+            param.add(degreeId);
+        }
+        if (searchName != null && !searchName.isEmpty()) {
+            sql.append("AND d.doctor_name LIKE ? ");
+            param.add("%" + searchName + "%");
+        }
 
         try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, specializationId);
-            st.setString(2, "%" + name + "%");
+            PreparedStatement st = connection.prepareStatement(sql.toString());
+
+            for (int i = 0; i < param.size(); i++) {
+                st.setString(i + 1, param.get(i));
+            }
+
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Doctors doctor = new Doctors();
@@ -291,17 +312,7 @@ public class DoctorsDAO extends DBContext {
                 specialization.setSpecialization_status(rs.getString("specialization_status"));
                 doctor.setSpecialization(specialization);
 
-                Certificate certificate = new Certificate();
-                certificate.setCertificate_id(rs.getInt("certificate_id"));
-                certificate.setCertificate_name(rs.getString("certificate_name"));
-                Certificate_Doctor cer_doct = new Certificate_Doctor();
-                cer_doct.setDate_certificate(rs.getString("date_certificate"));
-                cer_doct.setIssued_by(rs.getString("issued_by"));
-                certificate.setCer_doct(cer_doct);
-                doctor.setCertificate(certificate);
-
                 list.add(doctor);
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -309,8 +320,6 @@ public class DoctorsDAO extends DBContext {
 
         return list;
     }
-
-   
 
     public boolean updateDoctor(Doctors doctor) {
         String sql = "UPDATE Doctors SET "
@@ -344,53 +353,54 @@ public class DoctorsDAO extends DBContext {
         }
     }
 
-    // Sắp xếp theo tên
+    // Sort by name
     public static void sortByName(List<Doctors> doctors, String order) {
-        if (order.equals("A-Z")) {
+        if (order.equals("asc")) {
             Collections.sort(doctors, Comparator.comparing(Doctors::getDoctor_name));
-        } else if (order.equals("Z-A")) {
+        } else if (order.equals("desc")) {
             Collections.sort(doctors, Comparator.comparing(Doctors::getDoctor_name).reversed());
         }
     }
 
-    // Sắp xếp theo kinh nghiệm
+    // Sort by ex year
     public static void sortByExperience(List<Doctors> doctors, String order) {
-        if (order.equals("High-low")) {
+        if (order.equals("desc")) {
             Collections.sort(doctors, Comparator.comparingInt(Doctors::getExperience_years).reversed());
-        } else if (order.equals("Low-high")) {
+        } else if (order.equals("asc")) {
             Collections.sort(doctors, Comparator.comparingInt(Doctors::getExperience_years));
         }
     }
 
-    // Sắp xếp theo đánh giá
+    // Sort by rating
     public static void sortByRating(List<Doctors> doctors, String order) {
-        if (order.equals("High-low")) {
+        if (order.equals("desc")) {
             Collections.sort(doctors, Comparator.comparingDouble(Doctors::getRating).reversed());
-        } else if (order.equals("Low-high")) {
+        } else if (order.equals("asc")) {
             Collections.sort(doctors, Comparator.comparingDouble(Doctors::getRating));
         }
     }
 
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
-//        List<Doctors> l = dao.searchByName("o");
+        List<Doctors> li = dao.getDoctorsByFilter("", "2", "o");
+        for (Doctors doctors : li) {
+            System.out.println(doctors);
+        }
+//        List<Doctors> l = dao.searchByName("u");
 //        for (Doctors doctors : l) {
 //            System.out.println(doctors);
 //        }
-        //        List<Doctors> list = dao.getAllDoctors();
-        //        for (Doctors doctors : list) {
-        //            System.out.println(doctors);
-        //        }        
-//                List<Doctors> list = dao.getDoctorsBySpecializationIdAndName("2", "o");
+//             List<Doctors> list = dao.getActiveDoctors();
 //                for (Doctors doctors : list) {
 //                    System.out.println(doctors);
-//                }
-        //        List<Doctors> l = dao.getDoctorsBySpecializationId("3");
-        //        for (Doctors doctors : l) {
-        //            System.out.println(doctors.getSpecialization());
-        //        }        
-        //        Doctors d = dao.getDoctorsById("1");
-        //        System.out.println(d);
+//                }        
+//
+//                List<Doctors> l = dao.getDoctorsBySpecializationId("1");
+//                for (Doctors doctors : l) {
+//                    System.out.println(doctors);
+//                }        
+//                Doctors d = dao.getDoctorsById("1");
+//                System.out.println(d);
         //        for (Doctors doctors : list) {
         //            System.out.println(doctors);
         //

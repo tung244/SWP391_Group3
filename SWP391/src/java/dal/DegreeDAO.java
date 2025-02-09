@@ -15,6 +15,26 @@ import java.sql.ResultSet;
  * @author PC
  */
 public class DegreeDAO extends DBContext {
+    
+    public List<Degree> getAllDegree() {
+        List<Degree> list = new ArrayList<>();
+        String sql = " SELECT * FROM Degree";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Degree de = new Degree();
+                de.setDegree_id(rs.getInt("degree_id"));
+                de.setDegree_name(rs.getString("degree_name"));
+                list.add(de);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+
+    }
 
     public List<Degree> getDegreeByDoctorId(String did) {
         List<Degree> list = new ArrayList<>();
@@ -42,9 +62,13 @@ public class DegreeDAO extends DBContext {
     
     public static void main(String[] args) {
         DegreeDAO dao = new DegreeDAO();
-        List<Degree> list = dao.getDegreeByDoctorId("1");
-        for (Degree degree : list) {
+        List<Degree> l = dao.getAllDegree();
+        for (Degree degree : l) {
             System.out.println(degree);
         }
+//        List<Degree> list = dao.getDegreeByDoctorId("1");
+//        for (Degree degree : list) {
+//            System.out.println(degree);
+//        }
     }
 }

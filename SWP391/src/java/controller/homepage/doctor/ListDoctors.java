@@ -65,35 +65,19 @@ public class ListDoctors extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String doctor_id = request.getParameter("doctorId");
-        
         DoctorsDAO dao = new DoctorsDAO();
         List<Doctors> listDoctor = dao.getActiveDoctors();
         SpecializationDAO spdao = new SpecializationDAO();
         List<Specialization> listSpecialization = spdao.getAllSpecialization();
         DegreeDAO dedao = new DegreeDAO();
-        List<Degree> listDegree = dedao.getDegreeByDoctorId(doctor_id);
+        List<Degree> listDegree = dedao.getAllDegree();
 
-        // Nhận các tham số sắp xếp từ yêu cầu
-        String sortByName = request.getParameter("sortByName");
-        String sortByExperience = request.getParameter("sortByExperience");
-        String sortByRating = request.getParameter("sortByRating");
+   
 
-        // Sắp xếp danh sách bác sĩ theo các tiêu chí
-        if (sortByName != null) {
-            dao.sortByName(listDoctor, sortByName);
-        }
-        if (sortByExperience != null) {
-            dao.sortByExperience(listDoctor, sortByExperience);
-        }
-        if (sortByRating != null) {
-            dao.sortByRating(listDoctor, sortByRating);
-        }
-
-        request.setAttribute("listDegree", listDegree);
         request.setAttribute("listDoctor", listDoctor);
         request.setAttribute("listSpecialization", listSpecialization);
-       
+        request.setAttribute("listDegree", listDegree);
+
         request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
     }
 
