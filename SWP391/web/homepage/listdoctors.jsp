@@ -10,151 +10,8 @@
 <html lang="en">
     <head>
         <jsp:include page="Common/Css.jsp"/>  
-        <style>
-            .search-filter-box {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                margin-bottom: 20px;
-                background: #f8f9fa;
-                padding: 10px;
-                border-radius: 8px;
-                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            }
 
-            .search-filter-box .form-control {
-                flex: 1;
-                padding: 10px;
-                border-radius: 5px;
-                border: 1px solid #ccc;
-                height: 40px; /* Adjust height as needed */
-            }
-
-            .search-filter-box .btn-search {
-                background-color: #28a745; /* Match sort button color */
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: 0.3s;
-                height: 40px; /* Match form control height */
-                line-height: 1.5; /* Vertically center text */
-            }
-
-            .search-filter-box .btn-search:hover {
-                background-color: #218838;
-            }
-
-            .sort-container {
-                display: flex;
-                justify-content: space-around; /* Distribute space evenly */
-                align-items: center;  /* Vertically center items */
-                margin-bottom: 20px;
-            }
-
-            .sort-box {
-                display: flex;
-                align-items: center;
-                gap: 30px; /* Spacing between label, select, and button */
-                margin-top: 40px;
-
-
-            }
-
-            .sort-box label {
-                margin-bottom: 0; /* Remove default margin from label */
-            }
-
-            .sort-box select, .btn-sort { /* Style both select and button together */
-                height: 40px; /* Consistent height */
-                padding: 10px;
-                border-radius: 5px;
-                border: 1px solid #ccc;
-                width: 150px;
-            }
-
-            .btn-sort {
-                background-color: #28a745;
-                color: white;
-                border: none;
-                cursor: pointer;
-                transition: 0.3s;
-                margin-left: 20px;
-            }
-
-            .btn-sort:hover {
-                background-color: #218838;
-            }
-            .service-sidebar .single-sidebar {
-                margin-bottom: 10px;
-                background: #f7f7f7;
-                border-radius: 5px;
-                overflow: hidden;
-            }
-
-            .service-sidebar .sidebar-link {
-                display: flex;
-                align-items: center;
-                padding: 20px;
-                background: #218838;
-                color: #fff;
-                text-decoration: none;
-                transition: all 0.3s ease;
-            }
-
-            .service-sidebar .sidebar-link:hover {
-                background: #218838;
-            }
-
-            .service-sidebar .icon-holder {
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-right: 15px;
-            }
-
-            .service-sidebar .text-holder {
-                flex-grow: 1;
-            }
-
-            .service-sidebar .text-holder h3 {
-                margin: 5px;
-                font-size: 18px;
-                font-weight: 600;
-                color: #ffd700;
-            }
-
-            .service-sidebar .text-holder h4 {
-                margin: 15px 0 0;
-                font-size: 16px;
-                color: #fff;
-            }
-
-            .service-sidebar .arrow {
-                width: 24px;
-                height: 24px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            /* Specific styles for each section */
-            .find-doctor .icon-holder i {
-                font-size: 24px;
-            }
-
-            .special-offer .icon-holder i {
-                font-size: 24px;
-            }
-
-            .contact-info .icon-holder i {
-                font-size: 24px;
-            }
-
-        </style>
+        <jsp:include page="Common/StyleListDoctor.jsp"/>
 
     </head>
     <body>
@@ -236,8 +93,9 @@
                 <div class="row">
                     <div style="margin-bottom: 50px" class="filter">
                         <!-- Start filter area--> 
-                        <form action="specialization" method="GET">
-                            <div style="margin: 0px 200px" class="search-filter-box">
+                        <form action="filter" method="GET">
+                            <div style="margin: 0px 50px" class="search-filter-box">
+
                                 <select name="sid" id="filterSpecialization" class="form-control">
                                     <option value="">All specialization</option>
                                     <c:forEach items="${listSpecialization}" var="s">
@@ -247,63 +105,43 @@
                                         </option>
                                     </c:forEach>
                                 </select>
-                                <input type="text" name="name" id="searchName" class="form-control" placeholder="Find doctor by name" 
-                                       value="${param.name != null ? param.name : ''}">
+                                <select name="deid" id="filterDegree" class="form-control">
+                                    <option value="">All degree</option>
+                                    <c:forEach items="${listDegree}" var="de">
+                                        <option value="${de.degree_id}"
+                                                ${param.deid == de.degree_id ? 'selected' : ''}>   
+                                            ${de.degree_name}</option>
+                                        </c:forEach>
+                                </select>
+
+                                <input type="text" name="searchName" id="searchName" class="form-control" placeholder="Find doctor by name" 
+                                       value="${param.searchName != null ? param.searchName : ''}">
+
+                                <!-- Sort options -->
+                                
+                                <select  name="sortByName" class="form-control">
+                                        <option value="">Sort by name</option>
+                                        <option value="asc" ${param.sortByName == 'asc' ? 'selected' : ''}>A-Z</option>
+                                        <option value="desc" ${param.sortByName == 'desc' ? 'selected' : ''}>Z-A</option>
+                                    </select>
+
+                                    <select name="sortByExperience" class="form-control">
+                                        <option value="">Sort by experience</option>
+                                        <option value="asc" ${param.sortByExperience == 'asc' ? 'selected' : ''}>Low - High</option>
+                                        <option value="desc" ${param.sortByExperience == 'desc' ? 'selected' : ''}>High - Low</option>
+                                    </select>
+
+                                    <select name="sortByRating" class="form-control">
+                                        <option value="">Sort by rating</option>
+                                        <option value="asc" ${param.sortByRating == 'asc' ? 'selected' : ''}>Low - High</option>
+                                        <option value="desc" ${param.sortByRating == 'desc' ? 'selected' : ''}>High - Low</option>
+                                    </select>
+                               
+
                                 <button type="submit" class="btn-search">Search</button>
                             </div>
                         </form>
 
-                        <!-- Start sorting area -->
-                        <div class="container">
-                            <div class="sort-container">
-
-                                <div  class="sort-box">
-                                    <form action="listDoctors" method="GET">
-                                        <label for="sortByName">Sort by Name:</label>
-                                        <div style="display: flex" class="row">
-                                            <select name="sortByName" id="sortByName" class="form-control">
-                                                <option value="A-Z" >A-Z</option>
-                                                <option value="Z-A" >Z-A</option>
-                                            </select>
-                                            <button type="submit" class="btn-sort">Sort</button>
-                                        </div>
-                                    </form>
-                                </div>
-
-
-                                <div class="sort-box">
-                                    <form action="listDoctors" method="GET">
-                                        <label for="sortByExperience">Sort by Experience (Years):</label>
-                                        <div style="display: flex" class="row">
-                                            <select name="sortByExperience" id="sortByExperience" class="form-control">
-                                                <option value="High-low" >High to Low</option>
-                                                <option value="Low-high" >Low to High</option>
-                                            </select>
-                                            <button type="submit" class="btn-sort">Sort</button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div class="sort-box">
-                                    <form action="listDoctors" method="GET">
-                                        <label for="sortByRating">Sort by Rating:</label>
-                                        <div style="display: flex" class="row">
-
-                                            <select name="sortByRating" id="sortByRating" class="form-control">
-                                                <option value="High-low" >High to Low</option>
-                                                <option value="Low-high" >Low to High</option>
-
-                                            </select>
-                                            <button type="submit" class="btn-sort">Sort</button>
-                                        </div>
-
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End sorting area -->    
-                        <!-- End filter area-->
                     </div>
 
 
@@ -325,11 +163,7 @@
                                                         <div class="content"></div>
                                                     </div>
                                                 </div>
-<!--                                                <ul class="member-social-info">
-                                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                                </ul>-->
+
                                             </div>
                                             <div class="text-holder text-center">
                                                 <h3>${d.doctor_name}</h3>
@@ -391,13 +225,13 @@
                             </div>
 
                             <!-- Third section: Contact -->
-                             <div class="single-sidebar special-offer">
+                            <div class="single-sidebar special-offer">
                                 <a href="#" class="sidebar-link">
                                     <span class="icon-holder">
                                         <i class="flaticon-gift"></i>
                                     </span>
                                     <span class="text-holder">
-                                         <h3>HOTLINE</h3>
+                                        <h3>HOTLINE</h3>
                                         <h4>1900 277 227</h4>
                                     </span>
                                     <span class="arrow">
@@ -405,7 +239,7 @@
                                     </span>
                                 </a>
                             </div>
-                            
+
                             <!--Start single sidebar-->
                             <div class="single-sidebar">
                                 <ul class="all-service">
