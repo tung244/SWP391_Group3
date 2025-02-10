@@ -15,6 +15,10 @@ public class ServiceTypes {
 
     public ServiceTypes() {
     }
+
+    public ServiceTypes(int service_type_id) {
+        this.service_type_id = service_type_id;
+    }
     
     
     public ServiceTypes(int service_type_id, String service_type_name, String duration_service) {

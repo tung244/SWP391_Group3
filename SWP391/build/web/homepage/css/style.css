@@ -4558,13 +4558,12 @@ select:focus {
     background-color: #f5f6fa;
 }
 
-        .userprofile-section {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            
-        }
+.userprofile-section {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 
 .userprofile-header {
     margin-bottom: 30px;
@@ -4626,12 +4625,9 @@ select:focus {
     display: none;
 }
 
-        .userprofile-change-password-container {
-            display: none;
-        }
-        
-        
-        
+.userprofile-change-password-container {
+    display: none;
+}
 
 .userprofile-table {
     width: 100%;

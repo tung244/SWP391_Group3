@@ -97,33 +97,26 @@
                         <div class="appointment-box">
                             <div class="col-md-12">
                                 <div class="form">
-                                    <form id="appointment-form" name="appointment-form" action="inc/sendmail.php" method="post">
+                                    <form action="addAppointment" method="post">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="input-box">
-                                                    <input type="text" name="form_name" value="${sessionScope.user.fullname}" placeholder="Your Name" required="">
+                                                    <input type="text" value="${sessionScope.user.fullname}" placeholder="Your Name" required="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="input-box">
-                                                    <input type="email" name="form_email" value="${sessionScope.user.account.email}" placeholder="Your Email" required="">
+                                                    <input type="email"  value="${sessionScope.user.account.email}" placeholder="Your Email" required="">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="input-box">
-                                                    <input type="text" name="form_name" value="${sessionScope.user.account.phonenumber}" placeholder="Your Phone" required="">
+                                                    <input type="text" value="${sessionScope.user.account.phonenumber}" placeholder="Your Phone" required="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="input-box">
-                                                    <input type="email" name="form_email" value="${sessionScope.user.account.email}" placeholder="Your Email" required="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
                                                 <div class="input-box">
                                                     <input type="text" name="date" placeholder="Date" id="datepicker">
                                                     <div class="icon-box">
@@ -131,41 +124,39 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
                                                 <div class="input-box">
-                                                    <select class="selectmenu">
-                                                        <option selected="selected">Select Doctor</option>
+                                                    <select name="doctor" class="selectmenu">
+                                                        <option  selected="selected">Select Doctor</option>
                                                         <c:forEach var="s" items="${listD}">
                                                             <option>${s.doctor_name}</option> 
                                                         </c:forEach>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <!--                                            <div class="col-md-4">
-                                                                                            <div class="input-box">
-                                                                                                <select class="selectmenu">
-                                                                                                    <option selected="selected">Select Services</option>
-                                            <c:forEach var="s" items="${listS}">
-                                               <option>${s.service_name}</option> 
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                </div>-->
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
                                                 <div class="input-box">
-                                                    <input type="text" name="service_name" placeholder="Service Name" value="${s.services.service_name}">
+                                                    <select name="slot" class="selectmenu">
+                                                        <option selected="selected">Select Time</option>
+                                                        <c:forEach var="s" items="${slots}">
+                                                            <option value="${s.slot_id}">${s.start_time} - ${s.end_time}</option> 
+                                                        </c:forEach>
+                                                    </select>
                                                 </div>
                                             </div>
+
                                         </div>
                                         <div class="row">
-                                            <!--                                            <div class="col-md-4">
-                                                                                            <div class="input-box">
-                                                                                                <input type="text" name="service_name" placeholder="Service Name" value="${S.services.service_name}">
-                                                                                            </div>
-                                                                                        </div>-->
                                             <div class="col-md-4">
                                                 <div class="input-box">
-                                                    <input type="text" name="service_type" placeholder="Service Type" value="${s.serviceType.service_type_name}">
+                                                    <input type="text"  placeholder="Service Name" value="${s.services.service_name}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-box">
+                                                    <input type="text" placeholder="Service Type" value="${s.serviceType.service_type_name}">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -179,6 +170,8 @@
                                                 <textarea name="form_message" placeholder="Your Message.." required=""></textarea>
                                             </div>
                                         </div>
+                                        <input type="hidden" name="service" value="${s.service_detail_id}">
+                                        <input type="hidden" name="patient" value="${sessionScope.user.account.account_id}">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <button class="thm-btn bg-1" type="submit">submit</button>   

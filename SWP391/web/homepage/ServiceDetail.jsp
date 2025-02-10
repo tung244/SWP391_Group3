@@ -249,7 +249,7 @@
                                                 <td style="color: black">${sd.services.specialization.specialization_name}</td>
                                                 <td style="color: black">$${sd.cost}</td>
                                                 <td>
-                                                    <a href="appointment?id=${sd.service_detail_id}" class="btn btn-success">
+                                                    <a href="appointment?id=${sd.service_detail_id}&type=${sd.serviceType.service_type_id}" class="btn btn-success">
                                                         <i class="fa fa-calendar" aria-hidden="true"></i> Book
                                                     </a>
                                                 </td>

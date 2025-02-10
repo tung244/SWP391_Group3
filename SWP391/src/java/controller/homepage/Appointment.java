@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.homepage;
 
+import dal.AppointmentDAO;
 import dal.DoctorsDAO;
 import dal.ServiceDao;
 import java.io.IOException;
@@ -17,41 +17,42 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Doctors;
 import model.ServiceDetail;
+import model.Slots;
 
 /**
  *
  * @author DELL
  */
-@WebServlet(name="Appointment", urlPatterns={"/appointment"})
+@WebServlet(name = "Appointment", urlPatterns = {"/appointment"})
 public class Appointment extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Appointment</title>");  
+            out.println("<title>Servlet Appointment</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Appointment at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet Appointment at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -59,27 +60,33 @@ public class Appointment extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-                ServiceDao dao = new ServiceDao();
-                        DoctorsDAO dao1 = new DoctorsDAO();
+            throws ServletException, IOException {
+        ServiceDao dao = new ServiceDao();
+        DoctorsDAO dao1 = new DoctorsDAO();
+        AppointmentDAO dao2 = new AppointmentDAO();
         ServiceDetail s = null;
-//        List<ServiceTypes> list1 = dao.getAllServiceType();
         String id_raw = request.getParameter("id");
+        String type_raw = request.getParameter("type");
         List<Doctors> listD = dao1.getAllDoctors();
-        try {
+        List<Slots> slots = null;
+         try {
             int id = Integer.parseInt(id_raw);
+            int type = Integer.parseInt(type_raw);
+            slots = dao2.getSlotByServiceType(type);
             s = dao.getServiceDetailById(id);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-            request.setAttribute("s", s);
-            request.setAttribute("listD", listD);
+        request.setAttribute("s", s);
+        request.setAttribute("listD", listD);
+        request.setAttribute("slots", slots);
 //            request.setAttribute("listST", list1);
-            request.getRequestDispatcher("/homepage/Appointment.jsp").forward(request, response);
-    } 
+        request.getRequestDispatcher("/homepage/Appointment.jsp").forward(request, response);
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -87,12 +94,13 @@ public class Appointment extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

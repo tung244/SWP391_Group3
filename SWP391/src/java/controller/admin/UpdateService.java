@@ -79,7 +79,7 @@ public class UpdateService extends HttpServlet {
                 if (serviceDetail != null) {
                     request.setAttribute("s", serviceDetail);
                     request.setAttribute("list", list);
-                    request.getRequestDispatcher("/admin/UpdateService.jsp").forward(request, response);
+                    request.getRequestDispatcher("UpdateService.jsp").forward(request, response);
                 } else {
                     out.println("Service detail not found.");
                 }

@@ -96,7 +96,7 @@ public class SearchService extends HttpServlet {
         request.setAttribute("id", id);
 
         // Chuyển hướng về trang JSP
-        request.getRequestDispatcher("/admin/ServiceList.jsp").forward(request, response);
+        request.getRequestDispatcher("ServiceList.jsp").forward(request, response);
     }
 
     /**

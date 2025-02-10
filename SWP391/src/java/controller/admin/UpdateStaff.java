@@ -75,7 +75,7 @@ public class UpdateStaff extends HttpServlet {
             e.printStackTrace();
         }
         request.setAttribute("staff", s);
-        request.getRequestDispatcher("/admin/UpdateStaff.jsp").forward(request, response);
+        request.getRequestDispatcher("UpdateStaff.jsp").forward(request, response);
     }
 
     /**
