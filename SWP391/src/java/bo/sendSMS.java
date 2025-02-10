@@ -12,7 +12,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONObject;
 
-public class sendSMS {
+public class SendSMS {
 
     public static boolean guiSMS(String otp, String phone) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder().build();

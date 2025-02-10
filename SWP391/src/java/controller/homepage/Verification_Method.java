@@ -4,10 +4,10 @@
  */
 package controller.homepage;
 
-import bo.getFormatDate;
-import bo.randomSixNumber;
-import bo.sendMail;
-import bo.sendSMS;
+import bo.GetFormatDate;
+import bo.RandomSixNumber;
+import bo.SendMail;
+import bo.SendSMS;
 import dal.OTPServicesDAO;
 import dal.UserProfileDAO;
 import java.io.IOException;
@@ -69,7 +69,7 @@ public class Verification_Method extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        randomSixNumber s = new randomSixNumber();
+        RandomSixNumber s = new RandomSixNumber();
         HttpSession session = request.getSession();
         OTP_Services otp_old = otpdao.getOTPNewest((String) session.getAttribute("username_forgot"));
         
@@ -79,7 +79,7 @@ public class Verification_Method extends HttpServlet {
         String[] infoUser = (String[]) session.getAttribute("infoUser");
         System.out.println("đến1");
         if (otp_old != null) {
-            if (getFormatDate.checkFiveMinute(otp_old.getOtp_expiry_date())) {
+            if (GetFormatDate.checkFiveMinute(otp_old.getOtp_expiry_date())) {
                 String otp_new = s.generateRandomSixDigits();
                 if (otp_new.equals(otp_old.getOtp())) {
                     
@@ -91,7 +91,7 @@ public class Verification_Method extends HttpServlet {
                         Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
                             try {
                                 System.out.println("đến 3");
-                                sendMail.guiMail(infoUser[1], s.generateRandomSixDigits(), "bạn");
+                                SendMail.guiMail(infoUser[1], s.generateRandomSixDigits(), "bạn");
 
                             } catch (Exception e) {
                                 e.printStackTrace();  // Log lỗi nếu có
@@ -102,7 +102,7 @@ public class Verification_Method extends HttpServlet {
                     if (method.equals("phone")) {
                         Thread emailThread = new Thread(() -> {  // thread gửi sms khác luồng
                             try {
-                                sendSMS.guiSMS(s.generateRandomSixDigits(), infoUser[0]);
+                                SendSMS.guiSMS(s.generateRandomSixDigits(), infoUser[0]);
 
                             } catch (Exception e) {
                                 e.printStackTrace();  // Log lỗi nếu có

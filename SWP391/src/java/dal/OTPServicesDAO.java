@@ -4,7 +4,7 @@
  */
 package dal;
 
-import bo.getFormatDate;
+import bo.GetFormatDate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import model.OTP_Services;

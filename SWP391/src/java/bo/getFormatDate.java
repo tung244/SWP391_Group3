@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import model.OTP_Services;
 
-public class getFormatDate {
+public class GetFormatDate {
     public static String getFormString(){
         Date currentDate = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -35,7 +35,7 @@ public class getFormatDate {
         return Duration.between(datenow, expertdate).abs().toMinutes() > 0;
     }
     public static void main(String[] args) {
-        getFormatDate format = new getFormatDate();
+        GetFormatDate format = new GetFormatDate();
         OTPServicesDAO otp_dao = new OTPServicesDAO();
         OTP_Services otp = otp_dao.getOTPNewest("guest1");
         System.out.println(checkFiveMinute(otp.getOtp_expiry_date()));

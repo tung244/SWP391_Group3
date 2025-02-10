@@ -1,6 +1,6 @@
 package controller.homepage;
 
-import bo.getToken;
+import bo.GetToken;
 import dal.AccountDAO;
 import dal.UserProfileDAO;
 import java.io.IOException;

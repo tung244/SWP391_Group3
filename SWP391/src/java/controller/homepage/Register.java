@@ -1,6 +1,6 @@
 package controller.homepage;
 
-import bo.getFormatDate;
+import bo.GetFormatDate;
 import dal.AccountDAO;
 import dal.UserProfileDAO;
 import jakarta.mail.Session;
@@ -22,7 +22,7 @@ public class Register extends HttpServlet {
 
     AccountDAO accountdao = new AccountDAO();
     UserProfileDAO udao = new UserProfileDAO();
-    getFormatDate getdate = new getFormatDate();
+    GetFormatDate getdate = new GetFormatDate();
     
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
