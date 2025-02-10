@@ -138,6 +138,15 @@
 
                                                 </ul>
                                             </div>
+                                                    <div class="col-md-6">
+                                                <h5 class="text-success border-bottom pb-2">Degree</h5>
+                                                <ul class="list-unstyled">
+                                                    <c:forEach items="${listDegree}" var="de">
+                                                        <li class="mb-2">- ${de.degree_name}</li>
+                                                        </c:forEach>
+
+                                                </ul>
+                                            </div>
                                         </div>
 
                                         <!-- Biography -->

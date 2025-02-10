@@ -59,7 +59,7 @@ public class ListDoctor extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         DoctorsDAO dao = new DoctorsDAO();
-        List<Doctors> listDoctor = dao.getAllDoctors();
+        List<Doctors> listDoctor = dao.getDoctorsDash();
         
         request.setAttribute("listDoctor", listDoctor);
 

@@ -1,3 +1,9 @@
+<%-- 
+    Document   : DoctorDetail
+    Created on : Feb 11, 2025, 4:43:42 AM
+    Author     : PC
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -723,6 +729,7 @@
                                         <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                                         </li>
                                         <li class="breadcrumb-item active" aria-current="page"><a href="DoctorList">List Doctor</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Dr.${d.doctor_name}</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -740,66 +747,88 @@
                             </div>
                         </div>
                         <!--end breadcrumb-->
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="card-title">
-                                    <h4 class="mb-0">Doctor Table</h4>
-                                    <form action="action">
-                                       <button style="margin-left: 85%" type="button" class="btn btn-primary">Add a doctor</button> 
-                                    </form>
-                                    
-                                </div>
-                                <hr/>
-                                <div class="table-responsive">
-                                    <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" style="color: green">#</th>
-                                                <th scope="col" style="color: green">Name</th>
-                                                <th scope="col" style="color: green">Experience year</th>
-                                                <th scope="col" style="color: green">Specialization</th>
-                                                <th scope="col" style="color: green">Rating</th>
-                                                <th scope="col" style="color: green">Gender</th>
-                                                <th scope="col" style="color: green">DOB</th>
-                                                <th scope="col" style="color: green">Address</th>
-                                                <th scope="col" style="color: green">Status</th>
-                                                <th scope="col" style="color: green">Action</th>
+                        <!--Start doctor detail area-->
+                        <section class="doctor-details-area">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="doctor-details bg-white p-4 rounded-lg shadow-sm">
+                                            <div class="row">
+                                                <!-- Doctor Profile Image -->
+                                                <div class="col-lg-3 col-md-4">
+                                                    <div class="doctor-thumb text-center">
+                                                        <img  src="${d.profile_image}" alt="Doctor Photo" class="rounded-circle img-fluid mb-3">
+                                                        <div class="star-rating text-warning mb-2">
+                                                            <span class="text-muted ml-2">Rating: ${d.rating}</span> ★
+                                                            </br>
+                                                            <span class="text-muted ml-2">(45 reviews)</span>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach var="d" items="${listDoctor}">
-                                                <tr>
-                                                    <td>${d.doctor_id}</td>
-                                                    <td>${d.doctor_name}</td>
-                                                    <td>${d.experience_years} years</td>
-                                                    <td>${d.specialization.specialization_name}</td>
-                                                    <td>${d.rating}</td>
-                                                    <td>${d.gender}</td>
-                                                    <td>${d.dob}</td>
-                                                    <td>${d.address}</td>
-                                                    <td>${d.doctor_status}</td>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
+                                                <!-- Doctor Information -->
+                                                <div class="col-lg-9 col-md-8">
+                                                    <div class="doctor-info">
+                                                        <h2 class="text-success mb-3">${d.doctor_name}</h2>
+                                                        <h4 class="text-muted mb-4">Specialization: ${d.specialization.specialization_name}</h4>
 
-                                                    <td>
+                                                        <!-- Personal Details -->
+                                                        <div class="row mb-4">
+                                                            <div class="col-md-6">
+                                                                <h5 class="text-success border-bottom pb-2">Personal Information</h5>
+                                                                <ul class="list-unstyled">
+                                                                    <li class="mb-2"><strong>Gender:</strong>${d.gender}</li>
 
-                                                        <a href="updateDoctor?doctorId=${d.doctor_id}" onsubmit="return confirm('Are you sure you want to update this doctor?');" title="Update">
-                                                            <i class="fas fa-edit"></i>
-                                                        </a>
-                                                        <a href="listDoctorDetail?doctor_id=${d.doctor_id}" title="View" data-toggle="modal" data-target="#viewModal">
-                                                            <i class="fas fa-eye"></i>
-                                                        </a>
-                                                    </td>
+                                                                    <li class="mb-2"><strong>Certificate:</strong> ${d.certificate.certificate_name}</li>
+                                                                    <li class="mb-2"><strong>Certificate issued by:</strong> ${d.certificate.cer_doct.issued_by}</li>
+                                                                    <li class="mb-2"><strong>Experience:</strong> ${d.experience_years} years</li>
+                                                                    <li class="mb-2"><strong>Workplace:</strong> EyeCare hospital</li>
+                                                                </ul>
+                                                            </div>
 
+                                                            <div class="col-md-6">
+                                                                <h5 class="text-success border-bottom pb-2">Specialties</h5>
+                                                                <ul class="list-unstyled">
+                                                                    <c:forEach items="${listSpecById}" var="spec">
+                                                                        <li class="mb-2">🦷 ${spec.specialization_name}</li>
+                                                                        </c:forEach>
 
-                                                </tr>
-                                            </c:forEach>
-                                        </tbody>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <h5 class="text-success border-bottom pb-2">Degree</h5>
+                                                                <ul class="list-unstyled">
+                                                                    <c:forEach items="${listDegree}" var="de">
+                                                                        <li class="mb-2">- ${de.degree_name}</li>
+                                                                        </c:forEach>
 
-                                    </table>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Biography -->
+                                                        <div class="doctor-bio mb-4">
+                                                            <h5 class="text-success border-bottom pb-2">Professional Biography</h5>
+                                                            <p class="text-muted">Certificate: ${d.certificate.certificate_name}</p>
+                                                            <p class="text-muted">Working at: EyeCare hospital</p>
+                                                            <p class="text-muted">Experience years: ${d.experience_years} years</p>
+                                                        </div>
+
+                                                        <!-- Action Buttons -->
+                                                        <div class="doctor-actions text-center">
+                                                           
+                                                            <!--                                            <a href="consultation?id=#" class="btn btn-outline-success btn-lg">Free Consultation</a>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </section>
+                        <!--End doctor detail area-->
 
                     </div>
                 </div>
@@ -927,15 +956,15 @@
         <!--Data Tables js-->
         <script src="../admin/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
         <script>
-                                                                $(document).ready(function () {
-                                                                    //Default data table
-                                                                    $('#example').DataTable();
-                                                                    var table = $('#example2').DataTable({
-                                                                        lengthChange: false,
-                                                                        buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
-                                                                    });
-                                                                    table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
-                                                                });
+            $(document).ready(function () {
+                //Default data table
+                $('#example').DataTable();
+                var table = $('#example2').DataTable({
+                    lengthChange: false,
+                    buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+                });
+                table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+            });
         </script>
         <!-- App JS -->
         <script src="../admin/assets/js/app.js"></script>
