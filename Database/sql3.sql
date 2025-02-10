@@ -59,8 +59,8 @@ VALUES
 (3, 12, 600000); -- Tầm soát bệnh lý võng mạc tiểu đường chuyên sâu
 
 -- Insert data into Customers
--- INSERT INTO Customers (account_id, full_name, address, dob, gender, image_profile_user) VALUES
--- (7, 'Chris Davis', '654 Fir St', '1985-02-14', 'Male', 'chrisd.jpg');
+INSERT INTO Customers (account_id, full_name, address, dob, gender, image_profile_user) VALUES
+(7, 'Chris Davis', '654 Fir St', '1985-02-14', 'Male', 'chrisd.jpg');
 -- Insert data into Slots
 -- Chèn slot 30 phút (dịch vụ cơ bản)
 -- Thêm Slot cho Dịch Vụ Cơ Bản (30 phút)
@@ -78,6 +78,15 @@ VALUES
 ('15:00', '16:00', 2), -- Slot 3
 ('16:00', '17:00', 2); -- Slot 4
 -- Insert data into Schedules
+
+INSERT INTO Schedules (doctor_id, slot_id, schedule_date, schedule_status) VALUES
+(1, 1, '2025-02-11', 'Available'),
+(2, 2,'2025-02-11', 'Booked'),
+(3, 3,'2025-02-11', 'Available'),
+(4, 4,'2025-02-11', 'Booked'),
+(5, 5, '2025-02-11','Available');
+
+
 
 INSERT INTO Schedules (doctor_id, slot_id, schedule_date, schedule_status) VALUES
 (1, 1, '2025-02-11', 'Available'),
