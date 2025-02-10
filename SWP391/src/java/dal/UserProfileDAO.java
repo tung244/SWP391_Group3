@@ -1,6 +1,6 @@
 package dal;
 
-import bo.GetFormatDate;
+import bo.getFormatDate;
 import java.security.Timestamp;
 import model.UserProfile;
 import java.sql.PreparedStatement;
