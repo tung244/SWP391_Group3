@@ -3,8 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.homepage.doctor;
-
+package controller.admin.doctor;
 
 import dal.DegreeDAO;
 import dal.DoctorsDAO;
@@ -25,8 +24,8 @@ import model.Specialization;
  *
  * @author PC
  */
-@WebServlet(name="DoctorDetail", urlPatterns={"/doctorDetail"})
-public class DoctorDetail extends HttpServlet {
+@WebServlet(name="ListDoctorDetail", urlPatterns={"/admin/listDoctorDetail"})
+public class ListDoctorDetail extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -43,10 +42,10 @@ public class DoctorDetail extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DoctorDetail</title>");  
+            out.println("<title>Servlet ListDoctorDetail</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DoctorDetail at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ListDoctorDetail at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,7 +62,7 @@ public class DoctorDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String doctor_id = request.getParameter("doctorid");
+         String doctor_id = request.getParameter("doctor_id");
         DoctorsDAO dao = new DoctorsDAO();
         Doctors doctordetail = dao.getDoctorsById(doctor_id);
         
@@ -74,14 +73,14 @@ public class DoctorDetail extends HttpServlet {
         List<Degree> listDegree = dedao.getDegreeByDoctorId(doctor_id);
         
         String related_specid = spdao.getSpecializationIdByDoctorId(doctor_id);
-        List<Doctors> listRelatedDoctor = dao.getDoctorsBySpecializationId(related_specid);
+
         
         
-        request.setAttribute("listRelated", listRelatedDoctor);
+        
         request.setAttribute("listDegree", listDegree);
         request.setAttribute("listSpecById", listSpecializationByDocId);
         request.setAttribute("d", doctordetail);
-        request.getRequestDispatcher("homepage/doctordetail.jsp").forward(request, response);
+        request.getRequestDispatcher("DoctorDetail.jsp").forward(request, response);
     } 
 
     /** 
