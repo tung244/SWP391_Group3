@@ -37,13 +37,14 @@ public class ServiceDao extends DBContext {
                 + "    s.service_id, \n"
                 + "    s.service_name, \n"
                 + "    s.service_description,\n"
+                + "    s.service_status,\n"
                 + "    st.service_type_id, \n"
                 + "    st.service_type_name, \n"
                 + "    st.duration_service, \n"
                 + "    sd.cost,\n"
                 + "	sp.specialization_id,\n"
                 + "	sp.specialization_name,\n"
-                + "	sp.specialization_status\n"
+                + "    sp.specialization_status\n"
                 + "FROM \n"
                 + "    Services s\n"
                 + "JOIN \n"
@@ -65,8 +66,9 @@ public class ServiceDao extends DBContext {
                 int serviceId = rs.getInt("service_id");
                 String serviceName = rs.getString("service_name");
                 String serviceDescription = rs.getString("service_description");
+                String serviceStatus = rs.getString("service_status");
                 Specialization specialization = new Specialization(specialization_id, specialization_name, specialization_status);
-                Services service = new Services(serviceId, serviceName, serviceDescription, specialization);
+                Services service = new Services(serviceId, serviceName, serviceDescription, serviceStatus, specialization);
 
                 int serviceTypeId = rs.getInt("service_type_id");
                 String serviceTypeName = rs.getString("service_type_name");
@@ -96,6 +98,8 @@ public class ServiceDao extends DBContext {
         }
         return list;
     }
+    
+   
 
     public ServiceDetail getServiceDetailById(int id) {
         String query = "SELECT \n"
@@ -105,13 +109,14 @@ public class ServiceDao extends DBContext {
                 + "    s.service_description,\n"
                 + "    s.service_introduce,\n"
                 + "    s.service_benefit,\n"
+                + "    s.service_status,\n"
                 + "    st.service_type_id, \n"
                 + "    st.service_type_name, \n"
                 + "    st.duration_service, \n"
                 + "    sd.cost,\n"
                 + "	sp.specialization_id,\n"
                 + "	sp.specialization_name,\n"
-                + "	sp.specialization_status\n"
+                + "    sp.specialization_status\n"
                 + "FROM \n"
                 + "    Services s\n"
                 + "JOIN \n"
@@ -138,9 +143,9 @@ public class ServiceDao extends DBContext {
                 String serviceDescription = rs.getString("service_description");
                 String serviceIntroduce = rs.getString("service_introduce");
                 String serviceBenefit = rs.getString("service_benefit");
-
+                String serviceStatus = rs.getString("service_status");
                 Specialization specialization = new Specialization(specialization_id, specialization_name, specialization_status);
-                Services service = new Services(serviceId, serviceName, serviceDescription, serviceIntroduce, serviceBenefit, specialization);
+                Services service = new Services(serviceId, serviceName, serviceDescription, serviceIntroduce, serviceBenefit, serviceStatus, specialization);
 
                 int serviceTypeId = rs.getInt("service_type_id");
                 String serviceTypeName = rs.getString("service_type_name");
@@ -252,6 +257,7 @@ public class ServiceDao extends DBContext {
                 + "    s.service_description,\n"
                 + "	s.service_introduce,\n"
                 + "	s.service_benefit,\n"
+                + "	s.service_status,\n"
                 + "    st.service_type_id, \n"
                 + "    st.service_type_name, \n"
                 + "    st.duration_service, \n"
@@ -287,9 +293,10 @@ public class ServiceDao extends DBContext {
                 String serviceDescription = rs.getString("service_description");
                 String serviceIntroduce = rs.getString("service_introduce");
                 String serviceBenefit = rs.getString("service_benefit");
+                String serviceStatus = rs.getString("service_status");
 
                 Specialization specialization = new Specialization(specialization_id, specialization_name, specialization_status);
-                Services service = new Services(serviceId, serviceName, serviceDescription, serviceIntroduce, serviceBenefit, specialization);
+                Services service = new Services(serviceId, serviceName, serviceDescription, serviceIntroduce, serviceBenefit, serviceStatus, specialization);
 
                 int serviceTypeId = rs.getInt("service_type_id");
                 String serviceTypeName = rs.getString("service_type_name");
@@ -327,6 +334,7 @@ public class ServiceDao extends DBContext {
                 + "    s.service_id, \n"
                 + "    s.service_name, \n"
                 + "    s.service_description,\n"
+                + "    s.service_status,\n"
                 + "    st.service_type_id, \n"
                 + "    st.service_type_name, \n"
                 + "    st.duration_service, \n"
@@ -360,9 +368,9 @@ public class ServiceDao extends DBContext {
                 int serviceId = rs.getInt("service_id");
                 String serviceName = rs.getString("service_name");
                 String serviceDescription = rs.getString("service_description");
-
+                String serviceStatus = rs.getString("service_status");
                 Specialization specialization = new Specialization(specialization_id, specialization_name, specialization_status);
-                Services service = new Services(serviceId, serviceName, serviceDescription, specialization);
+                Services service = new Services(serviceId, serviceName, serviceDescription, serviceStatus, specialization);
 
                 int serviceTypeId = rs.getInt("service_type_id");
                 String serviceTypeName = rs.getString("service_type_name");
@@ -407,6 +415,7 @@ public class ServiceDao extends DBContext {
                 + "    s.service_id, \n"
                 + "    s.service_name, \n"
                 + "    s.service_description,\n"
+                + "    s.service_status,\n"
                 + "    st.service_type_id, \n"
                 + "    st.service_type_name, \n"
                 + "    st.duration_service, \n"
@@ -422,7 +431,7 @@ public class ServiceDao extends DBContext {
                 + "    Services_Type st ON sd.service_type_id = st.service_type_id\n"
                 + "JOIN \n"
                 + "    Specialization sp ON s.specialization_id = sp.specialization_id\n"
-                + "ORDER BY sp.specialization_id " + orderBy; // Nối chuỗi trực tiếp
+                + "ORDER BY sp.specialization_name " + orderBy; // Nối chuỗi trực tiếp
 
         try {
             ps = connection.prepareStatement(query);
@@ -437,9 +446,9 @@ public class ServiceDao extends DBContext {
                 int serviceId = rs.getInt("service_id");
                 String serviceName = rs.getString("service_name");
                 String serviceDescription = rs.getString("service_description");
-
+                String serviceStatus = rs.getString("service_status");
                 Specialization specialization = new Specialization(specialization_id, specialization_name, specialization_status);
-                Services service = new Services(serviceId, serviceName, serviceDescription, specialization);
+                Services service = new Services(serviceId, serviceName, serviceDescription, serviceStatus, specialization);
 
                 int serviceTypeId = rs.getInt("service_type_id");
                 String serviceTypeName = rs.getString("service_type_name");
@@ -497,6 +506,7 @@ public class ServiceDao extends DBContext {
                 list.add(new Services(rs.getInt("service_id"),
                         rs.getString("service_name"),
                         rs.getString("service_description"),
+                        rs.getString("service_status"),
                         new Specialization(rs.getInt("specialization_id"))));
             }
         } catch (Exception e) {
@@ -516,6 +526,7 @@ public class ServiceDao extends DBContext {
                 return new Services(rs.getInt("service_id"),
                         rs.getString("service_name"),
                         rs.getString("service_description"),
+                        rs.getString("service_status"),
                         new Specialization(rs.getInt("specialization_id")));
             }
         } catch (Exception e) {
@@ -567,6 +578,7 @@ public class ServiceDao extends DBContext {
                 + "    service_description = ?, "
                 + "    service_introduce = ?, "
                 + "    service_benefit = ?, "
+                + "    service_status = ?, "
                 + "    specialization_id = (SELECT specialization_id FROM Specialization WHERE specialization_name = ?) "
                 + "WHERE service_id = (SELECT service_id FROM Services_Detail WHERE service_detail_id = ?);";
 
@@ -575,22 +587,19 @@ public class ServiceDao extends DBContext {
                 + "    service_type_id = (SELECT service_type_id FROM Services_Type WHERE service_type_name = ?) "
                 + "WHERE service_detail_id = ?;";
 
-        String updateSpecializationQuery = "UPDATE Specialization "
-                + "SET specialization_status = ? "
-                + "WHERE specialization_name = ?;";
-
         try {
             conn = connection;
             conn.setAutoCommit(false); // Bắt đầu transaction
-            
+
             // Cập nhật bảng Services
             psServices = conn.prepareStatement(updateServicesQuery);
             psServices.setString(1, serviceDetail.getServices().getService_name());
             psServices.setString(2, serviceDetail.getServices().getService_description());
             psServices.setString(3, serviceDetail.getServices().getService_introduce());
             psServices.setString(4, serviceDetail.getServices().getService_benefit());
-            psServices.setString(5, serviceDetail.getServices().getSpecialization().getSpecialization_name());
-            psServices.setInt(6, serviceDetail.getService_detail_id());
+            psServices.setString(5, serviceDetail.getServices().getService_status());
+            psServices.setString(6, serviceDetail.getServices().getSpecialization().getSpecialization_name());
+            psServices.setInt(7, serviceDetail.getService_detail_id());
 
             int rowsUpdatedServices = psServices.executeUpdate();
 
@@ -603,13 +612,7 @@ public class ServiceDao extends DBContext {
             int rowsUpdatedDetail = psDetail.executeUpdate();
 
             // Cập nhật trạng thái của Specialization
-            psSpecialization = conn.prepareStatement(updateSpecializationQuery);
-            psSpecialization.setString(1, serviceDetail.getServices().getSpecialization().getSpecialization_status());
-            psSpecialization.setString(2, serviceDetail.getServices().getSpecialization().getSpecialization_name());
-
-            int rowsUpdatedSpecialization = psSpecialization.executeUpdate();
-
-            if (rowsUpdatedServices > 0 && rowsUpdatedDetail > 0 && rowsUpdatedSpecialization > 0) {
+            if (rowsUpdatedServices > 0 && rowsUpdatedDetail > 0) {
                 conn.commit(); // Commit transaction nếu mọi thứ OK
                 success = true;
             } else {
@@ -653,8 +656,8 @@ public class ServiceDao extends DBContext {
         boolean success = false;
 
         // Câu lệnh SQL để thêm vào bảng Services, Services_Detail và Specialization nếu cần
-        String insertServicesQuery = "INSERT INTO Services (service_name, service_description,service_introduce,service_benefit, specialization_id) "
-                + "VALUES (?, ?,?,?, (SELECT specialization_id FROM Specialization WHERE specialization_name = ?));";
+        String insertServicesQuery = "INSERT INTO Services (service_name, service_description,service_introduce,service_benefit,service_status, specialization_id) "
+                + "VALUES (?, ?,?,?,?, (SELECT specialization_id FROM Specialization WHERE specialization_name = ?));";
 
         String insertServiceDetailQuery = "INSERT INTO Services_Detail (service_id, service_type_id, cost) "
                 + "VALUES ((SELECT service_id FROM Services WHERE service_name = ?), "
@@ -670,7 +673,8 @@ public class ServiceDao extends DBContext {
             psServices.setString(2, serviceDetail.getServices().getService_description());
             psServices.setString(3, serviceDetail.getServices().getService_introduce());
             psServices.setString(4, serviceDetail.getServices().getService_benefit());
-            psServices.setString(5, serviceDetail.getServices().getSpecialization().getSpecialization_name());
+            psServices.setString(5, serviceDetail.getServices().getService_status());
+            psServices.setString(6, serviceDetail.getServices().getSpecialization().getSpecialization_name());
 
             int rowsInsertedServices = psServices.executeUpdate();
 
@@ -786,13 +790,11 @@ public class ServiceDao extends DBContext {
         return success;
     }
 
-    
-
     public static void main(String[] args) {
         ServiceDao dao = new ServiceDao();
         String name = "Khám mắt tổng quát";
-        List<ServiceDetail> list = dao.getServiceByName(name);
-        for (ServiceDetail serviceDetail : list) {
+        List<Services> list = dao.getAllServicesOnly();
+        for (Services serviceDetail : list) {
             System.out.println(serviceDetail);
         }
 

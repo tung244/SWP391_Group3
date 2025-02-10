@@ -66,7 +66,7 @@ public class ServiceList extends HttpServlet {
         List<Specialization> list1 = dao.getAllSpecialization();
         request.setAttribute("listS", list);
         request.setAttribute("listSP", list1);
-        request.getRequestDispatcher("/admin/ServiceList.jsp").forward(request, response);
+        request.getRequestDispatcher("ServiceList.jsp").forward(request, response);
     }
 
     /**

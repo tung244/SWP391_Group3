@@ -61,12 +61,12 @@ public class AddService extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/admin/ServiceList");
             } else {
                 request.setAttribute("error", "Add failed. Please try again.");
-                request.getRequestDispatcher("/admin/AddService.jsp").forward(request, response);
+                request.getRequestDispatcher("AddService.jsp").forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "An error occurred: " + e.getMessage());
-            request.getRequestDispatcher("/admin/AddService.jsp").forward(request, response);
+            request.getRequestDispatcher("AddService.jsp").forward(request, response);
         }
     }
 
@@ -84,11 +84,11 @@ public class AddService extends HttpServlet {
             request.setAttribute("serviceTypes", serviceTypes);
 
             // Chuyển tiếp đến trang AddService.jsp
-            request.getRequestDispatcher("/admin/AddService.jsp").forward(request, response);
+            request.getRequestDispatcher("AddService.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "An error occurred: " + e.getMessage());
-            request.getRequestDispatcher("/admin/AddService.jsp").forward(request, response);
+            request.getRequestDispatcher("AddService.jsp").forward(request, response);
         }
     }
 }

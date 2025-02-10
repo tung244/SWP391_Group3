@@ -14,24 +14,27 @@ public class Services {
     private String service_description;
     private String service_introduce;
     private String service_benefit;
+    private String service_status;
     private Specialization specialization;
 
     public Services() {
     }
 
-    public Services(int service_id, String service_name, String service_description, Specialization specialization) {
+    public Services(int service_id, String service_name, String service_description,String service_status, Specialization specialization) {
         this.service_id = service_id;
         this.service_name = service_name;
         this.service_description = service_description;
+        this.service_status = service_status;
         this.specialization = specialization;
     }
 
-    public Services(int service_id, String service_name, String service_description, String service_introduce, String service_benefit, Specialization specialization) {
+    public Services(int service_id, String service_name, String service_description, String service_introduce, String service_benefit, String service_status, Specialization specialization) {
         this.service_id = service_id;
         this.service_name = service_name;
         this.service_description = service_description;
         this.service_introduce = service_introduce;
         this.service_benefit = service_benefit;
+        this.service_status = service_status;
         this.specialization = specialization;
     }
 
@@ -85,14 +88,17 @@ public class Services {
         this.specialization = specialization;
     }
 
-    @Override
-    public String toString() {
-        return "Services{" + "service_id=" + service_id + ", service_name=" + service_name + ", service_description=" + service_description + ", service_introduce=" + service_introduce + ", service_benefit=" + service_benefit + ", specialization=" + specialization + '}';
+    public String getService_status() {
+        return service_status;
     }
 
-    
+    public void setService_status(String service_status) {
+        this.service_status = service_status;
+    }
 
-    
-    
+    @Override
+    public String toString() {
+        return "Services{" + "service_id=" + service_id + ", service_name=" + service_name + ", service_description=" + service_description + ", service_introduce=" + service_introduce + ", service_benefit=" + service_benefit + ", service_status=" + service_status + ", specialization=" + specialization + '}';
+    }
     
 }

@@ -819,7 +819,7 @@
                                                         <td>${s.services.specialization.specialization_name}</td>
                                                         <td>
                                                             <c:choose>
-                                                                <c:when test="${s.services.specialization.specialization_status == 'Active'}">
+                                                                <c:when test="${s.services.service_status == 'Active'}">
                                                                     <span style="color: green; font-weight: bold;">Active</span>
                                                                 </c:when>                                                                                                                   
                                                                 <c:otherwise>

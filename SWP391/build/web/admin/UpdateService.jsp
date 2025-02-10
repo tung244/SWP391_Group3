@@ -118,10 +118,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Specialization Status</label>
-                                <select class="form-select" name="specialization_status" required>
-                                    <option value="Active" ${s.services.specialization.specialization_status == 'Active' ? 'selected' : ''}>Active</option>
-                                    <option value="Inactive" ${s.services.specialization.specialization_status == 'Inactive' ? 'selected' : ''}>Inactive</option>
+                                <label class="form-label">Service Status</label>
+                                <select class="form-select" name="service_status" required>
+                                    <option value="Active" ${s.services.service_status == 'Active' ? 'selected' : ''}>Active</option>
+                                    <option value="Inactive" ${s.services.service_status == 'Inactive' ? 'selected' : ''}>Inactive</option>
                                 </select>
                             </div>
                         </div>

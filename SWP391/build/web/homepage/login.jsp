@@ -30,8 +30,8 @@
                                 </div>
                                 <div class="footer">
                                     <div class="col-md-6" style="text-align: start; padding-left: 35px;">
-                                        <input style="scale: 1.5;margin-right: 10px;" type="checkbox"/>
-                                        <a>Remember me</a>
+                                        <input style="scale: 1.5;margin-right: 10px;" type="checkbox" id="saveUser" name="saveUser" value="save"/>
+                                        <label for="saveUser"><a>Remember me</a></label>
                                     </div>
 
                                     <a class="col-md-6" style="padding: 0;" href="forgot_password">Forgot password?</a>
@@ -144,12 +144,12 @@
 
 
                                 <div class="button-container">
-                                    <button name="resigter-button" id="register-button" type="submit"><span>Next</span></button>
+                                    <button name="register-button" id="register-button" type="submit"><span>Next</span></button>
                                 </div>
                                 <input type="hidden" name="action" id ="action" value="register"/>
                             </form>
                             <div class="register-other-platform" style="margin-top: 15px;margin-bottom: 20px; text-align: center; font-size: 16px; color: white;">
-                                <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  </span>Or resigter with
+                                <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  </span>Or register with
                                 <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</span>
                                 <div class="d-flex justify-content-center align-items-center register-with">
 <!--                                    <div class="">

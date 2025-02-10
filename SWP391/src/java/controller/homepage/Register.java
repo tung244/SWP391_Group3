@@ -85,7 +85,8 @@ public class Register extends HttpServlet {
             String fullname = request.getParameter("register-name");
             String register_phone = request.getParameter("register-phone");
             String gender = request.getParameter("register-gender");
-            Account a = new Account(username, password, "", register_phone,getdate.getFormString(), new Role(1, ""));
+            String email = request.getParameter("register-email");
+            Account a = new Account(username, password, email, register_phone,getdate.getFormString(), new Role(1, ""));
             UserProfile u = new UserProfile(a, fullname, "", "", gender, "logo1");
             String ms = "";
             String error = "";

@@ -79,7 +79,7 @@ public class UpdateService extends HttpServlet {
                 if (serviceDetail != null) {
                     request.setAttribute("s", serviceDetail);
                     request.setAttribute("list", list);
-                    request.getRequestDispatcher("/admin/UpdateService.jsp").forward(request, response);
+                    request.getRequestDispatcher("UpdateService.jsp").forward(request, response);
                 } else {
                     out.println("Service detail not found.");
                 }
@@ -113,10 +113,10 @@ public class UpdateService extends HttpServlet {
             String serviceDescription = request.getParameter("service_description");
             String serviceIntroduce = request.getParameter("service_introduce");
             String serviceBenefit = request.getParameter("service_benefit");
+            String serviceStatus = request.getParameter("service_status");
             String serviceTypeName = request.getParameter("service_type_name");
             double cost = Double.parseDouble(request.getParameter("cost"));
             String specializationName = request.getParameter("specialization_name");
-            String specializationStatus = request.getParameter("specialization_status");
 
             // Tạo đối tượng Services
             Services service = new Services();
@@ -124,11 +124,11 @@ public class UpdateService extends HttpServlet {
             service.setService_description(serviceDescription);
             service.setService_introduce(serviceIntroduce);
             service.setService_benefit(serviceBenefit);
+            service.setService_status(serviceStatus);
 
             // Tạo đối tượng Specialization
             Specialization specialization = new Specialization();
             specialization.setSpecialization_name(specializationName);
-            specialization.setSpecialization_status(specializationStatus);
             service.setSpecialization(specialization);
 
             // Tạo đối tượng ServiceTypes

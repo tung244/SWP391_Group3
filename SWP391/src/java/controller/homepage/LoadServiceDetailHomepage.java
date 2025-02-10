@@ -20,7 +20,7 @@ import model.Services;
  *
  * @author DELL
  */
-@WebServlet(name = "LoadServiceDetailHomepage", urlPatterns = {"/homepage/LoadServiceDetailHomepage"})
+@WebServlet(name = "LoadServiceDetailHomepage", urlPatterns = {"/loadServiceDetailHomepage"})
 public class LoadServiceDetailHomepage extends HttpServlet {
 
     /**

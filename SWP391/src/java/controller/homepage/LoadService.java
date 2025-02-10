@@ -20,7 +20,7 @@ import model.Services;
  *
  * @author DELL
  */
-@WebServlet(name="LoadService", urlPatterns={"/homepage/LoadService"})
+@WebServlet(name="LoadService", urlPatterns={"/loadService"})
 public class LoadService extends HttpServlet {
    
     /** 
@@ -58,10 +58,10 @@ public class LoadService extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        ServiceDao dao = new ServiceDao();
+                ServiceDao dao = new ServiceDao();
         List<Services> list = dao.getAllServicesOnly();
         request.setAttribute("listS", list);
-        request.getRequestDispatcher("/homepage/Service.jsp").forward(request, response);
+        request.getRequestDispatcher("homepage/Service.jsp").forward(request, response);
     } 
 
     /** 
