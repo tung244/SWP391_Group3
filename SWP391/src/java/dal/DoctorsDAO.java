@@ -18,7 +18,7 @@ import model.Doctors;
 import model.Specialization;
 
 public class DoctorsDAO extends DBContext {
-    
+
     //List doctor in dashboard
     public List<Doctors> getDoctorsDash() {
         List<Doctors> list = new ArrayList<>();
@@ -46,8 +46,6 @@ public class DoctorsDAO extends DBContext {
                 specialization.setSpecialization_status(rs.getString("specialization_status"));
                 doctor.setSpecialization(specialization);
 
-                
-
                 list.add(doctor);
             }
         } catch (Exception e) {
@@ -55,9 +53,7 @@ public class DoctorsDAO extends DBContext {
         }
         return list;
     }
-    
-    
-    
+
     // List all doctor
     public List<Doctors> getAllDoctors() {
         List<Doctors> list = new ArrayList<>();
@@ -133,8 +129,6 @@ public class DoctorsDAO extends DBContext {
                 specialization.setSpecialization_status(rs.getString("specialization_status"));
                 doctor.setSpecialization(specialization);
 
-                
-
                 list.add(doctor);
             }
         } catch (Exception e) {
@@ -173,7 +167,6 @@ public class DoctorsDAO extends DBContext {
                 specialization.setSpecialization_status(rs.getString("specialization_status"));
                 doctor.setSpecialization(specialization);
 
-
                 list.add(doctor);
             }
         } catch (Exception e) {
@@ -189,7 +182,6 @@ public class DoctorsDAO extends DBContext {
                 + "LEFT JOIN dbo.Certificate_Doctor cd ON cd.doctor_id = d.doctor_id\n"
                 + "LEFT JOIN dbo.Certificate c ON c.certificate_id = cd.certificate_id\n"
                 + "WHERE d.doctor_id =?";
-
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -367,8 +359,7 @@ public class DoctorsDAO extends DBContext {
             Collections.sort(doctors, Comparator.comparingDouble(Doctors::getRating));
         }
     }
-    
-    
+
     public boolean updateDoctor(Doctors doctor) {
         String sql = "UPDATE Doctors SET "
                 + "doctor_name = ?, "
@@ -402,13 +393,55 @@ public class DoctorsDAO extends DBContext {
         }
     }
 
+    public boolean addDoctor(Doctors doctor) {
+        String sql = "INSERT INTO Doctors (doctor_name, experience_years, profile_image, rating, gender, dob, address, doctor_status, specialization_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, doctor.getDoctor_name());
+            stmt.setInt(2, doctor.getExperience_years());
+            stmt.setString(3, doctor.getProfile_image());
+            stmt.setDouble(4, doctor.getRating());
+            stmt.setString(5, doctor.getGender());
+            stmt.setString(6, doctor.getDob());
+            stmt.setString(7, doctor.getAddress());
+            stmt.setString(8, doctor.getDoctor_status());
+            stmt.setInt(9, doctor.getSpecialization().getSpecialization_id());
+
+            int rowsInserted = stmt.executeUpdate();
+             return  rowsInserted > 0 ;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
 //        List<Doctors> li = dao.getDoctorsByFilter("", "2", "o");
 //        for (Doctors doctors : li) {
 //            System.out.println(doctors);
 //        }
-//        
+//    
+
+//        Doctors doc = new Doctors();
+//        doc.setDoctor_name("j");
+//        doc.setExperience_years(10);
+//        doc.setProfile_image("profile.jpg");
+//        doc.setRating(4.5);
+//        doc.setGender("Male");
+//        doc.setDob("1985-01-01");
+//        doc.setAddress("123 Street");
+//        doc.setDoctor_status("Active");
+//        Specialization specialization = new Specialization();
+//        specialization.setSpecialization_id(1);
+//        doc.setSpecialization(specialization);
+//
+//        boolean flag = dao.addDoctor(doc);
+//        if (flag) {
+//            System.out.println("Doctor added successfully!");
+//        } else {
+//            System.out.println("Failed to add the doctor.");
+//        }
+//    }
 //        Doctors doc = new Doctors();
 //        doc.setDoctor_name("Lee Min Hoo");
 //        doc.setExperience_years(10);
@@ -431,10 +464,13 @@ public class DoctorsDAO extends DBContext {
 //        for (Doctors doctors : l) {
 //            System.out.println(doctors);
 //        }
-             List<Doctors> list = dao.getActiveDoctors();
-                for (Doctors doctors : list) {
+    List<Doctors> list = dao.getActiveDoctors();
+    for (Doctors doctors : list
+
+    
+        ) {
                     System.out.println(doctors);
-                }        
+    }
 //
 //                List<Doctors> l = dao.getDoctorsBySpecializationId("1");
 //                for (Doctors doctors : l) {
@@ -442,10 +478,10 @@ public class DoctorsDAO extends DBContext {
 //                }        
 //                Doctors d = dao.getDoctorsById("1");
 //                System.out.println(d);
-        //        for (Doctors doctors : list) {
-        //            System.out.println(doctors);
-        //
-        //        }
-    }
+    //        for (Doctors doctors : list) {
+    //            System.out.println(doctors);
+    //
+    //        }
+}
 
 }

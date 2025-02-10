@@ -744,9 +744,9 @@
                             <div class="card-body">
                                 <div class="card-title">
                                     <h4 class="mb-0">Doctor Table</h4>
-                                    <form action="action">
-                                       <button style="margin-left: 85%" type="button" class="btn btn-primary">Add a doctor</button> 
-                                    </form>
+                                    
+                                    <a href="AddDoctor" class="btn btn-primary" style="margin-left: 85%;">Add a doctor</a>
+                                    
                                     
                                 </div>
                                 <hr/>

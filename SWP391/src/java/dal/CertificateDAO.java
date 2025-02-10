@@ -83,6 +83,19 @@ public class CertificateDAO extends DBContext {
         }
         return certificates;
     }
+     public void addDoctorCertificates(int doctorId, List<Integer> certificateIds) {
+        String sql = "INSERT INTO Certificate_Doctor (doctor_id, certificate_id) VALUES (?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            for (int certificateId : certificateIds) {
+                stmt.setInt(1, doctorId);
+                stmt.setInt(2, certificateId);
+                stmt.addBatch();
+            }
+            stmt.executeBatch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     public static void main(String[] args) {
         CertificateDAO dao = new CertificateDAO();
@@ -90,5 +103,6 @@ public class CertificateDAO extends DBContext {
         for (Certificate certificate : l) {
             System.out.println(certificate);
         }
+
     }
 }

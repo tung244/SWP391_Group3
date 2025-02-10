@@ -84,6 +84,20 @@ public class DegreeDAO extends DBContext {
         }
     }
 
+    public void addDoctorDegrees(int doctorId, List<Integer> degreeIds) {
+        String sql = "INSERT INTO Degree_Doctor (doctor_id, degree_id) VALUES (?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            for (int degreeId : degreeIds) {
+                stmt.setInt(1, doctorId);
+                stmt.setInt(2, degreeId);
+                stmt.addBatch();
+            }
+            stmt.executeBatch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         DegreeDAO dao = new DegreeDAO();
 //        List<Degree> l = dao.getAllDegree();
@@ -94,6 +108,15 @@ public class DegreeDAO extends DBContext {
 //        Degree_Doctor dd = new Degree_Doctor();
 //        dd.setDegree_id(2);
 //        dd.setDoctor_id(1);
+
+//        // Create a list of degree IDs to test
+//        List<Integer> degreeIds = new ArrayList<>();
+//        degreeIds.add(1);  // Add some test degree IDs
+//        degreeIds.add(2);
+//        degreeIds.add(3);
+//
+//        // Now test the method with doctor ID 6 and the list of degrees
+//        dao.addDoctorDegrees(6, degreeIds);
 
         List<Degree> list = dao.getDegreeByDoctorId("1");
         for (Degree degree : list) {
