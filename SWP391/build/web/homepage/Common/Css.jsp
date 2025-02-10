@@ -11,9 +11,12 @@
 	<!-- For IE -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<!-- master stylesheet -->
+        
 	<link rel="stylesheet" href="homepage/css/style.css">
 	<!-- Responsive stylesheet -->
 	<link rel="stylesheet" href="homepage/css/responsive.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="homepage/images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="homepage/images/favicon/favicon-32x32.png" sizes="32x32">

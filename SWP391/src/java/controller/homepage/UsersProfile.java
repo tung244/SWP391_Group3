@@ -5,6 +5,7 @@
 
 package controller.homepage;
 
+import dal.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Appointment;
+import model.UserProfile;
 
 
 @WebServlet(name="UserProfile", urlPatterns={"/userprofile"})
@@ -39,6 +44,16 @@ public class UsersProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        String username =  (String) session.getAttribute("username");
+        int account_id = (int) session.getAttribute("account_id");
+        UserProfileDAO  dao = new UserProfileDAO();
+        UserProfile user = dao.GetAccount(username);
+        session.setAttribute("userProfile", user);
+        
+        List <Appointment> listA = dao.getAppointmentByPatientID(account_id);
+        request.setAttribute("appointment", listA);
         request.getRequestDispatcher("homepage/userprofile.jsp").forward(request, response);
     } 
 

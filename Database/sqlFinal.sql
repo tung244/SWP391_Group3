@@ -1,4 +1,4 @@
-USE [master]
+﻿USE [master]
 GO
 
 /*******************************************************************************
@@ -86,7 +86,7 @@ CREATE TABLE Accounts (
 
 CREATE TABLE Doctors (
     doctor_id INT PRIMARY KEY IDENTITY(1,1),
-    account_id INT,
+    account_id INT unique,
     doctor_name NVARCHAR(255) NOT NULL,
     experience_years INT,
     specialization_id INT,
@@ -125,20 +125,10 @@ CREATE TABLE Customers (
 );
 
 
-CREATE TABLE Slots(
-	slot_id INT PRIMARY KEY IDENTITY(1,1),
-	slot_begin DATETIME not null,
-	slot_end DATETIME not null
-);
 
-CREATE TABLE Schedules(
-	doctor_id INT ,
-	slot_id INT ,
-	schedule_status NVARCHAR(255),
-	PRIMARY KEY (doctor_id, slot_id),
-	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ,
-    FOREIGN KEY (slot_id) REFERENCES Slots(slot_id) 
-);
+
+
+
 CREATE TABLE Services_Type(
 service_type_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 service_type_name NVARCHAR(255),
@@ -148,6 +138,9 @@ CREATE TABLE [Services](
 service_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 service_name NVARCHAR(255),
 service_description NVARCHAR(255),
+service_introduce nvarchar(1000),
+service_benefit nvarchar(1000),
+service_status varchar(20),
 specialization_id INT,
 FOREIGN KEY(specialization_id) REFERENCES dbo.Specialization(specialization_id)
 )
@@ -161,22 +154,38 @@ CREATE TABLE Services_Detail (
 	FOREIGN KEY(service_id) REFERENCES dbo.Services(service_id)
 );
 
+CREATE TABLE Slots (
+    slot_id INT PRIMARY KEY IDENTITY(1,1),
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    service_type_id INT NOT NULL,
+    FOREIGN KEY (service_type_id) REFERENCES Services_Type(service_type_id),
+    UNIQUE (start_time, end_time, service_type_id) -- Tránh trùng lặp slot
+);
 
 
+CREATE TABLE Schedules (
+    doctor_id INT,
+    slot_id INT,
+    schedule_date DATE NOT NULL, -- Ngày bác sĩ làm việc
+    schedule_status NVARCHAR(255),
+    PRIMARY KEY (doctor_id, slot_id, schedule_date),
+    FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
+    FOREIGN KEY (slot_id) REFERENCES Slots(slot_id)
+);
 
 CREATE TABLE Appointment(
 	appointment_id INT PRIMARY KEY IDENTITY(1,1),
 	appointment_date DATETIME,
 	appointment_status nvarchar(255),
 	doctor_id INT,
-	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
-	time_begin DATETIME,
-	time_end DATETIME,
+	slot_id int,
 	service_detail_id INT,
+	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
+	FOREIGN KEY (slot_id) REFERENCES dbo.Slots(slot_id) ,
 	FOREIGN KEY (service_detail_id) REFERENCES dbo.Services_Detail(service_detail_id) ,
 	patient_id int,
 	FOREIGN KEY (patient_id) REFERENCES dbo.Customers(account_id) ,
-	phonenumber_patient NVARCHAR(50),
 );
 
 

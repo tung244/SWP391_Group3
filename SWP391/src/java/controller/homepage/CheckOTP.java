@@ -7,6 +7,7 @@ package controller.homepage;
 import bo.getFormatDate;
 import bo.randomSixNumber;
 import bo.sendMail;
+import bo.sendSMS;
 import dal.OTPServicesDAO;
 import dal.UserProfileDAO;
 import java.io.IOException;
@@ -52,8 +53,53 @@ public class CheckOTP extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-
+//        randomSixNumber s = new randomSixNumber();
+//        HttpSession session = request.getSession();
+//        String otp = s.generateRandomSixDigits();
+//        OTP_Services otp_old = otpdao.getOTPNewest((String) session.getAttribute("username_forgot"));
+//        String method = request.getParameter("verificationMethod");
+//        String ms = "";
+//        String error = "";
+//        String[] infoUser = (String[]) session.getAttribute("infoUser");
+//        
+//        if (otp_old != null) {
+//            if (getFormatDate.checkFiveMinute(otp_old.getOtp_expiry_date())) {
+//                String otp_new = s.generateRandomSixDigits();
+//                if (!otp_new.equals(otp_old.getOtp())) {
+//
+//                    if (method.equals("email")) {
+//                        Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
+//                            try {
+//                                sendMail.guiMail(infoUser[1], s.generateRandomSixDigits(), "bạn");
+//
+//                            } catch (Exception e) {
+//                                e.printStackTrace();  // Log lỗi nếu có
+//                            }
+//                        });
+//                        emailThread.start();
+//                    }
+//                    if (method.equals("phone")) {
+//                        Thread emailThread = new Thread(() -> {  // thread gửi sms khác luồng
+//                            try {
+//                                sendSMS.guiSMS(s.generateRandomSixDigits(), infoUser[0]);
+//
+//                            } catch (Exception e) {
+//                                e.printStackTrace();  // Log lỗi nếu có
+//                            }
+//                        });
+//                        emailThread.start();
+//                    }
+//
+//                }
+//                ms = "OTP gửi thành công ! Vui Lòng chờ trong giây lát";
+//            } else {
+//                error = "Vui lòng chờ trong giây lát!";
+//            }
+//
+//        }
+//        session.setAttribute("ms", ms);
+//        session.setAttribute("error", error);
+//        response.sendRedirect("otp_checking");
     }
 
     @Override

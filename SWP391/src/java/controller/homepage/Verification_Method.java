@@ -7,6 +7,7 @@ package controller.homepage;
 import bo.getFormatDate;
 import bo.randomSixNumber;
 import bo.sendMail;
+import bo.sendSMS;
 import dal.OTPServicesDAO;
 import dal.UserProfileDAO;
 import java.io.IOException;
@@ -50,11 +51,17 @@ public class Verification_Method extends HttpServlet {
         String username = (String) session.getAttribute("username_forgot");
 
         String[] infoUser = udao.loadBasicInfoUser(username);
-
-        String[] encryptUser = new String[2];
-        encryptUser[1] = infoUser[1].substring(0, 5) + "**********" + infoUser[1].substring(infoUser[1].length() - 9, infoUser[1].length());
-        encryptUser[0] = infoUser[0].substring(0, 3) + "**********" + infoUser[0].substring(infoUser[0].length() - 2, infoUser[0].length());
-        request.setAttribute("encryptUser", encryptUser);
+        if (infoUser != null) {
+            String[] encryptUser = new String[2];
+            if (infoUser[1] != null) {
+                encryptUser[1] = infoUser[1].substring(0, 5) + "**********" + infoUser[1].substring(infoUser[1].length() - 9, infoUser[1].length());
+            }
+            if (infoUser[0] != null) {
+                encryptUser[0] = infoUser[0].substring(0, 3) + "**********" + infoUser[0].substring(infoUser[0].length() - 2, infoUser[0].length());
+            }
+            session.setAttribute("infoUser", infoUser);
+            request.setAttribute("encryptUser", encryptUser);
+        }
 
         request.getRequestDispatcher("homepage/verification_method.jsp").forward(request, response);
     }
@@ -64,47 +71,54 @@ public class Verification_Method extends HttpServlet {
             throws ServletException, IOException {
         randomSixNumber s = new randomSixNumber();
         HttpSession session = request.getSession();
-        String otp = s.generateRandomSixDigits();
-        UserProfile u = (UserProfile) session.getAttribute("user");
-
+        OTP_Services otp_old = otpdao.getOTPNewest((String) session.getAttribute("username_forgot"));
+        
         String method = request.getParameter("verificationMethod");
-        String[] userInfo = udao.loadBasicInfoUser((String) session.getAttribute("username_forgot"));
-        OTP_Services otp_old = otpdao.getOTPNewest((String) session.getAttribute("username_forgot")); //lấy otp gần nhất
         String ms = "";
-            
-        while (otp_old.getOtp().equals(otp)) {  //so sánh otp
-            otp = s.generateRandomSixDigits();
-        }
-        try {
-            int account_id = Integer.parseInt(userInfo[2]);
-            OTP_Services otpservices = new OTP_Services(account_id,
-                    otp,
-                    getFormatDate.getFormString(),
-                    getFormatDate.plusFiveMinutes(getFormatDate.getFormString()));
-            otpdao.saveOTP(otpservices);
-            if (method.equals("email")) {
-                final String email = userInfo[1];
-                final String otpcode = otp;
-                ms = "Please wait some second for the email otp!";
+        String error = "";
+        String[] infoUser = (String[]) session.getAttribute("infoUser");
+        System.out.println("đến1");
+        if (otp_old != null) {
+            if (getFormatDate.checkFiveMinute(otp_old.getOtp_expiry_date())) {
+                String otp_new = s.generateRandomSixDigits();
+                if (otp_new.equals(otp_old.getOtp())) {
+                    
+                    
                 
-                Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
-                    try {
-                        sendMail.guiMail(email, otpcode, "Bạn");
-                        
-                    } catch (Exception e) {
-                        e.printStackTrace();  // Log lỗi nếu có
+                }
+                    System.out.println("đến 2");
+                    if (method.equals("email")) {
+                        Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
+                            try {
+                                System.out.println("đến 3");
+                                sendMail.guiMail(infoUser[1], s.generateRandomSixDigits(), "bạn");
+
+                            } catch (Exception e) {
+                                e.printStackTrace();  // Log lỗi nếu có
+                            }
+                        });
+                        emailThread.start();
                     }
-                });
-                emailThread.start();
+                    if (method.equals("phone")) {
+                        Thread emailThread = new Thread(() -> {  // thread gửi sms khác luồng
+                            try {
+                                sendSMS.guiSMS(s.generateRandomSixDigits(), infoUser[0]);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();  // Log lỗi nếu có
+                            }
+                        });
+                        emailThread.start();
+                    }
+
+                }
+                ms = "OTP gửi thành công ! Vui Lòng chờ trong giây lát";
+            } else {
+                error = "Vui lòng chờ trong giây lát!";
             }
-            if (method.equals("phone")) {
-                
-            }
-            
-        } catch (Exception e) {
-        }
-        response.sendRedirect("otp_checking");
-    }
+
+        }     
+
 
     @Override
     public String getServletInfo() {
