@@ -1,10 +1,10 @@
-﻿-- Insert data into Role
+﻿USE EyeCare
 INSERT INTO Role (role_name) VALUES
 ('Admin'),
-('Customer Support'),
 ('Sales'),
 ('Doctors'),
-('Customer')
+('Customer'),
+('Customer Support')
 
 -- Insert data into Specialization
 INSERT INTO Specialization (specialization_name, specialization_status) VALUES

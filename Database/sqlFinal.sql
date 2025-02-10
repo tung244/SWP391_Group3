@@ -1,4 +1,4 @@
-USE [master]
+﻿USE [master]
 GO
 
 /*******************************************************************************
@@ -86,7 +86,7 @@ CREATE TABLE Accounts (
 
 CREATE TABLE Doctors (
     doctor_id INT PRIMARY KEY IDENTITY(1,1),
-    account_id INT,
+    account_id INT unique,
     doctor_name NVARCHAR(255) NOT NULL,
     experience_years INT,
     specialization_id INT,
@@ -125,20 +125,10 @@ CREATE TABLE Customers (
 );
 
 
-CREATE TABLE Slots(
-	slot_id INT PRIMARY KEY IDENTITY(1,1),
-	slot_begin DATETIME not null,
-	slot_end DATETIME not null
-);
 
-CREATE TABLE Schedules(
-	doctor_id INT ,
-	slot_id INT ,
-	schedule_status NVARCHAR(255),
-	PRIMARY KEY (doctor_id, slot_id),
-	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ,
-    FOREIGN KEY (slot_id) REFERENCES Slots(slot_id) 
-);
+
+
+
 CREATE TABLE Services_Type(
 service_type_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 service_type_name NVARCHAR(255),
@@ -150,6 +140,7 @@ service_name NVARCHAR(255),
 service_description NVARCHAR(255),
 service_introduce nvarchar(1000),
 service_benefit nvarchar(1000),
+service_status varchar(20),
 specialization_id INT,
 FOREIGN KEY(specialization_id) REFERENCES dbo.Specialization(specialization_id)
 )
@@ -163,22 +154,38 @@ CREATE TABLE Services_Detail (
 	FOREIGN KEY(service_id) REFERENCES dbo.Services(service_id)
 );
 
+CREATE TABLE Slots (
+    slot_id INT PRIMARY KEY IDENTITY(1,1),
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    service_type_id INT NOT NULL,
+    FOREIGN KEY (service_type_id) REFERENCES Services_Type(service_type_id),
+    UNIQUE (start_time, end_time, service_type_id) -- Tránh trùng lặp slot
+);
 
 
+CREATE TABLE Schedules (
+    doctor_id INT,
+    slot_id INT,
+    schedule_date DATE NOT NULL, -- Ngày bác sĩ làm việc
+    schedule_status NVARCHAR(255),
+    PRIMARY KEY (doctor_id, slot_id, schedule_date),
+    FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
+    FOREIGN KEY (slot_id) REFERENCES Slots(slot_id)
+);
 
 CREATE TABLE Appointment(
 	appointment_id INT PRIMARY KEY IDENTITY(1,1),
 	appointment_date DATETIME,
 	appointment_status nvarchar(255),
 	doctor_id INT,
-	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
-	time_begin DATETIME,
-	time_end DATETIME,
+	slot_id int,
 	service_detail_id INT,
+	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
+	FOREIGN KEY (slot_id) REFERENCES dbo.Slots(slot_id) ,
 	FOREIGN KEY (service_detail_id) REFERENCES dbo.Services_Detail(service_detail_id) ,
 	patient_id int,
 	FOREIGN KEY (patient_id) REFERENCES dbo.Customers(account_id) ,
-	phonenumber_patient NVARCHAR(50),
 );
 
 
@@ -282,18 +289,34 @@ FOREIGN KEY(image_id) REFERENCES dbo.Images_Video(image_id)
 )
 CREATE TABLE Content_Stories(
 patient_name NVARCHAR(255),
-image_id INT,
+image_patient nvarchar(255),
 content_stories NVARCHAR(MAX),
 PRIMARY KEY(patient_name),
-FOREIGN KEY(image_id) REFERENCES dbo.Images_Video(image_id)
+
+)
+CREATE TABLE Banner(
+banner_id INT IDENTITY(1,1) PRIMARY KEY,
+banner_name NVARCHAR(255),
+banner_title NVARCHAR(255),
+banner_description NVARCHAR(255),
+banner_status NVARCHAR(10),
+link_banner NVARCHAR(255),
+href_banner NVARCHAR(255)
+)
+
+CREATE TABLE Machine(
+machine_id INT IDENTITY(1,1) PRIMARY KEY,
+machine_name NVARCHAR(255),
+machine_description NVARCHAR(max),
+machine_img NVARCHAR(255),
 
 )
 
+CREATE TABLE OTP_Services(
+otp_id INT IDENTITY(1,1) PRIMARY KEY,
+account_id INT,
+otp NVARCHAR(20),
+created_otp_time NVARCHAR(255),
+otp_expiry_date NVARCHAR(255),
 
-
-
-
-
-
-
-
+)

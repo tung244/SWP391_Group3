@@ -3,7 +3,35 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <jsp:include page="Common/Css.jsp"/>  
+        <jsp:include page="Common/Css.jsp"/> 
+        <style>
+            .messenger-icon {
+                position: fixed; /* Luôn cố định trên màn hình */
+                bottom: 50px;
+                left: 10px;
+                width: 60px;
+                height: 60px;
+                background-color: #0078FF;
+                border-radius: 50%;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                transition: transform 0.2s ease-in-out, background-color 0.2s;
+                cursor: pointer;
+            }
+
+            .messenger-icon img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .messenger-icon:hover {
+                transform: scale(1.1);
+                background-color: #005ce6;
+            }
+        </style>
     </head>
     <body>
         <div class="boxed_wrapper">
@@ -366,7 +394,7 @@
                         </div>
                         <div class="col-md-6">
                             <img style="margin-left: 100px" src="https://res.cloudinary.com/djmftornv/image/upload/v1738786681/xtfsxazm9smcqmtcffbh.svg"/>
-                            
+
                         </div>
                     </div>
 
@@ -418,7 +446,7 @@
                 </div>
             </section>
             <!--Start appoinment area-->
-            
+
             <!--End appoinment area-->
 
             <!--Start about us area-->
@@ -588,46 +616,46 @@
                 </div>
             </section>
             <!--Start team area-->
-            
+
             <!--End team area-->
-            
+
             <!--Start newsletter area-->
-<!--            <section class="newsletter-area" style="background-image:url(homepage/images/resources/newsletter-bg.jpg);">
-                <div class="container">
-                    <div class="sec-title center text-center">
-                        <h1>Subscribe for Offers, Coupons and Deals</h1>
-                        <p>We list all these discount coupons, deals and offers on various treatments. Get the latest and up-to-date coupons & cashback offers</p>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="newsletter">
-                                <form class="newsletter-form">
-                                    <div class="row">
-                                        <div class="col-md-3">   
-                                            <div class="field-input">
-                                                <input type="text" name="form_name" value="" placeholder="Your Name" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">   
-                                            <div class="field-input">
-                                                <input type="email" name="form_email" value="" placeholder="Email Address" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">   
-                                            <div class="field-input">
-                                                <input type="text" name="form_phn" value="" placeholder="Ph Num" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button class="#" type="submit">Subscibe Us</button>
-                                        </div>
+            <!--            <section class="newsletter-area" style="background-image:url(homepage/images/resources/newsletter-bg.jpg);">
+                            <div class="container">
+                                <div class="sec-title center text-center">
+                                    <h1>Subscribe for Offers, Coupons and Deals</h1>
+                                    <p>We list all these discount coupons, deals and offers on various treatments. Get the latest and up-to-date coupons & cashback offers</p>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="newsletter">
+                                            <form class="newsletter-form">
+                                                <div class="row">
+                                                    <div class="col-md-3">   
+                                                        <div class="field-input">
+                                                            <input type="text" name="form_name" value="" placeholder="Your Name" required="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">   
+                                                        <div class="field-input">
+                                                            <input type="email" name="form_email" value="" placeholder="Email Address" required="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">   
+                                                        <div class="field-input">
+                                                            <input type="text" name="form_phn" value="" placeholder="Ph Num" required="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="#" type="submit">Subscibe Us</button>
+                                                    </div>
+                                                </div>
+                                            </form>    
+                                        </div>    
                                     </div>
-                                </form>    
-                            </div>    
-                        </div>
-                    </div>
-                </div>
-            </section>     -->
+                                </div>
+                            </div>
+                        </section>     -->
             <!--End newsletter area-->  
 
             <!--Start testimonial area-->
@@ -642,7 +670,7 @@
                                 </div>
                                 <div class="text-holder">
                                     <p>Cách mà tất cả những quan niệm sai lầm về việc lên án niềm vui và ca ngợi nỗi đau ra đời, tôi sẽ kể cho bạn nghe một cách đầy đủ về hệ thống này và giải thích rõ ràng.</p>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -650,65 +678,65 @@
                             <div class="testimonial-carousel">
                                 <!--Start single item-->
                                 <c:forEach var="content" items="${content}">
-                                <div class="single-item">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <div class="img-holder">
-                                                <img src="${content.image_patient}" alt="Awesome Image">
-                                                <div class="client-name text-center"> <h3>${content.patient_name}</h3> </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7 col-sm-7 col-xs-12">
-                                            <div class="text-holder">
-                                                <div class="quote-icon">
-                                                    <i class="fa fa-quote-right" aria-hidden="true"></i>
+                                    <div class="single-item">
+                                        <div class="row">
+                                            <div class="col-md-5 col-sm-5 col-xs-12">
+                                                <div class="img-holder">
+                                                    <img src="${content.image_patient}" alt="Awesome Image">
+                                                    <div class="client-name text-center"> <h3>${content.patient_name}</h3> </div>
                                                 </div>
-                                                <h3>Vô cùng thích về chất lượng dịch vụ</h3>
-                                                <p>${content.content_stories}</p>
-                                                <div class="review-box">
-                                                    <ul>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    </ul>
+                                            </div>
+                                            <div class="col-md-7 col-sm-7 col-xs-12">
+                                                <div class="text-holder">
+                                                    <div class="quote-icon">
+                                                        <i class="fa fa-quote-right" aria-hidden="true"></i>
+                                                    </div>
+                                                    <h3>Vô cùng thích về chất lượng dịch vụ</h3>
+                                                    <p>${content.content_stories}</p>
+                                                    <div class="review-box">
+                                                        <ul>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 </c:forEach>
                                 <!--End single item-->
-<!--                                Start single item
-                                <div class="single-item">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <div class="img-holder">
-                                                <img src="homepage/images/testimonial/large-testimonial.jpg" alt="Awesome Image">
-                                                <div class="client-name text-center"> <h3>Stephan Vanel</h3> <p>Newyork</p> </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7 col-sm-7 col-xs-12">
-                                            <div class="text-holder">
-                                                <div class="quote-icon">
-                                                    <i class="fa fa-quote-right" aria-hidden="true"></i>
-                                                </div>
-                                                <h3>Surprised at the excellent facilities</h3>
-                                                <p>I was pleasantly surprised at the excellent facilities at Dentalcare and the wonderful job they do. They have an answer for all your Dental Care Needs which is very gratifying.</p>
-                                                <div class="review-box">
-                                                    <ul>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>-->
+                                <!--                                Start single item
+                                                                <div class="single-item">
+                                                                    <div class="row">
+                                                                        <div class="col-md-5 col-sm-5 col-xs-12">
+                                                                            <div class="img-holder">
+                                                                                <img src="homepage/images/testimonial/large-testimonial.jpg" alt="Awesome Image">
+                                                                                <div class="client-name text-center"> <h3>Stephan Vanel</h3> <p>Newyork</p> </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-7 col-sm-7 col-xs-12">
+                                                                            <div class="text-holder">
+                                                                                <div class="quote-icon">
+                                                                                    <i class="fa fa-quote-right" aria-hidden="true"></i>
+                                                                                </div>
+                                                                                <h3>Surprised at the excellent facilities</h3>
+                                                                                <p>I was pleasantly surprised at the excellent facilities at Dentalcare and the wonderful job they do. They have an answer for all your Dental Care Needs which is very gratifying.</p>
+                                                                                <div class="review-box">
+                                                                                    <ul>
+                                                                                        <li><i class="fa fa-star"></i></li>
+                                                                                        <li><i class="fa fa-star"></i></li>
+                                                                                        <li><i class="fa fa-star"></i></li>
+                                                                                        <li><i class="fa fa-star"></i></li>
+                                                                                        <li><i class="fa fa-star"></i></li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>-->
                                 <!--End single item-->
                             </div>
                         </div>
@@ -719,40 +747,40 @@
             <!--End testimonial area-->
 
             <!--Start Brand area-->  
-<!--            <section class="brand-area">
-                <div class="container">
-                    <div class="sec-title text-center">
-                        <h1>Supporting Partners</h1>
-                        <span class="border"></span>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="brand">
-                                Start single item
-                                <div class="single-item">
-                                    <a href="#"><img src="homepage/images/brand/1.png" alt="Awesome Brand Image"></a>
+            <!--            <section class="brand-area">
+                            <div class="container">
+                                <div class="sec-title text-center">
+                                    <h1>Supporting Partners</h1>
+                                    <span class="border"></span>
                                 </div>
-                                End single item
-                                Start single item
-                                <div class="single-item">
-                                    <a href="#"><img src="homepage/images/brand/2.png" alt="Awesome Brand Image"></a>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="brand">
+                                            Start single item
+                                            <div class="single-item">
+                                                <a href="#"><img src="homepage/images/brand/1.png" alt="Awesome Brand Image"></a>
+                                            </div>
+                                            End single item
+                                            Start single item
+                                            <div class="single-item">
+                                                <a href="#"><img src="homepage/images/brand/2.png" alt="Awesome Brand Image"></a>
+                                            </div>
+                                            End single item
+                                            Start single item
+                                            <div class="single-item">
+                                                <a href="#"><img src="homepage/images/brand/3.png" alt="Awesome Brand Image"></a>
+                                            </div>
+                                            End single item
+                                            Start single item
+                                            <div class="single-item">
+                                                <a href="#"><img src="homepage/images/brand/4.png" alt="Awesome Brand Image"></a>
+                                            </div>
+                                            End single item
+                                        </div>
+                                    </div>
                                 </div>
-                                End single item
-                                Start single item
-                                <div class="single-item">
-                                    <a href="#"><img src="homepage/images/brand/3.png" alt="Awesome Brand Image"></a>
-                                </div>
-                                End single item
-                                Start single item
-                                <div class="single-item">
-                                    <a href="#"><img src="homepage/images/brand/4.png" alt="Awesome Brand Image"></a>
-                                </div>
-                                End single item
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </section>-->
+                        </section>-->
             <!--End Brand area-->        
 
             <!--Start footer area-->  
@@ -951,8 +979,12 @@
                 </div>    
             </section> 
             <!--End footer bottom area-->  
-
+            <a href="https://m.me/596933063493069" target="_blank" class="messenger-icon">
+                <img src="homepage/images/icon/logo_messenger.webp" alt="Messenger">
+            </a>
+            <iframe height="430" width="350" src="https://bot.dialogflow.com/b57ca0cb-bd6a-4d5b-a3d4-00f9dbffb94f"></iframe>
         </div>
+            
         <!--Scroll to top-->
         <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
             <jsp:include page="Common/Message.jsp"/>
