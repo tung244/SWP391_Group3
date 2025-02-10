@@ -20,8 +20,8 @@ import model.Doctors;
  *
  * @author PC
  */
-@WebServlet(name="Doctor", urlPatterns={"/doctordash"})
-public class Doctor extends HttpServlet {
+@WebServlet(name="Doctor", urlPatterns={"/admin/DoctorList"})
+public class ListDoctor extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -62,8 +62,8 @@ public class Doctor extends HttpServlet {
         List<Doctors> listDoctor = dao.getAllDoctors();
         
         request.setAttribute("listDoctor", listDoctor);
-        
-       request.getRequestDispatcher("homepage/cruddoctor.jsp").forward(request, response);
+
+       request.getRequestDispatcher("ListDoctor.jsp").forward(request, response);
     } 
 
     /** 

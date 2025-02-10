@@ -18,7 +18,7 @@ import model.Doctors;
 import model.Specialization;
 
 public class DoctorsDAO extends DBContext {
-
+    
     // List all doctor
     public List<Doctors> getAllDoctors() {
         List<Doctors> list = new ArrayList<>();
