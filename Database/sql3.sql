@@ -58,8 +58,8 @@ VALUES
 (3, 12, 600000); -- Tầm soát bệnh lý võng mạc tiểu đường chuyên sâu
 
 -- Insert data into Customers
-INSERT INTO Customers (account_id, full_name, address, dob, gender, image_profile_user) VALUES
-(7, 'Chris Davis', '654 Fir St', '1985-02-14', 'Male', 'chrisd.jpg');
+-- INSERT INTO Customers (account_id, full_name, address, dob, gender, image_profile_user) VALUES
+-- (7, 'Chris Davis', '654 Fir St', '1985-02-14', 'Male', 'chrisd.jpg');
 -- Insert data into Slots
 -- Chèn slot 30 phút (dịch vụ cơ bản)
 -- Thêm Slot cho Dịch Vụ Cơ Bản (30 phút)
