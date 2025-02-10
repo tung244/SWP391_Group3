@@ -43,9 +43,9 @@
                                 <div class="d-flex" style="margin-top: 15px; text-align: center; font-size: 16px;">
                                     <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  </span>Or login with
                                     <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</span>
-<!--                                    <div class="button-container" style="display: flex;justify-content: center;">
-                                        <a style="background-color: #1877F2;border-radius: 60px;padding: 3px 10px;display: block;width: 320px;margin-top: 20px;"><span style=" font-size: 14px; color: white !important;"><i style="margin-right: 10px;" class='bx bxl-facebook'></i>Continue with facebook</span></a>
-                                    </div>-->
+                                    <!--                                    <div class="button-container" style="display: flex;justify-content: center;">
+                                                                            <a style="background-color: #1877F2;border-radius: 60px;padding: 3px 10px;display: block;width: 320px;margin-top: 20px;"><span style=" font-size: 14px; color: white !important;"><i style="margin-right: 10px;" class='bx bxl-facebook'></i>Continue with facebook</span></a>
+                                                                        </div>-->
                                     <div class="button-container" style="display: flex;justify-content: center;">
                                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/SWP391/login_google&response_type=code&client_id=145515751218-1me7sleh0t92gmt599s2vnrh7bct77th.apps.googleusercontent.com&approval_prompt=force"
                                            style="background-color: red;border-radius: 60px;padding: 3px 10px;display: block;width: 320px;margin-top: 10px;"><span style=" font-size: 14px; color: white !important;"><i style="margin-right: 10px;" class='bx bxl-google'></i>Continue with google</span></a>
@@ -103,6 +103,7 @@
                                         />
                                     <label for="repeat-password" style="pointer-events: none;">RepeatPassword</label>
                                     <div class="bar"></div>
+                                    <span id="repeat-error" style="font-size: 14px;"></span>
                                     <a 
                                         class="toggle-password" 
                                         id="toggle-password"
@@ -125,6 +126,7 @@
                                     <input type="text" id="register-phone" name="register-phone" required />
                                     <label for="register-phone">PhoneNumber</label>
                                     <div class="bar"></div>
+                                    <span id="phone-error" style="font-size: 14px;"></span>
                                 </div>
                                 <div class="input-container">
                                     <input type="text" id="register-email" name="register-email" required />
@@ -152,11 +154,11 @@
                                 <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  </span>Or resigter with
                                 <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</span>
                                 <div class="d-flex justify-content-center align-items-center register-with">
-<!--                                    <div class="">
-                                        <a href="https://www.facebook.com/v19.0/dialog/oauth?fields=id,name,email,profile_pic&client_id=1277437356785264&redirect_uri=http://localhost:8080/SWP391/login_facebook" class="circle-btn facebook">
-                                            <i class='bx bxl-facebook'></i>
-                                        </a>
-                                    </div>-->
+                                    <!--                                    <div class="">
+                                                                            <a href="https://www.facebook.com/v19.0/dialog/oauth?fields=id,name,email,profile_pic&client_id=1277437356785264&redirect_uri=http://localhost:8080/SWP391/login_facebook" class="circle-btn facebook">
+                                                                                <i class='bx bxl-facebook'></i>
+                                                                            </a>
+                                                                        </div>-->
                                     <div class="">
                                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/SWP391/login_google&response_type=code&client_id=145515751218-1me7sleh0t92gmt599s2vnrh7bct77th.apps.googleusercontent.com&approval_prompt=force" class="circle-btn google">
                                             <i class='bx bxl-google'></i>
@@ -175,6 +177,7 @@
             </div>
             <jsp:include page="Common/Message.jsp"/>
             <script>
+
                 $(document).ready(function () {
                     function togglePassword(element) {
                         Console.log("hehe");
@@ -234,43 +237,51 @@
                         });
                     }
                     function checkRepeatPassword() {
-                        const repeatpassword = document.getElementById("repeat-password").value;
-                        const registerpassword = document.getElementById("register-password").value;
+                        const repeatpassword = document.getElementById("repeat-password").value.trim();
+                        const registerpassword = document.getElementById("register-password").value.trim();
                         const errorSpan = document.getElementById("repeat-error");
+                        if(!registerpassword.equals(registerpassword)){
+                            errorSpan.textContent="Mật khẩu không trùng khớp!";
+                            errorSpan.style.display = "block";
+                            errorSpan.style.color = "red";
+                        }
+                        else{
+                            errorSpan.textContent ="Mật khẩu trùng khớp!";
+                            errorSpan.style.display = "block";
+                            errorSpan.style.color = "white";
+                        }
+                        
+                    }
+                    function checkPhone() {
+                        const phonenumber = document.getElementById("register-phone").value.trim();
+                        const phoneError = document.getElementById("phone-error");
 
-                        $.ajax({
-                            url: "register",
-                            type: "POST",
-                            data: {
-                                action: "checkRepeat",
-                                password: registerpassword,
-                                repeat_password: repeatpassword,
-                            },
-                            success: function (response) {
-                                if (response.status === "wrong") {
-                                    errorSpan.textContent = "Password is incorrect!!";
-                                    errorSpan.style.color = "#EA4335";
-//                                    document.getElementById("register-button").style.display='none';
+                        const regex = /^(?:\+84|0)(3[2-9]|5[2689]|7[0-9]|8[1-9]|9[0-9])\d{7}$/;
 
-                                }
-
-                            },
-                            error: function (xhr, status, error) {
-                                alert("Error");
-                            }
-                        });
+                        if (!regex.test(phonenumber)) {
+                            phoneError.textContent = "Số điện thoại không hợp lệ!";
+                            phoneError.style.display = "block";  
+                            phoneError.style.color = "red";      
+                        } else {
+                            phoneError.textContent = "Số điện thoại hợp lệ!";  
+                            phoneError.style.color = "white";
+                            phoneError.style.display = "block";
+                        }
                     }
 
 
                     $(".toggle").on("click", toggleContainer);
                     $(".close").on("click", closeContainer);
 
+                    $("#register-phone").on("blur", function () {
+                        checkPhone(this);
+                    });
 
                     $("#register-username").on("blur", function () {
                         checkUser(this);
                     });
                     $("#repeat-password").on("blur", function () {
-                        checkRepeatPassword()(this);
+                        checkRepeatPassword(this);
                     });
                     $(".toggle-password").on("click", function () {
                         togglePassword(this);

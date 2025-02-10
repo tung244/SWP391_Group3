@@ -72,7 +72,7 @@ public class Verification_Method extends HttpServlet {
         randomSixNumber s = new randomSixNumber();
         HttpSession session = request.getSession();
         OTP_Services otp_old = otpdao.getOTPNewest((String) session.getAttribute("username_forgot"));
-        
+
         String method = request.getParameter("verificationMethod");
         String ms = "";
         String error = "";
@@ -82,39 +82,41 @@ public class Verification_Method extends HttpServlet {
             if (getFormatDate.checkFiveMinute(otp_old.getOtp_expiry_date())) {
                 String otp_new = s.generateRandomSixDigits();
                 if (!otp_new.equals(otp_old.getOtp())) {
-                    System.out.println("đến 2");
-                    if (method.equals("email")) {
-                        Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
-                            try {
-                                System.out.println("đến 3");
-                                sendMail.guiMail(infoUser[1], s.generateRandomSixDigits(), "bạn");
-
-                            } catch (Exception e) {
-                                e.printStackTrace();  // Log lỗi nếu có
-                            }
-                        });
-                        emailThread.start();
-                    }
-                    if (method.equals("phone")) {
-                        Thread emailThread = new Thread(() -> {  // thread gửi sms khác luồng
-                            try {
-                                sendSMS.guiSMS(s.generateRandomSixDigits(), infoUser[0]);
-
-                            } catch (Exception e) {
-                                e.printStackTrace();  // Log lỗi nếu có
-                            }
-                        });
-                        emailThread.start();
-                    }
-
+                    otp_new = s.generateRandomSixDigits();
                 }
-                ms = "OTP gửi thành công ! Vui Lòng chờ trong giây lát";
-            } else {
-                error = "Vui lòng chờ trong giây lát!";
             }
-
+            else{
+                error = "Lỗi!!";
+            }
         }
-        
+
+        System.out.println("đến 2");
+        if (method.equals("email")) {
+            Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
+                try {
+                    System.out.println("đến 3");
+                    sendMail.guiMail(infoUser[1], s.generateRandomSixDigits(), "bạn");
+
+                } catch (Exception e) {
+                    e.printStackTrace();  // Log lỗi nếu có
+                }
+            });
+            emailThread.start();
+        }
+        if (method.equals("phone")) {
+            Thread emailThread = new Thread(() -> {  // thread gửi sms khác luồng
+                try {
+                    sendSMS.guiSMS(s.generateRandomSixDigits(), infoUser[0]);
+
+                } catch (Exception e) {
+                    e.printStackTrace();  // Log lỗi nếu có
+                }
+            });
+            emailThread.start();
+        }
+
+        ms = "OTP gửi thành công ! Vui Lòng chờ trong giây lát";
+
         session.setAttribute("ms", ms);
         session.setAttribute("error", error);
         response.sendRedirect("otp_checking");

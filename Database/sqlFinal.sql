@@ -86,7 +86,7 @@ CREATE TABLE Accounts (
 
 CREATE TABLE Doctors (
     doctor_id INT PRIMARY KEY IDENTITY(1,1),
-    account_id INT,
+    account_id INT UNIQUE,
     doctor_name NVARCHAR(255) NOT NULL,
     experience_years INT,
     specialization_id INT,
