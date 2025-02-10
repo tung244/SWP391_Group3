@@ -43,7 +43,7 @@
                             <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li> -->
 
                             <li>
-                                <a href="login" style="color: rgb(34,139,34)">
+                                <a href="/SWP391/login" style="color: rgb(34,139,34)">
                                     <i style="margin-right: 5px;vertical-align: middle;" class="bx bxs-user"></i>Login /
                                 </a>
                             </li>
@@ -120,7 +120,7 @@
                                                                     </li>
 
                                                                     <li class="dropdown">
-                                                                        <a href="services.html">Services</a>
+                                                                        <a href="loadService">Services</a>
                                                                         <ul class="mega-menu-container" 
                                                                             style="display: flex; position: absolute; top: 100%; left: 0; width: 400px;
                                                                             background: #f5f5f5; border-radius: 6px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -173,7 +173,7 @@
                                                                     </li>
 
 
-                                                                    <li><a href="appointment.html">Appointment</a></li>
+                                                                    <li><a href="appointment">Appointment</a></li>
                                                                     <li class="dropdown"><a href="gallery.html">Gallery</a>
                                                                         <ul>
                                                                             <li><a href="gallery.html">Gallery Before After</a></li>

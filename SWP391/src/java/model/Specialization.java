@@ -19,6 +19,10 @@ public class Specialization {
     public Specialization() {
     }
 
+    public Specialization(int specialization_id) {
+        this.specialization_id = specialization_id;
+    }
+
     public Specialization(int specialization_id, String specialization_name, String specialization_status) {
         this.specialization_id = specialization_id;
         this.specialization_name = specialization_name;

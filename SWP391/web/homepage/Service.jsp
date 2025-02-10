@@ -1,27 +1,19 @@
-<%-- 
-    Document   : listdoctor
-    Created on : Feb 3, 2025, 1:20:43 AM
-    Author     : PC
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <jsp:include page="homepage/Common/Css.jsp"/>  
-    </head>
+<html>
+    <jsp:include page="Common/Css.jsp"/>
     <body>
         <div class="boxed_wrapper">
             <!--Start Preloader -->
             <div class="preloader"></div>
             <!--End Preloader -->  
 
-            <!--Start Top bar area -->  
-            <jsp:include page="homepage/Common/Navbar.jsp"/>
-            <!--End mainmenu area-->     
+            <jsp:include page="Common/Navbar.jsp"/>
+            <!--End mainmenu area-->
 
-            <!--Start header area-->
             <!--Start header area-->
             <header class="mainmenu-bottom-area">
                 <div class="container">
@@ -68,14 +60,14 @@
                         <div class="col-md-12">
                             <div class="left pull-left">
                                 <div class="title">
-                                    <h1>Meet Our Dentist</h1>
+                                    <h1>Services</h1>
                                 </div>
                             </div>
                             <div class="right pull-right">
                                 <ul>
                                     <li><i class="fa fa-home home" aria-hidden="true"></i><a href="index.html">Home</a></li>
                                     <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
-                                    <li class="active">Meet Our Dentist</li>
+                                    <li class="active">Services</li>
                                 </ul> 
                             </div>    
                         </div>
@@ -84,149 +76,128 @@
             </section>
             <!--End breadcrumb area-->  
 
-            <!--Start team area-->
-            <section class="team-area team-page">
+            <!--Start services page area-->
+            <section class="services-page-area">
                 <div class="container">
                     <div class="row">
-                        <!--Start single team member-->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="single-team-member">
-                                <div class="img-holder">
-                                    <img src="images/team/1.jpg" alt="Awesome Image">
-                                    <div class="overlay-one">
-                                        <div class="overlay-inner">
-                                            <div class="content"></div>
+                        <!--Start single item-->
+                        <c:forEach var="s" items="${listS}">
+                            <div class="col-md-4">
+                                <div class="single-service-item text-center wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="1s" data-wow-offset="0">
+                                    <div class="img-holder">
+                                        <img src="https://3peyecare.vn/wp-content/uploads/2022/02/kham-mat-cho-tre.jpg" alt="Awesome Image">
+                                        <div class="overlay-style-one">
+                                            <div class="box">                                                   
+                                                <div class="content">
+                                                    <p>${s.service_description}</p>
+                                                    <a href="loadServiceDetailHomepage?id=${s.service_id}">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="icon-box">
+                                            <div class="icon">
+                                                <span class="flaticon-medical-2"></span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <ul class="member-social-info">
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    </ul>
+                                    <div class="title-holder">
+                                        <a href="root-canel.html"><h3>${s.service_name}</h3></a>
+                                    </div>
                                 </div>
-                                <div class="text-holder text-center">
-                                    <h3>Dr.Eliot Aldwin</h3>
-                                    <span>Hygienist</span>
-                                    <p>Denouncing pleasure and praising pain was born expound.</p>
-                                    <span class="border"></span>
-                                    <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                </div>    
-                            </div> 
-                        </div>
-                        <!--End single team member-->
+                            </div>  
+                        </c:forEach>
                         
+                        <!--End single item-->
                     </div>
-
-                    <div class="row">
-                        <!--Start single team member-->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="single-team-member">
-                                <div class="img-holder">
-                                    <img src="images/team/5.jpg" alt="Awesome Image">
-                                    <div class="overlay-one">
-                                        <div class="overlay-inner">
-                                            <div class="content"></div>
-                                        </div>
-                                    </div>
-                                    <ul class="member-social-info">
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="text-holder text-center">
-                                    <h3>Dr.Owen Smith</h3>
-                                    <span>Dentist</span>
-                                    <p>Circumstances occurs in which toil all pain great pleasure.</p>
-                                    <span class="border"></span>
-                                    <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                </div>    
-                            </div> 
-                        </div>
-                        <!--End single team member-->
-                        <!--Start single team member-->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="single-team-member">
-                                <div class="img-holder">
-                                    <img src="images/team/6.jpg" alt="Awesome Image">
-                                    <div class="overlay-one">
-                                        <div class="overlay-inner">
-                                            <div class="content"></div>
-                                        </div>
-                                    </div>
-                                    <ul class="member-social-info">
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="text-holder text-center">
-                                    <h3>Dr.Julia Anderson</h3>
-                                    <span>Hygienist</span>
-                                    <p>Undertakes laborious physically all exercise, except to obtain.</p>
-                                    <span class="border"></span>
-                                    <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                </div>    
-                            </div>
-                        </div> 
-                        <!--End single team member-->
-                        <!--Start single team member-->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="single-team-member">
-                                <div class="img-holder">
-                                    <img src="images/team/7.jpg" alt="Awesome Image">
-                                    <div class="overlay-one">
-                                        <div class="overlay-inner">
-                                            <div class="content"></div>
-                                        </div>
-                                    </div>
-                                    <ul class="member-social-info">
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="text-holder text-center">
-                                    <h3>Dr.Charlotte King</h3>
-                                    <span>Dentist</span>
-                                    <p>Circumstances occurs in which toil all pain great pleasure.</p>
-                                    <span class="border"></span>
-                                    <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                </div>    
-                            </div>
-                        </div> 
-                        <!--End single team member-->
-                        <!--Start single team member-->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="single-team-member">
-                                <div class="img-holder">
-                                    <img src="images/team/8.jpg" alt="Awesome Image">
-                                    <div class="overlay-one">
-                                        <div class="overlay-inner">
-                                            <div class="content"></div>
-                                        </div>
-                                    </div>
-                                    <ul class="member-social-info">
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="text-holder text-center">
-                                    <h3>Dr.Archie White</h3>
-                                    <span>Hygienist</span>
-                                    <p>Undertakes laborious physically all exercise, except to obtain.</p>
-                                    <span class="border"></span>
-                                    <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                </div>    
-                            </div>
-                        </div>
-                        <!--End single team member-->
-                    </div>
-
                 </div>
             </section>
-            <!--End team area-->
+            <!--End services page area-->
+
+            <!--Start testimonial area-->
+            <section class="testimonial-area service-page">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="left-content">
+                                <div class="sec-title">
+                                    <h1>Words From<br> Our Happy Clients</h1>
+                                    <span class="border"></span>
+                                </div>
+                                <div class="text-holder">
+                                    <p>How all this mistaken idea of denouncing pleasure and praising pain was bornd and I will give you a completed account of the system, and expound.</p>
+                                    <a class="thm-btn bg-1" href="#">More Reviews</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="testimonial-carousel">
+                                <!--Start single item-->
+                                <div class="single-item">
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-5 col-xs-12">
+                                            <div class="img-holder">
+                                                <img src="images/testimonial/large-testimonial.jpg" alt="Awesome Image">
+                                                <div class="client-name text-center"> <h3>Stephan Vanel</h3> <p>Newyork</p> </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 col-sm-7 col-xs-12">
+                                            <div class="text-holder">
+                                                <div class="quote-icon">
+                                                    <i class="fa fa-quote-right" aria-hidden="true"></i>
+                                                </div>
+                                                <h3>Surprised at the excellent facilities</h3>
+                                                <p>I was pleasantly surprised at the excellent facilities at Dentalcare and the wonderful job they do. They have an answer for all your Dental Care Needs which is very gratifying.</p>
+                                                <div class="review-box">
+                                                    <ul>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End single item-->
+                                <!--Start single item-->
+                                <div class="single-item">
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-5 col-xs-12">
+                                            <div class="img-holder">
+                                                <img src="images/testimonial/large-testimonial.jpg" alt="Awesome Image">
+                                                <div class="client-name text-center"> <h3>Stephan Vanel</h3> <p>Newyork</p> </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 col-sm-7 col-xs-12">
+                                            <div class="text-holder">
+                                                <div class="quote-icon">
+                                                    <i class="fa fa-quote-right" aria-hidden="true"></i>
+                                                </div>
+                                                <h3>Surprised at the excellent facilities</h3>
+                                                <p>I was pleasantly surprised at the excellent facilities at Dentalcare and the wonderful job they do. They have an answer for all your Dental Care Needs which is very gratifying.</p>
+                                                <div class="review-box">
+                                                    <ul>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End single item-->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <!--End testimonial area-->
 
             <!--Start footer area-->  
             <footer class="footer-area">
@@ -428,10 +399,17 @@
         </div>
         <!--Scroll to top-->
         <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
-            <jsp:include page="homepage/Common/Message.jsp"/>
+
+       <jsp:include page="Common/Message.jsp"/>
 
         <!-- main jQuery -->
-        <jsp:include page="homepage/Common/Js.jsp"/>
+        <jsp:include page="Common/Js.jsp"/>
+    
+
+
+
+
+
 
     </body>
 </html>
