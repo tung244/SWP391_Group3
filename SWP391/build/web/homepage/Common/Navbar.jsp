@@ -58,14 +58,52 @@
             </c:if>
             <c:if test="${not empty sessionScope.user}">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="display: flex; justify-content: end; margin-top: 10px;">
-                    <div style="position: relative; display: inline-block; width: 225px;">
+                <div style="position: relative; display: inline-block; width: 225px;">
+                    
+                    <div id="dropdown-title" 
+                         style="background-color: white; border: white; padding: 8px;
+                         border-radius: 6px; display: flex; align-items: center;
+                         gap: 10px; cursor: pointer; box-shadow: none;">
+                        <img src="${userProfile.image_profile_user}" alt="Icon" style="width: 35px; height: 35px; border-radius: 40px">
+                        <span style="color: black;">Hello ${sessionScope.user.fullname}<i class='bx bx-chevron-down'></i></span>
+                    </div>
 
-                        <div id="dropdown-title" 
-                             style="background-color: white; border: white; padding: 8px;
-                             border-radius: 6px; display: flex; align-items: center;
-                             gap: 10px; cursor: pointer; box-shadow: none;">
-                            <img src="homepage/images/resources/avatar.jpg" alt="Icon" style="width: 35px; height: 35px; border-radius: 40px">
-                            <span style="color: black;">Hello ${sessionScope.user.fullname}<i class='bx bx-chevron-down'></i></span>
+                    
+                    <ul id="dropdown-menu" 
+                        style="list-style: none; padding: 0; margin: 0;
+                        position: absolute; top: 100%; left: 0; width: 100%;
+                        background-color: white; border: 1px solid #ddd;
+                        border-radius: 6px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        display: none; z-index: 1000; padding: 20px; color:black; font-size: 16px">
+                        <li style="padding: 4px; cursor: pointer;" ><a href="userprofile"><i style="margin-right: 10px" class='bx bxs-user'></i>Thông tin tài khoản</a></li>
+                        <li style="padding: 4px; cursor: pointer;" ><a href="transactionhistoryy"><i style="margin-right: 10px" class='bx bx-history' ></i>Lịch sử dịch vụ<a></li>
+                        <li style="padding: 4px; cursor: pointer;" ><a href="changepassword.jsp"><i style="margin-right: 10px" class='bx bxs-edit'></i>Đổi mật khẩu</a></li>
+                        <li style="border-top: 1px solid #ddd; margin: 4px 0;"></li>
+                        <li style="padding: 4px; cursor: pointer;" ><a href="logout"><i style="margin-right: 10px" class='bx bx-log-in'></i>Đăng xuất</a></li>
+                    </ul>
+                </div>
+                </div>
+            </c:if>
+
+        </div>
+    </div>
+</section>
+<!--End Top bar area -->
+
+<!--Start mainmenu area-->
+<section class="mainmenu-area stricky">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="left pull-left">
+                    <!--Start mainmenu-->
+                    <nav class="main-menu">
+                        <div class="navbar-header">   	
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
                         </div>
 
 
@@ -83,7 +121,7 @@
                                         </ul>
                                         </div>
                                         </div>
-                                    </c:if>
+                                    
 
                                     </div>
                                     </div>

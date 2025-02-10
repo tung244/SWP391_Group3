@@ -65,9 +65,10 @@ public class SearchTransactionHistory extends HttpServlet {
         //processRequest(request, response);
 
         String query = request.getParameter("query");
+        String querydate = request.getParameter("date");
         UserProfileDAO dao = new UserProfileDAO();
         List<Appointment> listS = dao.getAppointmentByServiceName(query);
-        List<Appointment> listSD = dao.getAppointmentByAppointmentDate(query);
+        List<Appointment> listSD = dao.getAppointmentByAppointmentDate(querydate);
         List<Appointment> listST = dao.getAppoinmentByServiceTypeName(query);
         List<Appointment> combinedList = new ArrayList<>();
         combinedList.addAll(listS);

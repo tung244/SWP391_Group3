@@ -52,7 +52,7 @@ public class UsersProfile extends HttpServlet {
         UserProfile user = dao.GetAccount(username);
         session.setAttribute("userProfile", user);
         
-        List <Appointment> listA = dao.getAppointmentByPatientID(account_id);
+        List<Appointment> listA = dao.getAppointmentByPatientID(account_id);
         request.setAttribute("appointment", listA);
         request.getRequestDispatcher("homepage/userprofile.jsp").forward(request, response);
     } 

@@ -90,10 +90,15 @@
                                 🔍
                             </button>
                         </form>
+                        <form action="searchtransactionhistory" method="get" class="search-form">
+                            <input type="text" name="date" class="search-input" placeholder="Tìm kiếm theo ngày...">
+                            <button type="submit" class="search-button">
+                                🔍
+                            </button>
+                        </form>
                         <form action="searchtransactionhistory" method="get" class="search-form" style="display: flex; align-items: center;">
                             <div class="service-type-filter">
                                 <select name="query" class="search-input" style="width: 180px;">
-                                    <option value="">Gói dịch vụ</option>
                                     <option value="Cơ bản">Cơ bản</option>
                                     <option value="Nâng cao">Nâng cao</option>
                                 </select>
