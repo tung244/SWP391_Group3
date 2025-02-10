@@ -49,10 +49,15 @@ public class Login extends HttpServlet {
                     request.setAttribute("error", "Error loading user");
 
                 } else {
+                    
+                    session.setAttribute("account_id", user.account.account_id);
                     session.setAttribute("user", user);
+                    session.setAttribute("username", username);
+                    session.setAttribute("password", password);
                     session.setAttribute("ms", "Login Successfully!");
                     response.sendRedirect("trangchu");
                 }
+                
             }
 
         }

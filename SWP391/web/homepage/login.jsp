@@ -6,6 +6,11 @@
         <script src="homepage/js/jquery.js"></script>
     </head>
     <body>
+        <% String error = (String) request.getAttribute("error"); %>
+        <% if (error != null) { %>
+        <p style="color: red;"><%= error %></p>
+        <% } %>
+
         <div class="boxed_wrapper">         
             <div class="preloader"></div>
             <div class="form-login-signup">

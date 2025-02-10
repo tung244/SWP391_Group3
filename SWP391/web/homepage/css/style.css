@@ -4563,6 +4563,7 @@ select:focus {
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            
         }
 
         .userprofile-header {
@@ -4628,6 +4629,9 @@ select:focus {
         .userprofile-change-password-container {
             display: none;
         }
+        
+        
+        
 
         .userprofile-table {
             width: 100%;

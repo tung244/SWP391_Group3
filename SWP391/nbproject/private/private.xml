@@ -3,27 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/AccountDAO.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/index.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/consts/Google.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/getToken.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/consts/Facebook.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Login.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/forgot_password.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/LoginFacebook.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/UserProfileDAO.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/css/style.css</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/getFormatDate.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/login.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/dental-implant.html</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/css/animate.min.css</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/LoginGoogle.java</file>
-
-            <file>file:/D:/SWP391_Group3p1/SWP391/web/listdoctor.jsp</file>
-            <file>file:/D:/SWP391_Group3p1/SWP391/src/java/dal/DoctorsDAO.java</file>
-            <file>file:/D:/SWP391_Group3p1/SWP391/web/homepage/index.jsp</file>
-
+            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/dal/UserProfileDAO.java</file>
+            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/web/homepage/userprofile.jsp</file>
+            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/controller/homepage/TransactionHistoryy.java</file>
+            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/controller/homepage/TransactionDetail.java</file>
+            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/controller/homepage/ChangePassword.java</file>
+            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/controller/homepage/SearchTransactionHistory.java</file>
+            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/web/homepage/transactionhistory.jsp</file>
+            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/controller/homepage/UsersProfile.java</file>
         </group>
     </open-files>
 </project-private>
