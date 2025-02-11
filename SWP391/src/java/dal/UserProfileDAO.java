@@ -147,7 +147,7 @@ public class UserProfileDAO extends DBContext {
             stAccount.setString(1, gg.getEmail());
             stAccount.setString(2, gg.getEmail());
             stAccount.setString(3, GetFormatDate.getFormString());
-            stAccount.setInt(4, 4);
+            stAccount.setInt(4, 5);
             stAccount.setString(5, gg.getId());
 
             int affectedRows = stAccount.executeUpdate();
