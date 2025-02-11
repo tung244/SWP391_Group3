@@ -26,6 +26,7 @@ public class Verification_Method extends HttpServlet {
 
     UserProfileDAO udao = new UserProfileDAO();
     OTPServicesDAO otpdao = new OTPServicesDAO();
+    RandomSixNumber s = new RandomSixNumber();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -69,56 +70,61 @@ public class Verification_Method extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RandomSixNumber s = new RandomSixNumber();
+        
         HttpSession session = request.getSession();
         OTP_Services otp_old = otpdao.getOTPNewest((String) session.getAttribute("username_forgot"));
-        
+
         String method = request.getParameter("verificationMethod");
         String ms = "";
         String error = "";
+        
         String[] infoUser = (String[]) session.getAttribute("infoUser");
         System.out.println("đến1");
+        
         if (otp_old != null) {
             if (GetFormatDate.checkFiveMinute(otp_old.getOtp_expiry_date())) {
                 String otp_new = s.generateRandomSixDigits();
-                if (otp_new.equals(otp_old.getOtp())) {
-                    
-                    
-                
+                while (otp_new.equals(otp_old.getOtp())) {
+                    otp_new = s.generateRandomSixDigits();
                 }
+                if (!otpdao.saveOTP(new OTP_Services(0, ms, otp_new, otp_new))) {
                     System.out.println("đến 2");
-                    if (method.equals("email")) {
-                        Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
-                            try {
-                                System.out.println("đến 3");
-                                SendMail.guiMail(infoUser[1], s.generateRandomSixDigits(), "bạn");
-
-                            } catch (Exception e) {
-                                e.printStackTrace();  // Log lỗi nếu có
-                            }
-                        });
-                        emailThread.start();
-                    }
-                    if (method.equals("phone")) {
-                        Thread emailThread = new Thread(() -> {  // thread gửi sms khác luồng
-                            try {
-                                SendSMS.guiSMS(s.generateRandomSixDigits(), infoUser[0]);
-
-                            } catch (Exception e) {
-                                e.printStackTrace();  // Log lỗi nếu có
-                            }
-                        });
-                        emailThread.start();
-                    }
-
+                    sendOTP(method, infoUser);
                 }
-                ms = "OTP gửi thành công ! Vui Lòng chờ trong giây lát";
-            } else {
-                error = "Vui lòng chờ trong giây lát!";
+
             }
+            ms = "OTP gửi thành công ! Vui Lòng chờ trong giây lát";
+        } else {
+            error = "Vui lòng chờ trong giây lát!";
+        }
 
-        }     
+    }
 
+    public void sendOTP(String method, String[] infoUser) {
+        if (method.equals("email")) {
+            Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
+                try {
+                    System.out.println("đến 3");
+                    SendMail.guiMail(infoUser[1], s.generateRandomSixDigits(), "bạn");
+
+                } catch (Exception e) {
+                    e.printStackTrace();  // Log lỗi nếu có
+                }
+            });
+            emailThread.start();
+        }
+        if (method.equals("phone")) {
+            Thread emailThread = new Thread(() -> {  // thread gửi sms khác luồng
+                try {
+                    SendSMS.guiSMS(s.generateRandomSixDigits(), infoUser[0]);
+
+                } catch (Exception e) {
+                    e.printStackTrace();  // Log lỗi nếu có
+                }
+            });
+            emailThread.start();
+        }
+    }
 
     @Override
     public String getServletInfo() {
