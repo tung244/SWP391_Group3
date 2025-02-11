@@ -4,7 +4,7 @@
  */
 package controller.homepage;
 
-import bo.GetToken;
+import bo.getToken;
 import dal.AccountDAO;
 import dal.UserProfileDAO;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.GoogleAccount;
 
-@WebServlet(name = "LoginGoogle", urlPatterns = {"/login_google"})
+@WebServlet(name = "LoginGoogle", urlPatterns = {"/logingoogle"})
 public class LoginGoogle extends HttpServlet {
 
     AccountDAO dao = new AccountDAO();
@@ -28,8 +28,8 @@ public class LoginGoogle extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String code = request.getParameter("code");
-            String accessToken = GetToken.getToken(code);
-            GoogleAccount gg = GetToken.getUserInfo(accessToken);
+            String accessToken = getToken.getToken(code);
+            GoogleAccount gg = getToken.getUserInfo(accessToken);
             HttpSession session = request.getSession();
             String ms = "";
             String error = "";

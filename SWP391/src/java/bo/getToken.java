@@ -15,7 +15,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 
-public class GetToken {
+public class getToken {
 
     public static String getToken(String code) throws ClientProtocolException, IOException {
 

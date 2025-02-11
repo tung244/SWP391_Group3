@@ -111,6 +111,25 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-
+    public boolean isValidGoogleLogin(GoogleAccount gg){
+        String sql = "select count(*) from Accounts where email = ? and google_id = ?";
+        try{
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, gg.getEmail());
+            st.setString(2,gg.getId());
+            
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                int arrow = rs.getInt(1);
+                if (arrow > 0) {
+                    return true;
+                }
+            }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
     
 }
