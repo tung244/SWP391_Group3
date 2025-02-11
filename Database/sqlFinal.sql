@@ -280,10 +280,10 @@ FOREIGN KEY(image_id) REFERENCES dbo.Images_Video(image_id)
 )
 CREATE TABLE Content_Stories(
 patient_name NVARCHAR(255),
-image_id INT,
+image_patient Nvarchar(255),
 content_stories NVARCHAR(MAX),
 PRIMARY KEY(patient_name),
-FOREIGN KEY(image_id) REFERENCES dbo.Images_Video(image_id)
+
 
 )
 
