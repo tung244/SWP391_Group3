@@ -14,10 +14,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.sql.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import model.Account;
+import model.Appointments;
 import model.Doctors;
 import model.ServiceDetail;
 import model.Slots;
+import model.UserProfile;
 
 /**
  *
@@ -72,7 +78,7 @@ public class Appointment extends HttpServlet {
         String type_raw = request.getParameter("type");
         List<Doctors> listD = dao1.getAllDoctors();
         List<Slots> slots = null;
-         try {
+        try {
             int id = Integer.parseInt(id_raw);
             int type = Integer.parseInt(type_raw);
             slots = dao2.getSlotByServiceType(type);
@@ -98,7 +104,46 @@ public class Appointment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        AppointmentDAO dao = new AppointmentDAO();
+        String date = request.getParameter("date");
+        String user_raw = request.getParameter("patient");
+        String slot_raw = request.getParameter("slot");
+        String doctor_raw = request.getParameter("doctor");
+        String service_detail_raw = request.getParameter("service");
+        Date appointment_date = null;
+
+        // Sử dụng DateTimeFormatter để định dạng ngày
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        if (date != null && !date.isEmpty()) {
+            LocalDate localDate = LocalDate.parse(date, formatter); // Chuyển đổi sang LocalDate
+            appointment_date = Date.valueOf(localDate); // Chuyển đổi LocalDate sang java.sql.Date
+        }
+        try {
+            int user_id = Integer.parseInt(user_raw);
+            int slot_id = Integer.parseInt(slot_raw);
+            int doctor_id = Integer.parseInt(doctor_raw);
+            int service_detail_id = Integer.parseInt(service_detail_raw);
+            Account account = new Account(user_id);
+            UserProfile user = new UserProfile(account);
+            Slots slot = new Slots(slot_id);
+            Doctors doctor = new Doctors(doctor_id);
+            ServiceDetail service_detail = new ServiceDetail(service_detail_id);
+            Appointments appointment = new Appointments(appointment_date, "Scheduled", doctor, slot, service_detail, user);
+            boolean correct = dao.addAppointment(appointment);
+            if (correct) {
+                request.setAttribute("mess", "Completed");
+                request.getRequestDispatcher("/homepage/Test.jsp").forward(request, response);
+            } else {
+                request.setAttribute("mess", "Error");
+                request.getRequestDispatcher("/homepage/Test.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("mess", "An error occurred: " + e.getMessage());
+            request.getRequestDispatcher("/homepage/Test.jsp").forward(request, response);
+        }
+
     }
 
     /**

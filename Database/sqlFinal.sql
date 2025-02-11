@@ -257,20 +257,31 @@ blog_created_date DATETIME,
 FOREIGN KEY(author_id) REFERENCES dbo.Accounts(account_id)
 
 )
+
+
 CREATE TABLE Images_Type(
 image_type_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 image_type NVARCHAR(255),
 
 )
+
+CREATE TABLE Images_Service(
+service_id int primary key,
+image_main NVARCHAR(255),
+image_before NVARCHAR(255),
+image_after NVARCHAR(255),
+FOREIGN KEY(service_id) REFERENCES dbo.[Services](service_id)
+)
+
 CREATE TABLE Images_Video(
 image_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 image_url NVARCHAR(255),
 image_description NVARCHAR(255),
 image_type_id INT,
 FOREIGN KEY(image_type_id) REFERENCES dbo.Images_Type(image_type_id)
-
-
 )
+
+
 CREATE TABLE Blog_Content (
 blog_content_id INT IDENTITY(1,1) PRIMARY KEY,
 blog_id INT,

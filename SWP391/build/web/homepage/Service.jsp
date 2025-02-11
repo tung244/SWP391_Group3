@@ -85,12 +85,12 @@
                             <div class="col-md-4">
                                 <div class="single-service-item text-center wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="1s" data-wow-offset="0">
                                     <div class="img-holder">
-                                        <img src="https://3peyecare.vn/wp-content/uploads/2022/02/kham-mat-cho-tre.jpg" alt="Awesome Image">
+                                        <img style="width: 100%;height: 200px" src="${s.image_main}" alt="Awesome Image">
                                         <div class="overlay-style-one">
                                             <div class="box">                                                   
                                                 <div class="content">
-                                                    <p>${s.service_description}</p>
-                                                    <a href="loadServiceDetailHomepage?id=${s.service_id}">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
+                                                    <p>${s.service.service_description}</p>
+                                                    <a href="loadServiceDetailHomepage?id=${s.service.service_id}">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
                                                 </div>
                                             </div>
                                         </div>
@@ -101,7 +101,7 @@
                                         </div>
                                     </div>
                                     <div class="title-holder">
-                                        <a href="root-canel.html"><h3>${s.service_name}</h3></a>
+                                        <a href="root-canel.html"><h3>${s.service.service_name}</h3></a>
                                     </div>
                                 </div>
                             </div>  
