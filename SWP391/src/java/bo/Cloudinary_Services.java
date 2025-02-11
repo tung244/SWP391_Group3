@@ -15,8 +15,8 @@ import java.util.Map;
 
 
 public class Cloudinary_Services {
-    public static String uploadImage(Part part) throws IOException{
-
+    public static String[] uploadImage(Part part) throws IOException{
+        String[] image = new String[2];
         File tempFile = File.createTempFile("upload-", ".jpg");  // tạo name file VD: upload-724109055963885517.jpg(na ná v)
         try (InputStream fileContent = part.getInputStream()) {
             Files.copy(fileContent, tempFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
@@ -32,9 +32,9 @@ public class Cloudinary_Services {
         
         System.out.println(uploadResult.toString());
         // Lấy URL ảnh ra dùng cái này lưu db này
-        String imageUrl = (String) uploadResult.get("secure_url");
-        
-        return imageUrl;
+        image[1] = (String) uploadResult.get("secure_url");
+        image[2] = (String) uploadResult.get("public_id");
+        return image;
     }
     
     public static void deleteImage(String public_id_img){
