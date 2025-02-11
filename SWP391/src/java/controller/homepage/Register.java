@@ -66,15 +66,7 @@ public class Register extends HttpServlet {
             respsone = "{\"status\":\"" + status + "\"}";
 
         }
-        if (action.equals("checkRepeat")) {
-            String password = request.getParameter("password").trim();
-            String repeat_password = request.getParameter("repeat_password").trim();
-            String status = "wrong";
-            if (password.equals(repeat_password)) {
-                status = "oke";
-            }
-            respsone = "{\"status\":\"" + status + "\"}";
-        }
+        
 
         response.getWriter().write(respsone);
 

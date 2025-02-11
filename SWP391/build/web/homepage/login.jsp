@@ -184,22 +184,22 @@
             <script>
 
                 $(document).ready(function () {
-                    function togglePassword(element) {
-                        Console.log("hehe");
-                        const inputId = element.getAttribute("data-password");
-                        const passwordField = document.getElementById(inputId);
-                        const icon = element.querySelector("i");
-
-                        if (passwordField.type === "password") {
-                            passwordField.type = "text";
-                            icon.classList.remove("bx-show");
-                            icon.classList.add("bx-hide");
-                        } else {
-                            passwordField.type = "password";
-                            icon.classList.remove("bx-hide");
-                            icon.classList.add("bx-show");
-                        }
-                    }
+//                    function togglePassword(element) {
+//                        Console.log("hehe");
+//                        const inputId = element.getAttribute("data-password");
+//                        const passwordField = document.getElementById(inputId);
+//                        const icon = element.querySelector("i");
+//
+//                        if (passwordField.type === "password") {
+//                            passwordField.type = "text";
+//                            icon.classList.remove("bx-show");
+//                            icon.classList.add("bx-hide");
+//                        } else {
+//                            passwordField.type = "password";
+//                            icon.classList.remove("bx-hide");
+//                            icon.classList.add("bx-show");
+//                        }
+//                    }
 
 
 
@@ -245,7 +245,7 @@
                         const repeatpassword = document.getElementById("repeat-password").value.trim();
                         const registerpassword = document.getElementById("register-password").value.trim();
                         const errorSpan = document.getElementById("repeat-error");
-                        if(!registerpassword.equals(registerpassword)){
+                        if(registerpassword !== repeatpassword){
                             errorSpan.textContent="Mật khẩu không trùng khớp!";
                             errorSpan.style.display = "block";
                             errorSpan.style.color = "red";
