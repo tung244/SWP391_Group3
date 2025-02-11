@@ -1,4 +1,5 @@
-﻿-- Chèn dữ liệu vào bảng Services_Type (Loại dịch vụ)
+﻿USE EyeCare﻿
+-- Chèn dữ liệu vào bảng Services_Type (Loại dịch vụ)
 INSERT INTO Services_Type (service_type_name, duration_service) 
 VALUES 
 (N'Cơ bản', N'30 phút'),
@@ -57,9 +58,6 @@ VALUES
 (3, 10, 500000), -- Xét nghiệm nước mắt chuyên sâu
 (3, 12, 600000); -- Tầm soát bệnh lý võng mạc tiểu đường chuyên sâu
 
--- Insert data into Customers
--- INSERT INTO Customers (account_id, full_name, address, dob, gender, image_profile_user) VALUES
--- (7, 'Chris Davis', '654 Fir St', '1985-02-14', 'Male', 'chrisd.jpg');
 -- Insert data into Slots
 -- Chèn slot 30 phút (dịch vụ cơ bản)
 -- Thêm Slot cho Dịch Vụ Cơ Bản (30 phút)
@@ -84,6 +82,3 @@ INSERT INTO Schedules (doctor_id, slot_id, schedule_date, schedule_status) VALUE
 (3, 3,'2025-02-11', 'Available'),
 (4, 4,'2025-02-11', 'Booked'),
 (5, 5, '2025-02-11','Available');
-
-
-

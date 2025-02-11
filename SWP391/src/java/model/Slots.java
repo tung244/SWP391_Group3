@@ -18,6 +18,10 @@ public class Slots {
     public Slots() {
     }
 
+    public Slots(int slot_id) {
+        this.slot_id = slot_id;
+    }
+    
     public Slots(int slot_id, LocalTime start_time, LocalTime end_time, ServiceTypes serviceType) {
         this.slot_id = slot_id;
         this.start_time = start_time;

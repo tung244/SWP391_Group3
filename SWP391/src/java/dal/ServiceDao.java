@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
+import model.ImagesService;
 import model.Role;
 import model.ServiceDetail;
 import model.ServiceTypes;
@@ -98,8 +99,6 @@ public class ServiceDao extends DBContext {
         }
         return list;
     }
-    
-   
 
     public ServiceDetail getServiceDetailById(int id) {
         String query = "SELECT \n"
@@ -515,6 +514,54 @@ public class ServiceDao extends DBContext {
         return list;
     }
 
+    public List<ImagesService> getAllServiceWithImage() {
+        List<ImagesService> list = new ArrayList<>();
+        String query = "select * from Images_Service i join [Services] s on i.service_id = s.service_id";
+        try {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int serviceId = rs.getInt("service_id");
+                String serviceName = rs.getString("service_name");
+                String serviceDescription = rs.getString("service_description");
+                Services service = new Services(serviceId, serviceName, serviceDescription);
+                String image_main = rs.getString("image_main");
+                String image_before = rs.getString("image_before");
+                String image_after = rs.getString("image_after");
+                ImagesService image = new ImagesService(service, image_main, image_before, image_after);
+                list.add(image);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public ImagesService getServiceWithImageById(int id) {
+        String query = "select * from Images_Service i join [Services] s on i.service_id = s.service_id where s.service_id =?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int serviceId = rs.getInt("service_id");
+                String serviceName = rs.getString("service_name");
+                String serviceDescription = rs.getString("service_description");
+                Services service = new Services(serviceId, serviceName, serviceDescription);
+                String image_main = rs.getString("image_main");
+                String image_before = rs.getString("image_before");
+                String image_after = rs.getString("image_after");
+                ImagesService image = new ImagesService(service, image_main, image_before, image_after);
+                return image;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Services getOnlyServiceById(int id) {
         String query = " select * from [Services] where service_id = ?";
         List<Services> list = new ArrayList<>();
@@ -793,8 +840,8 @@ public class ServiceDao extends DBContext {
     public static void main(String[] args) {
         ServiceDao dao = new ServiceDao();
         String name = "Khám mắt tổng quát";
-        List<Services> list = dao.getAllServicesOnly();
-        for (Services serviceDetail : list) {
+        List<ImagesService> list = dao.getAllServiceWithImage();
+        for (ImagesService serviceDetail : list) {
             System.out.println(serviceDetail);
         }
 

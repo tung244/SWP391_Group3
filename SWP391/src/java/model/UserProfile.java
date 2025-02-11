@@ -9,6 +9,10 @@ public class UserProfile {
     public String gender;
     public String image_profile_user;
 
+    public UserProfile(Account account) {
+        this.account = account;
+    }
+    
     public UserProfile(Account account, String fullname, String address, String dob, String gender, String image_profile_user) {
         this.account = account;
         this.fullname = fullname;

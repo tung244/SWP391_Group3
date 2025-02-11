@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.ImagesService;
 import model.ServiceDetail;
 import model.Services;
 
@@ -67,11 +68,13 @@ public class LoadServiceDetailHomepage extends HttpServlet {
         Services service = null;
         List<ServiceDetail> list1 = null;
         ServiceDetail service1 = null;
+        ImagesService imageService = null;
         String[] introduceParts = null;
         String[] benefitParts = null;
         try {
             id = Integer.parseInt(id_raw);
             service = dao.getOnlyServiceById(id);
+            imageService = dao.getServiceWithImageById(id);
             String name = service.getService_name();
             list1 = dao.getServiceByName(name);
             service1 = list1.isEmpty() ? null : list1.get(0);
@@ -87,6 +90,7 @@ public class LoadServiceDetailHomepage extends HttpServlet {
         request.setAttribute("listS", list);
         request.setAttribute("listSD", list1);
         request.setAttribute("service", service);
+        request.setAttribute("imageService", imageService);
         request.setAttribute("introducePart1", introduceParts[0]);
         request.setAttribute("introducePart2", introduceParts.length > 1 ? introduceParts[1] : "");
         request.setAttribute("benefitPart1", benefitParts[0]);

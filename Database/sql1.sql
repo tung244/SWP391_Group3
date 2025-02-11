@@ -1,4 +1,4 @@
-﻿-- Insert data into Role
+﻿USE EyeCare
 INSERT INTO Role (role_name) VALUES
 ('Admin'),
 ('Sales'),

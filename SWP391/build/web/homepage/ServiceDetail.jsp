@@ -131,7 +131,7 @@
                                         <div class="col-md-6">
                                             <div class="single-item">
                                                 <div class="img-holder">
-                                                    <img src="https://isofhcare-backup.s3-ap-southeast-1.amazonaws.com/images/kham-mat-isofhcare-bao-son_6e9c0278_d5fa_46cf_81dd_71c7033c808d.jpg" alt="Awesome Image">
+                                                    <img src="${imageService.image_before}" alt="Awesome Image">
                                                 </div>
                                                 <h3>Before</h3>
                                             </div>
@@ -140,7 +140,7 @@
                                         <div class="col-md-6">
                                             <div class="single-item">
                                                 <div class="img-holder">
-                                                    <img src="https://isofhcare-backup.s3-ap-southeast-1.amazonaws.com/images/kham-mat_27a3b93f_313c_4f47_9679_31af94cb3265.jpg" alt="Awesome Image">
+                                                    <img src="${imageService.image_after}" alt="Awesome Image">
                                                 </div>
                                                 <h3>After</h3>
                                             </div>
