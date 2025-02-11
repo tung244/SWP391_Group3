@@ -3,9 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
+
 package controller.admin.doctor;
 
 import dal.DoctorsDAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,15 +15,20 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
+
 import model.Doctors;
+
 
 /**
  *
- * @author PC
+ * @author -ASUS-
  */
+
 @WebServlet(name="Doctor", urlPatterns={"/admin/DoctorList"})
 public class ListDoctor extends HttpServlet {
+
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,16 +41,7 @@ public class ListDoctor extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Doctor</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Doctor at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+           
         }
     } 
 
@@ -58,12 +56,14 @@ public class ListDoctor extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+
         DoctorsDAO dao = new DoctorsDAO();
         List<Doctors> listDoctor = dao.getDoctorsDash();
         
         request.setAttribute("listDoctor", listDoctor);
 
        request.getRequestDispatcher("ListDoctor.jsp").forward(request, response);
+
     } 
 
     /** 

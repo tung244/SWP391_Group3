@@ -5,7 +5,7 @@
 
 package controller.homepage;
 
-import bo.getToken;
+import bo.GetToken;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -23,8 +23,8 @@ public class LoginFacebook extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String code = request.getParameter("code");
-        String accesstoken = getToken.getTokenFaceBook(code);
-        FaceBookAccount fb = getToken.getUserInfoFB(accesstoken);
+        String accesstoken = GetToken.getTokenFaceBook(code);
+        FaceBookAccount fb = GetToken.getUserInfoFB(accesstoken);
         System.out.println(fb);
     } 
 

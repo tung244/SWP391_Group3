@@ -2,6 +2,36 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/Common/Css.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/consts/Google.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/SendMail.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Verification_Method.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/Common/Js.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/checkOTP.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/login.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/LoginGoogle.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/LogOut.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/test.html</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/GetToken.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/GetFormatDate.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/SendSMS.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/OTPServicesDAO.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/AccountDAO.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/CheckOTP.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/index.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/verification_method.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Forgot_Password.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/TrangChu.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Login.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/UserProfileDAO.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/OTP_Services.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/css/style.css</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/UsersProfile.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Register.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/RandomSixNumber.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/images/services/2.jpg</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/Common/Navbar.jsp</file>
+        </group>
     </open-files>
 </project-private>

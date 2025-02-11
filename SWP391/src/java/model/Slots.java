@@ -3,22 +3,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
+import java.time.LocalTime;
 
-
+/**
+ *
+ * @author DELL
+ */
 public class Slots {
     private int slot_id;
-    private String slot_begin;
-    private String slot_end;
+    private LocalTime start_time;
+    private LocalTime end_time;
+    ServiceTypes serviceType;
 
-     public Slots() {
+    public Slots() {
+    }
+
+    public Slots(int slot_id, LocalTime start_time, LocalTime end_time, ServiceTypes serviceType) {
+        this.slot_id = slot_id;
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.serviceType = serviceType;
     }
     
-    public Slots(int slot_id, String slot_begin, String slot_end) {
-        this.slot_id = slot_id;
-        this.slot_begin = slot_begin;
-        this.slot_end = slot_end;
-    }
-
     public int getSlot_id() {
         return slot_id;
     }
@@ -27,27 +33,34 @@ public class Slots {
         this.slot_id = slot_id;
     }
 
-    public String getSlot_begin() {
-        return slot_begin;
+    public LocalTime getStart_time() {
+        return start_time;
     }
 
-    public void setSlot_begin(String slot_begin) {
-        this.slot_begin = slot_begin;
+    public void setStart_time(LocalTime start_time) {
+        this.start_time = start_time;
     }
 
-    public String getSlot_end() {
-        return slot_end;
+    public LocalTime getEnd_time() {
+        return end_time;
     }
 
-    public void setSlot_end(String slot_end) {
-        this.slot_end = slot_end;
+    public void setEnd_time(LocalTime end_time) {
+        this.end_time = end_time;
+    }
+
+    public ServiceTypes getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(ServiceTypes serviceType) {
+        this.serviceType = serviceType;
     }
 
     @Override
     public String toString() {
-        return "Slots{" + "slot_id=" + slot_id + ", slot_begin=" + slot_begin + ", slot_end=" + slot_end + '}';
+        return "Slots{" + "slot_id=" + slot_id + ", start_time=" + start_time + ", end_time=" + end_time + ", serviceType=" + serviceType + '}';
     }
-
-   
+    
     
 }

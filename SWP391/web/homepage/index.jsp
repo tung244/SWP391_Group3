@@ -3,7 +3,35 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <jsp:include page="Common/Css.jsp"/>  
+        <jsp:include page="Common/Css.jsp"/> 
+        <style>
+            .messenger-icon {
+                position: fixed; /* Luôn cố định trên màn hình */
+                bottom: 50px;
+                left: 10px;
+                width: 60px;
+                height: 60px;
+                background-color: #0078FF;
+                border-radius: 50%;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                transition: transform 0.2s ease-in-out, background-color 0.2s;
+                cursor: pointer;
+            }
+
+            .messenger-icon img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .messenger-icon:hover {
+                transform: scale(1.1);
+                background-color: #005ce6;
+            }
+        </style>
     </head>
     <body>
         <div class="boxed_wrapper">
@@ -247,11 +275,11 @@
                         <div class="col-md-12">
                             <div class="top">
                                 <div class="sec-title pull-left">
-                                    <h1>Dịch vụ nổi bật</h1>
+                                    <h1>Hệ thống trang thiết bị tân tiếng</h1>
                                     <span class="border"></span>
                                     <div class="text-box">
-                                        <h3>Chăm sóc tận tình, quan tâm chu đáo</h3>
-                                        <p>“Chúng tôi đặt mình vào vị trí của người bệnh để thấu hiểu, chia sẻ và cảm thông. Đồng thời chúng tôi mang đến dịch vụ y tế toàn diện giúp người bệnh có thể an tâm thăm khám và phẫu thuật ngay cả khi không có người thân đi cùng.”</p>
+                                        <h3>Trải nghiệm dịch vụ y tế Nhật Bản ngay tại Việt Nam</h3>
+                                        <p>“Là bệnh viện chuyên khoa mắt với 100% vốn đầu tư từ Nhật Bản, hệ thống máy móc hiện đại cùng đội ngũ Bác sỹ giàu kinh nghiệm, chúng tôi mang đến những phương pháp điều trị tiên tiến và dịch vụ chuẩn quốc tế ngay tại Việt Nam. Hỗ trợ chi phí tối đa cho bệnh nhân với chương trình trả góp.”</p>
                                     </div>
                                 </div>
                                 <div class="icon-box pull-right">
@@ -264,73 +292,75 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="service-carousel">
                                 <!--Start single item-->
-                                <div class="single-service-item text-center wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="1s" data-wow-offset="0">
-                                    <div class="img-holder">
-                                        <img src="homepage/images/services/1.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <p>Expound the actual teachings the great explorer of the truth, the master  builder of human happiness with smile.</p>
-                                                    <a href="#">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
+                                <c:forEach var="machine" items="${machine}">
+                                    <div class="single-service-item text-center wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="1s" data-wow-offset="0">
+                                        <div class="img-holder">
+                                            <img src="${machine.machine_img}"style="width: 300px; height: 300px" alt="Awesome Image">
+                                            <div class="overlay-style-one">
+                                                <div class="box">
+                                                    <div class="content">
+                                                        <p style="display: -webkit-box;
+                                                           -webkit-line-clamp: 6;
+                                                           -webkit-box-orient: vertical;
+                                                           overflow: hidden;
+                                                           text-overflow: ellipsis;font-size: 15px; line-height: 1.5">${machine.machine_description}</p>
+                                                        <a href="#">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
+                                                    </div>
                                                 </div>
                                             </div>
+
                                         </div>
-                                        <div class="icon-box">
-                                            <div class="icon">
-                                                <span class="flaticon-medical-2"></span>
-                                            </div>
+                                        <div class="title-holder">
+                                            <a href="#"><h3>${machine.machine_name}</h3></a>
                                         </div>
                                     </div>
-                                    <div class="title-holder">
-                                        <a href="#"><h3>Root Canel</h3></a>
-                                    </div>
-                                </div>
+                                </c:forEach>
                                 <!--End single item-->
-                                <!--Start single item-->
-                                <div class="single-service-item text-center wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="1s" data-wow-offset="0">
-                                    <div class="img-holder">
-                                        <img src="homepage/images/services/2.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <p>Expound the actual teachings the great explorer of the truth, the master  builder of human happiness with smile.</p>
-                                                    <a href="#">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="icon-box">
-                                            <div class="icon">
-                                                <span class="flaticon-medical-3"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="title-holder">
-                                        <a href="#"><h3>Clips & Braces</h3></a>
-                                    </div>
-                                </div>
-                                <!--End single item-->
-                                <!--Start single item-->
-                                <div class="single-service-item text-center wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="1s" data-wow-offset="0">
-                                    <div class="img-holder">
-                                        <img src="homepage/images/services/3.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <p>Expound the actual teachings the great explorer of the truth, the master  builder of human happiness with smile.</p>
-                                                    <a href="#">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="icon-box">
-                                            <div class="icon">
-                                                <span class="flaticon-medical-4"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="title-holder">
-                                        <a href="#"><h3>Dental Implant</h3></a>
-                                    </div>
-                                </div>
+                                <!--                                Start single item
+                                                                <div class="single-service-item text-center wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="1s" data-wow-offset="0">
+                                                                    <div class="img-holder">
+                                                                        <img src="homepage/images/services/2.jpg" alt="Awesome Image">
+                                                                        <div class="overlay-style-one">
+                                                                            <div class="box">
+                                                                                <div class="content">
+                                                                                    <p>Expound the actual teachings the great explorer of the truth, the master  builder of human happiness with smile.</p>
+                                                                                    <a href="#">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="icon-box">
+                                                                            <div class="icon">
+                                                                                <span class="flaticon-medical-3"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="title-holder">
+                                                                        <a href="#"><h3>Clips & Braces</h3></a>
+                                                                    </div>
+                                                                </div>
+                                                                End single item
+                                                                Start single item
+                                                                <div class="single-service-item text-center wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="1s" data-wow-offset="0">
+                                                                    <div class="img-holder">
+                                                                        <img src="homepage/images/services/3.jpg" alt="Awesome Image">
+                                                                        <div class="overlay-style-one">
+                                                                            <div class="box">
+                                                                                <div class="content">
+                                                                                    <p>Expound the actual teachings the great explorer of the truth, the master  builder of human happiness with smile.</p>
+                                                                                    <a href="#">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="icon-box">
+                                                                            <div class="icon">
+                                                                                <span class="flaticon-medical-4"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="title-holder">
+                                                                        <a href="#"><h3>Dental Implant</h3></a>
+                                                                    </div>
+                                                                </div>-->
                                 <!--End single item-->
                             </div>
                         </div>
@@ -338,23 +368,209 @@
                 </div>
             </section>
             <!--End special services area-->
+            <section style="background: white" class="team-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="sec-title">
+                                <h1 style="color: rgb(34,139,34)">Chăm sóc tận tình, quan tâm chu đáo</h1>                        
+                                <span class="border"></span>
+                                <p style="max-width: 800px">“Chúng tôi đặt mình vào vị trí của người bệnh để thấu hiểu, chia sẻ và cảm thông. Đồng thời chúng tôi mang đến dịch vụ y tế toàn diện giúp người bệnh có thể an tâm thăm khám và phẫu thuật ngay cả khi không có người thân đi cùng.”</p>
+                                <div style="margin:60px 20px;" class="row">
+                                    <div class="col-md-4">
+                                        <h3 style="font-weight: 800; font-size: 30px">250000+</h3>
+                                        <p>Lượt thăm khám</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h3 style="font-weight: 800; font-size: 30px">30000+</h3>
+                                        <p>Ca phẫu thuật</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h3 style="font-weight: 800; font-size: 30px">99%</h3>
+                                        <p>Bệnh nhân hài lòng</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <img style="margin-left: 100px" src="https://res.cloudinary.com/djmftornv/image/upload/v1738786681/xtfsxazm9smcqmtcffbh.svg"/>
 
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            <section class="team-area">
+                <div class="container">
+                    <div class="sec-title">
+                        <h1 >Tận tâm, uyên bác và chu đáo</h1>                        
+                        <span class="border"></span>
+                        <p style="max-width: 800px">EyeCare hội tụ các bác sỹ nhãn khoa giàu kinh nghiệm đến từ Việt Nam và Nhật Bản, thường xuyên cập nhật các công nghệ, phương pháp điều trị mới trong nhãn khoa thông qua các khóa đào tạo, các hội thảo trong nước và quốc tế.</p>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="team-carousel">
+                                <!--Start single team member-->
+                                <c:forEach var="doctor" items="${doctor}">
+                                    <div class="single-team-member">
+                                        <div class="img-holder">
+                                            <img src="${doctor.profile_image}" alt="Awesome Image">
+                                            <div class="overlay-one">
+                                                <div class="overlay-inner">
+                                                    <div class="content"></div>
+                                                </div>
+                                            </div>
+                                            <ul class="member-social-info">
+                                                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="text-holder text-center">
+                                            <h3>${doctor.doctor_name}</h3>
+                                            <span>${doctor.specialization.specialization_name}</span>
+                                            <p>Rating: ${doctor.rating}</p>
+                                            <p>Gender: ${doctor.gender}</p>
+                                            <p>Experience years: ${doctor.experience_years}</p>
+                                            <span class="border"></span>
+                                            <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                        </div>    
+                                    </div> 
+                                </c:forEach>
+                                <!--End single team member-->
+
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </section>
             <!--Start appoinment area-->
+
+            <!--End appoinment area-->
+
+            <!--Start about us area-->
+            <section class="about-us-area">
+                <div class="container">
+                    <div class="sec-title text-center">
+                        <h1>Về chúng tôi</h1>
+                        <span class="border"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="left-content">
+                                <div class="row">
+                                    <!--Start single item-->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="single-item">
+                                            <img src="https://res.cloudinary.com/djmftornv/image/upload/v1738785321/s2otsvd9tmujvxlvfcov.jpg" style="width: 270px;height:180px" alt="Awesome Image">
+                                        </div>
+                                    </div>
+                                    <!--End single item-->
+                                    <!--Start single item-->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="single-item">
+                                            <img src="https://res.cloudinary.com/djmftornv/image/upload/v1738785139/sm5hhfiifljtdg8bqmte.png" alt="Awesome Image">
+                                        </div>
+                                    </div>
+                                    <!--End single item-->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text">
+                                            <p>Chúng tôi đã xây dựng được danh tiếng vững chắc trong lĩnh vực nhãn khoa, với đội ngũ chuyên gia kỹ thuật đa ngành giàu kinh nghiệm.</p>
+                                            <p class="mar-top">Không ai mong muốn gặp vấn đề về thị lực, nhưng đôi khi, trong những hoàn cảnh nhất định, việc trải qua điều trị là cần thiết để bảo vệ và cải thiện đôi mắt của bạn.</p>
+                                            <div class="button">
+                                                <a class="thm-btn bg-1" href="#">Meet Doctors</a>
+                                                <div class="signature">
+                                                    <img src="homepage/images/about/signature.jpg" alt="Signature">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>
+                        <div class="col-md-6">
+                            <div class="right-content">
+                                <div class="row">
+                                    <!--Start single item-->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="single-item">
+                                            <div class="icon-holder">
+                                                <span class="flaticon-social"></span>
+                                            </div>
+                                            <div class="text">
+                                                <h3>Đội ngũ bác sĩ chất lượng cao</h3>
+                                                <p>Mang lại lợi ích từ những nỗ lực chăm sóc sức khỏe tận tâm.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End single item-->
+                                    <!--Start single item-->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="single-item">
+                                            <div class="icon-holder">
+                                                <span class="flaticon-edit"></span>
+                                            </div>
+                                            <div class="text">
+                                                <h3>Chuẩn đoán chính xác</h3>
+                                                <p>Mang lại lợi ích từ những nỗ lực chăm sóc sức khỏe tận tâm.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End single item-->
+                                </div>
+                                <div class="row">
+                                    <!--Start single item-->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="single-item">
+                                            <div class="icon-holder">
+                                                <span class="flaticon-book"></span>
+                                            </div>
+                                            <div class="text">
+                                                <h3>Phòng khám giá cả phải chăng </h3>
+                                                <p>Mang lại lợi ích từ những nỗ lực chăm sóc sức khỏe tận tâm.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End single item-->
+                                    <!--Start single item-->
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="single-item">
+                                            <div class="icon-holder">
+                                                <span class="flaticon-tool"></span>
+                                            </div>
+                                            <div class="text">
+                                                <h3>Trang thiết bị hiện đại</h3>
+                                                <p>Mang lại lợi ích từ những nỗ lực chăm sóc sức khỏe tận tâm.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End single item-->
+                                </div>
+                            </div>    
+                        </div>  
+
+                    </div>
+                </div>
+            </section>
+            <!--End about us area-->
             <section class="appoinment-area" style="background-image:url(homepage/images/resources/appoinment-bg.jpg);">
                 <div class="container inner-content">
                     <div class="row">
-                        <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="col-md-7 col-sm-12 col-xs-12">
                             <div class="img-holder">
-                                <img src="homepage/images/resources/appoinment.png" alt="Awesome Image">
+                                <img src="https://res.cloudinary.com/djmftornv/image/upload/v1738783922/tfuhq2nfw3qpisealypf.png" style="height: 450px; margin-top: 25px" alt="Awesome Image">
                             </div>    
                         </div>
-                        <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="col-md-5 col-sm-12 col-xs-12">
                             <div class="appoinment">
                                 <div class="sec-title">
-                                    <h1>Make an Appointment</h1>
+                                    <h1 style="font-weight: 700">Đặt lịch ngay !</h1>
                                     <span class="border"></span>
                                     <div class="text-box">
-                                        <p>We donât want you to think what is the best for you. We know what it is and will make everything to help.</p>
+                                        <p>"Chúng tôi không cần bạn phải lo nghĩ điều gì là tốt nhất cho mình. Chúng tôi đã biết và sẽ làm mọi thứ để hỗ trợ bạn."</p>
                                     </div>
                                 </div>
                                 <form class="appoinment-form">
@@ -399,266 +615,47 @@
                     </div>
                 </div>
             </section>
-            <!--End appoinment area-->
-
-            <!--Start about us area-->
-            <section class="about-us-area">
-                <div class="container">
-                    <div class="sec-title text-center">
-                        <h1>About Dentalcare</h1>
-                        <span class="border"></span>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="left-content">
-                                <div class="row">
-                                    <!--Start single item-->
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="single-item">
-                                            <img src="homepage/images/about/1.jpg" alt="Awesome Image">
-                                        </div>
-                                    </div>
-                                    <!--End single item-->
-                                    <!--Start single item-->
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="single-item">
-                                            <img src="homepage/images/about/2.jpg" alt="Awesome Image">
-                                        </div>
-                                    </div>
-                                    <!--End single item-->
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="text">
-                                            <p>We have built an enviable reputation in the consumer goods, heavy industry, high-tech, manufacturing, medical, recreational vehicle, and transportation sectors. multidisciplinary team of engineering experts.</p>
-                                            <p class="mar-top">Who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain.</p>
-                                            <div class="button">
-                                                <a class="thm-btn bg-1" href="#">Meet Doctors</a>
-                                                <div class="signature">
-                                                    <img src="homepage/images/about/signature.jpg" alt="Signature">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>    
-                        </div>
-                        <div class="col-md-6">
-                            <div class="right-content">
-                                <div class="row">
-                                    <!--Start single item-->
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="single-item">
-                                            <div class="icon-holder">
-                                                <span class="flaticon-social"></span>
-                                            </div>
-                                            <div class="text">
-                                                <h3>Quality Doctors</h3>
-                                                <p>Undertakes laborious physically exercise advantage.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End single item-->
-                                    <!--Start single item-->
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="single-item">
-                                            <div class="icon-holder">
-                                                <span class="flaticon-edit"></span>
-                                            </div>
-                                            <div class="text">
-                                                <h3>Free Checkup</h3>
-                                                <p>Undertakes laborious physically exercise advantage.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End single item-->
-                                </div>
-                                <div class="row">
-                                    <!--Start single item-->
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="single-item">
-                                            <div class="icon-holder">
-                                                <span class="flaticon-book"></span>
-                                            </div>
-                                            <div class="text">
-                                                <h3>Affordable Clinic</h3>
-                                                <p>Undertakes laborious physically exercise advantage.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End single item-->
-                                    <!--Start single item-->
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="single-item">
-                                            <div class="icon-holder">
-                                                <span class="flaticon-tool"></span>
-                                            </div>
-                                            <div class="text">
-                                                <h3>Latest Technology</h3>
-                                                <p>Undertakes laborious physically exercise advantage.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End single item-->
-                                </div>
-                            </div>    
-                        </div>  
-
-                    </div>
-                </div>
-            </section>
-            <!--End about us area-->
-
             <!--Start team area-->
-            <section class="team-area">
-                <div class="container">
-                    <div class="sec-title">
-                        <h1>Meet Our Dentist</h1>
-                        <span class="border"></span>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="team-carousel">
-                                <!--Start single team member-->
-                                <div class="single-team-member">
-                                    <div class="img-holder">
-                                        <img src="homepage/images/team/1.jpg" alt="Awesome Image">
-                                        <div class="overlay-one">
-                                            <div class="overlay-inner">
-                                                <div class="content"></div>
-                                            </div>
-                                        </div>
-                                        <ul class="member-social-info">
-                                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="text-holder text-center">
-                                        <h3>Dr.Eliot Aldwin</h3>
-                                        <span>Hygienist</span>
-                                        <p>Denouncing pleasure and praising pain was born expound.</p>
-                                        <span class="border"></span>
-                                        <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                    </div>    
-                                </div> 
-                                <!--End single team member-->
-                                <!--Start single team member-->
-                                <div class="single-team-member">
-                                    <div class="img-holder">
-                                        <img src="homepage/images/team/2.jpg" alt="Awesome Image">
-                                        <div class="overlay-one">
-                                            <div class="overlay-inner">
-                                                <div class="content"></div>
-                                            </div>
-                                        </div>
-                                        <ul class="member-social-info">
-                                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="text-holder text-center">
-                                        <h3>Dr.Barie Findlay</h3>
-                                        <span>Orthodontist</span>
-                                        <p>Great explorer of the truth master builder human happiness.</p>
-                                        <span class="border"></span>
-                                        <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                    </div>    
-                                </div> 
-                                <!--End single team member-->
-                                <!--Start single team member-->
-                                <div class="single-team-member">
-                                    <div class="img-holder">
-                                        <img src="homepage/images/team/3.jpg" alt="Awesome Image">
-                                        <div class="overlay-one">
-                                            <div class="overlay-inner">
-                                                <div class="content"></div>
-                                            </div>
-                                        </div>
-                                        <ul class="member-social-info">
-                                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="text-holder text-center">
-                                        <h3>Dr.Fred Calvin</h3>
-                                        <span>Dentist</span>
-                                        <p>Circumstances occurs in which toil all pain great pleasure.</p>
-                                        <span class="border"></span>
-                                        <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                    </div>    
-                                </div> 
-                                <!--End single team member-->
-                                <!--Start single team member-->
-                                <div class="single-team-member">
-                                    <div class="img-holder">
-                                        <img src="homepage/images/team/4.jpg" alt="Awesome Image">
-                                        <div class="overlay-one">
-                                            <div class="overlay-inner">
-                                                <div class="content"></div>
-                                            </div>
-                                        </div>
-                                        <ul class="member-social-info">
-                                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="text-holder text-center">
-                                        <h3>Dr.Noel Orson</h3>
-                                        <span>Hygienist</span>
-                                        <p>Undertakes laborious physically all exercise, except to obtain.</p>
-                                        <span class="border"></span>
-                                        <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                    </div>    
-                                </div>
-                                <!--End single team member-->
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-            </section>
+
             <!--End team area-->
 
             <!--Start newsletter area-->
-            <section class="newsletter-area" style="background-image:url(homepage/images/resources/newsletter-bg.jpg);">
-                <div class="container">
-                    <div class="sec-title center text-center">
-                        <h1>Subscribe for Offers, Coupons and Deals</h1>
-                        <p>We list all these discount coupons, deals and offers on various treatments. Get the latest and up-to-date coupons & cashback offers</p>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="newsletter">
-                                <form class="newsletter-form">
-                                    <div class="row">
-                                        <div class="col-md-3">   
-                                            <div class="field-input">
-                                                <input type="text" name="form_name" value="" placeholder="Your Name" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">   
-                                            <div class="field-input">
-                                                <input type="email" name="form_email" value="" placeholder="Email Address" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">   
-                                            <div class="field-input">
-                                                <input type="text" name="form_phn" value="" placeholder="Ph Num" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button class="#" type="submit">Subscibe Us</button>
-                                        </div>
+            <!--            <section class="newsletter-area" style="background-image:url(homepage/images/resources/newsletter-bg.jpg);">
+                            <div class="container">
+                                <div class="sec-title center text-center">
+                                    <h1>Subscribe for Offers, Coupons and Deals</h1>
+                                    <p>We list all these discount coupons, deals and offers on various treatments. Get the latest and up-to-date coupons & cashback offers</p>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="newsletter">
+                                            <form class="newsletter-form">
+                                                <div class="row">
+                                                    <div class="col-md-3">   
+                                                        <div class="field-input">
+                                                            <input type="text" name="form_name" value="" placeholder="Your Name" required="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">   
+                                                        <div class="field-input">
+                                                            <input type="email" name="form_email" value="" placeholder="Email Address" required="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">   
+                                                        <div class="field-input">
+                                                            <input type="text" name="form_phn" value="" placeholder="Ph Num" required="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="#" type="submit">Subscibe Us</button>
+                                                    </div>
+                                                </div>
+                                            </form>    
+                                        </div>    
                                     </div>
-                                </form>    
-                            </div>    
-                        </div>
-                    </div>
-                </div>
-            </section>     
+                                </div>
+                            </div>
+                        </section>     -->
             <!--End newsletter area-->  
 
             <!--Start testimonial area-->
@@ -668,76 +665,78 @@
                         <div class="col-md-4">
                             <div class="left-content">
                                 <div class="sec-title">
-                                    <h1>Words From<br> Our Happy Clients</h1>
+                                    <h1 style="color: rgb(34,139,34); font-weight: 500">Khách hàng nghĩ gì<br> về chúng tôi</h1>
                                     <span class="border"></span>
                                 </div>
                                 <div class="text-holder">
-                                    <p>How all this mistaken idea of denouncing pleasure and praising pain was bornd and I will give you a completed account of the system, and expound.</p>
-                                    <a class="thm-btn bg-1" href="#">More Reviews</a>
+                                    <p>Cách mà tất cả những quan niệm sai lầm về việc lên án niềm vui và ca ngợi nỗi đau ra đời, tôi sẽ kể cho bạn nghe một cách đầy đủ về hệ thống này và giải thích rõ ràng.</p>
+
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-8">
                             <div class="testimonial-carousel">
                                 <!--Start single item-->
-                                <div class="single-item">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <div class="img-holder">
-                                                <img src="homepage/images/testimonial/large-testimonial.jpg" alt="Awesome Image">
-                                                <div class="client-name text-center"> <h3>Stephan Vanel</h3> <p>Newyork</p> </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7 col-sm-7 col-xs-12">
-                                            <div class="text-holder">
-                                                <div class="quote-icon">
-                                                    <i class="fa fa-quote-right" aria-hidden="true"></i>
+                                <c:forEach var="content" items="${content}">
+                                    <div class="single-item">
+                                        <div class="row">
+                                            <div class="col-md-5 col-sm-5 col-xs-12">
+                                                <div class="img-holder">
+                                                    <img src="${content.image_patient}" alt="Awesome Image">
+                                                    <div class="client-name text-center"> <h3>${content.patient_name}</h3> </div>
                                                 </div>
-                                                <h3>Surprised at the excellent facilities</h3>
-                                                <p>I was pleasantly surprised at the excellent facilities at Dentalcare and the wonderful job they do. They have an answer for all your Dental Care Needs which is very gratifying.</p>
-                                                <div class="review-box">
-                                                    <ul>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    </ul>
+                                            </div>
+                                            <div class="col-md-7 col-sm-7 col-xs-12">
+                                                <div class="text-holder">
+                                                    <div class="quote-icon">
+                                                        <i class="fa fa-quote-right" aria-hidden="true"></i>
+                                                    </div>
+                                                    <h3>Vô cùng thích về chất lượng dịch vụ</h3>
+                                                    <p>${content.content_stories}</p>
+                                                    <div class="review-box">
+                                                        <ul>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </c:forEach>
                                 <!--End single item-->
-                                <!--Start single item-->
-                                <div class="single-item">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <div class="img-holder">
-                                                <img src="homepage/images/testimonial/large-testimonial.jpg" alt="Awesome Image">
-                                                <div class="client-name text-center"> <h3>Stephan Vanel</h3> <p>Newyork</p> </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7 col-sm-7 col-xs-12">
-                                            <div class="text-holder">
-                                                <div class="quote-icon">
-                                                    <i class="fa fa-quote-right" aria-hidden="true"></i>
-                                                </div>
-                                                <h3>Surprised at the excellent facilities</h3>
-                                                <p>I was pleasantly surprised at the excellent facilities at Dentalcare and the wonderful job they do. They have an answer for all your Dental Care Needs which is very gratifying.</p>
-                                                <div class="review-box">
-                                                    <ul>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!--                                Start single item
+                                                                <div class="single-item">
+                                                                    <div class="row">
+                                                                        <div class="col-md-5 col-sm-5 col-xs-12">
+                                                                            <div class="img-holder">
+                                                                                <img src="homepage/images/testimonial/large-testimonial.jpg" alt="Awesome Image">
+                                                                                <div class="client-name text-center"> <h3>Stephan Vanel</h3> <p>Newyork</p> </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-7 col-sm-7 col-xs-12">
+                                                                            <div class="text-holder">
+                                                                                <div class="quote-icon">
+                                                                                    <i class="fa fa-quote-right" aria-hidden="true"></i>
+                                                                                </div>
+                                                                                <h3>Surprised at the excellent facilities</h3>
+                                                                                <p>I was pleasantly surprised at the excellent facilities at Dentalcare and the wonderful job they do. They have an answer for all your Dental Care Needs which is very gratifying.</p>
+                                                                                <div class="review-box">
+                                                                                    <ul>
+                                                                                        <li><i class="fa fa-star"></i></li>
+                                                                                        <li><i class="fa fa-star"></i></li>
+                                                                                        <li><i class="fa fa-star"></i></li>
+                                                                                        <li><i class="fa fa-star"></i></li>
+                                                                                        <li><i class="fa fa-star"></i></li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>-->
                                 <!--End single item-->
                             </div>
                         </div>
@@ -748,40 +747,40 @@
             <!--End testimonial area-->
 
             <!--Start Brand area-->  
-            <section class="brand-area">
-                <div class="container">
-                    <div class="sec-title text-center">
-                        <h1>Supporting Partners</h1>
-                        <span class="border"></span>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="brand">
-                                <!--Start single item-->
-                                <div class="single-item">
-                                    <a href="#"><img src="homepage/images/brand/1.png" alt="Awesome Brand Image"></a>
+            <!--            <section class="brand-area">
+                            <div class="container">
+                                <div class="sec-title text-center">
+                                    <h1>Supporting Partners</h1>
+                                    <span class="border"></span>
                                 </div>
-                                <!--End single item-->
-                                <!--Start single item-->
-                                <div class="single-item">
-                                    <a href="#"><img src="homepage/images/brand/2.png" alt="Awesome Brand Image"></a>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="brand">
+                                            Start single item
+                                            <div class="single-item">
+                                                <a href="#"><img src="homepage/images/brand/1.png" alt="Awesome Brand Image"></a>
+                                            </div>
+                                            End single item
+                                            Start single item
+                                            <div class="single-item">
+                                                <a href="#"><img src="homepage/images/brand/2.png" alt="Awesome Brand Image"></a>
+                                            </div>
+                                            End single item
+                                            Start single item
+                                            <div class="single-item">
+                                                <a href="#"><img src="homepage/images/brand/3.png" alt="Awesome Brand Image"></a>
+                                            </div>
+                                            End single item
+                                            Start single item
+                                            <div class="single-item">
+                                                <a href="#"><img src="homepage/images/brand/4.png" alt="Awesome Brand Image"></a>
+                                            </div>
+                                            End single item
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--End single item-->
-                                <!--Start single item-->
-                                <div class="single-item">
-                                    <a href="#"><img src="homepage/images/brand/3.png" alt="Awesome Brand Image"></a>
-                                </div>
-                                <!--End single item-->
-                                <!--Start single item-->
-                                <div class="single-item">
-                                    <a href="#"><img src="homepage/images/brand/4.png" alt="Awesome Brand Image"></a>
-                                </div>
-                                <!--End single item-->
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                        </section>-->
             <!--End Brand area-->        
 
             <!--Start footer area-->  
@@ -965,7 +964,7 @@
                         <div class="col-md-12">
                             <div class="footer-bottom">
                                 <div class="copyright-text pull-left">
-                                    <p>Copyrights Â© 2017 All Rights Reserved by <a href="#">Dentalcare.</a></p> 
+                                    <p>Copyrights Â© 2017 All Rights Reserved by <a href="#">EyeCare.</a></p> 
                                 </div>
                                 <div class="footer-menu pull-right">
                                     <ul>
@@ -980,8 +979,12 @@
                 </div>    
             </section> 
             <!--End footer bottom area-->  
-
+            <a href="https://m.me/596933063493069" target="_blank" class="messenger-icon">
+                <img src="homepage/images/icon/logo_messenger.webp" alt="Messenger">
+            </a>
+            <iframe height="430" width="350" src="https://bot.dialogflow.com/b57ca0cb-bd6a-4d5b-a3d4-00f9dbffb94f"></iframe>
         </div>
+            
         <!--Scroll to top-->
         <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
             <jsp:include page="Common/Message.jsp"/>

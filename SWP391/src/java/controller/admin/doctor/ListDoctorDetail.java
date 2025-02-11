@@ -3,11 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
+
 package controller.admin.doctor;
 
 import dal.DegreeDAO;
 import dal.DoctorsDAO;
 import dal.SpecializationDAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,16 +18,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+
 import model.Degree;
 import model.Doctors;
 import model.Specialization;
 
-/**
- *
- * @author PC
- */
+
+
 @WebServlet(name="ListDoctorDetail", urlPatterns={"/admin/listDoctorDetail"})
 public class ListDoctorDetail extends HttpServlet {
+
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -39,15 +41,7 @@ public class ListDoctorDetail extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ListDoctorDetail</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ListDoctorDetail at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+           
         }
     } 
 
@@ -62,6 +56,7 @@ public class ListDoctorDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+
          String doctor_id = request.getParameter("doctor_id");
         DoctorsDAO dao = new DoctorsDAO();
         Doctors doctordetail = dao.getDoctorsById(doctor_id);
@@ -81,6 +76,7 @@ public class ListDoctorDetail extends HttpServlet {
         request.setAttribute("listSpecById", listSpecializationByDocId);
         request.setAttribute("d", doctordetail);
         request.getRequestDispatcher("DoctorDetail.jsp").forward(request, response);
+
     } 
 
     /** 

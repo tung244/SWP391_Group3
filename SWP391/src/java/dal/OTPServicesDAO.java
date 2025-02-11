@@ -4,7 +4,7 @@
  */
 package dal;
 
-import bo.getFormatDate;
+import bo.GetFormatDate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import model.OTP_Services;
@@ -13,7 +13,7 @@ public class OTPServicesDAO extends DBContext {
 
     public OTP_Services getOTPNewest(String username) {
         String sql = "SELECT TOP 1 *\n"
-                + "FROM dbo.Account a JOIN dbo.OTP_Services os ON os.account_id = a.account_id\n"
+                + "FROM dbo.Accounts a JOIN dbo.OTP_Services os ON os.account_id = a.account_id\n"
                 + "WHERE a.username = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -31,6 +31,7 @@ public class OTPServicesDAO extends DBContext {
         }
         return null;
     }
+    
 
     public boolean saveOTP(OTP_Services otp_services) {
         String sql = "Insert into OTP_Services(account_id,otp,created_otp_time,otp_expiry_date)"
@@ -53,7 +54,7 @@ public class OTPServicesDAO extends DBContext {
 
     public static void main(String[] args) {
         OTPServicesDAO otp_dao = new OTPServicesDAO();
-        OTP_Services otp = otp_dao.getOTPNewest("swp391");
-        System.out.println(otp.getAccount_id());
+        OTP_Services otp = otp_dao.getOTPNewest("guest1");
+        System.out.println(otp.getOtp_expiry_date());
     }
 }
