@@ -1,4 +1,8 @@
-
+<%-- 
+    Document   : ChangPassword
+    Created on : Feb 11, 2025, 2:19:21 PM
+    Author     : fptshop
+--%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -12,13 +16,15 @@
         <div class="">
             <div class="forgot-password-form">
                 <div class="forgot-password-card" style="font-size: 14px" id="forgotPasswordStep3">
-                    <form action="otp_checking" method="post">
+                    <form action="create_new_password" method="post">
                         <h2 class="forgot-password-title">Enter Verification Code</h2>
                         <div class="forgot-password-input-wrapper">
-                            <label class="forgot-password-label" for="verificationCode">Verification Code</label>
-                            <input style="font-size: 14px" type="text" id="verificationCode" name="verificationCode" class="forgot-password-input" placeholder="Enter verification code">
+                            <label class="forgot-password-label" for="new_password">New Password</label>
+                            <input style="font-size: 14px" type="text" id="new_password" name="new_password" class="forgot-password-input" placeholder="Enter the new password">
+                            <label class="forgot-password-label" for="confirm_password">Confirm Password</label>
+                            <input style="font-size: 14px" type="text" id="confirm_password" name="confirm_password" class="forgot-password-input" placeholder="Confirm password">
                         </div>
-                        <button style="font-size: 14px" class="forgot-password-submit" type="submit">Verify Code</button>
+                        <button style="font-size: 14px" class="forgot-password-submit" type="submit">Go</button>
                         <a style="
                             display: flex;
                             width: 360px;

@@ -62,5 +62,10 @@ public class OTP_Services {
     public void setOtp_expiry_date(String otp_expiry_date) {
         this.otp_expiry_date = otp_expiry_date;
     }
+
+    @Override
+    public String toString() {
+        return "OTP_Services{" + "otp_id=" + otp_id + ", account_id=" + account_id + ", otp=" + otp + ", created_otp_time=" + created_otp_time + ", otp_expiry_date=" + otp_expiry_date + '}';
+    }
     
 }
