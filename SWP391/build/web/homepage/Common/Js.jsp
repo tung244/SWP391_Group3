@@ -5,6 +5,7 @@
 <html>
     
     <body>
+        <script src="homepage/js/script.js"></script>
         <script src="homepage/js/jquery.js"></script>
         <!-- Wow Script -->
         <script src="homepage/js/wow.min.js"></script>
@@ -43,7 +44,7 @@
         <script src="homepage/assets/timepicker/timePicker.js"></script>
         <!-- Bootstrap select picker js -->
         <script src="homepage/assets/bootstrap-sl-1.12.1/bootstrap-select.js"></script>                               
-
+          
 
         <!-- revolution slider js -->
         <script src="homepage/assets/revolution/js/jquery.themepunch.tools.min.js"></script>

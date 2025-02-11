@@ -1,6 +1,6 @@
 package dal;
 
-import bo.getFormatDate;
+import bo.GetFormatDate;
 import java.security.Timestamp;
 import model.UserProfile;
 import java.sql.PreparedStatement;
@@ -146,7 +146,7 @@ public class UserProfileDAO extends DBContext {
             PreparedStatement stAccount = connection.prepareStatement(sqlAccount);
             stAccount.setString(1, gg.getEmail());
             stAccount.setString(2, gg.getEmail());
-            stAccount.setString(3, getFormatDate.getFormString());
+            stAccount.setString(3, GetFormatDate.getFormString());
             stAccount.setInt(4, 4);
             stAccount.setString(5, gg.getId());
 
@@ -211,7 +211,7 @@ public class UserProfileDAO extends DBContext {
             PreparedStatement stAccount = connection.prepareStatement(sqlAccount);
             stAccount.setString(1, gg.getEmail());
             stAccount.setString(2, gg.getEmail());
-            stAccount.setString(3, getFormatDate.getFormString());
+            stAccount.setString(3, GetFormatDate.getFormString());
             stAccount.setInt(4, 4);
             stAccount.setString(5, gg.getId());
 

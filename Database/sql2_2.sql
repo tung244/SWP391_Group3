@@ -11,5 +11,5 @@ INSERT INTO Certificate_Doctor (certificate_id, doctor_id, date_certificate,issu
 -- Insert data into Customers
 INSERT INTO Customers (account_id, full_name, address, dob, gender, image_profile_user) VALUES
 (7, 'Chris Davis', '654 Fir St', '1985-02-14', 'Male', 'chrisd.jpg');
-
+-- Insert data into Slots
 

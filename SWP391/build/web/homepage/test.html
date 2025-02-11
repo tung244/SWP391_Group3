@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Mega Menu</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Mega Menu HTML -->
+<div class="mega-menu-container">
+    <!-- Mobile Trigger -->
+    <div class="mobile-trigger">
+        <i class="fas fa-bars"></i> Menu
+    </div>
+
+    <div class="mega-menu">
+        <div class="menu-left">
+            <div class="menu-item" data-target="surgery1">
+                <span>Phẫu thuật khúc xạ</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="menu-item" data-target="surgery2">
+                <span>Phẫu thuật đục thủy tinh thể</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="menu-item" data-target="treatment1">
+                <span>Điều trị bệnh võng mạc</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="menu-item" data-target="treatment2">
+                <span>Điều trị Glôcôm</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="menu-item" data-target="eyecare">
+                <span>Nhãn nhi</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="menu-item" data-target="aesthetic">
+                <span>Tạo hình và trung phẫu mắt</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="menu-item" data-target="other">
+                <span>Các gói khám & điều trị khác</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <div class="menu-right">
+            <!-- Loading Indicator -->
+            <div class="loading">
+                <div class="loading-spinner"></div>
+            </div>
+
+            <div class="submenu" id="surgery1">
+                <div class="submenu-header">
+                    <h3>Phẫu thuật khúc xạ</h3>
+                </div>
+                <div class="submenu-item">
+                    <i class="fas fa-eye"></i>
+                    Phẫu thuật Phakic
+                </div>
+                <div class="submenu-item">
+                    <i class="fas fa-eye"></i>
+                    Phẫu thuật Relex Smile
+                </div>
+                <div class="submenu-item">
+                    <i class="fas fa-eye"></i>
+                    Phẫu thuật Femtosecond Lasik
+                </div>
+                <div class="submenu-item">
+                    <i class="fas fa-eye"></i>
+                    Phẫu thuật SBK Lasik
+                </div>
+            </div>
+
+            <!-- Add other submenus similarly -->
+        </div>
+    </div>
+</div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

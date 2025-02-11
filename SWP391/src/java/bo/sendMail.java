@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.Properties;
 import consts.Mail;
 
-public class sendMail {
-//     public static void sendMail(String username, String otp, String emailTo) {
+public class SendMail {
+//     public static void SendMail(String username, String otp, String emailTo) {
 //    Resend resend = new Resend("");  
 //    String emailContent = "<html><body>"
 //            + "<div style='font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4;'>"
@@ -53,7 +53,7 @@ public class sendMail {
 //}
 
 //    public static void main(String[] args) {
-//        sendMail("Lương", "098472", "nguyenluongk2k4@gmail.com");
+//        SendMail("Lương", "098472", "nguyenluongk2k4@gmail.com");
 //    }
  
 
