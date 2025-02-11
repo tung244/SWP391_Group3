@@ -110,6 +110,27 @@
                     width: 100%;
                 }
             }
+             .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 400px;
+            
+        }
+        .form-buttons button {
+            padding: 10px 20px;
+        }
 
 
         </style>
@@ -193,7 +214,10 @@
                     </c:forEach>
                 </div>
             </div>
-            <button type="submit">Update Doctor</button>
+            <div class="form-buttons">
+                <button type="submit">Update Doctor</button>
+                <button type="button" onclick="window.location.href = 'DoctorList';">Cancel</button>
+            </div>
         </form>
 
 

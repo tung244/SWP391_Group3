@@ -378,7 +378,7 @@
                     <div class="flex-grow-1 search-bar">
                         <div class="input-group">
                             <button class="btn btn-search-back search-arrow-back" type="button"><i class="bx bx-arrow-back"></i></button>
-                            <input type="text" class="form-control" placeholder="search" />
+                            <input name="txtSearch" type="text" class="form-control" placeholder="search" />
                             <button class="btn btn-search" type="button"><i class="lni lni-search-alt"></i></button>
                         </div>
                     </div>
