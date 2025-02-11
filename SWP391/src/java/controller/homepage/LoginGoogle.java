@@ -4,7 +4,7 @@
  */
 package controller.homepage;
 
-import bo.getToken;
+import bo.GetToken;
 import dal.AccountDAO;
 import dal.UserProfileDAO;
 import java.io.IOException;
@@ -28,8 +28,8 @@ public class LoginGoogle extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String code = request.getParameter("code");
-            String accessToken = getToken.getToken(code);
-            GoogleAccount gg = getToken.getUserInfo(accessToken);
+            String accessToken = GetToken.getToken(code);
+            GoogleAccount gg = GetToken.getUserInfo(accessToken);
             HttpSession session = request.getSession();
             String ms = "";
             String error = "";
