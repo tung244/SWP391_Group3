@@ -1,5 +1,4 @@
-﻿USE EyeCare﻿
-INSERT INTO Machine (machine_name, machine_description, machine_img)
+﻿INSERT INTO Machine (machine_name, machine_description, machine_img)
 VALUES
 (N'Máy chụp đáy mắt Optos Daytona', 
  N'Soi đáy mắt kiểm tra võng mạc chu biên là một kĩ thuật khám cần thiết, nhằm phát hiện sớm những tổn thương trên toàn võng mạc nói chung và vùng võng mạc chu biên nói riêng. Vì tầm quan trọng của việc đánh giá tình trạng võng mạc, giúp giữ gìn thị lực cho bệnh nhân, Bệnh viện mắt quốc tế Nhật Bản đã trang bị máy chụp đáy mắt góc siêu rộng Optos Daytona. Với những ưu điểm vượt trội như chụp không tiếp xúc, tốc độ chụp siêu nhanh (1-2 giây), chụp không cần giãn đồng tử, chất lượng hình ảnh siêu nét,… Optos Daytona là cung cụ hỗ trợ tuyệt vời cho các bác sĩ và bệnh nhân trong việc khám và điều trị các bệnh lý đáy mắt.', 

@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Appointment;
+import model.UserProfile;
 
 /**
  *
@@ -60,8 +61,11 @@ public class TransactionHistoryy extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session = request.getSession();
-        int account_id = (int) session.getAttribute("account_id");
         UserProfileDAO  dao = new UserProfileDAO();
+        String username =  (String) session.getAttribute("username");
+        UserProfile user = dao.GetAccount(username);
+        request.setAttribute("userProfile", user);
+        int account_id = (int) session.getAttribute("account_id");
         List<Appointment> listA = dao.getAppointmentByPatientID(account_id);
         request.setAttribute("appointment", listA);
         request.getRequestDispatcher("homepage/transactionhistory.jsp").forward(request, response);

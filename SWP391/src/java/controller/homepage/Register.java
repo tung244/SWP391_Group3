@@ -1,6 +1,6 @@
 package controller.homepage;
 
-import bo.getFormatDate;
+import bo.GetFormatDate;
 import dal.AccountDAO;
 import dal.UserProfileDAO;
 import jakarta.mail.Session;
@@ -22,7 +22,7 @@ public class Register extends HttpServlet {
 
     AccountDAO accountdao = new AccountDAO();
     UserProfileDAO udao = new UserProfileDAO();
-    getFormatDate getdate = new getFormatDate();
+    GetFormatDate getdate = new GetFormatDate();
     
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -86,7 +86,7 @@ public class Register extends HttpServlet {
             String register_phone = request.getParameter("register-phone");
             String gender = request.getParameter("register-gender");
             String email = request.getParameter("register-email");
-            Account a = new Account(username, password, email, register_phone,getdate.getFormString(), new Role(1, ""));
+            Account a = new Account(username, password, email, register_phone,getdate.getFormString(), new Role(5, ""));
             UserProfile u = new UserProfile(a, fullname, "", "", gender, "logo1");
             String ms = "";
             String error = "";

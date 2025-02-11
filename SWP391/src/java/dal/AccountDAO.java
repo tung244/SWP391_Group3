@@ -57,6 +57,22 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
+     public int getAccountID(String username) {
+        String sql = "Select account_id from Accounts where username =?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+                
+                }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     public boolean CheckExistEmail(String email) {
         String sql = "Select count(*) from Accounts where email = ?";

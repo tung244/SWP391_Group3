@@ -3,8 +3,8 @@ INSERT INTO Role (role_name) VALUES
 ('Admin'),
 ('Sales'),
 ('Doctors'),
-('Customer'),
-('Customer Support')
+('Customer Support'),
+('Customer')
 
 -- Insert data into Specialization
 INSERT INTO Specialization (specialization_name, specialization_status) VALUES
@@ -28,7 +28,7 @@ INSERT INTO Accounts (username, password, email, phone_number, role_id, google_i
 ('doctor3', 'doctorpass3', 'doctor3@example.com', '1112233447', 3, NULL, NULL),
 ('doctor4', 'doctorpass4', 'doctor4@example.com', '1112233448', 3, NULL, NULL),
 ('doctor5', 'doctorpass5', 'doctor5@example.com', '1112233449', 3, NULL, NULL),
-('guest1', 'guestpass', 'guest1@example.com', '6677889900', 4, NULL, NULL);
+('guest1', 'guestpass', 'guest1@example.com', '6677889900', 5, NULL, NULL);
 
 
 INSERT INTO Accounts (username, password, email, phone_number, role_id, google_id, facebook_id) VALUES

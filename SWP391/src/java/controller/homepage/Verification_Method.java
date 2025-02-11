@@ -4,10 +4,10 @@
  */
 package controller.homepage;
 
-import bo.getFormatDate;
-import bo.randomSixNumber;
-import bo.sendMail;
-import bo.sendSMS;
+import bo.GetFormatDate;
+import bo.RandomSixNumber;
+import bo.SendMail;
+import bo.SendSMS;
 import dal.OTPServicesDAO;
 import dal.UserProfileDAO;
 import java.io.IOException;
@@ -26,6 +26,7 @@ public class Verification_Method extends HttpServlet {
 
     UserProfileDAO udao = new UserProfileDAO();
     OTPServicesDAO otpdao = new OTPServicesDAO();
+    RandomSixNumber s = new RandomSixNumber();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -69,56 +70,76 @@ public class Verification_Method extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        randomSixNumber s = new randomSixNumber();
-        HttpSession session = request.getSession();
-        OTP_Services otp_old = otpdao.getOTPNewest((String) session.getAttribute("username_forgot"));
-        
-        String method = request.getParameter("verificationMethod");
         String ms = "";
         String error = "";
+        HttpSession session = request.getSession();
+        String usernameForgot = (String) session.getAttribute("username_forgot");
+
+        if (usernameForgot == null || usernameForgot.trim().isEmpty()) {
+            error = "Lỗi: Không tìm thấy tài khoản!";
+            response.sendRedirect("forgot_password");
+            return;
+        }
+
+        OTP_Services otp_old = otpdao.getOTPNewest(usernameForgot);
+        String method = request.getParameter("verificationMethod");
+        
+
         String[] infoUser = (String[]) session.getAttribute("infoUser");
-        System.out.println("đến1");
+
+        System.out.println("xử lý OTP");
+
         if (otp_old != null) {
-            if (getFormatDate.checkFiveMinute(otp_old.getOtp_expiry_date())) {
-                String otp_new = s.generateRandomSixDigits();
-                if (otp_new.equals(otp_old.getOtp())) {
-                    
-                    
-                
+            if (GetFormatDate.checkFiveMinute(otp_old.getOtp_expiry_date())) {
+                String otp_new;
+                do {
+                    otp_new = s.generateRandomSixDigits();
+                } while (otp_new.equals(otp_old.getOtp()));
+
+                if (otpdao.saveOTP(new OTP_Services(0, usernameForgot, otp_new, otp_new))) {
+                    sendOTP(method, infoUser);
+                    ms = "OTP gửi thành công! Vui lòng chờ trong giây lát.";
+                } else {
+                    error = "Có lỗi xảy ra khi lưu OTP.";
                 }
-                    System.out.println("đến 2");
-                    if (method.equals("email")) {
-                        Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
-                            try {
-                                System.out.println("đến 3");
-                                sendMail.guiMail(infoUser[1], s.generateRandomSixDigits(), "bạn");
-
-                            } catch (Exception e) {
-                                e.printStackTrace();  // Log lỗi nếu có
-                            }
-                        });
-                        emailThread.start();
-                    }
-                    if (method.equals("phone")) {
-                        Thread emailThread = new Thread(() -> {  // thread gửi sms khác luồng
-                            try {
-                                sendSMS.guiSMS(s.generateRandomSixDigits(), infoUser[0]);
-
-                            } catch (Exception e) {
-                                e.printStackTrace();  // Log lỗi nếu có
-                            }
-                        });
-                        emailThread.start();
-                    }
-
-                }
-                ms = "OTP gửi thành công ! Vui Lòng chờ trong giây lát";
             } else {
-                error = "Vui lòng chờ trong giây lát!";
+                error = "OTP cũ vẫn còn hiệu lực, vui lòng kiểm tra tin nhắn.";
             }
+        } else {
+            error = "Không tìm thấy OTP trước đó hoặc đã hết hạn.";
+        }
 
-        }     
+        session.setAttribute("error", error);
+        session.setAttribute("ms", ms);
 
+        response.sendRedirect("otp_checking");
+    }
+
+    public void sendOTP(String method, String[] infoUser) {
+        if (method.equals("email")) {
+            Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
+                try {
+                    System.out.println("đến 3");
+                    SendMail.guiMail(infoUser[1], s.generateRandomSixDigits(), "bạn");
+
+                } catch (Exception e) {
+                    e.printStackTrace();  // Log lỗi nếu có
+                }
+            });
+            emailThread.start();
+        }
+        if (method.equals("phone")) {
+            Thread emailThread = new Thread(() -> {  // thread gửi sms khác luồng
+                try {
+                    SendSMS.guiSMS(s.generateRandomSixDigits(), infoUser[0]);
+
+                } catch (Exception e) {
+                    e.printStackTrace();  // Log lỗi nếu có
+                }
+            });
+            emailThread.start();
+        }
+    }
 
     @Override
     public String getServletInfo() {

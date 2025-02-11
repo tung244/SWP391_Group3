@@ -1,6 +1,6 @@
 package controller.homepage;
 
-import bo.getToken;
+import bo.GetToken;
 import dal.AccountDAO;
 import dal.UserProfileDAO;
 import java.io.IOException;
@@ -75,6 +75,8 @@ public class Login extends HttpServlet {
                     session.setAttribute("ms", "Login Successfully!");
                     response.sendRedirect("trangchu");
                 } else {
+                    
+                    session.setAttribute("account_id", user.account.account_id);
                     session.setAttribute("user", user);
                     session.setAttribute("username", username);
                     session.setAttribute("password", password);
