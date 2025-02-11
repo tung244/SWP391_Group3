@@ -97,7 +97,7 @@
                         <div class="appointment-box">
                             <div class="col-md-12">
                                 <div class="form">
-                                    <form action="addAppointment" method="post">
+                                    <form action="appointment" method="post">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="input-box">
@@ -118,7 +118,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="input-box">
-                                                    <input type="text" name="date" placeholder="Date" id="datepicker">
+                                                    <input type="date" name="date" placeholder="Date" id="datepicker">
                                                     <div class="icon-box">
                                                         <i class="fa fa-calendar" aria-hidden="true"></i>
                                                     </div>
@@ -131,7 +131,7 @@
                                                     <select name="doctor" class="selectmenu">
                                                         <option  selected="selected">Select Doctor</option>
                                                         <c:forEach var="s" items="${listD}">
-                                                            <option>${s.doctor_name}</option> 
+                                                            <option value="${s.doctor_id}">${s.doctor_name}</option> 
                                                         </c:forEach>
                                                     </select>
                                                 </div>
