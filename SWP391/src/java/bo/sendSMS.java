@@ -16,16 +16,15 @@ public class SendSMS {
 
     public static boolean guiSMS(String otp, String phone) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
-
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("ApiKey", "C305BF11D39FC15EC83259AF7E8506");
-        jsonObject.put("Content", otp+" la ma xac minh cua ban");
-        jsonObject.put("Phone", phone);
-        jsonObject.put("SecretKey", "DDEF344BA4C498C1441EAC2ABCFAFF");
+        jsonObject.put("ApiKey", "9CEACFF036A16A863E417F32239D58");
+        jsonObject.put("Content", otp+" la ma xac minh dang ky Baotrixemay cua ban");
+        jsonObject.put("Phone",phone);
+        jsonObject.put("SecretKey", "C93FBDAD470640514931DF273D462B");
         jsonObject.put("Brandname", "Baotrixemay");
         jsonObject.put("SmsType", "2");
         jsonObject.put("IsUnicode", 1);
-        jsonObject.put("Sandbox", 1);
+        jsonObject.put("Sandbox", 0);
         jsonObject.put("campaignid", "Chiến dịch 05/02/2025");
         jsonObject.put("RequestId", "");
         jsonObject.put("CallbackUrl", "");
@@ -58,6 +57,6 @@ public class SendSMS {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(guiSMS("128745","0936971273"));
+        System.out.println(guiSMS("128745","0357159967"));
     }
 }

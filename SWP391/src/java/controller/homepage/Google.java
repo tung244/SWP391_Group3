@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.homepage;
 
-import bo.getToken;
+import bo.GetToken;
 import dal.AccountDAO;
 import dal.UserProfileDAO;
 import java.io.IOException;
@@ -23,7 +22,7 @@ import model.UserProfile;
  *
  * @author Nguyen Phu Thinh
  */
-@WebServlet(name = "login_google", urlPatterns = {"/login_google"})
+@WebServlet(name = "login_google", urlPatterns = {"/logingoogle"})
 public class Google extends HttpServlet {
 
     AccountDAO dao = new AccountDAO();
@@ -40,29 +39,31 @@ public class Google extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-                String code = request.getParameter("code");
-                String accessToken = getToken.getToken(code);
-                GoogleAccount gg = getToken.getUserInfo(accessToken);
-                HttpSession session = request.getSession();
-                UserProfile user = udao.GetAccount(gg.getEmail());
-                String ms = "";
-                String error = "";
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            String code = request.getParameter("code");
+            String accessToken = GetToken.getToken2(code);
+            GoogleAccount gg = GetToken.getUserInfo(accessToken);
+            HttpSession session = request.getSession();
+            UserProfile user = udao.GetAccount(gg.getEmail());
+            String ms = "";
+            String error = "";
 
-                if (!dao.CheckExistGGAccount(gg)) {
-                    session.setAttribute("error", "Can not Login. Please register to continue.");
-                }
-                if (!dao.isValidGoogleLogin(gg)) {
-                    session.setAttribute("error", "Login fail!");
-                } else {
-                    session.setAttribute("user", user);
-                    session.setAttribute("ms", "Login Successfully!");
-                    response.sendRedirect("trangchu");
-
-                }
-                
+            if (!dao.CheckExistGGAccount(gg)) {
+                session.setAttribute("error", "Can not Login. Please register to continue.");
             }
+            if (!dao.isValidGoogleLogin(gg)) {
+                session.setAttribute("error", "Login fail!");
+            } else {
+                session.setAttribute("user", user);
+                session.setAttribute("username", user.getAccount().getUsername());
+                session.setAttribute("account_id",user.getAccount().getAccount_id());
+                session.setAttribute("ms", "Login Successfully!");
+                response.sendRedirect("trangchu");
+
+            }
+            
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

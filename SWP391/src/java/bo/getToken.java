@@ -38,6 +38,27 @@ public class getToken {
         return accessToken;
 
     }
+    public static String getToken2(String code) throws ClientProtocolException, IOException {
+
+        String response = Request.Post(Google.GOOGLE_LINK_GET_TOKEN)
+                .bodyForm(
+                        Form.form()
+                                .add("client_id", Google.GOOGLE_CLIENT_ID)
+                                .add("client_secret", Google.GOOGLE_CLIENT_SECRET)
+                                .add("redirect_uri", Google.GOOGLE_REDIRECT_URI2)
+                                .add("code", code)
+                                .add("grant_type", Google.GOOGLE_GRANT_TYPE)
+                                .build()
+                )
+                .execute().returnContent().asString();
+
+        JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
+
+        String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
+
+        return accessToken;
+
+    }
 
     public static String getTokenFaceBook(String code) throws ClientProtocolException, IOException {
         String response = Request.Post(Facebook.FACEBOOK_LINK_GET_TOKEN)
