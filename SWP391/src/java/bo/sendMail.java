@@ -55,8 +55,6 @@ public class SendMail {
 //    public static void main(String[] args) {
 //        SendMail("Lương", "098472", "nguyenluongk2k4@gmail.com");
 //    }
- 
-
     public static void guiMail(String email, String noidung, String nameUser) {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -77,6 +75,7 @@ public class SendMail {
             System.out.println("Time:" + System.currentTimeMillis());
             message.setSubject("Xác nhận đơn hàng");
             String emailContent = "<html><head>"
+                    + "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>"
                     + "<style>"
                     + "  @media only screen and (max-width: 600px) {"
                     + "    body, div {"
@@ -120,16 +119,17 @@ public class SendMail {
                     + "</body></html>";
 
             System.out.println("Time:" + System.currentTimeMillis());
-            message.setContent(emailContent, "text/html; charset=UTF-8");
+            message.setHeader("Content-Type", "text/html; charset=UTF-8");
+            message.setText(emailContent, "UTF-8", "html");
+
             System.out.println("Time:" + System.currentTimeMillis());
             Transport.send(message);
             System.out.println("mail được gửi" + System.currentTimeMillis());
-            
 
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-       
+
     }
 
     public static void guiMail2(String email, String noidung, String nameUser) {
@@ -151,22 +151,22 @@ public class SendMail {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             System.out.println("Time:" + System.currentTimeMillis());
             message.setSubject("Xác nhận đơn hàng");
-            String emailContent = "hehe"+ noidung;
+            String emailContent = "hehe" + noidung;
 
             System.out.println("Time:" + System.currentTimeMillis());
             message.setContent(emailContent, "text/html; charset=UTF-8");
             System.out.println("Time:" + System.currentTimeMillis());
             Transport.send(message);
             System.out.println("mail được gửi" + System.currentTimeMillis());
-            
 
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-       
+
     }
+
     public static void main(String[] args) {
         guiMail2("0936971273@mms.mobifone.net.vn", "029193", "Lương");
     }
-    
+
 }

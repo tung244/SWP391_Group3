@@ -53,53 +53,33 @@ public class CheckOTP extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        RandomSixNumber s = new RandomSixNumber();
-//        HttpSession session = request.getSession();
-//        String otp = s.generateRandomSixDigits();
-//        OTP_Services otp_old = otpdao.getOTPNewest((String) session.getAttribute("username_forgot"));
-//        String method = request.getParameter("verificationMethod");
-//        String ms = "";
-//        String error = "";
-//        String[] infoUser = (String[]) session.getAttribute("infoUser");
-//        
-//        if (otp_old != null) {
-//            if (GetFormatDate.checkFiveMinute(otp_old.getOtp_expiry_date())) {
-//                String otp_new = s.generateRandomSixDigits();
-//                if (!otp_new.equals(otp_old.getOtp())) {
-//
-//                    if (method.equals("email")) {
-//                        Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
-//                            try {
-//                                SendMail.guiMail(infoUser[1], s.generateRandomSixDigits(), "bạn");
-//
-//                            } catch (Exception e) {
-//                                e.printStackTrace();  // Log lỗi nếu có
-//                            }
-//                        });
-//                        emailThread.start();
-//                    }
-//                    if (method.equals("phone")) {
-//                        Thread emailThread = new Thread(() -> {  // thread gửi sms khác luồng
-//                            try {
-//                                SendSMS.guiSMS(s.generateRandomSixDigits(), infoUser[0]);
-//
-//                            } catch (Exception e) {
-//                                e.printStackTrace();  // Log lỗi nếu có
-//                            }
-//                        });
-//                        emailThread.start();
-//                    }
-//
-//                }
-//                ms = "OTP gửi thành công ! Vui Lòng chờ trong giây lát";
-//            } else {
-//                error = "Vui lòng chờ trong giây lát!";
-//            }
-//
-//        }
-//        session.setAttribute("ms", ms);
-//        session.setAttribute("error", error);
-//        response.sendRedirect("otp_checking");
+        String verificationCode = request.getParameter("verificationCode");
+        HttpSession session = request.getSession();
+        OTP_Services otp = otpdao.getOTPNewest((String) session.getAttribute("username_forgot"));
+        
+        String ms = "";
+        String error = "";
+
+        if (otp != null && verificationCode != null) {
+            if (GetFormatDate.checkFiveMinute(otp.getOtp_expiry_date())) {
+                if (otp.getOtp().equals(verificationCode)) {
+                    ms = "OTP chính xác";
+                    session.setAttribute("ms", ms);
+                    response.sendRedirect("create_new_password");
+                    return; 
+                } else {
+                    error = "OTP không chính xác, vui lòng thử lại!";
+                }
+            } else {
+                error = "OTP đã hết hạn, vui lòng lấy mã mới!";
+            }
+        } else {
+            error = "Lỗi hệ thống, vui lòng thử lại!";
+        }
+
+        session.setAttribute("error", error);
+        response.sendRedirect("otp_checking");
+
     }
 
     @Override
