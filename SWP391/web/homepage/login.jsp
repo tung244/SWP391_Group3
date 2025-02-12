@@ -52,7 +52,7 @@
                                         <a style="background-color: #1877F2;border-radius: 60px;padding: 3px 10px;display: block;width: 320px;margin-top: 20px;"><span style=" font-size: 14px; color: white !important;"><i style="margin-right: 10px;" class='bx bxl-facebook'></i>Continue with facebook</span></a>
                                     </div>-->
                                     <div class="button-container" style="display: flex;justify-content: center;">
-                                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/SWP391/logingoogle&response_type=code&client_id=145515751218-1me7sleh0t92gmt599s2vnrh7bct77th.apps.googleusercontent.com&approval_prompt=force"
+                                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/SWP391/login_google&response_type=code&client_id=145515751218-1me7sleh0t92gmt599s2vnrh7bct77th.apps.googleusercontent.com&approval_prompt=force"
                                            style="background-color: red;border-radius: 60px;padding: 3px 10px;display: block;width: 320px;margin-top: 10px;"><span style=" font-size: 14px; color: white !important;"><i style="margin-right: 10px;" class='bx bxl-google'></i>Continue with google</span></a>
                                     </div>
                                     <div class="button-container" style="display: flex;justify-content: center;">

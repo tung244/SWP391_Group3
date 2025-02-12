@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.GoogleAccount;
 
-@WebServlet(name = "LoginGoogle", urlPatterns = {"/logingoogle"})
+@WebServlet(name = "LoginGoogle", urlPatterns = {"/login_google"})
 public class LoginGoogle extends HttpServlet {
 
     AccountDAO dao = new AccountDAO();
