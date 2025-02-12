@@ -86,7 +86,6 @@ public class Appointment extends HttpServlet {
         request.setAttribute("s", s);
         request.setAttribute("listD", listD);
         request.setAttribute("slots", slots);
-//            request.setAttribute("listST", list1);
         request.getRequestDispatcher("/homepage/Appointment.jsp").forward(request, response);
     }
 

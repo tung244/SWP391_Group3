@@ -86,13 +86,27 @@ public class SearchService extends HttpServlet {
         } catch (NumberFormatException e) {
             e.printStackTrace(); // Ghi log lỗi nếu ID không hợp lệ
         }
-
+        int page, numperpage = 10;
+        int size = list.size();
+        int num = (size%numperpage==0?(size/numperpage):((size/numperpage)+1));
+        String xpage = request.getParameter("page");
+        if(xpage == null){
+            page =1;
+        }else{
+            page = Integer.parseInt(xpage);
+        }
+        int start, end;
+        start = (page-1)*numperpage;
+        end = Math.min(page*numperpage, size);
+        List<ServiceDetail> list2 = dao.getPaginationService(list, start, end);
+        request.setAttribute("page", page);
+        request.setAttribute("number", num);
         // Lấy danh sách chuyên khoa
         List<Specialization> list1 = dao.getAllSpecialization();
 
         // Đặt dữ liệu vào request
         request.setAttribute("listSP", list1);
-        request.setAttribute("listS", list);
+        request.setAttribute("listS", list2);
         request.setAttribute("id", id);
 
         // Chuyển hướng về trang JSP

@@ -140,7 +140,7 @@
                                                 <div class="input-box">
                                                     <select name="slot" class="selectmenu">
                                                         <option selected="selected">Select Time</option>
-                                                        <c:forEach var="s" items="${slots}">
+                                                        <c:forEach var="s" items="${requestScope.slots}">
                                                             <option value="${s.slot_id}">${s.start_time} - ${s.end_time}</option> 
                                                         </c:forEach>
                                                     </select>

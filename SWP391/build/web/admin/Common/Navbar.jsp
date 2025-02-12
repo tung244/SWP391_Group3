@@ -8,185 +8,699 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
-<section class="top-bar-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <div class="language-switcher">
-                    <div id="polyglotLanguageSwitcher">
-                        <form action="#">
-                            <select id="polyglot-language-options">
-                                <option id="en" value="en" selected>English</option>
-                                <option id="fr" value="fr">French</option>
-                                <option id="de" value="de">German</option>
-                                <option id="it" value="it">Italian</option>
-                                <option id="es" value="es">Spanish</option>
-                            </select>
-                        </form>
-                    </div>
-                </div> 
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <div class="logo text-center">
-                    <a href="index.html">
-                        <img src="homepage/images/resources/logo.png" alt="Awesome Logo">
-                    </a>
-                </div>   
-            </div>
-            <c:if test="${empty sessionScope.user}">
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <div class="top-social-links">
-                        <ul style="font-size: 16px; margin-top: 15px">
-                            <!-- <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li> -->
-
-                            <li>
-                                <a href="login" style="color: rgb(34,139,34)">
-                                    <i style="margin-right: 5px;vertical-align: middle;" class="bx bxs-user"></i>Login /
-                                </a>
-                            </li>
-                            <li style="margin-left: 0;">
-                                <a href="login" style="color: rgb(34,139,34)">Register</a>
-                            </li>
-
-
-                        </ul>
-                    </div>     
-                </div>
-            </c:if>
-            <c:if test="${not empty sessionScope.user}">
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="display: flex; justify-content: end; margin-top: 10px;">
-                <div style="position: relative; display: inline-block; width: 225px;">
-                    
-                    <div id="dropdown-title" 
-                         style="background-color: white; border: white; padding: 8px;
-                         border-radius: 6px; display: flex; align-items: center;
-                         gap: 10px; cursor: pointer; box-shadow: none;">
-                        <img src="homepage/images/resources/avatar.jpg" alt="Icon" style="width: 35px; height: 35px; border-radius: 40px">
-                        <span style="color: black;">Hello ${sessionScope.user.fullname}<i class='bx bx-chevron-down'></i></span>
-                    </div>
-
-                    
-                    <ul id="dropdown-menu" 
-                        style="list-style: none; padding: 0; margin: 0;
-                        position: absolute; top: 100%; left: 0; width: 100%;
-                        background-color: white; border: 1px solid #ddd;
-                        border-radius: 6px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                        display: none; z-index: 1000; padding: 20px; color:black; font-size: 16px">
-                        <li style="padding: 4px; cursor: pointer;" ><a href="userprofile"><i style="margin-right: 10px" class='bx bxs-user'></i>Thông tin tài khoản</a></li>
-                        <li style="padding: 4px; cursor: pointer;" ><a><i style="margin-right: 10px" class='bx bx-history' ></i>Lịch sử dịch vụ<a></li>
-                                    <li style="padding: 4px; cursor: pointer;" ><a><i style="margin-right: 10px" class='bx bxs-edit'></i>Đổi mật khẩu</a></li>
-                        <li style="border-top: 1px solid #ddd; margin: 4px 0;"></li>
-                        <li style="padding: 4px; cursor: pointer;" ><a href="logout"><i style="margin-right: 10px" class='bx bx-log-in'></i>Đăng xuất</a></li>
-                    </ul>
-                </div>
-                </div>
-            </c:if>
-
+<div class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+        <div class="">
+            <img src="assets/images/logo-icon.png" class="logo-icon-2" alt="" />
         </div>
+        <div>
+            <h4 class="logo-text">Syndash</h4>
+        </div>
+        <a href="javascript:;" class="toggle-btn ms-auto"> <i class="bx bx-menu"></i>
+        </a>
     </div>
-</section>
-<!--End Top bar area -->
-
-<!--Start mainmenu area-->
-<section class="mainmenu-area stricky">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="left pull-left">
-                    <!--Start mainmenu-->
-                    <nav class="main-menu">
-                        <div class="navbar-header">   	
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-                        <div class="navbar-collapse collapse clearfix">
-                            <ul class="navigation clearfix">
-                                <li class="current"><a href="index.html">Home</a></li>
-                                <li class="dropdown"><a href="about.html">About Us</a>
-                                    <ul>
-                                        <li><a href="about.html">About Dentalcare</a></li>
-                                        <li><a href="team.html">Meet Our Dentist</a></li>
-                                        <li><a href="special-offers.html">Special Offers</a></li>
-                                        <li><a href="faq.html">FAQâs</a></li>
-                                        <li><a href="testimonials.html">Testimonials</a></li>
-                                    </ul>
+    <!--navigation-->
+    <ul class="metismenu" id="menu">
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon icon-color-1"><i class="bx bx-home-alt"></i>
+                </div>
+                <div class="menu-title">Dashboard</div>
+            </a>
+            <ul>
+                <li> <a href="index.html"><i class="bx bx-right-arrow-alt"></i>Analytics</a>
+                </li>
+                <li> <a href="index2.html"><i class="bx bx-right-arrow-alt"></i>Sales</a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-label">Web Apps</li>
+        <li>
+            <a href="emailbox.html">
+                <div class="parent-icon icon-color-2"><i class="bx bx-envelope"></i>
+                </div>
+                <div class="menu-title">Email</div>
+            </a>
+        </li>
+        <li>
+            <a href="chat-box.html">
+                <div class="parent-icon icon-color-3"> <i class="bx bx-conversation"></i>
+                </div>
+                <div class="menu-title">Chat Box</div>
+            </a>
+        </li>
+        <li>
+            <a href="file-manager.html">
+                <div class="parent-icon icon-color-4"><i class="bx bx-archive"></i>
+                </div>
+                <div class="menu-title">File Manager</div>
+            </a>
+        </li>
+        <li>
+            <a href="contact-list.html">
+                <div class="parent-icon icon-color-5"><i class="bx bx-group"></i>
+                </div>
+                <div class="menu-title">Contatcs</div>
+            </a>
+        </li>
+        <li>
+            <a href="to-do.html">
+                <div class="parent-icon icon-color-6"><i class="bx bx-task"></i>
+                </div>
+                <div class="menu-title">Todo List</div>
+            </a>
+        </li>
+        <li>
+            <a href="invoice.html">
+                <div class="parent-icon icon-color-7"><i class="bx bx-file"></i>
+                </div>
+                <div class="menu-title">Invoice</div>
+            </a>
+        </li>
+        <li>
+            <a href="fullcalender.html">
+                <div class="parent-icon icon-color-8"> <i class="bx bx-calendar-check"></i>
+                </div>
+                <div class="menu-title">Calendar</div>
+            </a>
+        </li>
+        <li>
+            <a href="/SWP391/admin/ServiceList">
+                <div class="parent-icon icon-color-9"> <i class="lni lni-envato"></i>
+                </div>
+                <div class="menu-title">Services</div>
+            </a>
+        </li>
+        <li>
+            <a href="/SWP391/admin/ListStaff">
+                <div class="parent-icon icon-color-10"> <i class="lni lni-slice"></i>
+                </div>
+                <div class="menu-title">Staffs</div>
+            </a>
+        </li>
+        <li>
+            <a href="/SWP391/admin/AppointmentList">
+                <div class="parent-icon icon-color-11"> <i class="lni lni-angular"></i>
+                </div>
+                <div class="menu-title">Appointment</div>
+            </a>
+        </li>
+        <li class="menu-label">UI Elements</li>
+        <li>
+            <a href="widgets.html">
+                <div class="parent-icon icon-color-9"><i class="bx bx-ghost"></i>
+                </div>
+                <div class="menu-title">Widgets</div>
+            </a>
+        </li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon icon-color-10"><i class="bx bx-spa"></i>
+                </div>
+                <div class="menu-title">Components</div>
+            </a>
+            <ul>
+                <li> <a href="component-alerts.html"><i class="bx bx-right-arrow-alt"></i>Alerts</a>
+                </li>
+                <li> <a href="component-bedges.html"><i class="bx bx-right-arrow-alt"></i>Badge</a>
+                </li>
+                <li> <a href="component-buttons.html"><i class="bx bx-right-arrow-alt"></i>Buttons</a>
+                </li>
+                <li> <a href="component-cards.html"><i class="bx bx-right-arrow-alt"></i>Cards</a>
+                </li>
+                <li> <a href="component-carousels.html"><i class="bx bx-right-arrow-alt"></i>Carousel</a>
+                </li>
+                <li> <a href="component-acordians.html"><i class="bx bx-right-arrow-alt"></i>Acordians</a>
+                </li>
+                <li> <a href="component-list-groups.html"><i class="bx bx-right-arrow-alt"></i>List Groups</a>
+                </li>
+                <li> <a href="component-media-object.html"><i class="bx bx-right-arrow-alt"></i>Media Objects</a>
+                </li>
+                <li> <a href="component-modals.html"><i class="bx bx-right-arrow-alt"></i>Modal</a>
+                </li>
+                <li> <a href="component-navs.html"><i class="bx bx-right-arrow-alt"></i>Navs</a>
+                </li>
+                <li> <a href="components-navbar.html"><i class="bx bx-right-arrow-alt"></i>Navbar</a>
+                </li>
+                <li> <a href="component-paginations.html"><i class="bx bx-right-arrow-alt"></i>Pagination</a>
+                </li>
+                <li> <a href="component-popovers-tooltips.html"><i class="bx bx-right-arrow-alt"></i>Popovers & Tooltips</a>
+                </li>
+                <li> <a href="component-progress-bars.html"><i class="bx bx-right-arrow-alt"></i>Progress</a>
+                </li>
+                <li> <a href="component-spinners.html"><i class="bx bx-right-arrow-alt"></i>Spinners</a>
+                </li>
+                <li> <a href="component-notifications.html"><i class="bx bx-right-arrow-alt"></i>Notifications</a>
+                </li>
+                <li> <a href="components-avtars-chips.html"><i class="bx bx-right-arrow-alt"></i>Avatrs & Chips</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon icon-color-11"><i class="bx bx-repeat"></i>
+                </div>
+                <div class="menu-title">Content</div>
+            </a>
+            <ul>
+                <li> <a href="content-grid-system.html"><i class="bx bx-right-arrow-alt"></i>Grid System</a>
+                </li>
+                <li> <a href="content-typography.html"><i class="bx bx-right-arrow-alt"></i>Typography</a>
+                </li>
+                <li> <a href="content-text-utilities.html"><i class="bx bx-right-arrow-alt"></i>Text Utilities</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon icon-color-12"> <i class="bx bx-donate-blood"></i>
+                </div>
+                <div class="menu-title">Icons</div>
+            </a>
+            <ul>
+                <li> <a href="icons-line-icons.html"><i class="bx bx-right-arrow-alt"></i>Line Icons</a>
+                </li>
+                <li> <a href="icons-boxicons.html"><i class="bx bx-right-arrow-alt"></i>Boxicons</a>
+                </li>
+                <li> <a href="icons-feather-icons.html"><i class="bx bx-right-arrow-alt"></i>Feather Icons</a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-label">Forms & Tables</li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon icon-color-1"> <i class="bx bx-comment-edit"></i>
+                </div>
+                <div class="menu-title">Forms</div>
+            </a>
+            <ul>
+                <li> <a href="form-elements.html"><i class="bx bx-right-arrow-alt"></i>Form Elements</a>
+                </li>
+                <li> <a href="form-input-group.html"><i class="bx bx-right-arrow-alt"></i>Input Groups</a>
+                </li>
+                <li> <a href="form-layouts.html"><i class="bx bx-right-arrow-alt"></i>Forms Layouts</a>
+                </li>
+                <li> <a href="form-validations.html"><i class="bx bx-right-arrow-alt"></i>Form Validation</a>
+                </li>
+                <li> <a href="form-wizard.html"><i class="bx bx-right-arrow-alt"></i>Form Wizard</a>
+                </li>
+                <li> <a href="form-text-editor.html"><i class="bx bx-right-arrow-alt"></i>Text Editor</a>
+                </li>
+                <li> <a href="form-file-upload.html"><i class="bx bx-right-arrow-alt"></i>File Upload</a>
+                </li>
+                <li> <a href="form-date-time-pickes.html"><i class="bx bx-right-arrow-alt"></i>Date Pickers</a>
+                </li>
+                <li> <a href="form-select2.html"><i class="bx bx-right-arrow-alt"></i>Select2</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon icon-color-2"><i class="bx bx-grid-alt"></i>
+                </div>
+                <div class="menu-title">Tables</div>
+            </a>
+            <ul>
+                <li> <a href="table-basic-table.html"><i class="bx bx-right-arrow-alt"></i>Basic Table</a>
+                </li>
+                <li> <a href="table-datatable.html"><i class="bx bx-right-arrow-alt"></i>Data Table</a>
+                </li>
+                <li> <a href="table-editable.html"><i class="bx bx-right-arrow-alt"></i>Editable Table</a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-label">Pages</li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon icon-color-3"><i class="bx bx-lock"></i>
+                </div>
+                <div class="menu-title">Authentication</div>
+            </a>
+            <ul>
+                <li> <a href="authentication-login.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Login</a>
+                </li>
+                <li> <a href="authentication-register.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Register</a>
+                </li>
+                <li> <a href="authentication-forgot-password.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Forgot Password</a>
+                </li>
+                <li> <a href="authentication-reset-password.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Reset Password</a>
+                </li>
+                <li> <a href="authentication-lock-screen.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Lock Screen</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="user-profile.html">
+                <div class="parent-icon icon-color-4"><i class="bx bx-user-circle"></i>
+                </div>
+                <div class="menu-title">User Profile</div>
+            </a>
+        </li>
+        <li>
+            <a href="timeline.html">
+                <div class="parent-icon icon-color-5"> <i class="bx bx-video-recording"></i>
+                </div>
+                <div class="menu-title">Timeline</div>
+            </a>
+        </li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon icon-color-6"><i class="bx bx-error"></i>
+                </div>
+                <div class="menu-title">Errors</div>
+            </a>
+            <ul>
+                <li> <a href="errors-404-error.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>404 Error</a>
+                </li>
+                <li> <a href="errors-500-error.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>500 Error</a>
+                </li>
+                <li> <a href="errors-coming-soon.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Coming Soon</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="faq.html">
+                <div class="parent-icon icon-color-7"><i class="bx bx-help-circle"></i>
+                </div>
+                <div class="menu-title">FAQ</div>
+            </a>
+        </li>
+        <li>
+            <a href="pricing-table.html">
+                <div class="parent-icon icon-color-8"><i class="bx bx-diamond"></i>
+                </div>
+                <div class="menu-title">Pricing</div>
+            </a>
+        </li>
+        <li class="menu-label">Charts & Maps</li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon icon-color-9"><i class="bx bx-line-chart"></i>
+                </div>
+                <div class="menu-title">Charts</div>
+            </a>
+            <ul>
+                <li> <a href="charts-apex-chart.html"><i class="bx bx-right-arrow-alt"></i>Apex</a>
+                </li>
+                <li> <a href="charts-chartjs.html"><i class="bx bx-right-arrow-alt"></i>Chartjs</a>
+                </li>
+                <li> <a href="charts-highcharts.html"><i class="bx bx-right-arrow-alt"></i>Highcharts</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon icon-color-10"><i class="bx bx-map-alt"></i>
+                </div>
+                <div class="menu-title">Maps</div>
+            </a>
+            <ul>
+                <li> <a href="map-google-maps.html"><i class="bx bx-right-arrow-alt"></i>Google Maps</a>
+                </li>
+                <li> <a href="map-vector-maps.html"><i class="bx bx-right-arrow-alt"></i>Vector Maps</a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-label">Others</li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon icon-color-11"><i class="bx bx-menu"></i>
+                </div>
+                <div class="menu-title">Menu Levels</div>
+            </a>
+            <ul>
+                <li> <a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Level One</a>
+                    <ul>
+                        <li> <a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Level Two</a>
+                            <ul>
+                                <li> <a href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Level Three</a>
                                 </li>
-                                <li class="dropdown"><a href="services.html">Services</a>
-                                    <ul>
-                                        <li><a href="root-canel.html">Root Canel</a></li>
-                                        <li><a href="clips-braces.html">Clips & Braces</a></li>
-                                        <li><a href="dental-implant.html">Dental Implant</a></li>
-                                        <li><a href="teeth-whitening.html">Teeth Whitening</a></li>
-                                        <li><a href="tooth-jewellery.html">Tooth Jewellery</a></li>
-                                        <li><a href="teeth-filling.html">Teeth Filling</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="appointment.html">Appointment</a></li>
-                                <li class="dropdown"><a href="gallery.html">Gallery</a>
-                                    <ul>
-                                        <li><a href="gallery.html">Gallery Before After</a></li>
-                                        <li><a href="gallery-grid.html">Gallery Grid View</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="blog.html">Blog</a>
-                                    <ul>
-                                        <li><a href="blog.html">Blog Default</a></li>
-                                        <li><a href="blog-with-sidebar.html">Blog With Sidebar</a></li>
-                                        <li><a href="blog-single.html">Blog Single Post</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="contact.html">Contact Us</a></li>
                             </ul>
-                        </div>
-                    </nav>
-                    <!--End mainmenu-->
-                    <!--Start outer serach box-->
-                    <div class="outer-search-box">
-                        <div class="seach-toggle"><i class="fa fa-search"></i></div>
-                        <ul class="search-box">
-                            <li>
-                                <form method="post" action="index.html">
-                                    <div class="form-group">
-                                        <input type="search" name="search" placeholder="Search Here" required>
-                                        <button type="submit"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                    <!--End outer serach box-->
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="https://codervent.com/syndash/documentation/index.html" target="_blank">
+                <div class="parent-icon icon-color-12"><i class="bx bx-folder"></i>
                 </div>
-                <div class="right pull-right">
-                    <div class="icon-box">
-                        <span class="flaticon-technology-1"></span>
-                    </div>
-                    <div class="title-box">
-                        <h3>Call Us: 1-800-901-234</h3>
-                    </div>    
+                <div class="menu-title">Documentation</div>
+            </a>
+        </li>
+        <li>
+            <a href="https://themeforest.net/user/codervent" target="_blank">
+                <div class="parent-icon"><i class="bx bx-support"></i>
                 </div>
+                <div class="menu-title">Support</div>
+            </a>
+        </li>
+    </ul>
+    <!--end navigation-->
+</div>
+<!--end sidebar-wrapper-->
+<!--header-->
+<header class="top-header">
+    <nav class="navbar navbar-expand">
+        <div class="left-topbar d-flex align-items-center">
+            <a href="javascript:;" class="toggle-btn">	<i class="bx bx-menu"></i>
+            </a>
+        </div>
+        <div class="flex-grow-1 search-bar">
+            <div class="input-group">
+                <button class="btn btn-search-back search-arrow-back" type="button"><i class="bx bx-arrow-back"></i></button>
+                <form action="searchService" method="post" style="display: flex; width: 100%; align-items: center;">
+                    <input type="text" class="form-control" name="name" placeholder="search" style="flex: 1; margin-right: 10px;"  value="${not empty Name ? Name : ''}"                                                        }"/>
+                    <button class="btn btn-search" type="submit"><i class="lni lni-search-alt"></i></button>
+                </form>
+
+
             </div>
         </div>
-    </div>
-</section>
-<script>
-    const dropdownTitle = document.getElementById('dropdown-title');
-    const dropdownMenu = document.getElementById('dropdown-menu');
-
-    dropdownTitle.addEventListener('click', () => {
-        const isMenuVisible = dropdownMenu.style.display === 'block';
-        dropdownMenu.style.display = isMenuVisible ? 'none' : 'block';
-    });
-
-    document.addEventListener('click', (event) => {
-        if (!dropdownTitle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-            dropdownMenu.style.display = 'none';
-        }
-    });
-</script>
+        <div class="right-topbar ms-auto">
+            <ul class="navbar-nav">
+                <li class="nav-item search-btn-mobile">
+                    <a class="nav-link position-relative" href="javascript:;">	<i class="bx bx-search vertical-align-middle"></i>
+                    </a>
+                </li>
+                <li class="nav-item dropdown dropdown-lg">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="javascript:;" data-bs-toggle="dropdown">	<span class="msg-count">6</span>
+                        <i class="bx bx-comment-detail vertical-align-middle"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a href="javascript:;">
+                            <div class="msg-header">
+                                <h6 class="msg-header-title">6 New</h6>
+                                <p class="msg-header-subtitle">Application Messages</p>
+                            </div>
+                        </a>
+                        <div class="header-message-list">
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-1.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Daisy Anderson <span class="msg-time float-end">5 sec
+                                                ago</span></h6>
+                                        <p class="msg-info">The standard chunk of lorem</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-2.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Althea Cabardo <span class="msg-time float-end">14
+                                                sec ago</span></h6>
+                                        <p class="msg-info">Many desktop publishing packages</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-3.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Oscar Garner <span class="msg-time float-end">8 min
+                                                ago</span></h6>
+                                        <p class="msg-info">Various versions have evolved over</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-4.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Katherine Pechon <span class="msg-time float-end">15
+                                                min ago</span></h6>
+                                        <p class="msg-info">Making this the first true generator</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-5.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Amelia Doe <span class="msg-time float-end">22 min
+                                                ago</span></h6>
+                                        <p class="msg-info">Duis aute irure dolor in reprehenderit</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-6.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Cristina Jhons <span class="msg-time float-end">2 hrs
+                                                ago</span></h6>
+                                        <p class="msg-info">The passage is attributed to an unknown</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-7.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">James Caviness <span class="msg-time float-end">4 hrs
+                                                ago</span></h6>
+                                        <p class="msg-info">The point of using Lorem</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-8.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Peter Costanzo <span class="msg-time float-end">6 hrs
+                                                ago</span></h6>
+                                        <p class="msg-info">It was popularised in the 1960s</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-9.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">David Buckley <span class="msg-time float-end">2 hrs
+                                                ago</span></h6>
+                                        <p class="msg-info">Various versions have evolved over</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-10.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Thomas Wheeler <span class="msg-time float-end">2 days
+                                                ago</span></h6>
+                                        <p class="msg-info">If you are going to use a passage</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-11.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Johnny Seitz <span class="msg-time float-end">5 days
+                                                ago</span></h6>
+                                        <p class="msg-info">All the Lorem Ipsum generators</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <a href="javascript:;">
+                            <div class="text-center msg-footer">View All Messages</div>
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown dropdown-lg">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="javascript:;" data-bs-toggle="dropdown">	<i class="bx bx-bell vertical-align-middle"></i>
+                        <span class="msg-count">8</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a href="javascript:;">
+                            <div class="msg-header">
+                                <h6 class="msg-header-title">8 New</h6>
+                                <p class="msg-header-subtitle">Application Notifications</p>
+                            </div>
+                        </a>
+                        <div class="header-notifications-list">
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-primary text-primary"><i class="bx bx-group"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">New Customers<span class="msg-time float-end">14 Sec
+                                                ago</span></h6>
+                                        <p class="msg-info">5 new user registered</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-danger text-danger"><i class="bx bx-cart-alt"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">New Orders <span class="msg-time float-end">2 min
+                                                ago</span></h6>
+                                        <p class="msg-info">You have recived new orders</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-shineblue text-shineblue"><i class="bx bx-file"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">24 PDF File<span class="msg-time float-end">19 min
+                                                ago</span></h6>
+                                        <p class="msg-info">The pdf files generated</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-cyne text-cyne"><i class="bx bx-send"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Time Response <span class="msg-time float-end">28 min
+                                                ago</span></h6>
+                                        <p class="msg-info">5.1 min avarage time response</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-purple text-purple"><i class="bx bx-home-circle"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">New Product Approved <span
+                                                class="msg-time float-end">2 hrs ago</span></h6>
+                                        <p class="msg-info">Your new product has approved</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-warning text-warning"><i class="bx bx-message-detail"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">New Comments <span class="msg-time float-end">4 hrs
+                                                ago</span></h6>
+                                        <p class="msg-info">New customer comments recived</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-success text-success"><i class='bx bx-check-square'></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Your item is shipped <span class="msg-time float-end">5 hrs
+                                                ago</span></h6>
+                                        <p class="msg-info">Successfully shipped your item</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-sinata text-sinata"><i class='bx bx-user-pin'></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">New 24 authors<span class="msg-time float-end">1 day
+                                                ago</span></h6>
+                                        <p class="msg-info">24 new authors joined last week</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-mehandi text-mehandi"><i class='bx bx-door-open'></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Defense Alerts <span class="msg-time float-end">2 weeks
+                                                ago</span></h6>
+                                        <p class="msg-info">45% less alerts last 4 weeks</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <a href="javascript:;">
+                            <div class="text-center msg-footer">View All Notifications</div>
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown dropdown-user-profile">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
+                        <div class="d-flex user-box align-items-center">
+                            <div class="user-info">
+                                <p class="user-name mb-0">Jessica Doe</p>
+                                <p class="designattion mb-0">Available</p>
+                            </div>
+                            <img src="assets/images/avatars/avatar-1.png" class="user-img" alt="user avatar">
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">	
+                        <a class="dropdown-item" href="javascript:;"><i
+                                class="bx bx-user"></i><span>Profile</span></a>
+                        <a class="dropdown-item" href="javascript:;"><i
+                                class="bx bx-cog"></i><span>Settings</span></a>
+                        <a class="dropdown-item" href="javascript:;"><i
+                                class="bx bx-tachometer"></i><span>Dashboard</span></a>
+                        <a class="dropdown-item" href="javascript:;"><i
+                                class="bx bx-wallet"></i><span>Earnings</span></a>
+                        <a class="dropdown-item" href="javascript:;"><i
+                                class="bx bx-cloud-download"></i><span>Downloads</span></a>
+                        <div class="dropdown-divider mb-0"></div>	<a class="dropdown-item" href="javascript:;"><i
+                                class="bx bx-power-off"></i><span>Logout</span></a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown dropdown-language">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
+                        <div class="lang d-flex">
+                            <div><i class="flag-icon flag-icon-um"></i>
+                            </div>
+                            <div><span>En</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="javascript:;"><i
+                                class="flag-icon flag-icon-de"></i><span>German</span></a>
+                        <a class="dropdown-item" href="javascript:;"><i
+                                class="flag-icon flag-icon-fr"></i><span>French</span></a>
+                        <a class="dropdown-item" href="javascript:;"><i
+                                class="flag-icon flag-icon-um"></i><span>English</span></a>
+                        <a class="dropdown-item" href="javascript:;"><i
+                                class="flag-icon flag-icon-in"></i><span>Hindi</span></a>
+                        <a class="dropdown-item" href="javascript:;"><i
+                                class="flag-icon flag-icon-cn"></i><span>Chinese</span></a>
+                        <a class="dropdown-item" href="javascript:;"><i
+                                class="flag-icon flag-icon-ae"></i><span>Arabic</span></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
 

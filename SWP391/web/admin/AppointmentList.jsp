@@ -1,6 +1,6 @@
 <%-- 
-    Document   : ServiceList
-    Created on : Feb 3, 2025, 2:50:14 PM
+    Document   : AppointmentList
+    Created on : Feb 13, 2025, 3:02:18 AM
     Author     : DELL
 --%>
 
@@ -10,30 +10,8 @@
 <html>
     <head>
         <jsp:include page="Common/Css.jsp"/>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <style>
-            .icon {
-                width: 25px;
-                height: 25px;
-                font-size: 18px;
-                margin-right: 10px; /* Tăng khoảng cách giữa các biểu tượng */
-                vertical-align: middle; /* Căn chỉnh với văn bản */
-            }
-            .pagination .page-item:hover .page-link {
-                background-color: purple; /* Màu nền khi hover */
-                color: white; /* Màu chữ khi hover */
-            }
-            .pagination .page-item.active .page-link {
-                background-color: green; /* Màu nền khi active */
-                color: white; /* Màu chữ khi active */
-            }
-            .pagination .page-link {
-                color: green; /* Màu chữ mặc định */
-            }
-        </style>
     </head>
     <body>
-        <!-- wrapper -->
         <div class="wrapper">
             <!--sidebar-wrapper-->
             <jsp:include page="Common/Navbar.jsp"/>
@@ -54,38 +32,6 @@
                                     </ol>
                                 </nav>
                             </div>
-                            <div class="ms-auto d-flex gap-2"> <!-- Thêm d-flex và gap-2 -->
-                                <!-- Sort Specialization -->
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary">Sort Specialization</button>
-                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
-                                        <span class="visually-hidden">Toggle Dropdown</span>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-                                        <a class="dropdown-item" href="searchService?sort=asc">Ascending</a>
-                                        <a class="dropdown-item" href="searchService?sort=desc">Descending</a>
-                                        <div class="dropdown-divider"></div>
-                                    </div>
-                                </div>
-                                <!-- Search by Specialization -->
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary">Search by Specialization</button>
-                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
-                                        <span class="visually-hidden">Toggle Dropdown</span>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-                                        <a class="dropdown-item" href="searchService?id=0">
-                                            All Specializations
-                                        </a>
-                                        <c:forEach var="specialization" items="${listSP}">
-                                            <a class="dropdown-item" href="searchService?id=${specialization.specialization_id}">
-                                                ${specialization.specialization_name}
-                                            </a>
-                                        </c:forEach>
-                                        <div class="dropdown-divider"></div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <!--end breadcrumb-->
@@ -94,42 +40,63 @@
                         <div class="card">
                             <div class="card-body">
                                 <div>
-                                    <h4 style="color:green; font-weight: bold">Services Table</h4>
-                                    <hr>
-                                    <a href="AddService">
-                                        <button id="table2-new-row-button" class="btn btn-outline-success btn-sm mb-2" style="font-size: 20px; font-weight: bold" >Add Service</button>
-                                    </a>
+                                    <div style="display: flex; align-items: center;">
+                                        <h4 style="color: green; font-weight: bold; margin: 0;">Appointment Table</h4>
+                                        <form action="AppointmentList" method="post" style="display: flex; align-items: center; margin-top: 10px; margin-left: auto;">
+                                            <select name="service_name" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; width: 200px;">
+                                                <option value="">-Select Service_Name-</option>
+                                                <c:forEach var="s" items="${listS}">
+                                                    <option value="${s.service_id}" ${s.service_id==service_id?'selected':''}>${s.service_name}</option>  
+                                                </c:forEach>    
+                                            </select>
+                                            <select name="doctor_name" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; width: 150px;">
+                                                <option value="">-Select Doctor-</option>
+                                                <c:forEach var="d" items="${listD}">
+                                                    <option value="${d.doctor_id}" ${d.doctor_id==doctor_id?'selected':''}>${d.doctor_name}</option>  
+                                                </c:forEach>  
+                                            </select>
+                                            <input  name="date" value="${date}" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; width: 150px;" type="date">
+                                            <select name="status" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; width: 150px;">
+                                                <option value="">-Select Status-</option>
+                                                <option value="Scheduled" <c:if test="${status == 'Scheduled'}">selected</c:if>>Scheduled</option>
+                                                <option value="Completed" <c:if test="${status == 'Completed'}">selected</c:if>>Completed</option>
+                                            </select>
+                                            <button type="submit" style="margin-left: 10px; padding: 5px 10px; border-radius: 5px; border: 1px solid #ccc; background-color: green; cursor: pointer; color: white; display: flex; align-items: center;">
+                                                <img src="https://img.icons8.com/material-outlined/24/ffffff/search.png" alt="Search" style="filter: brightness(0) invert(1);" />
+                                            </button>
+                                        </form>
+                                    </div>
 
+                                    <hr>
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered mb-0" id="table3">
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th scope="col" style="color: green">#</th>
-                                                    <th scope="col" style="color: green">Name</th>
-                                                    <th scope="col" style="color: green">Description</th>
-                                                    <th scope="col" style="color: green">Specialization</th>
+                                                    <th scope="col" style="color: green">CusId</th>
+                                                    <th scope="col" style="color: green">CusName</th>
+                                                    <th scope="col" style="color: green">Service_Name</th>
+                                                    <th scope="col" style="color: green">Type</th>
+                                                    <th scope="col" style="color: green">Doctor</th>
+                                                    <th scope="col" style="color: green">Date</th>
+                                                    <th scope="col" style="color: green">Time</th>
+                                                    <th scope="col" style="color: green">Cost</th>
                                                     <th scope="col" style="color: green">Status</th>
-                                                    <th scope="col" style="color: green">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <c:forEach var="s" items="${listS}">
+                                                <c:forEach var="a" items="${listA}">
                                                     <tr>
-                                                        <td>${s.service_detail_id}</td>
-                                                        <td>${s.services.service_name}</td>
-                                                        <td>${s.services.service_description}</td>
-                                                        <td>${s.services.specialization.specialization_name}</td>
-                                                        <td>
-                                                            <c:choose>
-                                                                <c:when test="${s.services.service_status == 'Active'}">
-                                                                    <span style="color: green; font-weight: bold;">Active</span>
-                                                                </c:when>                                                                                                                   
-                                                                <c:otherwise>
-                                                                    <span style="color: red; font-weight: bold;">Inactive</span>
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </td>
-
+                                                        <td>${a.appointment_id}</td>
+                                                        <td>${a.user.account.account_id}</td>
+                                                        <td>${a.user.fullname}</td>
+                                                        <td>${a.service_detail.services.service_name}</td>
+                                                        <td>${a.service_detail.serviceType.service_type_name}</td>
+                                                        <td>${a.doctor.doctor_name}</td>
+                                                        <td>${a.appointment_date}</td>
+                                                        <td>${a.slot.start_time} - ${a.slot.end_time}</td>
+                                                        <td>${a.service_detail.cost}</td>
+                                                        <td>${a.appointment_status}</td>
                                                         <td>
                                                             <a href="UpdateService?id=${s.service_detail_id}" title="Update">
                                                                 <i class="fas fa-edit icon"></i>
@@ -176,50 +143,6 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" style="background-color: green" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="updateModalLabel">Update Service Details</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id="updateModalContent">
-                            <form id="updateForm">
-                                <div class="mb-3">
-                                    <label for="serviceName" class="form-label">Service Name</label>
-                                    <input type="text" class="form-control" id="serviceName" name="name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="serviceDescription" class="form-label">Service Description</label>
-                                    <input type="text" class="form-control" id="serviceDescription" name="description" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="specialization_name" class="form-label">Specialization Name</label>
-                                    <input type="text" class="form-control" id="specialization_name" name="specialization_name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="serviceCost" class="form-label">Cost</label>
-                                    <input type="number" class="form-control" id="serviceCost" name="cost" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="serviceCost" class="form-label">Cost</label>
-                                    <input type="number" class="form-control" id="serviceCost" name="cost" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="specialization_status" class="form-label">Specialization Status</label>
-                                    <input type="text" class="form-control" id="specialization_status" name="specialization_status" required>
-                                </div>
-                                <input type="hidden" id="serviceId" name="id">
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="updateService();">Update</button>
                         </div>
                     </div>
                 </div>
@@ -362,6 +285,5 @@
         <!-- JavaScript -->
         <!-- Bootstrap JS -->
         <jsp:include page="Common/Js.jsp"/>
-
     </body>
 </html>

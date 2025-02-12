@@ -14,6 +14,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
@@ -99,7 +100,14 @@ public class ServiceDao extends DBContext {
         }
         return list;
     }
-
+    
+    public List<ServiceDetail> getPaginationService(List<ServiceDetail> list, int start, int end){
+        List<ServiceDetail> list1 = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            list1.add(list.get(i));
+        }
+        return list1;
+    }
     public ServiceDetail getServiceDetailById(int id) {
         String query = "SELECT \n"
                 + "    sd.service_detail_id, \n"

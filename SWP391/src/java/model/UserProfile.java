@@ -12,6 +12,11 @@ public class UserProfile {
     public UserProfile(Account account) {
         this.account = account;
     }
+
+    public UserProfile(Account account, String fullname) {
+        this.account = account;
+        this.fullname = fullname;
+    }
     
     public UserProfile(Account account, String fullname, String address, String dob, String gender, String image_profile_user) {
         this.account = account;
@@ -25,7 +30,7 @@ public class UserProfile {
     public Account getAccount() {
         return account;
     }
-
+    
     public void setAccount(Account account) {
         this.account = account;
     }
@@ -69,5 +74,11 @@ public class UserProfile {
     public void setImage_profile_user(String image_profile_user) {
         this.image_profile_user = image_profile_user;
     }
+
+    @Override
+    public String toString() {
+        return "UserProfile{" + "account=" + account + ", fullname=" + fullname + ", address=" + address + ", dob=" + dob + ", gender=" + gender + ", image_profile_user=" + image_profile_user + '}';
+    }
+    
     
 }

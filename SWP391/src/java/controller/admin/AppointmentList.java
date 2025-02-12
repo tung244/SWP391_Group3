@@ -4,6 +4,9 @@
  */
 package controller.admin;
 
+import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
+import dal.AppointmentDAO;
+import dal.DoctorsDAO;
 import dal.ServiceDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,15 +16,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import model.ServiceDetail;
-import model.Specialization;
+import model.Appointments;
+import model.Doctors;
+import model.Services;
 
 /**
  *
  * @author DELL
  */
-@WebServlet(name = "ServiceList", urlPatterns = {"/admin/ServiceList"})
-public class ServiceList extends HttpServlet {
+@WebServlet(name = "AppointmentList", urlPatterns = {"/admin/AppointmentList"})
+public class AppointmentList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +44,10 @@ public class ServiceList extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ServiceList</title>");
+            out.println("<title>Servlet AppointmentList</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ServiceList at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AppointmentList at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,27 +65,16 @@ public class ServiceList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServiceDao dao = new ServiceDao();
-        List<ServiceDetail> list = dao.getServiceAll();
-        List<Specialization> list1 = dao.getAllSpecialization();
-        int page, numperpage = 10;
-        int size = list.size();
-        int num = (size%10==0?(size/10):((size/10)+1));
-        String xpage = request.getParameter("page");
-        if(xpage == null){
-            page =1;
-        }else{
-            page = Integer.parseInt(xpage);
-        }
-        int start, end;
-        start = (page-1)*numperpage;
-        end = Math.min(page*numperpage, size);
-        List<ServiceDetail> list2 = dao.getPaginationService(list, start, end);
-        request.setAttribute("page", page);
-        request.setAttribute("number", num);
+        AppointmentDAO dao = new AppointmentDAO();
+        DoctorsDAO dao1 = new DoctorsDAO();
+        ServiceDao dao2 = new ServiceDao();
+        List<Doctors> list1 = dao1.getAllDoctors();
+        List<Services> list2 = dao2.getAllServicesOnly();
+        List<Appointments> list = dao.getAllAppointment();
+        request.setAttribute("listA", list);
         request.setAttribute("listS", list2);
-        request.setAttribute("listSP", list1);
-        request.getRequestDispatcher("ServiceList.jsp").forward(request, response);
+        request.setAttribute("listD", list1);
+        request.getRequestDispatcher("AppointmentList.jsp").forward(request, response);
     }
 
     /**
@@ -95,7 +88,26 @@ public class ServiceList extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        AppointmentDAO dao = new AppointmentDAO();
+        DoctorsDAO dao1 = new DoctorsDAO();
+        ServiceDao dao2 = new ServiceDao();
+        List<Doctors> list1 = dao1.getAllDoctors();
+        List<Services> list2 = dao2.getAllServicesOnly();
+        String serviceId = request.getParameter("service_name");
+        String doctorId = request.getParameter("doctor_name");
+        String date = request.getParameter("date");
+        String status = request.getParameter("status");
+        
+        // Gọi phương thức để lấy danh sách cuộc hẹn
+        List<Appointments> list = dao.getFilterAppointment(serviceId, doctorId, date, status);
+        request.setAttribute("listA", list);
+        request.setAttribute("listS", list2);
+        request.setAttribute("listD", list1);
+        request.setAttribute("service_id", serviceId);
+        request.setAttribute("doctor_id", doctorId);
+        request.setAttribute("date", date);
+        request.setAttribute("status", status);
+        request.getRequestDispatcher("AppointmentList.jsp").forward(request, response);
     }
 
     /**
