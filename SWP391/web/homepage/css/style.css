@@ -4867,8 +4867,10 @@ li.dropdown:hover .mega-menu-container {
 }
 
 .custom-support-submit-btn {
-    background: #2563eb;
+    background: rgb(34,139,34);
+    width: 452px;
     color: white;
+    margin-top: 20px;
     padding: 12px;
     border: none;
     border-radius: 6px;
@@ -4882,7 +4884,7 @@ li.dropdown:hover .mega-menu-container {
 }
 
 .custom-support-submit-btn:hover {
-    background: #1d4ed8;
+    background: rgb(50,205,50);
 }
 
 .custom-support-title {

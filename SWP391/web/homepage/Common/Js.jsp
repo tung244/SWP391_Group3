@@ -29,21 +29,21 @@
                                 <i class="bx bx-user"></i>
                                 Họ và tên
                             </label>
-                            <input type="text" id="supportName" required>
+                            <input type="text" name="supportName" id="supportName" required>
                         </div>
                         <div class="custom-support-form-group">
                             <label for="supportContact">
                                 <i class="bx bx-envelope"></i>
                                 Email hoặc số điện thoại
                             </label>
-                            <input type="text" id="supportContact" required>
+                            <input type="text" name="supportContact" id="supportContact" required>
                         </div>
                         <div class="custom-support-form-group">
                             <label for="supportMessage">
                                 <i class="bx bx-message-detail"></i>
                                 Nội dung cần hỗ trợ
                             </label>
-                            <textarea id="supportMessage" required></textarea>
+                            <textarea name="supportMessage" id="supportMessage" required></textarea>
                         </div>
                         <button type="submit" class="custom-support-submit-btn">
                             <i class="bx bx-send"></i>

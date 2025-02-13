@@ -18,6 +18,8 @@ import jakarta.mail.internet.MimeMessage;
 import java.util.Map;
 import java.util.Properties;
 import consts.Mail;
+import jakarta.mail.internet.MimeUtility;
+import java.io.UnsupportedEncodingException;
 
 public class SendMail {
 //     public static void SendMail(String username, String otp, String emailTo) {
@@ -55,7 +57,7 @@ public class SendMail {
 //    public static void main(String[] args) {
 //        SendMail("Lương", "098472", "nguyenluongk2k4@gmail.com");
 //    }
-    public static void guiMail(String email, String noidung, String nameUser) {
+    public static boolean guiMail(String email, String noidung, String nameUser) throws UnsupportedEncodingException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.host", Mail.HOST_NAME);
@@ -64,7 +66,6 @@ public class SendMail {
 
         Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                System.out.println("Xác minh gg thành công" + System.currentTimeMillis());
                 return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
             }
         });
@@ -72,63 +73,42 @@ public class SendMail {
         try {
             MimeMessage message = new MimeMessage(session);
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            System.out.println("Time:" + System.currentTimeMillis());
-            message.setSubject("Xác nhận đơn hàng");
+
+            String subject = "Yêu cầu xác thực";
             String emailContent = "<html><head>"
                     + "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>"
                     + "<style>"
-                    + "  @media only screen and (max-width: 600px) {"
-                    + "    body, div {"
-                    + "      width: 100% !important;"
-                    + "      padding: 0 !important;"
-                    + "    }"
-                    + "    .email-container {"
-                    + "      width: 100% !important;"
-                    + "      padding: 10px !important;"
-                    + "    }"
-                    + "    .email-content {"
-                    + "      width: 100% !important;"
-                    + "      padding: 15px !important;"
-                    + "      border-radius: 8px !important;"
-                    + "    }"
-                    + "    .email-header img {"
-                    + "      width: 60px !important;"
-                    + "      height: 60px !important;"
-                    + "    }"
-                    + "    h2 {"
-                    + "      font-size: 18px !important;"
-                    + "    }"
-                    + "    p {"
-                    + "      font-size: 14px !important;"
-                    + "    }"
-                    + "  }"
+                    + "  body { font-family: Arial, sans-serif; }"
+                    + "  .email-container { width: 100%; padding: 20px; background-color: #f4f4f4; text-align: center; }"
+                    + "  .email-content { background-color: #fff; padding: 20px; border-radius: 10px; width: 100%; max-width: 600px; margin: 0 auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }"
+                    + "  h2 { color: #333; }"
+                    + "  .otp { font-size: 20px; color: #3498db; font-weight: bold; }"
                     + "</style>"
                     + "</head><body>"
-                    + "<div class='email-container' style='font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4;'>"
-                    + "<div class='email-content' style='background-color: #fff; padding: 20px; border-radius: 10px; width: 100%; max-width: 600px; margin: 0 auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);'>"
-                    + "<div class='email-header' style='text-align: center; margin-bottom: 20px;'>"
-                    + "<img src='https://media.istockphoto.com/id/1481681927/vi/vec-to/bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-con-m%E1%BA%AFt-bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-%E1%BA%A9n-bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-v%C3%B4-h%C3%ACnh-hi%E1%BB%83n-th%E1%BB%8B-look-and-vision-hide-unhide.jpg?s=612x612&w=0&k=20&c=r4NR_qn-2dfENl-MiOqPgeK7XT1XZTMR4IX8yAM87R4=' alt='Avatar' style='width: 80px; border-radius: 50%;'>"
+                    + "<div class='email-container'>"
+                    + "<div class='email-content'>"
                     + "<h2>Chào " + nameUser + "!</h2>"
-                    + "</div>"
-                    + "<div style='font-size: 16px; margin-bottom: 20px;'>"
-                    + "<p>Đây là mã OTP của bạn: <strong style='font-size: 20px; color: #3498db;'>" + noidung + "</strong></p>"
+                    + "<p>Đây là mã OTP của bạn: <span class='otp'>" + noidung + "</span></p>"
                     + "<p>Vui lòng nhập mã này để xác nhận yêu cầu của bạn.</p>"
-                    + "</div>"
-                    + "</div>"
-                    + "</div>"
+                    + "</div></div>"
                     + "</body></html>";
 
-            System.out.println("Time:" + System.currentTimeMillis());
+            // Đặt tiêu đề với UTF-8
+            message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+
+            // Đặt nội dung email với UTF-8
             message.setHeader("Content-Type", "text/html; charset=UTF-8");
-            message.setText(emailContent, "UTF-8", "html");
+            message.setContent(emailContent, "text/html; charset=UTF-8");
 
-            System.out.println("Time:" + System.currentTimeMillis());
             Transport.send(message);
-            System.out.println("mail được gửi" + System.currentTimeMillis());
+            System.out.println("Mail đã được gửi thành công!");
 
+            return true;
         } catch (MessagingException e) {
             e.printStackTrace();
+            return false;
         }
+    
 
     }
 
@@ -156,6 +136,40 @@ public class SendMail {
             System.out.println("Time:" + System.currentTimeMillis());
             message.setContent(emailContent, "text/html; charset=UTF-8");
             System.out.println("Time:" + System.currentTimeMillis());
+            Transport.send(message);
+            System.out.println("mail được gửi" + System.currentTimeMillis());
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void guiSupport(String email, String noidung, String nameUser) throws UnsupportedEncodingException {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", Mail.HOST_NAME);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", Mail.TSL_PORT);
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                System.out.println("Xác minh gg thành công" + System.currentTimeMillis());
+                return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("supporeyecare@gmail.com"));
+            System.out.println("Time:" + System.currentTimeMillis());
+            String subject = "Yêu cầu hỗ trợ từ người dùng " + nameUser + " - " + email;
+
+            message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+
+            // Đặt nội dung email với UTF-8
+            message.setContent(noidung, "text/html; charset=UTF-8");
+
             Transport.send(message);
             System.out.println("mail được gửi" + System.currentTimeMillis());
 

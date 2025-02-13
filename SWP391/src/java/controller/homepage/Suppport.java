@@ -5,6 +5,7 @@
 
 package controller.homepage;
 
+import bo.SendMail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 
 @WebServlet(name="Suppport", urlPatterns={"/support"})
@@ -46,7 +48,24 @@ public class Suppport extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String supportName = request.getParameter("supportName");
+        String supportContact = request.getParameter("supportContact");
+        String supportMessage = request.getParameter("supportMessage");
+        Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
+                try {
+                    System.out.println("đến 3");
+                    SendMail.guiSupport(supportContact, supportMessage, supportName);
+
+                } catch (Exception e) {
+                    e.printStackTrace();  // Log lỗi nếu có
+                }
+            });
+            emailThread.start();
+            
+        String ms = "Gửi hỗ trợ thành công! Hãy chú ý email hoặc số điện thoại để chúng tôi có thể hỗ trợ bạn !";        
+        HttpSession session = request.getSession();
+        session.setAttribute("ms", ms);
+        response.sendRedirect("trangchu");
     }
 
     
