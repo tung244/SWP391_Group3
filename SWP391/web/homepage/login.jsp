@@ -246,15 +246,15 @@
                         const registerpassword = document.getElementById("register-password").value.trim();
                         const errorSpan = document.getElementById("repeat-error");
                         if(registerpassword !== repeatpassword){
-                            errorSpan.textContent="Mật khẩu không trùng khớp!";
+                            errorSpan.textContent="Repeat password is incorrect";
                             errorSpan.style.display = "block";
                             errorSpan.style.color = "red";
                         }
-                        else{
-                            errorSpan.textContent ="Mật khẩu trùng khớp!";
-                            errorSpan.style.display = "block";
-                            errorSpan.style.color = "white";
-                        }
+//                        else{
+//                            errorSpan.textContent ="Mật khẩu trùng khớp!";
+//                            errorSpan.style.display = "block";
+//                            errorSpan.style.color = "white";
+//                        }
                         
                     }
                     function checkPhone() {
@@ -264,14 +264,14 @@
                         const regex = /^(?:\+84|0)(3[2-9]|5[2689]|7[0-9]|8[1-9]|9[0-9])\d{7}$/;
 
                         if (!regex.test(phonenumber)) {
-                            phoneError.textContent = "Số điện thoại không hợp lệ!";
+                            phoneError.textContent = "The phonenumber is incorrect format!";
                             phoneError.style.display = "block";  
-                            phoneError.style.color = "red";      
-                        } else {
-                            phoneError.textContent = "Số điện thoại hợp lệ!";  
-                            phoneError.style.color = "white";
-                            phoneError.style.display = "block";
-                        }
+                            phoneError.style.color = "red"; }     
+//                         else {
+//                            phoneError.textContent = "Số điện thoại hợp lệ!";  
+//                            phoneError.style.color = "white";
+//                            phoneError.style.display = "block";
+//                        }
                     }
 
 
@@ -294,7 +294,9 @@
                     document.getElementById("register-form").addEventListener('submit', (event) => {
                         const usernamespan = document.getElementById("username-error").textContent;
                         const repeatspan = document.getElementById("repeat-error").textContent;
-                        if (usernamespan.includes("existed") || repeatspan.includes("incorrect")) {
+                        const phonespan = document.getElementById("phone-error").textContent;
+                        if (usernamespan.includes("existed") || repeatspan.includes("incorrect")
+                                || phonespan.includes("incorrect format!")) {
                             toastr.error("Please fix the error before submit!!");
                             event.preventDefault();
                         }

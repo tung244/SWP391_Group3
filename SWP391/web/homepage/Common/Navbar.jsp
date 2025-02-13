@@ -221,33 +221,6 @@
                                         </div>
                                     </section>
 
-                                    <script>
-                                        const dropdownTitle = document.getElementById('dropdown-title');
-                                        const dropdownMenu = document.getElementById('dropdown-menu');
-
-                                        dropdownTitle.addEventListener('click', () => {
-                                            const isMenuVisible = dropdownMenu.style.display === 'block';
-                                            dropdownMenu.style.display = isMenuVisible ? 'none' : 'block';
-                                        });
-
-                                        document.addEventListener('click', (event) => {
-                                            if (!dropdownTitle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                                                dropdownMenu.style.display = 'none';
-                                            }
-                                        });
-                                        document.querySelectorAll('.menu-item').forEach(item => {
-                                            item.addEventListener('mouseover', function () {
-                                                // Ẩn tất cả submenu
-                                                document.querySelectorAll('.menu-right').forEach(sub => sub.style.display = 'none');
-
-                                                // Hiển thị submenu của mục đang hover
-                                                const targetMenu = document.getElementById(this.getAttribute('data-target'));
-                                                if (targetMenu) {
-                                                    targetMenu.style.display = 'block';
-                                                }
-                                            });
-                                        });
-
-                                    </script>
+                                    
 
 
