@@ -12,6 +12,7 @@
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/LoginGoogle.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/GetFormatDate.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/GetToken.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/root-canel.html</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/SendSMS.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/OTPServicesDAO.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/AccountDAO.java</file>
@@ -23,11 +24,13 @@
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Forgot_Password.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Google.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/ChangePassword.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Suppport.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/UserProfileDAO.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/OTP_Services.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/css/style.css</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/UsersProfile.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Register.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/Common/Navbar.jsp</file>
         </group>
     </open-files>
 </project-private>

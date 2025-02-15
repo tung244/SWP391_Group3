@@ -99,7 +99,7 @@ public class SendMail {
             // Đặt nội dung email với UTF-8
             message.setHeader("Content-Type", "text/html; charset=UTF-8");
             message.setContent(emailContent, "text/html; charset=UTF-8");
-
+            
             Transport.send(message);
             System.out.println("Mail đã được gửi thành công!");
 
@@ -166,8 +166,6 @@ public class SendMail {
             String subject = "Yêu cầu hỗ trợ từ người dùng " + nameUser + " - " + email;
 
             message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
-
-            // Đặt nội dung email với UTF-8
             message.setContent(noidung, "text/html; charset=UTF-8");
 
             Transport.send(message);
@@ -179,8 +177,6 @@ public class SendMail {
 
     }
 
-    public static void main(String[] args) {
-        guiMail2("0936971273@mms.mobifone.net.vn", "029193", "Lương");
-    }
+    
 
 }
