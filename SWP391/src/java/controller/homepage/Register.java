@@ -1,5 +1,6 @@
 package controller.homepage;
 
+import bo.EncryptPassword;
 import bo.GetFormatDate;
 import dal.AccountDAO;
 import dal.UserProfileDAO;
@@ -45,7 +46,7 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("homepage/register.jsp").forward(request, response);
     }
 
     @Override
@@ -67,16 +68,32 @@ public class Register extends HttpServlet {
 
         }
         
+        if(action.equals("checkEmail")){
+            String email = request.getParameter("email").trim();
+            String status = "oke";
+            if (accountdao.checkTonTai(email,"email") || email.isEmpty()) {
+                status = "exist";
+            }
+            respsone = "{\"status\":\"" + status + "\"}";
+        }
+        if(action.equals("checkPhone")){
+            String phone_number = request.getParameter("phone_number").trim();
+            String status = "oke";
+            if (accountdao.checkTonTai(phone_number,"phone_number") || phone_number.isEmpty()) {
+                status = "exist";
+            }
+            respsone = "{\"status\":\"" + status + "\"}";
+        }
 
         response.getWriter().write(respsone);
 
         if (action.equals("register")) {
             String username = request.getParameter("register-username");
-            String password = request.getParameter("register-password");
+            String password = EncryptPassword.hashPassword(request.getParameter("register-password"));
             String repeatPassword = request.getParameter("repeat-password");
             String fullname = request.getParameter("register-name");
             String register_phone = request.getParameter("register-phone");
-            String gender = request.getParameter("register-gender");
+            String gender = request.getParameter("customGender");
             String email = request.getParameter("register-email");
             Account a = new Account(username, password, email, register_phone,getdate.getFormString(), new Role(5, ""));
             UserProfile u = new UserProfile(a, fullname, "", "", gender, "logo1");
