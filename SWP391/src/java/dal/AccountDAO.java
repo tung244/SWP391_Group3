@@ -38,6 +38,31 @@ public class AccountDAO extends DBContext {
         return false;
 
     }
+    public boolean checkTonTai(String string, String method) {
+        String sql = "select * from Accounts ";
+        try {
+            if(method.equals("email")){
+                sql+= "where email = ?";
+            }
+            if(method.equals("phone_number")){
+                sql+="where phone_number = ?";
+            }
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, string);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int row = rs.getInt(1);
+                if (row > 0) {
+                    return true;
+                }
+            }
+
+        } catch (Exception e) {
+        }
+        return false;
+
+    }
+    
 
     public boolean CheckLogin(String username, String password) {
         String sql = "Select count(*) from Accounts where username =? and password = ?";
@@ -56,6 +81,22 @@ public class AccountDAO extends DBContext {
             e.printStackTrace();
         }
         return false;
+    }
+     public int getAccountID(String username) {
+        String sql = "Select account_id from Accounts where username =?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+                
+                }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public boolean CheckExistEmail(String email) {
@@ -96,5 +137,24 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    
+    public boolean isValidGoogleLogin(GoogleAccount gg){
+        String sql = "select count(*) from Accounts where email = ? and google_id = ?";
+        try{
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, gg.getEmail());
+            st.setString(2,gg.getId());
+            
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                int arrow = rs.getInt(1);
+                if (arrow > 0) {
+                    return true;
+                }
+            }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

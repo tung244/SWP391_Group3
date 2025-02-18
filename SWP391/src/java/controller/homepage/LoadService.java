@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.ImagesService;
 import model.Services;
 
 /**
@@ -59,9 +60,9 @@ public class LoadService extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
                 ServiceDao dao = new ServiceDao();
-        List<Services> list = dao.getAllServicesOnly();
+        List<ImagesService> list = dao.getAllServiceWithImage();
         request.setAttribute("listS", list);
-        request.getRequestDispatcher("homepage/Service.jsp").forward(request, response);
+        request.getRequestDispatcher("/homepage/Service.jsp").forward(request, response);
     } 
 
     /** 

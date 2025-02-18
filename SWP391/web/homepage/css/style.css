@@ -246,7 +246,7 @@ button{
     height: 55px;
     line-height: 46px;
     position: fixed;
-    right: 15px;
+    left: 15px;
     text-align: center;
     transition: all 500ms ease 0s;
     width: 45px;
@@ -858,7 +858,7 @@ select:focus {
     left: 0;
     right: 0;
     bottom: 0;
-/*    background: rgba(0, 0, 0, 0.15);*/
+    /*    background: rgba(0, 0, 0, 0.15);*/
     z-index: 9;
 }
 
@@ -1082,7 +1082,7 @@ select:focus {
 =============================================
 ***/
 .appoinment-area {
-/*    padding: 80px 0 0px;*/
+    /*    padding: 80px 0 0px;*/
 }
 .appoinment-area .inner-content{
     position: relative;
@@ -1092,7 +1092,7 @@ select:focus {
     display: block;
     background: #ffffff;
     padding: 40px 40px 40px;
-/*    margin-bottom: 80px;*/
+    /*    margin-bottom: 80px;*/
 }
 .appoinment-area .appoinment .sec-title {
     padding-bottom: 22px;
@@ -4037,10 +4037,10 @@ select:focus {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-image:url('../images/resources/v870-tang-36.jpg') ;
+
     background-size: cover;
     background-position: center;
-
+    background-image: url(../images/resources/v870-tang-36.jpg);
     color: #666666;
     font-family: "RobotoDraft", "Roboto", sans-serif;
     font-size: 12px;
@@ -4725,4 +4725,188 @@ li.dropdown:hover .mega-menu-container {
 .submenu li:hover {
     background: #e8f5e9;
     border-radius: 4px;
+}
+
+/* style messenger icon button */
+
+.messenger-icon {
+    position: fixed;
+    bottom: 90px;
+    right: 18px;
+    width: 60px;
+    height: 60px;
+    background-color: #0078FF;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: transform 0.2s ease-in-out, background-color 0.2s;
+    cursor: pointer;
+}
+
+.messenger-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+.messenger-icon:hover {
+    transform: scale(1.1);
+    background-color: #005ce6;
+}
+
+/* button support*/
+.custom-support-wrapper {
+    /* Đảm bảo wrapper không ảnh hưởng đến layout */
+    position: static;
+    pointer-events: none;
+}
+
+.custom-support-wrapper * {
+    pointer-events: auto;
+}
+
+.custom-support-btn {
+    position: fixed;
+    bottom: 165px;
+    right: 20px;
+    background: #2563eb;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+.custom-support-btn i {
+    font-size: 24px;
+}
+
+.custom-support-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.custom-support-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 10000;
+}
+
+.custom-support-modal.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-support-modal-content {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.custom-support-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.custom-support-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.custom-support-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.custom-support-form-group label {
+    font-weight: 500;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.custom-support-form-group input,
+.custom-support-form-group textarea {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.custom-support-form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.custom-support-submit-btn {
+    background: rgb(34,139,34);
+    width: 452px;
+    color: white;
+    margin-top: 20px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.custom-support-submit-btn:hover {
+    background: rgb(50,205,50);
+}
+
+.custom-support-title {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 2.5rem;
+}
+
+.custom-support-btn::after {
+    content: "Hỗ trợ";
+    position: absolute;
+    right: 60px;
+    padding: 5px 10px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    border-radius: 4px;
+    font-size: 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.custom-support-btn:hover::after {
+    opacity: 1;
 }

@@ -1,4 +1,5 @@
 -- Insert data into Doctors
+USE EyeCare
 INSERT INTO Doctors (account_id, doctor_name, experience_years, specialization_id, profile_image, rating, gender, dob, address) VALUES
 (2, 'Lee Min Ho', 10, 1, 'https://res.cloudinary.com/djmftornv/image/upload/v1739089349/doctor/lxilek68buesdfztcww3.jpg', 4.8, 'Male', '1987-06-22', 'Seoul, South Korea'),
 (3, 'Song Hye Kyo', 8, 2, 'https://res.cloudinary.com/djmftornv/image/upload/v1739089348/doctor/e6cmqgkqartwvvxo45s0.jpg', 4.6, 'Female', '1981-11-22', 'Seoul, South Korea'),

@@ -13,14 +13,15 @@ public class OTPServicesDAO extends DBContext {
 
     public OTP_Services getOTPNewest(String username) {
         String sql = "SELECT TOP 1 *\n"
-                + "FROM dbo.Accounts a JOIN dbo.OTP_Services os ON os.account_id = a.account_id\n"
-                + "WHERE a.username = ?";
+                + "FROM dbo.OTP_Services s \n"
+                + "JOIN dbo.Accounts a ON a.account_id = s.account_id\n"
+                + "WHERE a.username = ? ORDER BY created_otp_time desc";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                OTP_Services otp = new OTP_Services(rs.getInt("account_id"),
+                OTP_Services otp = new OTP_Services(rs.getInt("otp_id"),rs.getInt("account_id"),
                         rs.getString("otp"),
                         rs.getString("created_otp_time"),
                         rs.getString("otp_expiry_date"));
@@ -31,7 +32,6 @@ public class OTPServicesDAO extends DBContext {
         }
         return null;
     }
-    
 
     public boolean saveOTP(OTP_Services otp_services) {
         String sql = "Insert into OTP_Services(account_id,otp,created_otp_time,otp_expiry_date)"

@@ -1,4 +1,5 @@
-﻿INSERT INTO dbo.Content_Stories
+﻿USE EyeCare﻿
+INSERT INTO dbo.Content_Stories
 (
     patient_name,
     image_patient,
