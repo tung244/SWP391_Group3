@@ -1,12 +1,10 @@
 <%-- 
     Document   : Navbar
-    Created on : Jan 13, 2025, 5:00:19 PM
+    Created on : Feb 17, 2025, 3:57:55 PM
     Author     : fptshop
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 
 <div class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">

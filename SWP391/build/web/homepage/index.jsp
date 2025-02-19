@@ -4,34 +4,7 @@
 <html lang="en">
     <head>
         <jsp:include page="Common/Css.jsp"/> 
-        <style>
-            .messenger-icon {
-                position: fixed; /* Luôn cố định trên màn hình */
-                bottom: 50px;
-                left: 10px;
-                width: 60px;
-                height: 60px;
-                background-color: #0078FF;
-                border-radius: 50%;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 9999;
-                transition: transform 0.2s ease-in-out, background-color 0.2s;
-                cursor: pointer;
-            }
-
-            .messenger-icon img {
-                width: 40px;
-                height: 40px;
-            }
-
-            .messenger-icon:hover {
-                transform: scale(1.1);
-                background-color: #005ce6;
-            }
-        </style>
+       
     </head>
     <body>
         <div class="boxed_wrapper">
@@ -979,10 +952,8 @@
                 </div>    
             </section> 
             <!--End footer bottom area-->  
-            <a href="https://m.me/596933063493069" target="_blank" class="messenger-icon">
-                <img src="homepage/images/icon/logo_messenger.webp" alt="Messenger">
-            </a>
-            <iframe height="430" width="350" src="https://bot.dialogflow.com/b57ca0cb-bd6a-4d5b-a3d4-00f9dbffb94f"></iframe>
+            
+            
         </div>
             
         <!--Scroll to top-->

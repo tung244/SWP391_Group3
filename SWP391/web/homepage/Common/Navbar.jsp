@@ -43,12 +43,12 @@
                             <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li> -->
 
                             <li>
-                                <a href="/SWP391/login" style="color: rgb(34,139,34)">
+                                <a href="login" style="color: rgb(34,139,34)">
                                     <i style="margin-right: 5px;vertical-align: middle;" class="bx bxs-user"></i>Login /
                                 </a>
                             </li>
                             <li style="margin-left: 0;">
-                                <a href="login" style="color: rgb(34,139,34)">Register</a>
+                                <a href="register" style="color: rgb(34,139,34)">Register</a>
                             </li>
 
 

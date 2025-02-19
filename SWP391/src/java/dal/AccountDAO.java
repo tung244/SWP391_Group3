@@ -38,6 +38,31 @@ public class AccountDAO extends DBContext {
         return false;
 
     }
+    public boolean checkTonTai(String string, String method) {
+        String sql = "select * from Accounts ";
+        try {
+            if(method.equals("email")){
+                sql+= "where email = ?";
+            }
+            if(method.equals("phone_number")){
+                sql+="where phone_number = ?";
+            }
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, string);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int row = rs.getInt(1);
+                if (row > 0) {
+                    return true;
+                }
+            }
+
+        } catch (Exception e) {
+        }
+        return false;
+
+    }
+    
 
     public boolean CheckLogin(String username, String password) {
         String sql = "Select count(*) from Accounts where username =? and password = ?";
