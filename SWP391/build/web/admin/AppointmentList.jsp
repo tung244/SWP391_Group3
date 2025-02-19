@@ -58,33 +58,36 @@
                                             <input  name="date" value="${date}" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; width: 150px;" type="date">
                                             <select name="status" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; width: 150px;">
                                                 <option value="">-Select Status-</option>
+                                                <option value="Waiting Scheduled" <c:if test="${status == 'Waiting Scheduled'}">selected</c:if>>Waiting Scheduled</option>
                                                 <option value="Scheduled" <c:if test="${status == 'Scheduled'}">selected</c:if>>Scheduled</option>
                                                 <option value="Completed" <c:if test="${status == 'Completed'}">selected</c:if>>Completed</option>
-                                            </select>
-                                            <button type="submit" style="margin-left: 10px; padding: 5px 10px; border-radius: 5px; border: 1px solid #ccc; background-color: green; cursor: pointer; color: white; display: flex; align-items: center;">
-                                                <img src="https://img.icons8.com/material-outlined/24/ffffff/search.png" alt="Search" style="filter: brightness(0) invert(1);" />
-                                            </button>
-                                        </form>
-                                    </div>
+                                                <option value="Canceled" <c:if test="${status == 'Canceled'}">selected</c:if>>Canceled</option>
+                                                </select>
+                                                <button type="submit" style="margin-left: 10px; padding: 5px 10px; border-radius: 5px; border: 1px solid #ccc; background-color: green; cursor: pointer; color: white; display: flex; align-items: center;">
+                                                    <img src="https://img.icons8.com/material-outlined/24/ffffff/search.png" alt="Search" style="filter: brightness(0) invert(1);" />
+                                                </button>
+                                            </form>
+                                        </div>
 
-                                    <hr>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered mb-0" id="table3">
-                                            <thead class="thead-dark">
-                                                <tr>
-                                                    <th scope="col" style="color: green">#</th>
-                                                    <th scope="col" style="color: green">CusId</th>
-                                                    <th scope="col" style="color: green">CusName</th>
-                                                    <th scope="col" style="color: green">Service_Name</th>
-                                                    <th scope="col" style="color: green">Type</th>
-                                                    <th scope="col" style="color: green">Doctor</th>
-                                                    <th scope="col" style="color: green">Date</th>
-                                                    <th scope="col" style="color: green">Time</th>
-                                                    <th scope="col" style="color: green">Cost</th>
-                                                    <th scope="col" style="color: green">Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                        <hr>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered mb-0" id="table3">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th scope="col" style="color: green">#</th>
+                                                        <th scope="col" style="color: green">CusId</th>
+                                                        <th scope="col" style="color: green">CusName</th>
+                                                        <th scope="col" style="color: green">Service_Name</th>
+                                                        <th scope="col" style="color: green">Type</th>
+                                                        <th scope="col" style="color: green">Doctor</th>
+                                                        <th scope="col" style="color: green">Time</th>
+                                                        <th scope="col" style="color: green">Date</th>
+                                                        <th scope="col" style="color: green">Cost</th>
+                                                        <th scope="col" style="color: green">Status</th>
+                                                        <th scope="col" style="color: green">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
                                                 <c:forEach var="a" items="${listA}">
                                                     <tr>
                                                         <td>${a.appointment_id}</td>
@@ -92,13 +95,38 @@
                                                         <td>${a.user.fullname}</td>
                                                         <td>${a.service_detail.services.service_name}</td>
                                                         <td>${a.service_detail.serviceType.service_type_name}</td>
-                                                        <td>${a.doctor.doctor_name}</td>
+                                                        <td>
+                                                            <c:if test="${not empty a.doctor}">
+                                                                ${a.doctor.doctor_name}
+                                                                <input type="hidden" id="serviceTypeId" value="${a.service_detail.serviceType.service_type_id}"/>
+                                                                <input type="hidden" id="appointmentDate" value="${a.appointment_date}"/>
+                                                            </c:if>
+                                                            <c:if test="${empty a.doctor}">
+                                                                <select name="doctor_select" id="doctor_${a.appointment_id}" onchange="selectDoctor(${a.appointment_id}, this.value, '${a.service_detail.serviceType.service_type_id}', '${a.appointment_date}');">
+                                                                    <option value="">-Select Doctor-</option>
+                                                                    <c:forEach var="doctor" items="${listD}">
+                                                                        <option value="${doctor.doctor_id}">${doctor.doctor_name}</option>
+                                                                    </c:forEach>
+                                                                </select>
+                                                            </c:if>
+                                                        </td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${empty a.slot || empty a.slot.slot_id}">
+                                                                    <select name="slot" id="slot_${a.appointment_id}" onchange="updateAction(${a.appointment_id});">
+                                                                        <option value="">-Select Slot-</option>
+                                                                    </select>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <span>${a.slot.start_time} - ${a.slot.end_time}</span>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
                                                         <td>${a.appointment_date}</td>
-                                                        <td>${a.slot.start_time} - ${a.slot.end_time}</td>
                                                         <td>${a.service_detail.cost}</td>
                                                         <td>${a.appointment_status}</td>
-                                                        <td>
-                                                            <a href="UpdateService?id=${s.service_detail_id}" title="Update">
+                                                        <td id="action_${a.appointment_id}">
+                                                            <a href="UpdateAppointment?id=${a.appointment_id}" title="Update">
                                                                 <i class="fas fa-edit icon"></i>
                                                             </a>
                                                             <a href="#" onclick="confirmDelete(${s.service_detail_id}, '${s.services.service_name}'); return false;" title="Delete">
@@ -281,6 +309,113 @@
                 }
             });
             <% } %>
+        </script>
+
+        <script>
+            function selectDoctor(appointmentId, doctorId, serviceTypeId, appointmentDate) {
+                console.log('selectDoctor called with appointmentId:', appointmentId);
+                console.log('doctorId:', doctorId);
+                console.log('serviceTypeId:', serviceTypeId);
+                console.log('appointmentDate:', appointmentDate);
+
+                if (doctorId) {
+                    const slotSelect = document.getElementById('slot_' + appointmentId);
+                    if (!slotSelect) {
+                        console.error('Could not find slot select by ID:', "${appointmentId}");
+                        return; // Thoát nếu không tìm thấy dropdown
+                    }
+
+                    const url = `getAvailableSlots?doctorId=` + doctorId + ` &serviceTypeId=` + serviceTypeId + `&date=` + appointmentDate;
+                    console.log(`Fetching data from URL:` + url);
+
+                    fetch(url)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log('Received data:', data);
+                                updateSlotOptions(slotSelect, data);
+                            })
+                            .catch(error => console.error('Error fetching data:', error));
+                }
+            }
+
+            function updateSlotOptions(selectElement, slots) {
+                selectElement.innerHTML = '<option value="">-Select Slot-</option>';
+
+                if (!Array.isArray(slots)) {
+                    console.error('Slots data is not an array:', slots);
+                    return;
+                }
+                console.log('Appending option:', slots);
+                slots.forEach(function (slot) {
+                    const option = document.createElement('option');
+                    option.value = slot.slot_id; // Gán giá trị cho tùy chọn
+                    var start_time = slot.start_time ? slot.start_time.trim() : '';
+                    var end_time = slot.end_time ? slot.end_time.trim() : '';
+                    console.log('Id:', slot.slot_id);
+                    console.log('start_time:', start_time);
+                    console.log('end_time:', end_time);
+                    option.textContent = start_time + "-" + end_time; // Gán văn bản cho tùy chọn
+                    console.log('Appending option:', option); // In ra tùy chọn đang thêm vào
+                    selectElement.appendChild(option); // Thêm tùy chọn vào phần tử select
+                });
+
+                console.log('All options appended to select element');
+            }
+            ;
+        </script>
+        <script>
+            function updateAction(appointmentId) {
+                const doctorSelect = document.getElementById(`doctor_` + appointmentId);
+                const slotSelect = document.getElementById(`slot_` + appointmentId);
+                const actionCell = document.getElementById(`action_` + appointmentId);
+                console.log('Doctor: ', doctorSelect);
+                console.log('Slot: ', slotSelect);
+                console.log('action ', actionCell);
+                // Kiểm tra xem đã chọn bác sĩ và slot chưa
+                if (doctorSelect.value && slotSelect.value) {
+                    actionCell.innerHTML = '<i class="fas fa-check-circle" style="color: green;" onclick="updateAppointment(' + appointmentId + ');" title="Update"></i>';
+                } else {
+                    actionCell.innerHTML = ''; // Xóa dấu tick nếu chưa chọn đủ
+                }
+            }
+            function updateAppointment(appointmentId) {
+                console.log('Id ', appointmentId);
+                const doctorSelect = document.getElementById(`doctor_` + appointmentId);
+                const slotSelect = document.getElementById(`slot_` + appointmentId);
+
+                const selectedDoctorId = doctorSelect.value;
+                const selectedSlotId = slotSelect.value;
+                console.log('Doctor: ', selectedDoctorId);
+                console.log('Slot: ', selectedSlotId);
+
+                const url = `UpdateAppointment?appointmentId=` + appointmentId + `&doctorId=` + selectedDoctorId + `&slotId=` + selectedSlotId;
+                // Gọi AJAX để gửi dữ liệu đến servlet
+                fetch(url, {
+                    method: 'GET', // Giữ nguyên là GET
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                        .then(response => response.json()) // Chuyển đổi phản hồi thành JSON
+                        .then(data => {
+                            if (data.success) {
+                                alert('Cập nhật thành công!');
+                                // Có thể cập nhật lại bảng hoặc làm gì đó khác nếu cần
+                            } else {
+                                alert('Cập nhật thất bại: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Có lỗi xảy ra, vui lòng thử lại.');
+                        });
+            }
+
         </script>
         <!-- JavaScript -->
         <!-- Bootstrap JS -->

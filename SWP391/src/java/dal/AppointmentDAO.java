@@ -40,13 +40,9 @@ public class AppointmentDAO extends DBContext {
             rs = ps.executeQuery();
             while (rs.next()) {
                 int slot_id = rs.getInt("slot_id");
-                java.sql.Time sqlstart_time = rs.getTime("start_time");
-                java.sql.Time sqlend_time = rs.getTime("end_time");
+                String start_time = rs.getString("start_time");
+                String end_time = rs.getString("end_time");
                 int service_type_id = rs.getInt("service_type_id");
-
-                LocalTime start_time = sqlstart_time.toLocalTime();
-                LocalTime end_time = sqlend_time.toLocalTime();
-
                 ServiceTypes serviceType = new ServiceTypes(service_type_id);
                 Slots slot = new Slots(slot_id, start_time, end_time, serviceType);
                 list.add(slot);
@@ -57,33 +53,50 @@ public class AppointmentDAO extends DBContext {
         return list;
     }
 
-    public List<Appointments> getAllAppointment() {
+    public List<Appointments> getAppointment(String id) {
         List<Appointments> list = new ArrayList<>();
-        String sql = "SELECT *\n"
-                + "FROM dbo.Appointment a\n"
-                + "JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id\n"
-                + "JOIN dbo.Services se ON se.service_id = s.service_id\n"
-                + "JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id\n"
-                + "JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id\n"
-                + "JOIN dbo.Slots sl ON a.slot_id = sl.slot_id\n"
-                + "Join Customers c on c.account_id = a.patient_id";
+        String sql = "SELECT * FROM dbo.Appointment a "
+                + "JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id "
+                + "JOIN dbo.Services se ON se.service_id = s.service_id "
+                + "JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id "
+                + "LEFT JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id "
+                + "LEFT JOIN dbo.Slots sl ON a.slot_id = sl.slot_id "
+                + "JOIN Customers c ON c.account_id = a.patient_id WHERE 1=1";
+
+        if (id != null && !id.isEmpty()) {
+            sql += " AND a.appointment_id = ?";
+        }
+
         try {
             ps = connection.prepareStatement(sql);
+            int index = 1;
+            if (id != null && !id.isEmpty()) {
+                ps.setString(index++, id);
+            }
             rs = ps.executeQuery();
-
             while (rs.next()) {
                 int appointment_id = rs.getInt("appointment_id");
                 Date appointment_date = rs.getDate("appointment_date");
                 String appointment_status = rs.getString("appointment_status");
-                String doctor_name = rs.getString("doctor_name");
+
+                // Handle doctor
+                Doctors doctor = null;
                 int doctor_id = rs.getInt("doctor_id");
-                Doctors doctor = new Doctors(doctor_id, doctor_name);
-                java.sql.Time sqlstart_time = rs.getTime("start_time");
-                java.sql.Time sqlend_time = rs.getTime("end_time");
+                if (!rs.wasNull()) {
+                    String doctor_name = rs.getString("doctor_name");
+                    doctor = new Doctors(doctor_id, doctor_name);
+                }
+
+                // Handle slot
+                Slots slot = null;
                 int slot_id = rs.getInt("slot_id");
-                LocalTime start_time = sqlstart_time.toLocalTime();
-                LocalTime end_time = sqlend_time.toLocalTime();
-                Slots slot = new Slots(slot_id, start_time, end_time);
+                if (!rs.wasNull()) {
+                    String start_time = rs.getString("start_time");
+                    String end_time = rs.getString("end_time");
+                    slot = new Slots(slot_id, start_time, end_time);
+                }
+
+                // Handle service details
                 int service_id = rs.getInt("service_id");
                 String service_name = rs.getString("service_name");
                 int type_id = rs.getInt("service_type_id");
@@ -94,13 +107,16 @@ public class AppointmentDAO extends DBContext {
                 int cost = rs.getInt("cost");
                 int service_detail_id = rs.getInt("service_detail_id");
                 ServiceDetail service_detail = new ServiceDetail(service_detail_id, service, serviceType, cost);
+
+                // Handle patient details
                 int account_id = rs.getInt("patient_id");
                 Account account = new Account(account_id);
                 String fullname = rs.getString("full_name");
                 UserProfile user = new UserProfile(account, fullname);
+
+                // Create appointment object
                 Appointments appointment = new Appointments(appointment_id, appointment_date, appointment_status, doctor, slot, service_detail, user);
                 list.add(appointment);
-
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -154,11 +170,9 @@ public class AppointmentDAO extends DBContext {
                 String doctor_name = rs.getString("doctor_name");
                 int doctor_id = rs.getInt("doctor_id");
                 Doctors doctor = new Doctors(doctor_id, doctor_name);
-                java.sql.Time sqlstart_time = rs.getTime("start_time");
-                java.sql.Time sqlend_time = rs.getTime("end_time");
+                String start_time = rs.getString("start_time");
+                String end_time = rs.getString("end_time");
                 int slot_id = rs.getInt("slot_id");
-                LocalTime start_time = sqlstart_time.toLocalTime();
-                LocalTime end_time = sqlend_time.toLocalTime();
                 Slots slot = new Slots(slot_id, start_time, end_time);
                 int service_id = rs.getInt("service_id");
                 String service_name = rs.getString("service_name");
@@ -182,21 +196,72 @@ public class AppointmentDAO extends DBContext {
         return list;
     }
 
+    public List<Slots> getAvailableSlot(String date, String doctor_id, String service_type) {
+        List<Slots> list = new ArrayList<>();
+        String query = "SELECT \n"
+                + "    s.slot_id, \n"
+                + "    s.start_time, \n"
+                + "    s.end_time \n"
+                + "FROM \n"
+                + "    Slots s \n"
+                + "	join Services_Type st on s.service_type_id =st.service_type_id\n"
+                + "WHERE \n"
+                + "    s.slot_id NOT IN (\n"
+                + "        SELECT \n"
+                + "            sch.slot_id \n"
+                + "        FROM \n"
+                + "            Schedules sch\n"
+                + "        JOIN \n"
+                + "            Slots sl ON sch.slot_id = sl.slot_id\n"
+                + "        JOIN \n"
+                + "            Services_Type st ON sl.service_type_id = st.service_type_id\n"
+                + "        WHERE \n"
+                + "            sch.doctor_id = ? \n"
+                + "            AND sch.schedule_date = ?\n"
+                + "    )\n"
+                + "	and st.service_type_id =?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, doctor_id);
+            ps.setString(2, date);
+            ps.setString(3, service_type);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int slot_id = rs.getInt("slot_id");
+                String start_time = rs.getString("start_time");
+                String end_time = rs.getString("end_time");
+                Slots slot = new Slots(slot_id, start_time, end_time);
+                list.add(slot);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
     public boolean addAppointment(Appointments appointment) {
-        String query = "INSERT INTO Appointment (appointment_date, appointment_status, doctor_id, slot_id, service_detail_id, patient_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Appointment (appointment_date, appointment_status, service_detail_id, patient_id) VALUES (?, ?, ?, ?)";
         try {
             ps = connection.prepareStatement(query);
             ps.setDate(1, appointment.getAppointment_date());
             ps.setString(2, appointment.getAppointment_status());
-//            Doctors doctor = new Doctors(appointment.getDoctor().getDoctor_id());
-//            Slots slot = new Slots(appointment.getSlot().getSlot_id());
-//            ServiceDetail service_detail = new ServiceDetail(appointment.getService_detail().getService_detail_id());
-//            Account account = new Account(appointment.getUser().getAccount().getAccount_id());
-//            UserProfile user = new UserProfile(account);
-            ps.setInt(3, appointment.getDoctor().getDoctor_id());
-            ps.setInt(4, appointment.getSlot().getSlot_id());
-            ps.setInt(5, appointment.getService_detail().getService_detail_id());
-            ps.setInt(6, appointment.getUser().getAccount().getAccount_id());
+            ps.setInt(3, appointment.getService_detail().getService_detail_id());
+            ps.setInt(4, appointment.getUser().getAccount().getAccount_id());
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean confirmAppointment(int appointmentId, int doctorId, int slotId, String status) {
+        String query = "UPDATE Appointment SET doctor_id = ?, slot_id = ?,appointment_status = ? WHERE appointment_id = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, doctorId);
+            ps.setInt(2, slotId);
+            ps.setString(3, status);
+            ps.setInt(4, appointmentId);
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
         } catch (Exception e) {
@@ -207,7 +272,7 @@ public class AppointmentDAO extends DBContext {
 
     public static void main(String[] args) {
         AppointmentDAO dao = new AppointmentDAO();
-        List<Appointments> list = dao.getFilterAppointment("2", "2", "", "");
+        List<Appointments> list = dao.getAppointment(null);
         for (Appointments slots : list) {
             System.out.println(slots);
         }

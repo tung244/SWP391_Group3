@@ -206,8 +206,8 @@ public class StaffDAO extends DBContext {
                     psUpdateStaff.close();
                 }
                 if (conn != null) {
-                    conn.setAutoCommit(true); // Reset auto commit về true
-                    conn.close(); // Đảm bảo đóng kết nối
+                    conn.setAutoCommit(true); // Reset auto commit về true  
+                    conn.close(); // Đảm bảo đóng kết nối  
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

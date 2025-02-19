@@ -156,8 +156,8 @@ CREATE TABLE Services_Detail (
 
 CREATE TABLE Slots (
     slot_id INT PRIMARY KEY IDENTITY(1,1),
-    start_time TIME NOT NULL,
-    end_time TIME NOT NULL,
+    start_time nvarchar(20) NOT NULL,
+    end_time NVARCHAR(255) NOT NULL,
     service_type_id INT NOT NULL,
     FOREIGN KEY (service_type_id) REFERENCES Services_Type(service_type_id),
     UNIQUE (start_time, end_time, service_type_id) -- Tránh trùng lặp slot
@@ -186,6 +186,7 @@ CREATE TABLE Appointment(
 	FOREIGN KEY (service_detail_id) REFERENCES dbo.Services_Detail(service_detail_id) ,
 	patient_id int,
 	FOREIGN KEY (patient_id) REFERENCES dbo.Customers(account_id) ,
+	unique(doctor_id, slot_id, appointment_date)
 );
 
 

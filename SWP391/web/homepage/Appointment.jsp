@@ -126,29 +126,6 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="input-box">
-                                                    <select name="doctor" class="selectmenu">
-                                                        <option  selected="selected">Select Doctor</option>
-                                                        <c:forEach var="s" items="${listD}">
-                                                            <option value="${s.doctor_id}">${s.doctor_name}</option> 
-                                                        </c:forEach>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="input-box">
-                                                    <select name="slot" class="selectmenu">
-                                                        <option selected="selected">Select Time</option>
-                                                        <c:forEach var="s" items="${requestScope.slots}">
-                                                            <option value="${s.slot_id}">${s.start_time} - ${s.end_time}</option> 
-                                                        </c:forEach>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="row">
                                             <div class="col-md-4">
                                                 <div class="input-box">
                                                     <input type="text"  placeholder="Service Name" value="${s.services.service_name}">

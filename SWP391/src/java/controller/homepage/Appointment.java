@@ -103,8 +103,6 @@ public class Appointment extends HttpServlet {
         AppointmentDAO dao = new AppointmentDAO();
         String date = request.getParameter("date");
         String user_raw = request.getParameter("patient");
-        String slot_raw = request.getParameter("slot");
-        String doctor_raw = request.getParameter("doctor");
         String service_detail_raw = request.getParameter("service");
         Date appointment_date = null;
 
@@ -117,15 +115,13 @@ public class Appointment extends HttpServlet {
         }
         try {
             int user_id = Integer.parseInt(user_raw);
-            int slot_id = Integer.parseInt(slot_raw);
-            int doctor_id = Integer.parseInt(doctor_raw);
             int service_detail_id = Integer.parseInt(service_detail_raw);
             Account account = new Account(user_id);
             UserProfile user = new UserProfile(account);
-            Slots slot = new Slots(slot_id);
-            Doctors doctor = new Doctors(doctor_id);
+            Slots slot = new Slots();
+            Doctors doctor = new Doctors();
             ServiceDetail service_detail = new ServiceDetail(service_detail_id);
-            Appointments appointment = new Appointments(appointment_date, "Scheduled", doctor, slot, service_detail, user);
+            Appointments appointment = new Appointments(appointment_date, "Waiting Scheduled", doctor, slot, service_detail, user);
             boolean correct = dao.addAppointment(appointment);
             if (correct) {
                 request.setAttribute("mess", "Completed");

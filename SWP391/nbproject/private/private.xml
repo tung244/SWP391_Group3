@@ -3,16 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/web/admin/Common/Css.jsp</file>
-            <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/web/admin/Common/Js.jsp</file>
-            <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/web/admin/ServiceList.jsp</file>
             <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/src/java/controller/admin/AppointmentList.java</file>
-            <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/src/java/controller/admin/DeleteService.java</file>
-            <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/src/java/controller/admin/SearchService.java</file>
+            <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/src/java/controller/homepage/Appointment.java</file>
+            <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/src/java/controller/admin/UpdateAppointment.java</file>
+            <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/web/admin/UpdateAppointment.jsp</file>
             <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/web/admin/AppointmentList.jsp</file>
             <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/src/java/dal/AppointmentDAO.java</file>
-            <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/web/admin/table-editable.html</file>
-            <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/src/java/controller/admin/ServiceList.java</file>
+            <file>file:/C:/Users/DELL/Documents/Documents/Semester%205/SWP391/SWP391_Group3/EyeCare/SWP391/web/admin/UpdateStaff.jsp</file>
         </group>
     </open-files>
 </project-private>

@@ -70,7 +70,7 @@ public class AppointmentList extends HttpServlet {
         ServiceDao dao2 = new ServiceDao();
         List<Doctors> list1 = dao1.getAllDoctors();
         List<Services> list2 = dao2.getAllServicesOnly();
-        List<Appointments> list = dao.getAllAppointment();
+        List<Appointments> list = dao.getAppointment(null);
         request.setAttribute("listA", list);
         request.setAttribute("listS", list2);
         request.setAttribute("listD", list1);

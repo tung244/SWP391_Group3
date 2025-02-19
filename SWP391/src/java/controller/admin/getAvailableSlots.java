@@ -4,7 +4,9 @@
  */
 package controller.admin;
 
-import dal.ServiceDao;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import dal.AppointmentDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,16 +14,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
-import model.ServiceDetail;
-import model.Specialization;
+import model.Slots;
 
 /**
  *
  * @author DELL
  */
-@WebServlet(name = "ServiceList", urlPatterns = {"/admin/ServiceList"})
-public class ServiceList extends HttpServlet {
+@WebServlet(name = "getAvailableSlots", urlPatterns = {"/admin/getAvailableSlots"})
+public class getAvailableSlots extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +43,10 @@ public class ServiceList extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ServiceList</title>");
+            out.println("<title>Servlet getAvailableSlots</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ServiceList at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet getAvailableSlots at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,27 +64,18 @@ public class ServiceList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServiceDao dao = new ServiceDao();
-        List<ServiceDetail> list = dao.getServiceAll();
-        List<Specialization> list1 = dao.getAllSpecialization();
-        int page, numperpage = 10;
-        int size = list.size();
-        int num = (size%numperpage==0?(size/numperpage):((size/numperpage)+1));
-        String xpage = request.getParameter("page");
-        if(xpage == null){
-            page =1;
-        }else{
-            page = Integer.parseInt(xpage);
-        }
-        int start, end;
-        start = (page-1)*numperpage;
-        end = Math.min(page*numperpage, size);
-        List<ServiceDetail> list2 = dao.getPaginationService(list, start, end);
-        request.setAttribute("page", page);
-        request.setAttribute("number", num);
-        request.setAttribute("listS", list2);
-        request.setAttribute("listSP", list1);
-        request.getRequestDispatcher("ServiceList.jsp").forward(request, response);
+        AppointmentDAO dao = new AppointmentDAO();
+        String doctorId = request.getParameter("doctorId");
+        String serviceTypeId = request.getParameter("serviceTypeId");
+        String date = request.getParameter("date");
+
+        List<Slots> availableSlots = dao.getAvailableSlot(date, doctorId, serviceTypeId);
+        Gson gson = new Gson();
+
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        out.print(gson.toJson(availableSlots));
+        out.flush();
     }
 
     /**
