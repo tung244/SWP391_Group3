@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                <style>
+        <style>
             .search-filter-box {
                 display: flex;
                 align-items: center;
@@ -27,7 +27,7 @@
                 border-radius: 5px;
                 border: 1px solid #ccc;
                 height: 40px; /* Adjust height as needed */
-                
+
             }
 
             .search-filter-box .btn-search {
@@ -153,9 +153,38 @@
             .contact-info .icon-holder i {
                 font-size: 24px;
             }
-           
+            .row {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .col-md-4, .col-sm-4, .col-xs-12 {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .single-team-member {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
+            }
+
+            .text-holder {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            select.form-control {
+                max-height: 50px; /* Giới hạn chiều cao */
+                overflow-y: auto; /* Bật thanh cuộn dọc khi cần */
+            }
+
+
+
 
         </style> 
     </head>
-   
+
 </html>

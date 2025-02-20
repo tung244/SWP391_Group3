@@ -81,8 +81,6 @@ public class DoctorsDAO extends DBContext {
                 specialization.setSpecialization_status(rs.getString("specialization_status"));
                 doctor.setSpecialization(specialization);
 
-               
-
                 list.add(doctor);
             }
         } catch (Exception e) {
@@ -266,7 +264,7 @@ public class DoctorsDAO extends DBContext {
         return list;
     }
 
-    public List<Doctors> getDoctorsByFilter(String specializationId, String degreeId, String searchName) {
+    public List<Doctors> getDoctorsByFilter(String specializationId, String degreeId, String searchName, String sortBy, String option) {
         List<Doctors> list = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT DISTINCT d.*, sp.* "
                 + "FROM dbo.Doctors d "
@@ -276,6 +274,11 @@ public class DoctorsDAO extends DBContext {
                 + "WHERE d.doctor_status = 'Active' ");
 
         List<String> param = new ArrayList<>();
+        // Chuẩn hóa searchName để loại bỏ dấu cách thừa
+        if (searchName != null && !searchName.trim().isEmpty()) {
+            searchName = searchName.trim().replaceAll("\\s+", " "); // Loại bỏ khoảng trắng dư thừa
+        }
+
         if (specializationId != null && !specializationId.isEmpty()) {
             sql.append("AND d.specialization_id = ? ");
             param.add(specializationId);
@@ -285,8 +288,25 @@ public class DoctorsDAO extends DBContext {
             param.add(degreeId);
         }
         if (searchName != null && !searchName.isEmpty()) {
-            sql.append("AND d.doctor_name LIKE ? ");
-            param.add("%" + searchName + "%");
+            sql.append("AND REPLACE(d.doctor_name, ' ', '') LIKE REPLACE(?, ' ', '') ");
+            param.add("%" + searchName.replace(" ", "") + "%");
+        }
+        if (sortBy != null && !sortBy.isEmpty()) {
+            switch (sortBy) {
+                case "sortByName":
+                    sql.append("ORDER BY d.doctor_name");
+                    break;
+                case "sortByExperience":
+                    sql.append("ORDER BY d.experience_years");
+                    break;
+                case "sortByRating":
+                    sql.append("ORDER BY d.rating");
+                    break;
+            }
+            if (option != null && !option.isEmpty()) {
+                sql.append(option.equals("asc") ? " ASC " : " DESC ");
+            }
+
         }
 
         try {
@@ -322,33 +342,6 @@ public class DoctorsDAO extends DBContext {
         }
 
         return list;
-    }
-
-    // Sort by name
-    public static void sortByName(List<Doctors> doctors, String order) {
-        if (order.equals("asc")) {
-            Collections.sort(doctors, Comparator.comparing(Doctors::getDoctor_name));
-        } else if (order.equals("desc")) {
-            Collections.sort(doctors, Comparator.comparing(Doctors::getDoctor_name).reversed());
-        }
-    }
-
-    // Sort by ex year
-    public static void sortByExperience(List<Doctors> doctors, String order) {
-        if (order.equals("desc")) {
-            Collections.sort(doctors, Comparator.comparingInt(Doctors::getExperience_years).reversed());
-        } else if (order.equals("asc")) {
-            Collections.sort(doctors, Comparator.comparingInt(Doctors::getExperience_years));
-        }
-    }
-
-    // Sort by rating
-    public static void sortByRating(List<Doctors> doctors, String order) {
-        if (order.equals("desc")) {
-            Collections.sort(doctors, Comparator.comparingDouble(Doctors::getRating).reversed());
-        } else if (order.equals("asc")) {
-            Collections.sort(doctors, Comparator.comparingDouble(Doctors::getRating));
-        }
     }
 
     public boolean updateDoctor(Doctors doctor) {
@@ -398,7 +391,7 @@ public class DoctorsDAO extends DBContext {
             stmt.setInt(9, doctor.getSpecialization().getSpecialization_id());
 
             int rowsInserted = stmt.executeUpdate();
-             return  rowsInserted > 0 ;
+            return rowsInserted > 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -407,10 +400,10 @@ public class DoctorsDAO extends DBContext {
 
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
-//        List<Doctors> li = dao.getDoctorsByFilter("", "2", "o");
-//        for (Doctors doctors : li) {
-//            System.out.println(doctors);
-//        }
+        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");
+        for (Doctors doctors : li) {
+            System.out.println(doctors);
+        }
 //    
 
 //        Doctors doc = new Doctors();
@@ -451,10 +444,10 @@ public class DoctorsDAO extends DBContext {
 //        if(flag){
 //            System.out.println("ok");
 //        }
-        List<Doctors> l = dao.getAllDoctors();
-        for (Doctors doctors : l) {
-            System.out.println(doctors);
-        }
+//        List<Doctors> l = dao.getAllDoctors();
+//        for (Doctors doctors : l) {
+//            System.out.println(doctors);
+//        }
 //    List<Doctors> list = dao.getActiveDoctors();
 //    for (Doctors doctors : list
 //
@@ -469,10 +462,10 @@ public class DoctorsDAO extends DBContext {
 //                }        
 //                Doctors d = dao.getDoctorsById("1");
 //                System.out.println(d);
-    //        for (Doctors doctors : list) {
-    //            System.out.println(doctors);
-    //
-    //        }
-}
+        //        for (Doctors doctors : list) {
+        //            System.out.println(doctors);
+        //
+        //        }
+    }
 
 }

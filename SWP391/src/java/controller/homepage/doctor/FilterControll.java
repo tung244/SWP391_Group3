@@ -43,9 +43,9 @@ public class FilterControll extends HttpServlet {
         String degreeId = request.getParameter("deid");
         String searchName = request.getParameter("searchName");
         //Get param to sort
-        String sortByName = request.getParameter("sortByName");
-        String sortByExperience = request.getParameter("sortByExperience");
-        String sortByRating = request.getParameter("sortByRating");
+        String sortBy = request.getParameter("sortBy");
+        String option = request.getParameter("option");
+
         //Get all chuyen khoa     
         SpecializationDAO spdao = new SpecializationDAO();
         List<Specialization> listSpecialization = spdao.getAllSpecialization();
@@ -54,43 +54,32 @@ public class FilterControll extends HttpServlet {
         List<Degree> listDegree = dedao.getAllDegree();
         //List doctor after filter
         DoctorsDAO dao = new DoctorsDAO();
-        
+
         List<Doctors> listD;
-        if ((specializationId == null || specializationId.isEmpty()) && 
-            (degreeId == null || degreeId.isEmpty()) && 
-            (searchName == null || searchName.trim().isEmpty())) {
-            
+        if ((specializationId == null || specializationId.isEmpty())
+                && (degreeId == null || degreeId.isEmpty())
+                && (searchName == null || searchName.trim().isEmpty())
+                && (sortBy == null || sortBy.trim().isEmpty())) {
+
             listD = dao.getActiveDoctors();
         } else {
-            
-            listD = dao.getDoctorsByFilter(specializationId, degreeId, searchName);
+
+            listD = dao.getDoctorsByFilter(specializationId, degreeId, searchName, sortBy, option);
         }
-        if(sortByName != null){
-            dao.sortByName(listD, sortByName);
-        }
-        if(sortByExperience != null){
-            dao.sortByExperience(listD, sortByExperience);
-        }
-        if(sortByRating != null){
-            dao.sortByRating(listD, sortByRating);
-        }
-        
+
         request.setAttribute("listDegree", listDegree);
         request.setAttribute("listSpecialization", listSpecialization);
         request.setAttribute("listDoctor", listD);
         request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
 
-
     }
 
-   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

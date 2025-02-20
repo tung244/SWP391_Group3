@@ -96,7 +96,7 @@
                         <form action="filter" method="GET">
                             <div style="margin: 0px 50px" class="search-filter-box">
 
-                                <select name="sid" id="filterSpecialization" class="form-control">
+                                <select name="sid" id="filterSpecialization" class="form-control" >
                                     <option value="">All specialization</option>
                                     <c:forEach items="${listSpecialization}" var="s">
                                         <option value="${s.specialization_id}" 
@@ -105,6 +105,7 @@
                                         </option>
                                     </c:forEach>
                                 </select>
+                                
                                 <select name="deid" id="filterDegree" class="form-control">
                                     <option value="">All degree</option>
                                     <c:forEach items="${listDegree}" var="de">
@@ -118,25 +119,18 @@
                                        value="${param.searchName != null ? param.searchName : ''}">
 
                                 <!-- Sort options -->
-                                
-                                <select  name="sortByName" class="form-control">
-                                        <option value="">Sort by name</option>
-                                        <option value="asc" ${param.sortByName == 'asc' ? 'selected' : ''}>A-Z</option>
-                                        <option value="desc" ${param.sortByName == 'desc' ? 'selected' : ''}>Z-A</option>
-                                    </select>
 
-                                    <select name="sortByExperience" class="form-control">
-                                        <option value="">Sort by experience</option>
-                                        <option value="asc" ${param.sortByExperience == 'asc' ? 'selected' : ''}>Low - High</option>
-                                        <option value="desc" ${param.sortByExperience == 'desc' ? 'selected' : ''}>High - Low</option>
-                                    </select>
+                                <select name="sortBy" class="form-control">
+                                    <option value="">Sort By</option>
+                                    <option value="sortByName" ${param.sortBy == 'sortByName' ? 'selected' : ''}>Sort by name</option>
+                                    <option value="sortByExperience" ${param.sortBy == 'sortByExperience' ? 'selected' : ''}>Sort by experience</option>
+                                    <option value="sortByRating" ${param.sortBy == 'sortByRating' ? 'selected' : ''}>Sort by rating</option>
+                                </select>
+                                <select name="option" class="form-control">
+                                    <option value="asc" ${param.option == 'asc' ? 'selected' : ''}>Low - High</option>
+                                    <option value="desc" ${param.option == 'desc' ? 'selected' : ''}>High - Low</option>
+                                </select>
 
-                                    <select name="sortByRating" class="form-control">
-                                        <option value="">Sort by rating</option>
-                                        <option value="asc" ${param.sortByRating == 'asc' ? 'selected' : ''}>Low - High</option>
-                                        <option value="desc" ${param.sortByRating == 'desc' ? 'selected' : ''}>High - Low</option>
-                                    </select>
-                               
 
                                 <button type="submit" class="btn-search">Search</button>
                             </div>
@@ -144,54 +138,6 @@
 
                     </div>
 
-
-                    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12 pull-right"> 
-                        <div class="team-area-single-ser clearfix">
-                            <div class="sec-title">
-                                <h1>Meet Our Dentist</h1>
-                                <span class="border"></span>
-                            </div>
-                            <div class="row">
-                                <!--Start single team member-->
-                                <c:forEach items="${requestScope.listDoctor}" var="d">
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <div class="single-team-member">
-                                            <div class="img-holder">
-                                                <img src="${d.profile_image}" alt="Profile Image">
-                                                <div class="overlay-one">
-                                                    <div class="overlay-inner">
-                                                        <div class="content"></div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="text-holder text-center">
-                                                <h3>${d.doctor_name}</h3>
-                                                <span>${d.specialization.specialization_name}</span>
-                                                <p>Rating: ${d.rating}</p>
-                                                <p>Gender: ${d.gender}</p>
-                                                <p>Experience years: ${d.experience_years} years</p>
-
-                                                <jsp:useBean id="degreeDAO" class="dal.DegreeDAO" />
-                                                <c:set var="degrees" value="${degreeDAO.getDegreeByDoctorId(d.doctor_id)}" />
-                                                <p>Degree: 
-                                                    <c:forEach items="${degrees}" var="degree" varStatus="status">
-                                                        ${degree.degree_name}${!status.last ? ', ' : ''}
-                                                    </c:forEach>
-                                                </p>
-
-
-                                                <span class="border"></span>
-                                                <a href="doctorDetail?doctorid=${d.doctor_id}">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            </div>    
-                                        </div> 
-                                    </div>
-                                </c:forEach>
-                                <!--End single team member-->
-                            </div>
-                        </div>
-
-                    </div> 
                     <div class="col-lg-3 col-md-4 col-sm-7 col-xs-12 pull-left">
                         <div class="service-sidebar">
                             <!-- First section: Find Doctor -->
@@ -313,6 +259,54 @@
                             <!--Ens single sidebar-->       
                         </div>    
                     </div>
+                    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12 pull-right"> 
+                        <div class="team-area-single-ser clearfix">
+                            <div class="sec-title">
+                                <h1>Meet Our Dentist</h1>
+                                <span class="border"></span>
+                            </div>
+                            <div class="row">
+                                <!--Start single team member-->
+                                <c:forEach items="${requestScope.listDoctor}" var="d">
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <div class="single-team-member">
+                                            <div class="img-holder">
+                                                <img style="height: 270px; object-fit: cover;" src="${d.profile_image}" alt="Profile Image">
+                                                <div class="overlay-one">
+                                                    <div class="overlay-inner">
+                                                        <div class="content"></div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="text-holder text-center">
+                                                <h3>${d.doctor_name}</h3>
+                                                <span>${d.specialization.specialization_name}</span>
+                                                <p>Rating: ${d.rating}</p>
+                                                <p>Gender: ${d.gender}</p>
+                                                <p>Experience years: ${d.experience_years} years</p>
+
+                                                <jsp:useBean id="degreeDAO" class="dal.DegreeDAO" />
+                                                <c:set var="degrees" value="${degreeDAO.getDegreeByDoctorId(d.doctor_id)}" />
+                                                <p>Degree: 
+                                                    <c:forEach items="${degrees}" var="degree" varStatus="status">
+                                                        ${degree.degree_name}${!status.last ? ', ' : ''}
+                                                    </c:forEach>
+                                                </p>
+
+
+                                                <span class="border"></span>
+                                                <a href="doctorDetail?doctorid=${d.doctor_id}">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                            </div>    
+                                        </div> 
+                                    </div>
+                                </c:forEach>
+                                <!--End single team member-->
+                            </div>
+                        </div>
+
+                    </div> 
+
 
                 </div>
             </div>
