@@ -3,43 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/Common/Search.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/SendMail.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Verification_Method.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/Cloudinary_Services.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/Common/Js.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/checkOTP.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/assets/css/dark-theme.css</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/LoginGoogle.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/ShowEmail.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/GetToken.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/EncryptPassword.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/GetFormatDate.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/root-canel.html</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/register.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/SendSMS.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/OTPServicesDAO.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/AccountDAO.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/SMS.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/CreateNewPassword.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/CallBack.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/CheckOTP.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/consts/CloudinaryConfig.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/LoginShowEmail.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/index.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Forgot_Password.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Google.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/ChangePassword.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Suppport.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/UserProfileDAO.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/OTP_Services.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/css/style.css</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/UsersProfile.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/EmailBox.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/RandomSixNumber.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Register.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/Common/Navbar.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/consts/Gmails.java</file>
+            <file>file:/C:/Users/DELL/Documents/GitHub/SWP391_Group3/SWP391/src/java/controller/homepage/Login.java</file>
+            <file>file:/C:/Users/DELL/Documents/GitHub/SWP391_Group3/SWP391/src/java/bo/EncryptPassword.java</file>
+            <file>file:/C:/Users/DELL/Documents/GitHub/SWP391_Group3/SWP391/src/java/bo/GetToken.java</file>
+            <file>file:/C:/Users/DELL/Documents/GitHub/SWP391_Group3/SWP391/src/java/bo/RandomSixNumber.java</file>
         </group>
     </open-files>
 </project-private>

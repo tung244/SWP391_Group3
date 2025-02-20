@@ -1,5 +1,6 @@
 package controller.homepage;
 
+import bo.EncryptPassword;
 import bo.GetToken;
 import dal.AccountDAO;
 import dal.UserProfileDAO;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import javax.crypto.EncryptedPrivateKeyInfo;
 import model.Account;
 import model.UserProfile;
 
@@ -50,12 +52,13 @@ public class Login extends HttpServlet {
         HttpSession session = request.getSession();
         String username = request.getParameter("username").trim();
         String password = request.getParameter("password").trim();
+        String hashPass = EncryptPassword.hashPassword(password);
         String checkSave = request.getParameter("saveUser");
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             session.setAttribute("error", "Username or Password cannot be blank");
             response.sendRedirect("login");
         } else {
-            if (dao.CheckLogin(username, password)) {
+            if (dao.CheckLogin(username, hashPass)) {
                 UserProfile user = udao.GetAccount(username);
 
                 if (user == null) {
