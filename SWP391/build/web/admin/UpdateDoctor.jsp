@@ -41,7 +41,7 @@
             }
 
             .form-group {
-                width: 48%; /* Chia thành hai cột */
+                width: 48%;
                 margin-bottom: 15px;
             }
 
@@ -84,7 +84,7 @@
                 background-color: #2e7d32;
             }
 
-            /* Nhóm checkbox */
+            /* Checkbox Group Styling */
             .checkbox-group {
                 display: flex;
                 flex-wrap: wrap;
@@ -93,15 +93,26 @@
                 padding: 10px;
                 border-radius: 5px;
                 border: 1px solid #4caf50;
+                margin-bottom: 15px;
             }
 
             .checkbox-item {
                 display: flex;
                 align-items: center;
                 gap: 5px;
-                width: 48%; /* Chia đôi để gọn gàng hơn */
+                width: 48%;
             }
 
+            /* Ensure Certificates are Above Degrees */
+            .certificates {
+                order: -1;
+            }
+
+            .degrees {
+                order: 1;
+            }
+
+            /* Responsive Design */
             @media (max-width: 600px) {
                 .form-group {
                     width: 100%;
@@ -110,29 +121,18 @@
                     width: 100%;
                 }
             }
-             .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        .form-buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 400px;
-            
-        }
-        .form-buttons button {
-            padding: 10px 20px;
-        }
 
+            .form-buttons {
+                display: flex;
+                justify-content: space-between;
+                gap: 20px;
+                width: 100%;
+            }
 
+            .form-buttons button {
+                flex: 1;
+                padding: 10px 20px;
+            }
         </style>
     </head>
     <body>

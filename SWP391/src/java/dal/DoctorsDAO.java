@@ -22,7 +22,7 @@ public class DoctorsDAO extends DBContext {
     //List doctor in dashboard
     public List<Doctors> getDoctorsDash() {
         List<Doctors> list = new ArrayList<>();
-        String sql = "SELECT  * FROM [dbo].[Doctors] d\n"
+        String sql = "SELECT   * FROM [dbo].[Doctors] d\n"
                 + "LEFT JOIN dbo.Specialization sp  ON sp.specialization_id = d.specialization_id\n";
 
         try {
@@ -57,10 +57,8 @@ public class DoctorsDAO extends DBContext {
     // List all doctor
     public List<Doctors> getAllDoctors() {
         List<Doctors> list = new ArrayList<>();
-        String sql = "SELECT DISTINCT * FROM [dbo].[Doctors] d\n"
-                + "LEFT JOIN dbo.Specialization sp  ON sp.specialization_id = d.specialization_id\n"
-                + "LEFT JOIN dbo.Certificate_Doctor cd ON cd.doctor_id = d.doctor_id\n"
-                + "LEFT JOIN dbo.Certificate c ON c.certificate_id = cd.certificate_id\n";
+        String sql = "SELECT  * FROM [dbo].[Doctors] d\n"
+                + "LEFT JOIN dbo.Specialization sp  ON sp.specialization_id = d.specialization_id\n";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -83,14 +81,7 @@ public class DoctorsDAO extends DBContext {
                 specialization.setSpecialization_status(rs.getString("specialization_status"));
                 doctor.setSpecialization(specialization);
 
-                Certificate certificate = new Certificate();
-                certificate.setCertificate_id(rs.getInt("certificate_id"));
-                certificate.setCertificate_name(rs.getString("certificate_name"));
-                Certificate_Doctor cer_doct = new Certificate_Doctor();
-                cer_doct.setDate_certificate(rs.getString("date_certificate"));
-                cer_doct.setIssued_by(rs.getString("issued_by"));
-                certificate.setCer_doct(cer_doct);
-                doctor.setCertificate(certificate);
+               
 
                 list.add(doctor);
             }
@@ -460,17 +451,17 @@ public class DoctorsDAO extends DBContext {
 //        if(flag){
 //            System.out.println("ok");
 //        }
-//        List<Doctors> l = dao.searchByName("u");
-//        for (Doctors doctors : l) {
-//            System.out.println(doctors);
-//        }
-    List<Doctors> list = dao.getActiveDoctors();
-    for (Doctors doctors : list
-
-    
-        ) {
-                    System.out.println(doctors);
-    }
+        List<Doctors> l = dao.getAllDoctors();
+        for (Doctors doctors : l) {
+            System.out.println(doctors);
+        }
+//    List<Doctors> list = dao.getActiveDoctors();
+//    for (Doctors doctors : list
+//
+//    
+//        ) {
+//                    System.out.println(doctors);
+//    }
 //
 //                List<Doctors> l = dao.getDoctorsBySpecializationId("1");
 //                for (Doctors doctors : l) {

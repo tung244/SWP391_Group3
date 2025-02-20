@@ -86,7 +86,7 @@ CREATE TABLE Accounts (
 
 CREATE TABLE Doctors (
     doctor_id INT PRIMARY KEY IDENTITY(1,1),
-    account_id INT unique,
+    account_id INT,
     doctor_name NVARCHAR(255) NOT NULL,
     experience_years INT,
     specialization_id INT,
@@ -96,7 +96,6 @@ CREATE TABLE Doctors (
     dob DATE,
     address NVARCHAR(500),
 	doctor_status NVARCHAR(255),
-	doctor_description NVARCHAR(255),
     FOREIGN KEY(account_id) REFERENCES dbo.Accounts(account_id),
 	FOREIGN KEY(specialization_id) REFERENCES dbo.Specialization(specialization_id)
 );
@@ -139,25 +138,38 @@ CREATE TABLE Customers (
 );
 
 
+CREATE TABLE Slots(
+	slot_id INT PRIMARY KEY IDENTITY(1,1),
+	slot_begin DATETIME not null,
+	slot_end DATETIME not null
+);
 
-
-
-
+CREATE TABLE Schedules(
+	doctor_id INT ,
+	slot_id INT ,
+	schedule_status NVARCHAR(255),
+	PRIMARY KEY (doctor_id, slot_id),
+	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ,
+    FOREIGN KEY (slot_id) REFERENCES Slots(slot_id) 
+);
 CREATE TABLE Services_Type(
 service_type_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 service_type_name NVARCHAR(255),
 duration_service NVARCHAR(50),
 )
-CREATE TABLE [Services](
-service_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-service_name NVARCHAR(255),
-service_description NVARCHAR(255),
-service_introduce nvarchar(1000),
-service_benefit nvarchar(1000),
-service_status varchar(20),
-specialization_id INT,
-FOREIGN KEY(specialization_id) REFERENCES dbo.Specialization(specialization_id)
-)
+CREATE TABLE [Services] (
+    service_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    service_name NVARCHAR(255) NOT NULL,
+    service_description NVARCHAR(255),
+	service_introduce NVARCHAR(1000),
+	service_benefit NVARCHAR(1000),
+	service_status NVARCHAR(255),
+    specialization_id INT,
+    parent_id INT NULL, -- Thêm cột parent_id để tạo quan hệ cha-con
+    FOREIGN KEY (specialization_id) REFERENCES dbo.Specialization(specialization_id),
+    FOREIGN KEY (parent_id) REFERENCES [Services](service_id) -- Self-referencing FK
+);
+
 
 CREATE TABLE Services_Detail (
     service_detail_id INT PRIMARY KEY IDENTITY(1,1),
@@ -168,38 +180,22 @@ CREATE TABLE Services_Detail (
 	FOREIGN KEY(service_id) REFERENCES dbo.Services(service_id)
 );
 
-CREATE TABLE Slots (
-    slot_id INT PRIMARY KEY IDENTITY(1,1),
-    start_time TIME NOT NULL,
-    end_time TIME NOT NULL,
-    service_type_id INT NOT NULL,
-    FOREIGN KEY (service_type_id) REFERENCES Services_Type(service_type_id),
-    UNIQUE (start_time, end_time, service_type_id) -- Tránh trùng lặp slot
-);
 
 
-CREATE TABLE Schedules (
-    doctor_id INT,
-    slot_id INT,
-    schedule_date DATE NOT NULL, -- Ngày bác sĩ làm việc
-    schedule_status NVARCHAR(255),
-    PRIMARY KEY (doctor_id, slot_id, schedule_date),
-    FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
-    FOREIGN KEY (slot_id) REFERENCES Slots(slot_id)
-);
 
 CREATE TABLE Appointment(
 	appointment_id INT PRIMARY KEY IDENTITY(1,1),
 	appointment_date DATETIME,
 	appointment_status nvarchar(255),
 	doctor_id INT,
-	slot_id int,
-	service_detail_id INT,
 	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
-	FOREIGN KEY (slot_id) REFERENCES dbo.Slots(slot_id) ,
+	time_begin DATETIME,
+	time_end DATETIME,
+	service_detail_id INT,
 	FOREIGN KEY (service_detail_id) REFERENCES dbo.Services_Detail(service_detail_id) ,
 	patient_id int,
 	FOREIGN KEY (patient_id) REFERENCES dbo.Customers(account_id) ,
+	phonenumber_patient NVARCHAR(50),
 );
 
 
@@ -303,9 +299,10 @@ FOREIGN KEY(image_id) REFERENCES dbo.Images_Video(image_id)
 )
 CREATE TABLE Content_Stories(
 patient_name NVARCHAR(255),
-image_patient nvarchar(255),
+image_id INT,
 content_stories NVARCHAR(MAX),
 PRIMARY KEY(patient_name),
+FOREIGN KEY(image_id) REFERENCES dbo.Images_Video(image_id)
 
 )
 CREATE TABLE Banner(
@@ -318,22 +315,7 @@ link_banner NVARCHAR(255),
 href_banner NVARCHAR(255)
 )
 
-CREATE TABLE Machine(
-machine_id INT IDENTITY(1,1) PRIMARY KEY,
-machine_name NVARCHAR(255),
-machine_description NVARCHAR(max),
-machine_img NVARCHAR(255),
 
-)
-
-CREATE TABLE OTP_Services(
-otp_id INT IDENTITY(1,1) PRIMARY KEY,
-account_id INT,
-otp NVARCHAR(20),
-created_otp_time NVARCHAR(255),
-otp_expiry_date NVARCHAR(255),
-
-)
 
 
 
