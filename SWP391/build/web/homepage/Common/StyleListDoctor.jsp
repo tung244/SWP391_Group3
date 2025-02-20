@@ -176,10 +176,38 @@
                 flex-direction: column;
                 justify-content: space-between;
             }
-            select.form-control {
-                max-height: 50px; /* Giới hạn chiều cao */
-                overflow-y: auto; /* Bật thanh cuộn dọc khi cần */
+            .pagination {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                gap: 8px;
             }
+
+            .pagination a {
+                text-decoration: none;
+                color: #333;
+                background-color: #f1f1f1;
+                padding: 8px 12px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                transition: all 0.3s ease;
+            }
+
+            .pagination a:hover {
+                background-color: #218838;
+                color: white;
+                border-color: #218838;
+            }
+
+            .pagination a.active {
+                background-color: #218838;
+                color: white;
+                font-weight: bold;
+                border: 1px solid #218838;
+                pointer-events: none;
+            }
+
 
 
 

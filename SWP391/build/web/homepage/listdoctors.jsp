@@ -93,7 +93,7 @@
                 <div class="row">
                     <div style="margin-bottom: 50px" class="filter">
                         <!-- Start filter area--> 
-                        <form action="filter" method="GET">
+                        <form action="listDoctors" method="GET">
                             <div style="margin: 0px 50px" class="search-filter-box">
 
                                 <select name="sid" id="filterSpecialization" class="form-control" >
@@ -105,7 +105,7 @@
                                         </option>
                                     </c:forEach>
                                 </select>
-                                
+
                                 <select name="deid" id="filterDegree" class="form-control">
                                     <option value="">All degree</option>
                                     <c:forEach items="${listDegree}" var="de">
@@ -261,10 +261,30 @@
                     </div>
                     <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12 pull-right"> 
                         <div class="team-area-single-ser clearfix">
-                            <div class="sec-title">
-                                <h1>Meet Our Dentist</h1>
-                                <span class="border"></span>
+                            <div class="row" style="display: flex;">
+                                <div class="sec-title">
+                                    <h1>Meet Our Dentist</h1>
+                                    <span class="border"></span>
+                                </div>
+                                <div class="pagination-container" style="margin-left: auto;">
+                                    <form method="get" action="listDoctors">
+                                        <input type="hidden" name="sid" value="${param.sid}">
+                                        <input type="hidden" name="deid" value="${param.deid}">
+                                        <input type="hidden" name="searchName" value="${param.searchName}">
+                                        <input type="hidden" name="sortBy" value="${param.sortBy}">
+                                        <input type="hidden" name="option" value="${param.option}">
+
+                                        <label for="pageSize">Show:</label>
+                                        <select name="pageSize" id="pageSize" style="width: 55px; height: 30px" onchange="this.form.submit()">
+                                            <option value="3" ${param.pageSize == '3' ? 'selected' : ''}>3</option>
+                                            <option value="9" ${param.pageSize == '9' ? 'selected' : ''}>9</option>
+                                            <option value="12" ${param.pageSize == '12' ? 'selected' : ''}>12</option>
+                                        </select>
+                                        <label for="pageSize">doctors per page</label>
+                                    </form>
+                                </div>
                             </div>
+
                             <div class="row">
                                 <!--Start single team member-->
                                 <c:forEach items="${requestScope.listDoctor}" var="d">
@@ -277,7 +297,6 @@
                                                         <div class="content"></div>
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <div class="text-holder text-center">
                                                 <h3>${d.doctor_name}</h3>
@@ -294,7 +313,6 @@
                                                     </c:forEach>
                                                 </p>
 
-
                                                 <span class="border"></span>
                                                 <a href="doctorDetail?doctorid=${d.doctor_id}">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
                                             </div>    
@@ -303,10 +321,25 @@
                                 </c:forEach>
                                 <!--End single team member-->
                             </div>
+
+                            <!-- Pagination -->
+                            <div class="pagination">
+                                <c:if test="${currentPage > 1}">
+                                    <a href="listDoctors?page=${currentPage - 1}&pageSize=${pageSize}&sid=${param.sid}&deid=${param.deid}&searchName=${param.searchName}&sortBy=${param.sortBy}&option=${param.option}">&laquo; Previous</a>
+                                </c:if>
+
+                                <c:forEach begin="1" end="${totalPages}" var="page">
+                                    <a href="listDoctors?page=${page}&pageSize=${pageSize}&sid=${param.sid}&deid=${param.deid}&searchName=${param.searchName}&sortBy=${param.sortBy}&option=${param.option}" class="${page == currentPage ? 'active' : ''}">
+                                        ${page}
+                                    </a>
+                                </c:forEach>
+
+                                <c:if test="${currentPage < totalPages}">
+                                    <a href="listDoctors?page=${currentPage + 1}&pageSize=${pageSize}&sid=${param.sid}&deid=${param.deid}&searchName=${param.searchName}&sortBy=${param.sortBy}&option=${param.option}">Next &raquo;</a>
+                                </c:if>
+                            </div>
                         </div>
-
-                    </div> 
-
+                    </div>
 
                 </div>
             </div>
@@ -421,66 +454,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="image-holder">
-                                        <img src="images/footer/latest-work-2.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="image-holder">
-                                        <img src="images/footer/latest-work-3.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="image-holder">
-                                        <img src="images/footer/latest-work-4.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="image-holder">
-                                        <img src="images/footer/latest-work-5.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="image-holder">
-                                        <img src="images/footer/latest-work-6.jpg" alt="Awesome Image">
-                                        <div class="overlay-style-one">
-                                            <div class="box">
-                                                <div class="content">
-                                                    <a href="#"><i class="fa fa-link" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
+
                             </ul>
                         </div>
                     </div>

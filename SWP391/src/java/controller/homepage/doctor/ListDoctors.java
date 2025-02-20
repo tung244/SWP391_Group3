@@ -64,19 +64,44 @@ public class ListDoctors extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        DoctorsDAO dao = new DoctorsDAO();
-        List<Doctors> listDoctor = dao.getActiveDoctors();
+// get param to filter
+        String specializationId = request.getParameter("sid");
+        String degreeId = request.getParameter("deid");
+        String searchName = request.getParameter("searchName");
+        String sortBy = request.getParameter("sortBy");
+        String option = request.getParameter("option");
+        // get param to paging
+        int page = 1;
+        int pageSize = 9; // Set preferred page size
+        String pageParam = request.getParameter("page");
+        if (pageParam != null && !pageParam.isEmpty()) {
+            page = Integer.parseInt(pageParam);
+        }
+        String pageSizeParam = request.getParameter("pageSize");
+        if (pageSizeParam != null && !pageSizeParam.isEmpty()) {
+            pageSize = Integer.parseInt(pageSizeParam);
+        }
+        // get all specialization and get all degree
         SpecializationDAO spdao = new SpecializationDAO();
         List<Specialization> listSpecialization = spdao.getAllSpecialization();
         DegreeDAO dedao = new DegreeDAO();
         List<Degree> listDegree = dedao.getAllDegree();
+        DoctorsDAO dao = new DoctorsDAO();
+        // filter 
+        List<Doctors> listD = dao.getDoctorsByFilter(specializationId, degreeId, searchName, sortBy, option);
+        // Paging after filter
+        int totalDoctors = listD.size();
+        int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
+        int offset = (page - 1) * pageSize;
+        int end = Math.min(offset + pageSize, totalDoctors);
+        listD = listD.subList(offset, end);
 
-   
-
-        request.setAttribute("listDoctor", listDoctor);
-        request.setAttribute("listSpecialization", listSpecialization);
         request.setAttribute("listDegree", listDegree);
+        request.setAttribute("listSpecialization", listSpecialization);
+        request.setAttribute("listDoctor", listD);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("pageSize", pageSize);
 
         request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
     }
