@@ -95,11 +95,24 @@ public class AppointmentList extends HttpServlet {
         List<Services> list2 = dao2.getAllServicesOnly();
         String serviceId = request.getParameter("service_name");
         String doctorId = request.getParameter("doctor_name");
+        String name = request.getParameter("name");
         String date = request.getParameter("date");
         String status = request.getParameter("status");
-        
+// Xóa khoảng trắng ở đầu và cuối, và giảm bớt khoảng trắng bên trong
+        name = name.trim().replaceAll("\\s+", "");
+
+// Kết hợp các từ lại với nhau
+        String[] words = name.split(" ");
+        if (words.length > 1) {
+            StringBuilder combinedName = new StringBuilder();
+            for (String word : words) {
+                combinedName.append(word).append(" ");
+            }
+            name = combinedName.toString().trim(); // Loại bỏ khoảng trắng cuối cùng
+        }
+
         // Gọi phương thức để lấy danh sách cuộc hẹn
-        List<Appointments> list = dao.getFilterAppointment(serviceId, doctorId, date, status);
+        List<Appointments> list = dao.getFilterAppointment(serviceId, doctorId, date, status, name);
         request.setAttribute("listA", list);
         request.setAttribute("listS", list2);
         request.setAttribute("listD", list1);
@@ -107,6 +120,7 @@ public class AppointmentList extends HttpServlet {
         request.setAttribute("doctor_id", doctorId);
         request.setAttribute("date", date);
         request.setAttribute("status", status);
+        request.setAttribute("name", name);
         request.getRequestDispatcher("AppointmentList.jsp").forward(request, response);
     }
 

@@ -26,6 +26,7 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.internet.MimeUtility;
 import java.io.UnsupportedEncodingException;
+import model.Appointments;
 
 public class SendMail {
 
@@ -154,6 +155,74 @@ public class SendMail {
 
         } catch (MessagingException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    public static boolean MailConfirmAppointment(Appointments appointment) throws UnsupportedEncodingException {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", Mail.HOST_NAME);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", Mail.TSL_PORT);
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(appointment.getUser().getAccount().getEmail()));
+
+            String subject = "Notify EyeCare Appointment";
+            String emailContent = "<html>\n"
+                    + "<head>\n"
+                    + "    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>\n"
+                    + "    <style>\n"
+                    + "        body { font-family: Arial, sans-serif; }\n"
+                    + "        .email-container { width: 100%; padding: 20px; background-color: #f4f4f4; text-align: center; }\n"
+                    + "        .email-content { background-color: #fff; padding: 20px; border-radius: 10px; width: 100%; max-width: 600px; margin: 0 auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }\n"
+                    + "        h2 { color: #333; }\n"
+                    + "        .details { font-size: 18px; color: #555; }\n"
+                    + "        .reminder { font-weight: bold; color: #e74c3c; }\n"
+                    + "    </style>\n"
+                    + "</head>\n"
+                    + "<body>\n"
+                    + "    <div class='email-container'>\n"
+                    + "        <div class='email-content'>\n"
+                    + "            <h2>Xác Nhận Đặt Lịch Thành Công Cho"+appointment.getUser().getFullname()+"!</h2>\n"
+                    + "            <p class='details'>Bạn đã đăng ký dịch vụ: <strong>["+appointment.getService_detail().getServices().getService_name()+"]</strong></p>\n"
+                    + "            <p class='details'>Ngày: <strong>["+appointment.getAppointment_date()+"]</strong></p>\n"
+                    + "            <p class='details'>Giờ: <strong>["+appointment.getSlot().getStart_time()+" - "+appointment.getSlot().getEnd_time()+"]</strong></p>\n"
+                    + "            <p class='details'>Bác sĩ: <strong>["+appointment.getDoctor().getDoctor_name()+"]</strong></p>\n"
+                    + "            <p class='details'>Giá: <strong>["+appointment.getService_detail().getCost()+"]</strong></p>\n"
+                    + "            <p class='reminder'>Vui lòng đến đúng lịch hẹn để được phục vụ tốt nhất!</p>\n"
+                    + "        </div>\n"
+                    + "    </div>\n"
+                    + "</body>\n"
+                    + "</html>";
+
+            // Đặt tiêu đề với UTF-8
+            message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+
+            // Đặt nội dung email với UTF-8
+            MimeMultipart multipart = new MimeMultipart();
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(emailContent, "text/html; charset=UTF-8");
+            multipart.addBodyPart(messageBodyPart);
+            message.setContent(multipart);
+            Transport.send(message);
+            System.out.println("mail được gửi" + System.currentTimeMillis());
+
+            Transport.send(message);
+            System.out.println("Mail đã được gửi thành công!");
+
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
         }
 
     }

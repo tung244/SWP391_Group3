@@ -6,6 +6,11 @@
 package controller.homepage.doctor;
 
 
+
+import dal.DegreeDAO;
+import dal.DoctorsDAO;
+import dal.SpecializationDAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +18,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Degree;
+import model.Doctors;
+import model.Specialization;
 
 /**
  *
@@ -56,7 +65,25 @@ public class DoctorDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("homepage/userprofile.jsp").forward(request, response);
+        String doctor_id = request.getParameter("doctorid");
+        DoctorsDAO dao = new DoctorsDAO();
+        Doctors doctordetail = dao.getDoctorsById(doctor_id);
+        
+        SpecializationDAO spdao = new SpecializationDAO();
+        List<Specialization> listSpecializationByDocId = spdao.getSpecializationByDoctorId(doctor_id);
+        
+        DegreeDAO dedao = new DegreeDAO();
+        List<Degree> listDegree = dedao.getDegreeByDoctorId(doctor_id);
+        
+        String related_specid = spdao.getSpecializationIdByDoctorId(doctor_id);
+        List<Doctors> listRelatedDoctor = dao.getDoctorsBySpecializationId(related_specid);
+        
+        
+        request.setAttribute("listRelated", listRelatedDoctor);
+        request.setAttribute("listDegree", listDegree);
+        request.setAttribute("listSpecById", listSpecializationByDocId);
+        request.setAttribute("d", doctordetail);
+        request.getRequestDispatcher("homepage/doctordetail.jsp").forward(request, response);
     } 
 
     /** 

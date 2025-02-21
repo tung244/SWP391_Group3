@@ -4,6 +4,8 @@
  */
 package controller.admin;
 
+import bo.SendMail;
+import bo.SendSMS;
 import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
 import dal.AppointmentDAO;
 import dal.DoctorsDAO;
@@ -131,13 +133,13 @@ public class UpdateAppointment extends HttpServlet {
         String id_raw = request.getParameter("id");
         String doctor_id_raw = request.getParameter("doctor_select");
         String slot_id_raw = request.getParameter("slot");
-        String status = request.getParameter("status"); // Sửa lỗi chính tả
+        String status = request.getParameter("status");
 
         int doctor_id = 0;
         int slot_id = 0;
         int id = 0;
         String mess = "";
-
+        String mail = "";
         try {
             if (doctor_id_raw != null && !doctor_id_raw.isEmpty()) {
                 doctor_id = Integer.parseInt(doctor_id_raw);
@@ -151,13 +153,43 @@ public class UpdateAppointment extends HttpServlet {
 
             boolean check = dao.confirmAppointment(id, doctor_id, slot_id, status);
             mess = check ? "Update Completed" : "Update Failed";
+            Appointments appointment = new Appointments();
+            List<Appointments> list = dao.getAppointment(id_raw);
+            for (Appointments appointments : list) {
+                appointment = appointments;
+            }
+            boolean sendEmail = sendOTP(appointment);
+            mail = sendEmail ? "Send Email Completed" : "Send Email Fail";
         } catch (Exception e) {
             e.printStackTrace();
             mess = "An error occurred: " + e.getMessage(); // Cung cấp thông tin lỗi
         }
-
+        request.setAttribute("mail", mail);
         request.setAttribute("mess", mess);
         request.getRequestDispatcher("/admin/AppointmentList").forward(request, response);
+    }
+
+    public boolean sendOTP(Appointments appointment) {
+        final boolean[] sendEmailResult = {false}; // Mảng để lưu kết quả
+
+        Thread emailThread = new Thread(() -> {
+            try {
+                System.out.println("đến 3");
+                sendEmailResult[0] = SendMail.MailConfirmAppointment(appointment);
+            } catch (Exception e) {
+                e.printStackTrace(); // Log lỗi nếu có
+            }
+        });
+
+        emailThread.start();
+
+        try {
+            emailThread.join(); // Chờ cho luồng kết thúc
+        } catch (InterruptedException e) {
+            e.printStackTrace(); // Log lỗi nếu có
+        }
+
+        return sendEmailResult[0]; // Trả về kết quả gửi email
     }
 
     /**

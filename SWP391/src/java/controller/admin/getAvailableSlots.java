@@ -18,6 +18,7 @@ import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 import model.Slots;
+import org.json.JSONObject;
 
 /**
  *
@@ -89,7 +90,42 @@ public class getAvailableSlots extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // Tạo đối tượng JSON để phản hồi
+        JSONObject jsonResponse = new JSONObject();
+
+        try {
+            // Lấy dữ liệu từ query string
+            int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+            int doctorId = Integer.parseInt(request.getParameter("doctorId"));
+            int slotId = Integer.parseInt(request.getParameter("slotId"));
+
+            // Tạo một đối tượng để xử lý cập nhật
+            AppointmentDAO appointmentDAO = new AppointmentDAO();
+            boolean isUpdated = appointmentDAO.confirmAppointment(appointmentId, doctorId, slotId, "Scheduled");
+            // Tạo phản hồi
+            jsonResponse.put("success", isUpdated);
+            jsonResponse.put("message", isUpdated ? "Cập nhật thành công!" : "Cập nhật thất bại.");
+
+        } catch (NumberFormatException e) {
+            // Xử lý khi không thể chuyển đổi tham số
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            jsonResponse.put("success", false);
+            jsonResponse.put("message", "Tham số không hợp lệ.");
+        } catch (Exception e) {
+            // Xử lý lỗi bất kỳ
+            e.printStackTrace(); // In ra log nếu cần
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            jsonResponse.put("success", false);
+            jsonResponse.put("message", "Có lỗi xảy ra, vui lòng thử lại.");
+        }
+
+        // Gửi phản hồi về client
+        PrintWriter out = response.getWriter();
+        out.print(jsonResponse.toString());
+        out.flush();
     }
 
     /**

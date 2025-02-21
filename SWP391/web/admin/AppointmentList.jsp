@@ -43,20 +43,21 @@
                                     <div style="display: flex; align-items: center;">
                                         <h4 style="color: green; font-weight: bold; margin: 0;">Appointment Table</h4>
                                         <form action="AppointmentList" method="post" style="display: flex; align-items: center; margin-top: 10px; margin-left: auto;">
-                                            <select name="service_name" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; width: 200px;">
+                                            <input class="form-control"  name="name" value="${name}" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; " type="text" placeholder="Choose the name">
+                                            <select class="form-control" name="service_name" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px;">
                                                 <option value="">-Select Service_Name-</option>
                                                 <c:forEach var="s" items="${listS}">
                                                     <option value="${s.service_id}" ${s.service_id==service_id?'selected':''}>${s.service_name}</option>  
                                                 </c:forEach>    
                                             </select>
-                                            <select name="doctor_name" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; width: 150px;">
+                                            <select class="form-control" name="doctor_name" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px;">
                                                 <option value="">-Select Doctor-</option>
                                                 <c:forEach var="d" items="${listD}">
                                                     <option value="${d.doctor_id}" ${d.doctor_id==doctor_id?'selected':''}>${d.doctor_name}</option>  
                                                 </c:forEach>  
                                             </select>
-                                            <input  name="date" value="${date}" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; width: 150px;" type="date">
-                                            <select name="status" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; width: 150px;">
+                                            <input class="form-control"  name="date" value="${date}" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; " type="date">
+                                            <select class="form-control" name="status" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; ">
                                                 <option value="">-Select Status-</option>
                                                 <option value="Waiting Scheduled" <c:if test="${status == 'Waiting Scheduled'}">selected</c:if>>Waiting Scheduled</option>
                                                 <option value="Scheduled" <c:if test="${status == 'Scheduled'}">selected</c:if>>Scheduled</option>
@@ -102,7 +103,7 @@
                                                                 <input type="hidden" id="appointmentDate" value="${a.appointment_date}"/>
                                                             </c:if>
                                                             <c:if test="${empty a.doctor}">
-                                                                <select name="doctor_select" id="doctor_${a.appointment_id}" onchange="selectDoctor(${a.appointment_id}, this.value, '${a.service_detail.serviceType.service_type_id}', '${a.appointment_date}');">
+                                                                <select class="form-control" name="doctor_select" id="doctor_${a.appointment_id}" onchange="selectDoctor(${a.appointment_id}, this.value, '${a.service_detail.serviceType.service_type_id}', '${a.appointment_date}');">
                                                                     <option value="">-Select Doctor-</option>
                                                                     <c:forEach var="doctor" items="${listD}">
                                                                         <option value="${doctor.doctor_id}">${doctor.doctor_name}</option>
@@ -113,8 +114,10 @@
                                                         <td>
                                                             <c:choose>
                                                                 <c:when test="${empty a.slot || empty a.slot.slot_id}">
-                                                                    <select name="slot" id="slot_${a.appointment_id}" onchange="updateAction(${a.appointment_id});">
-                                                                        <option value="">-Select Slot-</option>
+                                                                    <select class="form-control" class="form-control" name="slot" id="slot_${a.appointment_id}" onchange="updateAction(${a.appointment_id});">
+                                                                        <c:if test="${not empty a.slot.slot_id}">
+                                                                            <option value="${a.slot.slot_id}" selected>${a.slot.start_time} - ${a.slot.end_time}</option>
+                                                                        </c:if>
                                                                     </select>
                                                                 </c:when>
                                                                 <c:otherwise>
@@ -393,10 +396,15 @@
                 console.log('Doctor: ', selectedDoctorId);
                 console.log('Slot: ', selectedSlotId);
 
-                const url = `UpdateAppointment?appointmentId=` + appointmentId + `&doctorId=` + selectedDoctorId + `&slotId=` + selectedSlotId;
+                const formData = new FormData();
+                formData.append('appointmentId', appointmentId);
+                formData.append('doctorId', selectedDoctorId);
+                formData.append('slotId', selectedSlotId);
+
+                const url = `getAvailableSlots`;
                 // Gọi AJAX để gửi dữ liệu đến servlet
                 fetch(url, {
-                    method: 'GET', // Giữ nguyên là GET
+                    method: 'POST', // Giữ nguyên là GET
                     headers: {
                         'Content-Type': 'application/json',
                     },

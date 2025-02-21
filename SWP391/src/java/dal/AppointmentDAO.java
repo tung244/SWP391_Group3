@@ -55,13 +55,16 @@ public class AppointmentDAO extends DBContext {
 
     public List<Appointments> getAppointment(String id) {
         List<Appointments> list = new ArrayList<>();
-        String sql = "SELECT * FROM dbo.Appointment a "
-                + "JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id "
-                + "JOIN dbo.Services se ON se.service_id = s.service_id "
-                + "JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id "
-                + "LEFT JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id "
-                + "LEFT JOIN dbo.Slots sl ON a.slot_id = sl.slot_id "
-                + "JOIN Customers c ON c.account_id = a.patient_id WHERE 1=1";
+        String sql = "SELECT *\n"
+                + "FROM dbo.Appointment a\n"
+                + "JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id\n"
+                + "JOIN dbo.Services se ON se.service_id = s.service_id\n"
+                + "JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id\n"
+                + "LEFT JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id\n"
+                + "LEFT JOIN dbo.Slots sl ON a.slot_id = sl.slot_id\n"
+                + "JOIN Customers c ON c.account_id = a.patient_id\n"
+                + "join Accounts acc on acc.account_id = c.account_id\n"
+                + "WHERE 1=1";
 
         if (id != null && !id.isEmpty()) {
             sql += " AND a.appointment_id = ?";
@@ -110,7 +113,8 @@ public class AppointmentDAO extends DBContext {
 
                 // Handle patient details
                 int account_id = rs.getInt("patient_id");
-                Account account = new Account(account_id);
+                String email = rs.getString("email");
+                Account account = new Account(account_id, email);
                 String fullname = rs.getString("full_name");
                 UserProfile user = new UserProfile(account, fullname);
 
@@ -124,7 +128,7 @@ public class AppointmentDAO extends DBContext {
         return list;
     }
 
-    public List<Appointments> getFilterAppointment(String service_Id, String doctor_Id, String date, String status) {
+    public List<Appointments> getFilterAppointment(String service_Id, String doctor_Id, String date, String status, String name) {
         List<Appointments> list = new ArrayList<>();
         String query = "SELECT *\n"
                 + "FROM dbo.Appointment AS a\n"
@@ -147,6 +151,9 @@ public class AppointmentDAO extends DBContext {
         if (status != null && !status.isEmpty()) {
             query += "and a.appointment_status = ?";
         }
+        if (name != null && !name.isEmpty()) {
+            query += "and c.full_name like ?";
+        }
         try {
             ps = connection.prepareStatement(query);
             int index = 1;
@@ -161,6 +168,10 @@ public class AppointmentDAO extends DBContext {
             }
             if (status != null && !status.isEmpty()) {
                 ps.setString(index++, status);
+            }
+
+            if (name != null && !name.isEmpty()) {
+                ps.setString(index++, "%" + name + "%"); // Nếu bạn muốn tìm kiếm với wildcard
             }
             rs = ps.executeQuery();
             while (rs.next()) {
