@@ -78,13 +78,13 @@
             .table-of-contents {
                 position: fixed;
                 left: 0;
-/*                top: 200px;*/
+                /*                top: 200px;*/
                 background: white;
                 padding: 15px;
-/*                border-radius: 0 10px 10px 0;*/
-/*                box-shadow: 2px 0 10px rgba(0,0,0,0.1);*/
+                /*                border-radius: 0 10px 10px 0;*/
+                /*                box-shadow: 2px 0 10px rgba(0,0,0,0.1);*/
                 max-width: 330px;
-/*                z-index: 100;*/
+                /*                z-index: 100;*/
             }
 
             .table-of-contents h3 {
@@ -145,16 +145,22 @@
         <div style="padding-bottom: 100px;" class="boxed_wrapper">
             <div class="container-fluid py-5">
                 <jsp:include page="Common/Navbar.jsp"/>
-                
+
                 <!-- Table of Contents -->
                 <div class="table-of-contents">
                     <h3 style="font-size: 20px; margin-top: 50px">Danh sách máy</h3>
+                    <c:if test="${machine.size()== 1}">
+                        <a style="margin-left: 10px; color:rgb(34,139,34) " href="list_machine">Xem tất cả</a>
+                        </c:if>
                     <ul class="toc-list">
-                        <c:forEach var="machine" items="${machine}" varStatus="status">
+                        
+
+                        <c:forEach var="machineItem" items="${machine}" varStatus="status">
                             <li>
-                                <a href="#machine-${status.index}">${machine.machine_name}</a>
+                                <a href="#machine-${status.index}">${machineItem.machine_name}</a>
                             </li>
                         </c:forEach>
+
                     </ul>
                 </div>
 
@@ -178,47 +184,48 @@
                             </div>
                         </div>
                     </c:forEach>
+
                 </div>
             </div>
         </div>
 
         <jsp:include page="Common/Message.jsp"/>
         <jsp:include page="Common/Js.jsp"/>
-        
+
         <!-- Add this script before closing body tag -->
         <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Thêm sự kiện cho các liên kết TOC
-        const tocLinks = document.querySelectorAll('.toc-list a');
-        tocLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault(); // Ngăn chặn hành vi mặc định
-                const target = this.getAttribute('href');
-                // Cuộn đến mục tiêu (không có cuộn mượt)
-                const targetElement = document.querySelector(target);
-                targetElement.scrollIntoView(); // Cuộn đến phần tử
+            document.addEventListener('DOMContentLoaded', function () {
+                // Thêm sự kiện cho các liên kết TOC
+                const tocLinks = document.querySelectorAll('.toc-list a');
+                tocLinks.forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault(); // Ngăn chặn hành vi mặc định
+                        const target = this.getAttribute('href');
+                        // Cuộn đến mục tiêu (không có cuộn mượt)
+                        const targetElement = document.querySelector(target);
+                        targetElement.scrollIntoView(); // Cuộn đến phần tử
 
-                // Cập nhật trạng thái active
-                tocLinks.forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
+                        // Cập nhật trạng thái active
+                        tocLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+
+                // Cập nhật trạng thái active khi cuộn
+                window.addEventListener('scroll', function () {
+                    const scrollPosition = window.scrollY;
+
+                    document.querySelectorAll('.machine-row').forEach((section, index) => {
+                        const sectionTop = section.offsetTop - 150;
+                        const sectionBottom = sectionTop + section.offsetHeight;
+
+                        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                            tocLinks.forEach(link => link.classList.remove('active'));
+                            tocLinks[index].classList.add('active');
+                        }
+                    });
+                });
             });
-        });
-
-        // Cập nhật trạng thái active khi cuộn
-        window.addEventListener('scroll', function() {
-            const scrollPosition = window.scrollY;
-
-            document.querySelectorAll('.machine-row').forEach((section, index) => {
-                const sectionTop = section.offsetTop - 150;
-                const sectionBottom = sectionTop + section.offsetHeight;
-
-                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                    tocLinks.forEach(link => link.classList.remove('active'));
-                    tocLinks[index].classList.add('active');
-                }
-            });
-        });
-    });
-</script>
+        </script>
     </body>
 </html>
