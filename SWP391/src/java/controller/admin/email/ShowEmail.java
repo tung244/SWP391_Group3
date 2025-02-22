@@ -57,7 +57,7 @@ public class ShowEmail extends HttpServlet {
             response.sendRedirect("login_show_email");
             return;
         }
-
+        
         HttpRequestFactory requestFactory = new NetHttpTransport().createRequestFactory();
 
         // 1. Lấy danh sách email
@@ -65,22 +65,22 @@ public class ShowEmail extends HttpServlet {
                 .setHeaders(new HttpHeaders().setAuthorization("Bearer " + accessToken));
         HttpResponse emailListResponse = emailListRequest.execute();
         String emailListJson = emailListResponse.parseAsString();
-
+        System.out.println(emailListJson);
         // Chuyển JSON thành danh sách ID email
         Gson gson = new Gson();
         Map<?, ?> emailListMap = gson.fromJson(emailListJson, Map.class);
         List<Map<String, String>> messages = (List<Map<String, String>>) emailListMap.get("messages");
-
+        
         if (messages == null || messages.isEmpty()) {
             response.getWriter().write("No emails found.");
             return;
         }
 
-        // 2. Lấy thông tin chi tiết của từng email
+        // Lấy thông tin chi tiết của từng email
         List<Gmail> emailDetails = new ArrayList<>();
         for (Map<String, String> message : messages) {
             String emailId = message.get("id");
-            String emailDetailsUrl = Gmails.GMAIL_API_URL + "/" + emailId;
+            String emailDetailsUrl = Gmails.GMAIL_API_URL + "/" + emailId;  // gán từng id 1 
 
             HttpRequest emailDetailRequest = requestFactory.buildGetRequest(new GenericUrl(emailDetailsUrl))
                     .setHeaders(new HttpHeaders().setAuthorization("Bearer " + accessToken));
@@ -107,8 +107,6 @@ public class ShowEmail extends HttpServlet {
 
         }
         request.setAttribute("emailDetails", emailDetails);
-
-
         request.getRequestDispatcher("EmailBox.jsp").forward(request, response);
     } 
 

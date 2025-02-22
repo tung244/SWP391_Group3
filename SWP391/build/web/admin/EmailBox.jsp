@@ -117,7 +117,7 @@
                                 <div class="">
                                     <div class="email-list">
                                         <c:forEach var="emailDetails" items="${emailDetails}">
-                                            <a href="emailread.html">
+                                            <a href="read_email?id=${emailDetails.id}">
                                                 <div class="d-md-flex align-items-center email-message px-3 py-1">
                                                     <div class="d-flex align-items-center email-actions">
                                                         <input class="form-check-input" type="checkbox" value="" /> <i class='bx bx-star font-20 mx-2 email-star'></i>
