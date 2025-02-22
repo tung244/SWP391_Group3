@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.admin;
+package controller.admin.email;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpHeaders;
@@ -61,7 +61,7 @@ public class ShowEmail extends HttpServlet {
         HttpRequestFactory requestFactory = new NetHttpTransport().createRequestFactory();
 
         // 1. Lấy danh sách email
-        HttpRequest emailListRequest = requestFactory.buildGetRequest(new GenericUrl(Gmails.GMAIL_API_URL+"?pageToken=3"))
+        HttpRequest emailListRequest = requestFactory.buildGetRequest(new GenericUrl(Gmails.GMAIL_API_URL))
                 .setHeaders(new HttpHeaders().setAuthorization("Bearer " + accessToken));
         HttpResponse emailListResponse = emailListRequest.execute();
         String emailListJson = emailListResponse.parseAsString();
@@ -107,7 +107,7 @@ public class ShowEmail extends HttpServlet {
 
         }
         request.setAttribute("emailDetails", emailDetails);
-//        request.getRequestDispatcher("email.jsp").forward(request, response);
+
 
         request.getRequestDispatcher("EmailBox.jsp").forward(request, response);
     } 

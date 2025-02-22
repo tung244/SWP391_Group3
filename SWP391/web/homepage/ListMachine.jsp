@@ -142,7 +142,7 @@
         </style>
     </head>
     <body style="background-color: white">
-        <div style="padding-bottom: 100px;" class="boxed_wrapper">
+        <div style="padding-bottom: 200px;" class="boxed_wrapper">
             <div class="container-fluid py-5">
                 <jsp:include page="Common/Navbar.jsp"/>
 
@@ -151,10 +151,8 @@
                     <h3 style="font-size: 20px; margin-top: 50px">Danh sách máy</h3>
                     <c:if test="${machine.size()== 1}">
                         <a style="margin-left: 10px; color:rgb(34,139,34) " href="list_machine">Xem tất cả</a>
-                        </c:if>
+                    </c:if>
                     <ul class="toc-list">
-                        
-
                         <c:forEach var="machineItem" items="${machine}" varStatus="status">
                             <li>
                                 <a href="#machine-${status.index}">${machineItem.machine_name}</a>
@@ -195,13 +193,11 @@
         <!-- Add this script before closing body tag -->
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                // Thêm sự kiện cho các liên kết TOC
                 const tocLinks = document.querySelectorAll('.toc-list a');
                 tocLinks.forEach(link => {
                     link.addEventListener('click', function (e) {
                         e.preventDefault(); // Ngăn chặn hành vi mặc định
                         const target = this.getAttribute('href');
-                        // Cuộn đến mục tiêu (không có cuộn mượt)
                         const targetElement = document.querySelector(target);
                         targetElement.scrollIntoView(); // Cuộn đến phần tử
 
@@ -216,9 +212,9 @@
                     const scrollPosition = window.scrollY;
 
                     document.querySelectorAll('.machine-row').forEach((section, index) => {
-                        const sectionTop = section.offsetTop - 150;
+                        const sectionTop = section.offsetTop - (index === document.querySelectorAll('.machine-row').length - 1 ? 350 : 150);  // phần tử cuối thì trừ đi 350px để hiển thị chuẩn cái 
                         const sectionBottom = sectionTop + section.offsetHeight;
-
+                        
                         if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
                             tocLinks.forEach(link => link.classList.remove('active'));
                             tocLinks[index].classList.add('active');
