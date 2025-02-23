@@ -33,12 +33,24 @@
             </ul>
         </li>
         <li class="menu-label">Web Apps</li>
+        
         <li>
-            <a href="emailbox.html">
+            <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon icon-color-2"><i class="bx bx-envelope"></i>
                 </div>
                 <div class="menu-title">Email</div>
             </a>
+            <ul>
+                <li> <a href="component-alerts.html"><i class="bx bx-right-arrow-alt"></i>Nhóm Khách Hàng</a>
+                </li>
+                <li> <a href="component-bedges.html"><i class="bx bx-right-arrow-alt"></i>Quản lí chiến dịch</a>
+                </li>
+                <li> <a href="component-buttons.html"><i class="bx bx-right-arrow-alt"></i>Mẫu email tự động</a>
+                </li>
+                <li> <a href="component-cards.html"><i class="bx bx-right-arrow-alt"></i>Gửi email tự động</a>
+                </li>
+                
+            </ul>
         </li>
         <li>
             <a href="chat-box.html">

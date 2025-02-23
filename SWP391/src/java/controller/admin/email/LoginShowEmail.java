@@ -21,19 +21,7 @@ public class LoginShowEmail extends HttpServlet {
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginShowEmail</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginShowEmail at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     } 
 
     @Override
@@ -43,9 +31,12 @@ public class LoginShowEmail extends HttpServlet {
                 + "client_id=" + Gmails.CLIENT_ID
                 + "&redirect_uri=" + Gmails.REDIRECT_URI
                 + "&response_type=code"
-                + "&scope=https://www.googleapis.com/auth/gmail.readonly"
+                + "&scope=https://www.googleapis.com/auth/gmail.send "
+                + "https://www.googleapis.com/auth/gmail.compose "
+                + "https://www.googleapis.com/auth/gmail.modify"
                 + "&access_type=offline"
                 + "&prompt=consent";
+
 
         response.sendRedirect(authUrl);
     } 
