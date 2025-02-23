@@ -96,9 +96,22 @@ public class ReadEmail extends HttpServlet {
         }
 
         Gmail g = new Gmail(id_email, subject, receivedDate,content);
-
+        
+        String[] infoExample = subject.replace("Yêu cầu hỗ trợ từ người dùng ", "").split(" - ");
+        
+        request.setAttribute("infoExample", infoExample);
         request.setAttribute("gmail", g);
+        
         request.getRequestDispatcher("EmailRead.jsp").forward(request, response);
+    }
+    
+    public static void main(String[] args) {
+        String hehe = "Yêu cầu hỗ trợ từ người dùng Nguyễn Duy Lương - 09126734785";
+        
+        String[] hehu = hehe.replace("Yêu cầu hỗ trợ từ người dùng ", "").split(" - ");
+        for (String string : hehu) {
+            System.out.println(string);
+        }
     }
 
     @Override

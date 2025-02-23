@@ -44,7 +44,8 @@ public class LoginShowEmail extends HttpServlet {
                 + "&redirect_uri=" + Gmails.REDIRECT_URI
                 + "&response_type=code"
                 + "&scope=https://www.googleapis.com/auth/gmail.readonly"
-                + "&access_type=offline";
+                + "&access_type=offline"
+                + "&prompt=consent";
 
         response.sendRedirect(authUrl);
     } 
