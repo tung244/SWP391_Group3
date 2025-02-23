@@ -26,6 +26,7 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.internet.MimeUtility;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 public class SendMail {
 
@@ -157,8 +158,43 @@ public class SendMail {
         }
 
     }
+    
+    public static void guiEmailTuDong(List<String> email, String noidung, String tieude) throws UnsupportedEncodingException {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", Mail.HOST_NAME);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", Mail.TSL_PORT);
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        guiSupport("nguyenluongk2k4@gmail.com", "Hehe lương", "Lương");
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                System.out.println("Xác minh gg thành công" + System.currentTimeMillis());
+                return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("supporeyecare@gmail.com"));
+            System.out.println("Time:" + System.currentTimeMillis());
+            System.out.println(noidung);
+            String subject = "Yêu cầu hỗ trợ từ người dùng " + nameUser + " - " + email;
+
+            message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+            // Tạo một phần MultiPart
+            MimeMultipart multipart = new MimeMultipart();
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(noidung, "text/html; charset=UTF-8");
+            multipart.addBodyPart(messageBodyPart);
+            message.setContent(multipart);
+            Transport.send(message);
+            System.out.println("mail được gửi" + System.currentTimeMillis());
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
     }
+
+    
 }

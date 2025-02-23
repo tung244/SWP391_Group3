@@ -1,12 +1,7 @@
-<%-- 
-    Document   : EmailRead
-    Created on : Feb 23, 2025, 1:16:05 AM
-    Author     : fptshop
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
     <head>
         <jsp:include page="Common/Css.jsp"/>
@@ -239,15 +234,7 @@
                                         <img src="assets/images/avatars/avatar-1.png" width="42" height="42" class="rounded-circle" alt="" />
                                         <div class="flex-grow-1 ms-2">
                                             <p class="mb-0 font-weight-bold">Support</p>
-                                            <div class="dropdown">
-                                                <div class="dropdown-toggle" data-bs-toggle="dropdown">to me</div>
-                                                <div class="dropdown-menu">	<a class="dropdown-item" href="javascript:;">Settings</a>
-                                                    <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Help & Feedback</a>
-                                                    <a class="dropdown-item" href="javascript:;">Enable Split View Mode</a>
-                                                    <a class="dropdown-item" href="javascript:;">Keyboard Shortcuts</a>
-                                                    <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Sign Out</a>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <p class="mb-0 chat-time ps-5 ms-auto">${gmail.date}</p>
                                     </div>
@@ -257,29 +244,8 @@
                                     </div>
 
                                     <!--Phản hồi email-->
-                                    <button class="custom_mail_2024_trigger_btn" onclick="custom_mail_2024_openModal()">Phản hồi</button>
+                                    <!-- Nút mở modal -->
 
-                                    <div id="custom_mail_2024_emailModal" class="custom_mail_2024_modal">
-                                        <div class="custom_mail_2024_form">
-                                            <span class="custom_mail_2024_close" onclick="custom_mail_2024_closeModal()">&times;</span>
-                                            <form id="custom_mail_2024_emailForm">
-                                                <div class="custom_mail_2024_form_group">
-                                                    <label class="custom_mail_2024_label">To:</label>
-                                                    <input type="email" class="custom_mail_2024_input" id="custom_mail_2024_to" value="${infoExample[1]}" required>
-                                                </div>
-
-                                                <div class="custom_mail_2024_form_group">
-                                                    <label class="custom_mail_2024_label">Subject:</label>
-                                                    <input type="text" class="custom_mail_2024_input" id="custom_mail_2024_subject" value="EyeCare - Cảm ơn ${infoExample[0]} đã quan tâm!">
-                                                </div>
-
-                                                <div id="custom_mail_2024_toolbar"></div>
-                                                <div id="custom_mail_2024_content" contenteditable="true"></div>
-
-                                                <button type="submit" class="custom_mail_2024_send_btn">Send</button>
-                                            </form>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <!--start compose mail-->
@@ -292,47 +258,49 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <div class="email-form">
-                                            <div class="mb-3">
-                                                <input type="text" class="form-control" placeholder="To" />
-                                            </div>
-                                            <div class="mb-3">
-                                                <input type="text" class="form-control" placeholder="Subject" />
-                                            </div>
-                                            <div class="mb-3">
-                                                <textarea class="form-control" placeholder="Message" rows="10" cols="10"></textarea>
-                                            </div>
-                                            <div class="mb-0">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="">
-                                                        <div class="btn-group">
-                                                            <button type="button" class="btn btn-primary">Action</button>
-                                                            <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-                                                            </button>
-                                                            <div class="dropdown-menu">	<a class="dropdown-item" href="javascript:;">Action</a>
-                                                                <a class="dropdown-item" href="javascript:;">Another action</a>
-                                                                <a class="dropdown-item" href="javascript:;">Something else here</a>
-                                                                <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
+                                        <form action="sendmail" method="post">
+                                            <div class="email-form">
+                                                <div class="mb-3">
+                                                    <input type="text" class="form-control" placeholder="To" name="to"/>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" class="form-control" placeholder="Subject" name="subject"/>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <textarea class="form-control" name="content" placeholder="Message" rows="10" cols="10"></textarea>
+                                                </div>
+                                                <div class="mb-0">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="">
+                                                            <div class="btn-group">
+                                                                <button type="submit" class="btn btn-primary">Send</button>
+<!--                                                                <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
+                                                                </button>
+                                                                <div class="dropdown-menu">	<a class="dropdown-item" href="javascript:;">Action</a>
+                                                                    <a class="dropdown-item" href="javascript:;">Another action</a>
+                                                                    <a class="dropdown-item" href="javascript:;">Something else here</a>
+                                                                    <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
+                                                                </div>-->
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="ms-2">
-                                                        <button type="button" class="btn border-0 btn-sm btn-white"><i class="lni lni-text-format"></i>
-                                                        </button>
-                                                        <button type="button" class="btn border-0 btn-sm btn-white"><i class='bx bx-link-alt'></i>
-                                                        </button>
-                                                        <button type="button" class="btn border-0 btn-sm btn-white"><i class="lni lni-emoji-tounge"></i>
-                                                        </button>
-                                                        <button type="button" class="btn border-0 btn-sm btn-white"><i class="lni lni-google-drive"></i>
-                                                        </button>
-                                                    </div>
-                                                    <div class="ms-auto">
-                                                        <button type="button" class="btn border-0 btn-sm btn-white"><i class="lni lni-trash"></i>
-                                                        </button>
+                                                        <div class="ms-2">
+                                                            <button type="button" class="btn border-0 btn-sm btn-white"><i class="lni lni-text-format"></i>
+                                                            </button>
+                                                            <button type="button" class="btn border-0 btn-sm btn-white"><i class='bx bx-link-alt'></i>
+                                                            </button>
+                                                            <button type="button" class="btn border-0 btn-sm btn-white"><i class="lni lni-emoji-tounge"></i>
+                                                            </button>
+                                                            <button type="button" class="btn border-0 btn-sm btn-white"><i class="lni lni-google-drive"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="ms-auto">
+                                                            <button type="button" class="btn border-0 btn-sm btn-white"><i class="lni lni-trash"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -353,46 +321,12 @@
             <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
             <!--End Back To Top Button-->
             <!--footer -->
-            <div class="footer">
-                <p class="mb-0">Syndash @2020 | Developed By : <a href="https://themeforest.net/user/codervent" target="_blank">codervent</a>
-                </p>
-            </div>
+
             <!-- end footer -->
         </div>
         <!-- end wrapper -->
         <!--start switcher-->
-        <div class="switcher-body">
-            <button class="btn btn-primary btn-switcher shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="bx bx-cog bx-spin"></i></button>
-            <div class="offcanvas offcanvas-end shadow border-start-0 p-2" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling">
-                <div class="offcanvas-header border-bottom">
-                    <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Theme Customizer</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <h6 class="mb-0">Theme Variation</h6>
-                    <hr>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="lightmode" value="option1" checked>
-                        <label class="form-check-label" for="lightmode">Light</label>
-                    </div>
-                    <hr>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="darkmode" value="option2">
-                        <label class="form-check-label" for="darkmode">Dark</label>
-                    </div>
-                    <hr>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="darksidebar" value="option3">
-                        <label class="form-check-label" for="darksidebar">Semi Dark</label>
-                    </div>
-                    <hr>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="ColorLessIcons" value="option3">
-                        <label class="form-check-label" for="ColorLessIcons">Color Less Icons</label>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <!--end switcher-->
         <!-- JavaScript -->
         <!-- Bootstrap JS -->
@@ -404,65 +338,65 @@
         <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
         <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
         <script>
-                                                new PerfectScrollbar('.email-navigation');
-                                                new PerfectScrollbar('.email-read-box');
+            new PerfectScrollbar('.email-navigation');
+            new PerfectScrollbar('.email-read-box');
         </script>
         <!-- App JS -->
         <script src="assets/js/app.js"></script>
 
         <script>
-                                                let custom_mail_2024_editor = null;
+            let custom_mail_2024_editor = null;
 
-                                                function custom_mail_2024_initEditor() {
-                                                    if (custom_mail_2024_editor) {
-                                                        return;
-                                                    }
+            function custom_mail_2024_initEditor() {
+                if (custom_mail_2024_editor)
+                    return;
 
-                                                    DecoupledEditor
-                                                            .create(document.querySelector('#custom_mail_2024_content'), {
-                                                                toolbar: [
-                                                                    'fontSize', 'fontFamily', '|',
-                                                                    'bold', 'italic', 'underline', 'strikethrough', '|',
-                                                                    'alignment', '|',
-                                                                    'bulletedList', 'numberedList', '|',
-                                                                    'fontColor', 'fontBackgroundColor', '|',
-                                                                    'blockQuote', '|', // Thêm blockQuote cho trích dẫn
-                                                                    'imageUpload', '|',
-                                                                    'undo', 'redo'
-                                                                ],
-                                                                fontSize: {
-                                                                    options: [12, 14, 16, 18, 20, 24]
-                                                                }
-                                                            })
-                                                            .then(editor => {
-                                                                custom_mail_2024_editor = editor;
-                                                                const toolbarContainer = document.querySelector('#custom_mail_2024_toolbar');
-                                                                toolbarContainer.appendChild(editor.ui.view.toolbar.element);
-                                                            })
-                                                            .catch(error => {
-                                                                console.error(error);
-                                                            });
-                                                }
+                DecoupledEditor
+                        .create(document.querySelector('#custom_mail_2024_content'), {
+                            language: 'vi',
+                            toolbar: [
+                                'heading', '|',
+                                'fontSize', 'fontFamily', '|',
+                                'bold', 'italic', 'underline', '|',
+                                'alignment', '|',
+                                'bulletedList', 'numberedList', '|',
+                                'fontColor', 'fontBackgroundColor', '|',
+                                'link', 'blockQuote', '|',
+                                'undo', 'redo'
+                            ],
+                            fontSize: {
+                                options: [12, 14, 16, 18, 20, 24]
+                            }
+                        })
+                        .then(editor => {
+                            custom_mail_2024_editor = editor;
+                            document.querySelector('#custom_mail_2024_toolbar').appendChild(editor.ui.view.toolbar.element);
+                        })
+                        .catch(error => {
+                            console.error('CKEditor lỗi:', error);
+                        });
+            }
 
-                                                function custom_mail_2024_openModal() {
-                                                    document.getElementById('custom_mail_2024_emailModal').style.display = 'block';
-                                                    if (!custom_mail_2024_editor) {
-                                                        custom_mail_2024_initEditor();
-                                                    }
-                                                    document.getElementById('custom_mail_2024_content').innerHTML = ''; // Xóa nội dung khi mở modal
-                                                }
+            // Mở modal + khởi tạo CKEditor
+            function custom_mail_2024_openModal() {
+                document.getElementById('custom_mail_2024_emailModal').style.display = 'block';
+                if (!custom_mail_2024_editor) {
+                    custom_mail_2024_initEditor();
+                }
+                custom_mail_2024_editor.setData(''); // Reset nội dung
+            }
 
-                                                function custom_mail_2024_closeModal() {
-                                                    document.getElementById('custom_mail_2024_emailModal').style.display = 'none';
-                                                }
+            // Đóng modal
+            function custom_mail_2024_closeModal() {
+                document.getElementById('custom_mail_2024_emailModal').style.display = 'none';
+            }
 
-                                                window.onclick = function (event) {
-                                                    if (event.target.classList.contains('custom_mail_2024_close')) {
-                                                        custom_mail_2024_closeModal();
-                                                    }
-                                                }
-
+            // Lấy nội dung CKEditor khi submit form
+            document.getElementById("custom_mail_2024_emailForm").addEventListener("submit", function (event) {
+                document.getElementById("content").value = custom_mail_2024_editor.getData();
+            });
         </script>
+
     </body>
 
 </html>

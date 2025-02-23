@@ -51,6 +51,10 @@ public class Suppport extends HttpServlet {
         String supportName = request.getParameter("supportName");
         String supportContact = request.getParameter("supportContact");
         String supportMessage = request.getParameter("supportMessage");
+        System.out.println("Lương");
+        System.out.println(supportContact);
+        System.out.println(supportName);
+        System.out.println(supportMessage);
         Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
                 try {
                     System.out.println("đến 3");

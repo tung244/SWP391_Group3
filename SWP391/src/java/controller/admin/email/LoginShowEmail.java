@@ -31,9 +31,12 @@ public class LoginShowEmail extends HttpServlet {
                 + "client_id=" + Gmails.CLIENT_ID
                 + "&redirect_uri=" + Gmails.REDIRECT_URI
                 + "&response_type=code"
-                + "&scope=https://www.googleapis.com/auth/gmail.readonly"
+                + "&scope=https://www.googleapis.com/auth/gmail.send "
+                + "https://www.googleapis.com/auth/gmail.compose "
+                + "https://www.googleapis.com/auth/gmail.modify"
                 + "&access_type=offline"
                 + "&prompt=consent";
+
 
         response.sendRedirect(authUrl);
     } 
