@@ -4,10 +4,7 @@
  */
 package bo;
 
-/**
- *
- * @author fptshop
- */
+
 public class SendMailAPI {
     
 }
