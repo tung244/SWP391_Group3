@@ -10,11 +10,13 @@ import java.sql.ResultSet;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import model.Account;
 import model.Certificate;
 import model.Certificate_Doctor;
 import model.Degree;
 import model.Degree_Doctor;
 import model.Doctors;
+import model.Role;
 import model.Specialization;
 
 public class DoctorsDAO extends DBContext {
@@ -397,13 +399,48 @@ public class DoctorsDAO extends DBContext {
         }
         return false;
     }
+    
+    public boolean createAccDoctor(Account acc){
+        String sql = "INSERT INTO Accounts( username, password,email,phone_number,created_date,role_id) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, acc.getUsername());
+            stmt.setString(2, acc.getPassword());
+            stmt.setString(3, acc.getEmail());
+            stmt.setString(4, acc.getPhonenumber());
+            stmt.setString(5, acc.getCreated_date());
+            stmt.setInt(6, acc.getRole().getRole_id());            
+            
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
-        DoctorsDAO dao = new DoctorsDAO();
-        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");
-        for (Doctors doctors : li) {
-            System.out.println(doctors);
-        }
+//        DoctorsDAO dao = new DoctorsDAO();
+//        
+//        Account account = new Account();
+//        account.setUsername("doctor6");
+//        account.setEmail("doctor6@example.com");
+//        account.setCreated_date("2025-02-24");
+//        account.setPassword("doctorpass6");
+//        account.setPhonenumber("1000000019");
+//        Role role = new Role();
+//        role.setRole_id(3);
+//        account.setRole(role);
+//        boolean flag = dao.createAccDoctor(account);
+//        if (flag) {
+//            System.out.println("Acc added successfully!");
+//        } else {
+//            System.out.println("Failed to add the acc.");
+//        }
+        
+//        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");
+//        for (Doctors doctors : li) {
+//            System.out.println(doctors);
+//        }
 //    
 
 //        Doctors doc = new Doctors();
