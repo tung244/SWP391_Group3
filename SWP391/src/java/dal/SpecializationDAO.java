@@ -79,12 +79,14 @@ public class SpecializationDAO extends DBContext {
 
     public static void main(String[] args) {
         SpecializationDAO dao = new SpecializationDAO();
+        
 //        String speid = dao.getSpecializationIdByDoctorId("1");
 //        System.out.println(speid);
-//        List<Specialization> sp = dao.getSpecializationByDoctorId("1");
-//        for (Specialization specialization : sp) {
-//            System.out.println(specialization);
+        List<Specialization> sp = dao.getAllSpecialization();
+        for (Specialization specialization : sp) {
+            System.out.println(specialization);
 //            
 //        }
-    }
+        }
+}
 }

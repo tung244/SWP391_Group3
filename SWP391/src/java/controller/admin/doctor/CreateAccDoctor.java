@@ -107,7 +107,7 @@ public class CreateAccDoctor extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("accountId", newAccount.getAccount_id());
             session.setAttribute("progress", 25);
-            response.sendRedirect("createDoctor.jsp");
+            response.sendRedirect("createDoctor");
         } else {
             request.setAttribute("error", "Failed to create account!");
             request.getRequestDispatcher("createAccount.jsp").forward(request, response);

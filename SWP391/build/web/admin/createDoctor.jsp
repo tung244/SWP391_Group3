@@ -55,66 +55,75 @@
                                             <div><i class="bx bxs-user me-1 font-22 text-success"></i></div>
                                             <h5 class="mb-0 text-uppercase text-success">Create Doctor</h5>                   
                                         </div>
+
                                         <div>
                                             <h5 class="mb-0 text-success">Progress:</h5>
                                             <% int progress = session.getAttribute("progress") != null ? (int) session.getAttribute("progress") : 0; %>
                                             <div class="progress">
-
-                                                <div class="progress-bar" role="progressbar" style="width: <%= progress %>%; color: #228B22 " aria-valuenow="<%= progress %>" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" role="progressbar" style="width: <%= progress %>%" aria-valuenow="<%= progress %>" aria-valuemin="0" aria-valuemax="100">
                                                     <%= progress %>% Completed
                                                 </div>
                                             </div>
                                         </div>
                                         <hr>
 
-                                        <!-- Hiển thị thông báo lỗi nếu có -->
+                                        <!-- Hiển thị thông báo lỗi -->
                                         <c:if test="${not empty error}">
                                             <div class="alert alert-danger">${error}</div>
                                         </c:if>
 
-                                        <form action="createDoctor" method="POST" class="row g-3">
+                                        <form action="createDoctor" method="POST" class="row g-3" enctype="multipart/form-data">
                                             <div class="col-12">
-                                                <label for="inputUserName" class="form-label">Doctor Name</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
-                                                    <input name="username" type="text" class="form-control border-start-0"
-                                                           id="inputLastName1" placeholder="User Name" value="${param.username}">
-                                                </div>
-                                            </div>      
+                                                <label class="form-label">Doctor Name</label>
+                                                <input name="doctorName" type="text" class="form-control" placeholder="Doctor Name" value="${param.doctorName}" required>
+                                            </div> 
+
                                             <div class="col-12">
-                                                <label for="inputExperienceYears:" class="form-label">Experience Years</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-microphone"></i></span>
-                                                    <input name="phone" type="text" class="form-control border-start-0"
-                                                           id="inputPhoneNo" placeholder="Phone Number" value="${param.phone}">
-                                                </div>
+                                                <label class="form-label">Profile Image:</label>
+                                                <input type="file" name="profileImage" class="form-control">
                                             </div>
 
                                             <div class="col-12">
-                                                <label for="inputEmailAddress" class="form-label">Email Address</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-message"></i></span>
-                                                    <input name="email" type="text" class="form-control border-start-0"
-                                                           id="inputEmailAddress" placeholder="Email Address" value="${param.email}">
-                                                </div>
+                                                <label class="form-label">Experience Years</label>
+                                                <input type="number" name="experienceYears" class="form-control" placeholder="Experience Years" value="${param.experienceYears}" required>
                                             </div>
 
                                             <div class="col-12">
-                                                <label for="inputChoosePassword" class="form-label">Choose Password</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-lock-open"></i></span>
-                                                    <input name="pass" type="password" class="form-control border-start-0"
-                                                           id="inputChoosePassword" placeholder="Choose Password">
-                                                </div>
+                                                <label class="form-label">Specialization</label>                                               
+                                                <select name="specializationId" class="form-select">
+                                                    <c:forEach items="${listSpe}" var="lsp">
+                                                        <option value="${lsp.specialization_id}">${lsp.specialization_name}</option>
+                                                    </c:forEach>
+                                                </select>
                                             </div>
 
                                             <div class="col-12">
-                                                <label for="inputConfirmPassword" class="form-label">Confirm Password</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-lock"></i></span>
-                                                    <input name="pass_repeat" type="password" class="form-control border-start-0"
-                                                           id="inputConfirmPassword" placeholder="Confirm Password">
-                                                </div>
+                                                <label class="form-label">Rating</label>
+                                                <input type="number" name="rating" step="0.1" class="form-control" placeholder="Rating" value="${param.rating}">
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label">Gender</label>
+                                                <input type="radio" name="gender" value="Female"> Female
+                                                <input type="radio" name="gender" value="Male"> Male
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label">Date of Birth</label>
+                                                <input name="dob" type="date" class="form-control" value="${param.dob}">
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label">Address</label>
+                                                <input type="text" name="address" class="form-control" placeholder="Address" value="${param.address}">
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label">Status</label>
+                                                <select name="status" class="form-select">
+                                                    <option value="Active">Active</option>
+                                                    <option value="Inactive">Inactive</option>
+                                                </select>
                                             </div>
 
                                             <div class="col-12">
@@ -123,6 +132,7 @@
                                         </form>
                                     </div>
                                 </div>
+
 
                             </div>
                         </div>
