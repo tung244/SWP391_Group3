@@ -13,6 +13,7 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.gson.Gson;
 import consts.Gmails;
+import consts.Mail;
 import dal.TokenDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +22,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +33,7 @@ import model.Gmail;
 public class ShowEmail extends HttpServlet {
 
     TokenDAO token = new TokenDAO();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -67,10 +70,11 @@ public class ShowEmail extends HttpServlet {
         }
 
         HttpRequestFactory requestFactory = new NetHttpTransport().createRequestFactory();
-
+        String query = "subject:(\"Yêu cầu hỗ trợ\") -from:" + Mail.APP_EMAIL;
         // 1. Lấy danh sách email
-        HttpRequest emailListRequest = requestFactory.buildGetRequest(new GenericUrl(Gmails.GMAIL_API_URL))
+        HttpRequest emailListRequest = requestFactory.buildGetRequest(new GenericUrl(Gmails.GMAIL_API_URL +"?q=" + URLEncoder.encode(query, "UTF-8")))
                 .setHeaders(new HttpHeaders().setAuthorization("Bearer " + accessToken));
+        
         HttpResponse emailListResponse = emailListRequest.execute();
         String emailListJson = emailListResponse.parseAsString();
         System.out.println(emailListJson);
@@ -102,9 +106,8 @@ public class ShowEmail extends HttpServlet {
             String subject = "No Subject";
             String receivedDate = "Unknown date";
             for (Map<String, String> header : headers) {
-                if ("Subject".equals(header.get("name"))) {
+                if ("Subject".equals(header.get("name")) && header.get("value").contains("Yêu cầu hỗ trợ")) {
                     subject = header.get("value");
-
                 } else if ("Date".equals(header.get("name"))) {
                     receivedDate = header.get("value").replaceAll(" \\+\\d{4}.*", "");
                 }
