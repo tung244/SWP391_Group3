@@ -96,7 +96,7 @@
             .service-sidebar .sidebar-link {
                 display: flex;
                 align-items: center;
-                padding: 20px;
+                padding: 20px 0px;
                 background: #218838;
                 color: #fff;
                 text-decoration: none;

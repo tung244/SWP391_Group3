@@ -146,7 +146,7 @@
                                     <span class="icon-holder">
                                         <i class="flaticon-doctor"></i>
                                     </span>
-                                    <span class="text-holder">
+                                    <span  class="text-holder">
                                         <h3>FIND DOCTOR</h3>
                                     </span>
                                     <span class="arrow">
@@ -267,25 +267,19 @@
                                     <span class="border"></span>
                                 </div>
                                 <div class="pagination-container" style="margin-left: auto;">
-                                    <form method="get" action="listDoctors">
-                                        <input type="hidden" name="sid" value="${param.sid}">
-                                        <input type="hidden" name="deid" value="${param.deid}">
-                                        <input type="hidden" name="searchName" value="${param.searchName}">
-                                        <input type="hidden" name="sortBy" value="${param.sortBy}">
-                                        <input type="hidden" name="option" value="${param.option}">
-
-                                        <label for="pageSize">Show:</label>
-                                        <select name="pageSize" id="pageSize" style="width: 55px; height: 30px" onchange="this.form.submit()">
-                                            <option value="3" ${param.pageSize == '3' ? 'selected' : ''}>3</option>
-                                            <option value="9" ${param.pageSize == '9' ? 'selected' : ''}>9</option>
-                                            <option value="12" ${param.pageSize == '12' ? 'selected' : ''}>12</option>
-                                        </select>
-                                        <label for="pageSize">doctors per page</label>
-                                    </form>
+                                    <label for="pageSize">Show:</label>
+                                    <select name="pageSize" id="pageSize" style="width: 55px; height: 30px">
+                                        <option value="3" selected >3</option>
+                                        <option value="6">6</option>
+                                        <option value="9">9</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                    <label for="pageSize">doctors per page</label>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row" id="doctorList">
+                                <!-- Doctors will be loaded here via AJAX -->
                                 <!--Start single team member-->
                                 <c:forEach items="${requestScope.listDoctor}" var="d">
                                     <div class="col-md-4 col-sm-4 col-xs-12">
@@ -323,24 +317,29 @@
                             </div>
 
                             <!-- Pagination -->
-                            <div class="pagination">
-                                <c:if test="${currentPage > 1}">
-                                    <a href="listDoctors?page=${currentPage - 1}&pageSize=${pageSize}&sid=${param.sid}&deid=${param.deid}&searchName=${param.searchName}&sortBy=${param.sortBy}&option=${param.option}">&laquo; Previous</a>
-                                </c:if>
+                            <div class="pagination" id="pagination">
+                                <!-- Pagination will be loaded here via AJAX -->
 
-                                <c:forEach begin="1" end="${totalPages}" var="page">
-                                    <a href="listDoctors?page=${page}&pageSize=${pageSize}&sid=${param.sid}&deid=${param.deid}&searchName=${param.searchName}&sortBy=${param.sortBy}&option=${param.option}" class="${page == currentPage ? 'active' : ''}">
-                                        ${page}
-                                    </a>
-                                </c:forEach>
+                                <!-- Pagination -->
+                                <div class="pagination" id="pagination">
+                                    <c:if test="${currentPage > 1}">
+                                        <a href="#" data-page="${currentPage - 1}">&laquo; Previous</a>
+                                    </c:if>
 
-                                <c:if test="${currentPage < totalPages}">
-                                    <a href="listDoctors?page=${currentPage + 1}&pageSize=${pageSize}&sid=${param.sid}&deid=${param.deid}&searchName=${param.searchName}&sortBy=${param.sortBy}&option=${param.option}">Next &raquo;</a>
-                                </c:if>
+                                    <c:forEach begin="1" end="${totalPages}" var="page">
+                                        <a href="#" data-page="${page}" class="${page == currentPage ? 'active' : ''}">
+                                            ${page}
+                                        </a>
+                                    </c:forEach>
+
+                                    <c:if test="${currentPage < totalPages}">
+                                        <a href="#" data-page="${currentPage + 1}">Next &raquo;</a>
+                                    </c:if>
+                                </div>
+
                             </div>
                         </div>
-                    </div>
-
+                    </div>                   
                 </div>
             </div>
         </section>
@@ -496,5 +495,47 @@
     <!-- main jQuery -->
     <jsp:include page="Common/Js.jsp"/>
 
+    <script>
+        function loadDoctors(page = 1) {
+            let pageSize = document.getElementById("pageSize").value;
+            $.ajax({
+                url: "listDoctors",
+                type: "GET",
+                data: {
+                    sid: "${param.sid}",
+                    deid: "${param.deid}",
+                    searchName: "${param.searchName}",
+                    sortBy: "${param.sortBy}",
+                    option: "${param.option}",
+                    page: page,
+                    pageSize: pageSize
+                },
+                success: function (response) {
+                    $("#doctorList").html($(response).find("#doctorList").html());
+                    $("#pagination").html($(response).find("#pagination").html());
+                }
+            });
+        }
+
+// Lắng nghe sự kiện thay đổi số lượng bác sĩ mỗi trang
+        $(document).on("change", "#pageSize", function () {
+            loadDoctors();
+        });
+
+// Lắng nghe sự kiện click vào các liên kết phân trang
+        $(document).on("click", ".pagination a", function (e) {
+            e.preventDefault();
+            let page = $(this).attr("data-page");
+            if (page) {
+                loadDoctors(page);
+            }
+        });
+
+// Tải dữ liệu ban đầu khi trang được load
+        $(document).ready(function () {
+            loadDoctors();
+        });
+
+    </script>
 </body>
 </html>
