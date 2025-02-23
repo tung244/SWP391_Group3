@@ -1,16 +1,134 @@
 <%-- 
-    Document   : EmailBox
-    Created on : Feb 17, 2025, 3:51:36 PM
+    Document   : EmailRead
+    Created on : Feb 23, 2025, 1:16:05 AM
     Author     : fptshop
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
         <jsp:include page="Common/Css.jsp"/>
+        <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/decoupled-document/ckeditor.js"></script>
+        <style>
+            .custom_mail_2024_trigger_btn {
+                background-color: rgb(34,139,34);
+                color: white;
+                position: absolute;
+                right: 40px;
+                bottom: 40px;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            .custom_mail_2024_modal {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                animation: fadeIn 0.3s;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0
+                }
+                to {
+                    opacity: 1
+                }
+            }
+
+            .custom_mail_2024_form {
+                background: white;
+                margin: 2% auto;
+                padding: 20px;
+                border-radius: 8px;
+                width: 90%;
+                max-width: 800px;
+                position: relative;
+                animation: slideIn 0.3s;
+            }
+
+            @keyframes slideIn {
+                from {
+                    transform: translateY(-100px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            .custom_mail_2024_close {
+                position: absolute;
+                right: 20px;
+                top: 10px;
+                font-size: 24px;
+                cursor: pointer;
+                color: #666;
+                z-index: 10000;
+            }
+
+            .custom_mail_2024_close:hover {
+                color: #000;
+            }
+
+            .custom_mail_2024_form_group {
+                margin-bottom: 15px;
+            }
+
+            .custom_mail_2024_label {
+                display: block;
+                margin-bottom: 5px;
+                color: #666;
+            }
+
+            .custom_mail_2024_input {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+
+            .custom_mail_2024_send_btn {
+                background-color: rgb(34,139,34);
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+
+            .custom_mail_2024_send_btn:hover {
+                background-color: #1557b0;
+            }
+
+            #custom_mail_2024_toolbar {
+                background: #f8f9fa;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px 4px 0 0;
+            }
+
+            #custom_mail_2024_content {
+                min-height: 300px;
+                max-height: 500px;
+                border: 1px solid #ddd;
+                border-radius: 0 0 4px 4px;
+                padding: 20px;
+                overflow-y: auto;
+            }
+        </style>
     </head>
 
     <body>
@@ -63,7 +181,7 @@
                                                     <div class="dropdown">
                                                         <div class="font-24 dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown"><i class='bx bx-plus'></i>
                                                         </div>
-                                                        <div class="dropdown-menu dropdown-menu-end">	<a class="dropdown-item" href="javascript:;">Settings</a>
+                                                        <div class="dropdown-menu dropdown-menu-right">	<a class="dropdown-item" href="javascript:;">Settings</a>
                                                             <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Help & Feedback</a>
                                                             <a class="dropdown-item" href="javascript:;">Enable Split View Mode</a>
                                                             <a class="dropdown-item" href="javascript:;">Keyboard Shortcuts</a>
@@ -114,27 +232,53 @@
                                 </div>
                             </div>
                             <div class="email-content">
-                                <div class="">
-                                    <div class="email-list">
-                                        <c:forEach var="emailDetails" items="${emailDetails}">
-                                            <a href="read_email?id=${emailDetails.id}">
-                                                <div class="d-md-flex align-items-center email-message px-3 py-1">
-                                                    <div class="d-flex align-items-center email-actions">
-                                                        <input class="form-check-input" type="checkbox" value="" /> <i class='bx bx-star font-20 mx-2 email-star'></i>
-                                                        <p class="mb-0"><b>Support</b>
-                                                        </p>
-                                                    </div>
-                                                    <div class="">
-                                                        <p class="mb-0">${emailDetails.subject}</p>
-                                                    </div>
-                                                    <div class="ms-auto">
-                                                        <p class="mb-0 email-time">${emailDetails.date}</p>
-                                                    </div>
+                                <div class="email-read-box p-3">
+                                    <h4>${gmail.subject}</h4>
+                                    <hr>
+                                    <div class="d-flex align-items-center">
+                                        <img src="assets/images/avatars/avatar-1.png" width="42" height="42" class="rounded-circle" alt="" />
+                                        <div class="flex-grow-1 ms-2">
+                                            <p class="mb-0 font-weight-bold">Support</p>
+                                            <div class="dropdown">
+                                                <div class="dropdown-toggle" data-bs-toggle="dropdown">to me</div>
+                                                <div class="dropdown-menu">	<a class="dropdown-item" href="javascript:;">Settings</a>
+                                                    <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Help & Feedback</a>
+                                                    <a class="dropdown-item" href="javascript:;">Enable Split View Mode</a>
+                                                    <a class="dropdown-item" href="javascript:;">Keyboard Shortcuts</a>
+                                                    <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Sign Out</a>
                                                 </div>
-                                            </a>
-                                        </c:forEach> 
-                                         
+                                            </div>
+                                        </div>
+                                        <p class="mb-0 chat-time ps-5 ms-auto">${gmail.date}</p>
+                                    </div>
+                                    <div class="email-read-content px-md-5 py-5">
+                                        <p>${gmail.context}</p>
 
+                                    </div>
+
+                                    <!--Phản hồi email-->
+                                    <button class="custom_mail_2024_trigger_btn" onclick="custom_mail_2024_openModal()">Phản hồi</button>
+
+                                    <div id="custom_mail_2024_emailModal" class="custom_mail_2024_modal">
+                                        <div class="custom_mail_2024_form">
+                                            <span class="custom_mail_2024_close" onclick="custom_mail_2024_closeModal()">&times;</span>
+                                            <form id="custom_mail_2024_emailForm">
+                                                <div class="custom_mail_2024_form_group">
+                                                    <label class="custom_mail_2024_label">To:</label>
+                                                    <input type="email" class="custom_mail_2024_input" id="custom_mail_2024_to" value="${infoExample[1]}" required>
+                                                </div>
+
+                                                <div class="custom_mail_2024_form_group">
+                                                    <label class="custom_mail_2024_label">Subject:</label>
+                                                    <input type="text" class="custom_mail_2024_input" id="custom_mail_2024_subject" value="EyeCare - Cảm ơn ${infoExample[0]} đã quan tâm!">
+                                                </div>
+
+                                                <div id="custom_mail_2024_toolbar"></div>
+                                                <div id="custom_mail_2024_content" contenteditable="true"></div>
+
+                                                <button type="submit" class="custom_mail_2024_send_btn">Send</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -252,8 +396,73 @@
         <!--end switcher-->
         <!-- JavaScript -->
         <!-- Bootstrap JS -->
-        <jsp:include page="Common/Message.jsp"/>
-        <jsp:include page="Common/Js.jsp"/>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+        <!--plugins-->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
+        <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
+        <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+        <script>
+                                                new PerfectScrollbar('.email-navigation');
+                                                new PerfectScrollbar('.email-read-box');
+        </script>
+        <!-- App JS -->
+        <script src="assets/js/app.js"></script>
+
+        <script>
+                                                let custom_mail_2024_editor = null;
+
+                                                function custom_mail_2024_initEditor() {
+                                                    if (custom_mail_2024_editor) {
+                                                        return;
+                                                    }
+
+                                                    DecoupledEditor
+                                                            .create(document.querySelector('#custom_mail_2024_content'), {
+                                                                toolbar: [
+                                                                    'fontSize', 'fontFamily', '|',
+                                                                    'bold', 'italic', 'underline', 'strikethrough', '|',
+                                                                    'alignment', '|',
+                                                                    'bulletedList', 'numberedList', '|',
+                                                                    'fontColor', 'fontBackgroundColor', '|',
+                                                                    'blockQuote', '|', // Thêm blockQuote cho trích dẫn
+                                                                    'imageUpload', '|',
+                                                                    'undo', 'redo'
+                                                                ],
+                                                                fontSize: {
+                                                                    options: [12, 14, 16, 18, 20, 24]
+                                                                }
+                                                            })
+                                                            .then(editor => {
+                                                                custom_mail_2024_editor = editor;
+                                                                const toolbarContainer = document.querySelector('#custom_mail_2024_toolbar');
+                                                                toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+                                                            })
+                                                            .catch(error => {
+                                                                console.error(error);
+                                                            });
+                                                }
+
+                                                function custom_mail_2024_openModal() {
+                                                    document.getElementById('custom_mail_2024_emailModal').style.display = 'block';
+                                                    if (!custom_mail_2024_editor) {
+                                                        custom_mail_2024_initEditor();
+                                                    }
+                                                    document.getElementById('custom_mail_2024_content').innerHTML = ''; // Xóa nội dung khi mở modal
+                                                }
+
+                                                function custom_mail_2024_closeModal() {
+                                                    document.getElementById('custom_mail_2024_emailModal').style.display = 'none';
+                                                }
+
+                                                window.onclick = function (event) {
+                                                    if (event.target.classList.contains('custom_mail_2024_close')) {
+                                                        custom_mail_2024_closeModal();
+                                                    }
+                                                }
+
+        </script>
     </body>
 
 </html>
