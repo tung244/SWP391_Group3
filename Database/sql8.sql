@@ -1,0 +1,6 @@
+CREATE TABLE Token_Google(
+token_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+token NVARCHAR(255),
+created_date DATETIME
+
+)
