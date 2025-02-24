@@ -22,7 +22,6 @@ public class ImageServices {
 //        String finalPath = pathHost.replace("build\\", ""); 
 
         
-        
         String uploadPath = finalPath + "images";
 
         // Tạo thư mục "uploads" nếu chưa tồn tại

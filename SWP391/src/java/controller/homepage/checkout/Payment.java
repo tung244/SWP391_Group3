@@ -12,6 +12,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import org.json.JSONObject;
 
 @WebServlet(name="Payment", urlPatterns={"/payment"})
 public class Payment extends HttpServlet {
@@ -45,7 +47,32 @@ public class Payment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        BufferedReader reader = request.getReader();
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
+        String requestData = sb.toString();
+        System.out.println(requestData);
+
+        try {
+            JSONObject json = new JSONObject(requestData);
+            double amount = json.optDouble("transferAmount", 0);
+            String description = json.optString("description", "");
+
+            if (amount == 5000 && description.contains("eyecare01")) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\": \"Lỗi\"}");
+            }
+
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\": \"Invalid JSON format\"}");
+        }
     }
 
     
