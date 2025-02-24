@@ -158,7 +158,7 @@ public class SendMail {
 
     }
 
-    public static void guiEmailTuDong(List<String> email, String noidung, String tieude) throws UnsupportedEncodingException, InterruptedException {
+    public static boolean guiEmailTuDong(List<String> email, String noidung, String tieude) throws UnsupportedEncodingException, InterruptedException {
         int size = 10;
         int total = email.size();
         int emailsent = 0;
@@ -199,12 +199,14 @@ public class SendMail {
                 System.out.println("Gửi xong: " + emailsent + "/" + total);
                 
                 Thread.sleep(3000);  // chờ 3s 
-
+                return true;
             }
         } catch (MessagingException e) {
             e.printStackTrace();
+            
         }
         System.out.println("Gửi hoàn tất!");
+        return false;
     }
 
     public static void main(String[] args) throws UnsupportedEncodingException, InterruptedException {
