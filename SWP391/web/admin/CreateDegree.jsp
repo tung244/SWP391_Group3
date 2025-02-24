@@ -84,12 +84,7 @@
                                             <div class="alert alert-success">${message}</div>
                                         </c:if>
 
-                                        <form action="AddDegreeDoctorServlet" method="POST" class="row g-3" enctype="multipart/form-data">
-                                            <div class="col-12">
-                                                <label class="form-label">Doctor ID</label>
-                                                <input type="text" name="doctorId" class="form-control" placeholder="Doctor ID" required>
-                                            </div>
-
+                                        <form action="AddDegreeDoctorServlet" method="POST" class="row g-3" enctype="multipart/form-data">                                          
                                             <div id="degreeFields">
                                                 <div class="col-12 degree-entry">
                                                     <label class="form-label">Degree Name</label>
