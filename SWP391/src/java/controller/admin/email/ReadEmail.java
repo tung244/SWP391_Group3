@@ -60,8 +60,7 @@ public class ReadEmail extends HttpServlet {
 
         Gson gson = new Gson();
 
-        // Lấy thông tin chi tiết của từng email
-        String emailDetailsUrl = Gmails.GMAIL_API_URL + "/" + id_email;  // gán từng id 1 
+        String emailDetailsUrl = Gmails.GMAIL_API_URL + "/" + id_email;  // gán id 1 
 
         HttpRequest emailDetailRequest = requestFactory.buildGetRequest(new GenericUrl(emailDetailsUrl))
                 .setHeaders(new HttpHeaders().setAuthorization("Bearer " + accessToken));
@@ -83,31 +82,42 @@ public class ReadEmail extends HttpServlet {
             }
 
         }
-        Map<?, ?> body = (Map<?, ?>) ((Map<?, ?>) emailDetailMap.get("payload")).get("body");
+        Map<?, ?> payload = (Map<?, ?>) emailDetailMap.get("payload");
+        List<Map<?, ?>> parts = (List<Map<?, ?>>) payload.get("parts");
+
         String content = "No Content";
 
-        if (body != null && body.get("data") != null) {
-            try {
-                byte[] decodedBytes = Base64.getUrlDecoder().decode((String) body.get("data"));
-                content = new String(decodedBytes, StandardCharsets.UTF_8);
-            } catch (IllegalArgumentException e) {
-                content = "Error decoding content: " + e.getMessage();
+        if ("No Content".equals(content) && parts != null) {
+            for (Map<?, ?> part : parts) {
+                String mimeType = (String) part.get("mimeType");
+                Map<?, ?> partBody = (Map<?, ?>) part.get("body");
+                Object dataObj = (partBody != null) ? partBody.get("data") : null;
+
+                if ("text/html".equals(mimeType) && dataObj != null) {
+                    try {
+                        byte[] decodedBytes = Base64.getUrlDecoder().decode(dataObj.toString());
+                        content = new String(decodedBytes, StandardCharsets.UTF_8);
+                        break; 
+                    } catch (IllegalArgumentException e) {
+                        content = "Error decoding HTML content: " + e.getMessage();
+                    }
+                }
             }
         }
 
-        Gmail g = new Gmail(id_email, subject, receivedDate,content);
-        
+        Gmail g = new Gmail(id_email, subject, receivedDate, content);
+
         String[] infoExample = subject.replace("Yêu cầu hỗ trợ từ người dùng ", "").split(" - ");
-        
+
         request.setAttribute("infoExample", infoExample);
         request.setAttribute("gmail", g);
-        
+
         request.getRequestDispatcher("EmailRead.jsp").forward(request, response);
     }
-    
+
     public static void main(String[] args) {
         String hehe = "Yêu cầu hỗ trợ từ người dùng Nguyễn Duy Lương - 09126734785";
-        
+
         String[] hehu = hehe.replace("Yêu cầu hỗ trợ từ người dùng ", "").split(" - ");
         for (String string : hehu) {
             System.out.println(string);
