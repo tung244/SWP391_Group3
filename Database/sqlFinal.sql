@@ -108,6 +108,7 @@ CREATE TABLE [Degree](
 CREATE TABLE [Degree_Doctor](
 	doctor_id INT,
 	degree_id INT,
+	degree_image NVARCHAR(255),
 	PRIMARY KEY(doctor_id,degree_id),
 	FOREIGN KEY (doctor_id) REFERENCES dbo.Doctors(doctor_id),
 	FOREIGN KEY (degree_id) REFERENCES dbo.Degree(degree_id)
@@ -122,6 +123,7 @@ CREATE TABLE Certificate_Doctor(
 	doctor_id INT,
 	date_certificate DATETIME,
 	issued_by NVARCHAR(255),
+	certificate_image NVARCHAR(255),
 	PRIMARY KEY (doctor_id, certificate_id),
 	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ,
     FOREIGN KEY (certificate_id) REFERENCES Certificate(certificate_id) 

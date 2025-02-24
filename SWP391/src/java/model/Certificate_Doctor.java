@@ -12,6 +12,7 @@ public class Certificate_Doctor {
     private int doctor_id;
     private String date_certificate;
     private String issued_by;
+    private String certificate_image;
 
     public Certificate_Doctor() {
     }
@@ -22,6 +23,23 @@ public class Certificate_Doctor {
         this.date_certificate = date_certificate;
         this.issued_by = issued_by;
     }
+
+    public Certificate_Doctor(int certificate_id, int doctor_id, String date_certificate, String issued_by, String certificate_image) {
+        this.certificate_id = certificate_id;
+        this.doctor_id = doctor_id;
+        this.date_certificate = date_certificate;
+        this.issued_by = issued_by;
+        this.certificate_image = certificate_image;
+    }
+
+    public String getCertificate_image() {
+        return certificate_image;
+    }
+
+    public void setCertificate_image(String certificate_image) {
+        this.certificate_image = certificate_image;
+    }
+    
 
     public int getCertificate_id() {
         return certificate_id;

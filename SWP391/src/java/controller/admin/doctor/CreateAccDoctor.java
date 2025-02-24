@@ -5,6 +5,7 @@
 package controller.admin.doctor;
 
 import bo.GetFormatDate;
+import dal.AccountDAO;
 import dal.DoctorsDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
+import model.Doctors;
 import model.Role;
 
 /**
@@ -23,7 +25,9 @@ import model.Role;
  */
 @WebServlet(name = "CreateAccDoctor", urlPatterns = {"/admin/createAccount"})
 public class CreateAccDoctor extends HttpServlet {
+
     GetFormatDate getdate = new GetFormatDate();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -76,11 +80,25 @@ public class CreateAccDoctor extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String pass = request.getParameter("pass");
-        String pass_repeat = request.getParameter("pass_repeat");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
+        String username = request.getParameter("username").trim();
+        String pass = request.getParameter("pass").trim();
+        String pass_repeat = request.getParameter("pass_repeat").trim();
+        String email = request.getParameter("email").trim();
+        String phone = request.getParameter("phone").trim();
+
+        //Kiểm tra username tồn tại chưa
+        AccountDAO accdao = new AccountDAO();
+        if (accdao.checkTonTaiUser(username) || username.isEmpty()) {
+            request.setAttribute("error", "Username already exists! Please choose another.");
+            request.getRequestDispatcher("createAccDoctor.jsp").forward(request, response);
+            return;
+        }
+
+        if (accdao.CheckExistEmail(email) || email.isEmpty()) {
+            request.setAttribute("error", "Email already exists! Please choose another.");
+            request.getRequestDispatcher("createAccDoctor.jsp").forward(request, response);
+            return;
+        }
 
         // Kiểm tra mật khẩu có khớp không
         if (!pass.trim().equals(pass_repeat.trim())) {
@@ -96,22 +114,13 @@ public class CreateAccDoctor extends HttpServlet {
         newAccount.setEmail(email);
         newAccount.setPhonenumber(phone);
         newAccount.setCreated_date(getdate.getFormString());
-        newAccount.setRole(new Role(3, "")); 
+        newAccount.setRole(new Role(3, ""));
 
-        // Gọi DAO để thêm tài khoản
-        DoctorsDAO accountDAO = new DoctorsDAO();
-        boolean success = accountDAO.createAccDoctor(newAccount);
-
-        if (success) {
-            // Chuyển hướng sang bước 2 (tạo bác sĩ)
-            HttpSession session = request.getSession();
-            session.setAttribute("accountId", newAccount.getAccount_id());
-            session.setAttribute("progress", 25);
-            response.sendRedirect("createDoctor");
-        } else {
-            request.setAttribute("error", "Failed to create account!");
-            request.getRequestDispatcher("createAccount.jsp").forward(request, response);
-        }
+        Doctors doctor = new Doctors();
+        doctor.setAcc(newAccount);
+        request.getSession().setAttribute("doctor", doctor);
+        request.getSession().setAttribute("progress", 25);
+        response.sendRedirect("createDoctor");
 
     }
 

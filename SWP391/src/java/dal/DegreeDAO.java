@@ -9,6 +9,7 @@ import java.util.List;
 import model.Degree;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Map;
 import model.Degree_Doctor;
 
 /**
@@ -98,6 +99,53 @@ public class DegreeDAO extends DBContext {
         }
     }
 
+    public void addDoctorDegrees(int doctorId, List<String> degreeNames, Map<String, String> degreeImages) {
+        String checkDegreeSql = "SELECT degree_id FROM Degree WHERE degree_name = ?";
+        String insertDegreeSql = "INSERT INTO Degree (degree_name) VALUES (?)";
+        String getDegreeIdByNameSql = "SELECT degree_id FROM Degree WHERE degree_name = ?";
+        String insertDoctorDegreeSql = "INSERT INTO Degree_Doctor (doctor_id, degree_id, degree_image) VALUES (?, ?, ?)";
+
+        try (PreparedStatement checkStmt = connection.prepareStatement(checkDegreeSql)
+                ; PreparedStatement insertDegreeStmt = connection.prepareStatement(insertDegreeSql); 
+                PreparedStatement getDegreeIdByNameStmt = connection.prepareStatement(getDegreeIdByNameSql)
+                        ; PreparedStatement insertDoctorDegreeStmt = connection.prepareStatement(insertDoctorDegreeSql)) {
+
+            for (String degreeName : degreeNames) {
+                int degreeId = -1;
+
+                // Kiểm tra xem degree đã tồn tại chưa
+                checkStmt.setString(1, degreeName);
+                ResultSet rs = checkStmt.executeQuery();
+                if (rs.next()) {
+                    degreeId = rs.getInt("degree_id");
+                } else {
+                    // Nếu chưa tồn tại, thêm mới vào bảng Degree
+                    insertDegreeStmt.setString(1, degreeName);
+                    insertDegreeStmt.executeUpdate();
+
+                    // Lấy ID vừa chèn vào bằng tên
+                    getDegreeIdByNameStmt.setString(1, degreeName);
+                    ResultSet generatedKeys = getDegreeIdByNameStmt.executeQuery();
+                    if (generatedKeys.next()) {
+                        degreeId = generatedKeys.getInt("degree_id");
+                    }
+                }
+
+                // Thêm vào bảng Degree_Doctor
+                if (degreeId != -1) {
+                    insertDoctorDegreeStmt.setInt(1, doctorId);
+                    insertDoctorDegreeStmt.setInt(2, degreeId);
+                    insertDoctorDegreeStmt.setString(3, degreeImages.get(degreeName)); // Lấy ảnh tương ứng từ map
+                    insertDoctorDegreeStmt.addBatch();
+                }
+            }
+            insertDoctorDegreeStmt.executeBatch();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         DegreeDAO dao = new DegreeDAO();
 //        List<Degree> l = dao.getAllDegree();
@@ -117,7 +165,6 @@ public class DegreeDAO extends DBContext {
 //
 //        // Now test the method with doctor ID 6 and the list of degrees
 //        dao.addDoctorDegrees(6, degreeIds);
-
         List<Degree> list = dao.getDegreeByDoctorId("1");
         for (Degree degree : list) {
             System.out.println(degree);

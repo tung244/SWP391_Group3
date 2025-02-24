@@ -7,21 +7,37 @@ package model;
 /**
  *
  * @autho
-
+ *
  */
 public class Degree_Doctor {
+
     private int doctor_id;
     private int degree_id;
+    private String degree_image;
     private Degree degree;
-    
 
     public Degree_Doctor() {
+    }
+
+    public Degree_Doctor(int doctor_id, int degree_id, String degree_image, Degree degree) {
+        this.doctor_id = doctor_id;
+        this.degree_id = degree_id;
+        this.degree_image = degree_image;
+        this.degree = degree;
     }
 
     public Degree_Doctor(int doctor_id, int degree_id, Degree degree) {
         this.doctor_id = doctor_id;
         this.degree_id = degree_id;
         this.degree = degree;
+    }
+
+    public String getDegree_image() {
+        return degree_image;
+    }
+
+    public void setDegree_image(String degree_image) {
+        this.degree_image = degree_image;
     }
 
     public Degree getDegree() {
@@ -32,7 +48,6 @@ public class Degree_Doctor {
         this.degree = degree;
     }
 
-   
     public int getDoctor_id() {
         return doctor_id;
     }
@@ -53,6 +68,5 @@ public class Degree_Doctor {
     public String toString() {
         return "Degree_Doctor{" + "doctor_id=" + doctor_id + ", degree_id=" + degree_id + '}';
     }
-    
-    
+
 }

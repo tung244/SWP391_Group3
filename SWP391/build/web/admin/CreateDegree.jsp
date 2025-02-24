@@ -1,4 +1,10 @@
 <%-- 
+    Document   : CreateDegree
+    Created on : Feb 24, 2025, 10:19:47 PM
+    Author     : PC
+--%>
+
+<%-- 
     Document   : createDoctor
     Created on : Feb 24, 2025, 12:30:15 AM
     Author     : PC
@@ -38,7 +44,8 @@
                                         <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                                         </li>
                                         <li class="breadcrumb-item active" aria-current="page"><a href="createAccount"><i>Create Account Doctor</i></a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Create Doctor</li>
+                                        <li class="breadcrumb-item active" aria-current="page"><a href="createDoctor"><i>Create Doctor</i></a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Create Degree</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -48,13 +55,13 @@
                         <div class="row">
                             <div class="col-xl-7 mx-auto">
 
-                                <h6 class="mb-0 text-uppercase">Step 2: Create Doctor</h6>
+                                <h6 class="mb-0 text-uppercase">Step 3: Create Degree</h6>
                                 <hr>
                                 <div class="card border-top border-0 border-4 border-success">
                                     <div class="card-body p-5">
                                         <div class="card-title d-flex align-items-center">
                                             <div><i class="bx bxs-user me-1 font-22 text-success"></i></div>
-                                            <h5 class="mb-0 text-uppercase text-success">Create Doctor</h5>                   
+                                            <h5 class="mb-0 text-uppercase text-success">Create Degree</h5>                   
                                         </div>
 
                                         <div>
@@ -73,61 +80,33 @@
                                             <div class="alert alert-danger">${error}</div>
                                         </c:if>
 
-                                        <form action="createDoctor" method="POST" class="row g-3" enctype="multipart/form-data">
-                                            <div class="col-12">
-                                                <label class="form-label">Doctor Name</label>
-                                                <input name="doctorName" type="text" class="form-control" placeholder="Doctor Name" value="${param.doctorName}" required>
-                                            </div> 
+                                        <c:if test="${not empty message}">
+                                            <div class="alert alert-success">${message}</div>
+                                        </c:if>
 
+                                        <form action="AddDegreeDoctorServlet" method="POST" class="row g-3" enctype="multipart/form-data">
                                             <div class="col-12">
-                                                <label class="form-label">Profile Image:</label>
-                                                <input type="file" name="profileImage" class="form-control">
+                                                <label class="form-label">Doctor ID</label>
+                                                <input type="text" name="doctorId" class="form-control" placeholder="Doctor ID" required>
+                                            </div>
+
+                                            <div id="degreeFields">
+                                                <div class="col-12 degree-entry">
+                                                    <label class="form-label">Degree Name</label>
+                                                    <input name="degreeName" type="text" class="form-control" placeholder="Degree Name" required>
+                                                </div> 
+
+                                                <div class="col-12 degree-entry">
+                                                    <label class="form-label">Degree Image:</label>
+                                                    <input type="file" name="degreeImage" class="form-control">
+                                                </div>
                                             </div>
 
                                             <div class="col-12">
-                                                <label class="form-label">Experience Years</label>
-                                                <input type="number" name="experienceYears" class="form-control" placeholder="Experience Years" value="${param.experienceYears}" required>
-                                            </div>
-
-                                            <div class="col-12">
-                                                <label class="form-label">Specialization</label>                                               
-                                                <select name="specializationId" class="form-select">
-                                                    <c:forEach items="${listSpe}" var="lsp">
-                                                        <option value="${lsp.specialization_id}">${lsp.specialization_name}</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                            
-                                            <div class="col-12">
-                                                <label class="form-label">Gender</label>
-                                                <input type="radio" name="gender" value="Female"> Female
-                                                <input type="radio" name="gender" value="Male"> Male
-                                            </div>
-
-                                            <div class="col-12">
-                                                <label class="form-label">Date of Birth</label>
-                                                <input name="dob" type="date" class="form-control" value="${param.dob}">
-                                            </div>
-
-                                            <div class="col-12">
-                                                <label class="form-label">Address</label>
-                                                <input type="text" name="address" class="form-control" placeholder="Address" value="${param.address}">
-                                            </div>
-
-                                            <div class="col-12">
-                                                <label class="form-label">Status</label>
-                                                <select name="status" class="form-select">
-                                                    <option value="Active">Active</option>
-                                                    <option value="Inactive">Inactive</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-12">
+                                                <button type="button" class="btn btn-secondary px-5" onclick="addDegreeField()">Add More</button>
                                                 <button type="submit" class="btn btn-success px-5">CREATE</button>
                                             </div>
                                         </form>
-
-
                                     </div>
                                 </div>
                                 <!--end row-->
@@ -200,7 +179,18 @@
                 <script src="../admin/assets/js/app.js"></script>
 
                 <!-- JavaScript -->
-
+                <script>
+                                                    function addDegreeField() {
+                                                        let container = document.getElementById("degreeFields");
+                                                        let newField = document.createElement("div");
+                                                        newField.classList.add("col-12", "degree-entry");
+                                                        newField.innerHTML = '<label class="form-label">Degree Name:</label>' +
+                                                                '<input type="text" name="degreeName" class="form-control" placeholder="Degree Name" required>' +
+                                                                '<label class="form-label">Degree Image:</label>' +
+                                                                '<input type="file" name="degreeImage" class="form-control">';
+                                                        container.appendChild(newField);
+                                                    }
+                </script>
                 </body>
 
                 </html>

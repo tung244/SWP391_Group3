@@ -379,90 +379,121 @@ public class DoctorsDAO extends DBContext {
         }
     }
 
-    public boolean addDoctor(Doctors doctor) {
-        String sql = "INSERT INTO Doctors (doctor_name, experience_years, profile_image, rating, gender, dob, address, doctor_status, specialization_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, doctor.getDoctor_name());
-            stmt.setInt(2, doctor.getExperience_years());
-            stmt.setString(3, doctor.getProfile_image());
-            stmt.setDouble(4, doctor.getRating());
-            stmt.setString(5, doctor.getGender());
-            stmt.setString(6, doctor.getDob());
-            stmt.setString(7, doctor.getAddress());
-            stmt.setString(8, doctor.getDoctor_status());
-            stmt.setInt(9, doctor.getSpecialization().getSpecialization_id());
 
-            int rowsInserted = stmt.executeUpdate();
-            return rowsInserted > 0;
+    public boolean addDoctor(Doctors doctor) {
+        String accountSql = "INSERT INTO Accounts(username, password, email, phone_number, created_date, role_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String getAccountIdSql = "SELECT account_id FROM Accounts WHERE username = ?";
+        String doctorSql = "INSERT INTO Doctors(doctor_name, experience_years, profile_image, gender, dob, address, doctor_status, specialization_id, account_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            connection.setAutoCommit(false); // Bắt đầu transaction
+
+            // Thêm tài khoản vào bảng Accounts
+            try (PreparedStatement stmt = connection.prepareStatement(accountSql)) {
+                stmt.setString(1, doctor.getAcc().getUsername());
+                stmt.setString(2, doctor.getAcc().getPassword());
+                stmt.setString(3, doctor.getAcc().getEmail());
+                stmt.setString(4, doctor.getAcc().getPhonenumber());
+                stmt.setString(5, doctor.getAcc().getCreated_date());
+                stmt.setInt(6, doctor.getAcc().getRole().getRole_id());
+
+                int rowsInserted = stmt.executeUpdate();
+                if (rowsInserted == 0) {
+                    connection.rollback();
+                    return false;
+                }
+            }
+
+            // Lấy account_id vừa tạo bằng cách truy vấn theo username
+            int accountId = -1;
+            try (PreparedStatement stmt = connection.prepareStatement(getAccountIdSql)) {
+                stmt.setString(1, doctor.getAcc().getUsername());
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        accountId = rs.getInt("account_id");
+                    } else {
+                        connection.rollback();
+                        return false;
+                    }
+                }
+            }
+
+            // Thêm thông tin bác sĩ vào bảng Doctors
+            try (PreparedStatement stmt = connection.prepareStatement(doctorSql)) {
+                stmt.setString(1, doctor.getDoctor_name());
+                stmt.setInt(2, doctor.getExperience_years());
+                stmt.setString(3, doctor.getProfile_image());
+                stmt.setString(4, doctor.getGender());
+                stmt.setString(5, doctor.getDob());
+                stmt.setString(6, doctor.getAddress());
+                stmt.setString(7, doctor.getDoctor_status());
+                stmt.setInt(8, doctor.getSpecialization().getSpecialization_id());
+                stmt.setInt(9, accountId);
+
+                int rowsInserted = stmt.executeUpdate();
+                if (rowsInserted == 0) {
+                    connection.rollback();
+                    return false;
+                }
+            }
+
+            connection.commit(); // Xác nhận transaction
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        return false;
-    }
-    
-    public boolean createAccDoctor(Account acc){
-        String sql = "INSERT INTO Accounts( username, password,email,phone_number,created_date,role_id) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, acc.getUsername());
-            stmt.setString(2, acc.getPassword());
-            stmt.setString(3, acc.getEmail());
-            stmt.setString(4, acc.getPhonenumber());
-            stmt.setString(5, acc.getCreated_date());
-            stmt.setInt(6, acc.getRole().getRole_id());            
-            
-            int rowsInserted = stmt.executeUpdate();
-            return rowsInserted > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                connection.rollback(); // Nếu có lỗi, hoàn tác transaction
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } finally {
+            try {
+                connection.setAutoCommit(true); // Khôi phục chế độ tự động commit
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
         return false;
     }
 
     public static void main(String[] args) {
-//        DoctorsDAO dao = new DoctorsDAO();
-//        
-//        Account account = new Account();
-//        account.setUsername("doctor6");
-//        account.setEmail("doctor6@example.com");
-//        account.setCreated_date("2025-02-24");
-//        account.setPassword("doctorpass6");
-//        account.setPhonenumber("1000000019");
-//        Role role = new Role();
-//        role.setRole_id(3);
-//        account.setRole(role);
-//        boolean flag = dao.createAccDoctor(account);
-//        if (flag) {
-//            System.out.println("Acc added successfully!");
-//        } else {
-//            System.out.println("Failed to add the acc.");
-//        }
-        
+        DoctorsDAO dao = new DoctorsDAO();
+
+
 //        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");
 //        for (Doctors doctors : li) {
 //            System.out.println(doctors);
 //        }
 //    
+        Account account = new Account();
+        account.setUsername("doctor6");
+        account.setEmail("doctor6@example.com");
+        account.setCreated_date("2025-02-24");
+        account.setPassword("doctorpass6");
+        account.setPhonenumber("1000000019");
+        Role role = new Role();
+        role.setRole_id(3);
+        account.setRole(role);
+        Doctors doc = new Doctors();
+        doc.setDoctor_name("j");
+        doc.setExperience_years(10);
+        doc.setProfile_image("profile.jpg");
+        doc.setGender("Male");
+        doc.setDob("1985-01-01");
+        doc.setAddress("123 Street");
+        doc.setDoctor_status("Active");
+        Specialization specialization = new Specialization();
+        specialization.setSpecialization_id(1);
+        doc.setSpecialization(specialization);
+        doc.setAcc(account);
 
-//        Doctors doc = new Doctors();
-//        doc.setDoctor_name("j");
-//        doc.setExperience_years(10);
-//        doc.setProfile_image("profile.jpg");
-//        doc.setRating(4.5);
-//        doc.setGender("Male");
-//        doc.setDob("1985-01-01");
-//        doc.setAddress("123 Street");
-//        doc.setDoctor_status("Active");
-//        Specialization specialization = new Specialization();
-//        specialization.setSpecialization_id(1);
-//        doc.setSpecialization(specialization);
-//
-//        boolean flag = dao.addDoctor(doc);
-//        if (flag) {
-//            System.out.println("Doctor added successfully!");
-//        } else {
-//            System.out.println("Failed to add the doctor.");
-//        }
-//    }
+        boolean flag = dao.addDoctor(doc);
+        if (flag) {
+            System.out.println("Doctor added successfully!");
+        } else {
+            System.out.println("Failed to add the doctor.");
+        }
+
 //        Doctors doc = new Doctors();
 //        doc.setDoctor_name("Lee Min Hoo");
 //        doc.setExperience_years(10);
