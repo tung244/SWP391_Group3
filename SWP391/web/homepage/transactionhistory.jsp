@@ -13,6 +13,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="Common/Css.jsp"/>
         <style>
+            html, body {
+                overflow: auto;
+                min-height: 100vh;
+            }
             .login-button {
                 background-color: #4CAF50;
                 color: white;
@@ -71,7 +75,7 @@
 
                     </div>
                     <ul class="userprofile-nav-list">
-                        <li class="userprofile-nav-item userprofile-nav-item--active" data-tab="profile">Lịch sử dịch vụ</li>
+                        <a href="transactionhistoryy"><li class="userprofile-nav-item userprofile-nav-item--active" data-tab="profile">Lịch sử dịch vụ</li></a>
                     </ul>
                 </div>
             </div>
@@ -84,27 +88,29 @@
                 <div class="userprofile-main-content">
                     <div class="userprofile-header" style="display: flex; justify-content: space-between; align-items: center;">
                         <h2>Lịch sử dịch vụ</h2>
-                        <form action="searchtransactionhistory" method="get" class="search-form">
+                        <form action="searchtransactionhistory" method="get" class="search-form" style="display: flex; gap: 10px; align-items: center;">
+
                             <input type="text" name="query" class="search-input" placeholder="Tìm kiếm giao dịch...">
-                            <button type="submit" class="search-button">
-                                🔍
-                            </button>
+
+
+                            <label for="startDate">Từ:</label>
+                            <input type="date" name="startDate" class="search-input">
+
+                            <label for="endDate">Đến:</label>
+                            <input type="date" name="endDate" class="search-input">
+
+
+                            <select name="queryType" class="search-input" style="width: 180px;">
+                                <option value="">Chọn loại dịch vụ</option>
+                                <option value="Cơ bản">Cơ bản</option>
+                                <option value="Nâng cao">Nâng cao</option>
+                            </select>
+
+
+                            <button type="submit" class="search-button">🔍</button>
                         </form>
-                        <form action="searchtransactionhistory" method="get" class="search-form">
-                            <input type="text" name="date" class="search-input" placeholder="Tìm kiếm theo ngày...">
-                            <button type="submit" class="search-button">
-                                🔍
-                            </button>
-                        </form>
-                        <form action="searchtransactionhistory" method="get" class="search-form" style="display: flex; align-items: center;">
-                            <div class="service-type-filter">
-                                <select name="query" class="search-input" style="width: 180px;">
-                                    <option value="Cơ bản">Cơ bản</option>
-                                    <option value="Nâng cao">Nâng cao</option>
-                                </select>
-                                <button type="submit" class="search-button" style="margin-left: 10px;">🔍</button>
-                            </div>
-                        </form>
+
+
                     </div>
 
                     <table class="userprofile-table">
@@ -125,11 +131,11 @@
                             <c:forEach items="${requestScope.appointment}" var="appointment">
                                 <tr>
                                     <td class="userprofile-table-cell"> ${appointment.appointment_id}</td>
-                                    <td class="userprofile-table-cell">${appointment.service_name}</td>
-                                    <td class="userprofile-table-cell">${appointment.cost}</td>
-                                    <td class="userprofile-table-cell">${appointment.service_type_name}</td>
+                                    <td class="userprofile-table-cell">${appointment.service.service_name}</td>
+                                    <td class="userprofile-table-cell">${appointment.service_detail.cost}</td>
+                                    <td class="userprofile-table-cell">${appointment.service_type.service_type_name}</td>
                                     <td class="userprofile-table-cell">${appointment.appointment_date}</td>
-                                    <td class="userprofile-table-cell">${appointment.duration_service}</td>
+                                    <td class="userprofile-table-cell">${appointment.service_type.duration_service}</td>
                                     <td class="userprofile-table-cell">
                                         <a href="transactiondetail?appointment_id=${appointment.appointment_id}" class="login-button">Chi tiết</a>
                                     </td>
@@ -138,6 +144,21 @@
                         </tbody>
 
                     </table>
+                    <div class="pagination">
+                        <c:if test="${page > 1}">
+                            <a href="${type == 'search' ? 'searchtransactionhistory' : 'transactionhistoryy'}?page=${page - 1}&query=${param.query}&startDate=${param.startDate}&endDate=${param.endDate}&queryType=${param.queryType}">«</a>
+                        </c:if>
+
+                        <c:forEach var="i" begin="1" end="${numpage}">
+                            <a href="${type == 'search' ? 'searchtransactionhistory' : 'transactionhistoryy'}?page=${i}&query=${param.query}&startDate=${param.startDate}&endDate=${param.endDate}&queryType=${param.queryType}"
+                               class="${i == page ? 'active' : ''}">${i}</a>
+                        </c:forEach>
+
+                        <c:if test="${page < numpage}">
+                            <a href="${type == 'search' ? 'searchtransactionhistory' : 'transactionhistoryy'}?page=${page + 1}&query=${param.query}&startDate=${param.startDate}&endDate=${param.endDate}&queryType=${param.queryType}">»</a>
+                        </c:if>
+                    </div>
+
 
 
 

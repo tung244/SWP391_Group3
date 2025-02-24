@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import model.Appointment;
 import model.UserProfile;
@@ -60,14 +61,32 @@ public class TransactionHistoryy extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session = request.getSession();
+         HttpSession session = request.getSession();
         UserProfileDAO  dao = new UserProfileDAO();
+        // gửi ảnh
         String username =  (String) session.getAttribute("username");
         UserProfile user = dao.GetAccount(username);
         request.setAttribute("userProfile", user);
+        
         int account_id = (int) session.getAttribute("account_id");
         List<Appointment> listA = dao.getAppointmentByPatientID(account_id);
-        request.setAttribute("appointment", listA);
+        int page, numperpage = 6;
+        int size = listA.size();
+        int num = (size%6==0?(size/6):((size/6)+1));
+        String xpage = request.getParameter("page");
+        if(xpage==null){
+            page = 1;
+        }else{
+            page = Integer.parseInt(xpage);
+        }
+        int start, end;
+        start = (page-1)*numperpage;
+        end = Math.min(page*numperpage, size);
+        List<Appointment> listAs = dao.getAppointmentByPage((ArrayList<Appointment>) listA, start, end);
+        request.setAttribute("appointment", listAs);
+        request.setAttribute("page", page);
+        request.setAttribute("numpage", num);
+        request.setAttribute("type", "history");
         request.getRequestDispatcher("homepage/transactionhistory.jsp").forward(request, response);
     } 
 

@@ -7,13 +7,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import model.Account;
 import model.Appointment;
+import model.Doctors;
 import model.FaceBookAccount;
 import model.GoogleAccount;
 import model.Role;
+import model.ServiceDetail;
+import model.ServiceTypes;
+import model.Services;
+import model.Slots;
 
 public class UserProfileDAO extends DBContext {
 
@@ -303,19 +310,22 @@ public class UserProfileDAO extends DBContext {
 
     public static void main(String[] args) {
         UserProfileDAO dao = new UserProfileDAO();
-        for (Appointment a : dao.getAppoinmentByServiceTypeName("Cơ bản")) {
+        for (Appointment a : dao.searchAppointments("Khám", "Cơ bản", "", "")) {
             System.out.println(a);
         }
 
     }
 
-    public List<Appointment> getAppointmentByPatientID(int patientID) {
+     public List<Appointment> getAppointmentByPatientID(int patientID) {
         List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT * FROM dbo.Appointment a "
-                + "JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id "
-                + "JOIN dbo.Services se ON se.service_id = s.service_id "
-                + "JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id "
-                + "WHERE a.patient_id = ?";
+        String sql = """
+                      SELECT * FROM dbo.Appointment a 
+                                     JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id 
+                                     JOIN dbo.Services se ON se.service_id = s.service_id 
+                                     JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id 
+                                     JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id
+                                     JOIN dbo.Slots sl ON a.slot_id = sl.slot_id 
+                                     where a.patient_id = ?                                                   """;
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -323,25 +333,32 @@ public class UserProfileDAO extends DBContext {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
-                Appointment appointment = new Appointment(
-                        rs.getInt("appointment_id"),
-                        rs.getString("appointment_date"),
-                        rs.getString("appointment_status"),
-                        rs.getInt("doctor_id"),
-                        rs.getInt("service_detail_id"),
-                        rs.getInt("patient_id"),
-                        rs.getInt("service_type_id"),
-                        rs.getInt("service_id"),
-                        rs.getInt("specialization_id"),
-                        rs.getString("time_begin"),
-                        rs.getString("time_end"),
-                        rs.getString("service_name"),
-                        rs.getString("service_description"),
-                        rs.getString("service_type_name"),
-                        rs.getString("duration_service"),
-                        rs.getDouble("cost"),
-                        rs.getString("phonenumber_patient")
-                );
+                int appointment_id = rs.getInt("appointment_id");
+                Date appointment_date2 = rs.getDate("appointment_date");
+                String appointment_status = rs.getString("appointment_status");
+                String doctor_name = rs.getString("doctor_name");
+                int doctor_id = rs.getInt("doctor_id");
+                Doctors doctor = new Doctors(doctor_id, doctor_name);
+                java.sql.Time sqlstart_time = rs.getTime("start_time");
+                java.sql.Time sqlend_time = rs.getTime("end_time");
+                int slot_id = rs.getInt("slot_id");
+                LocalTime start_time = sqlstart_time.toLocalTime();
+                LocalTime end_time = sqlend_time.toLocalTime();
+                Slots slot = new Slots(slot_id, start_time, end_time);
+                String service_description = rs.getString("service_description");
+                String service_name = rs.getString("service_name");
+                int type_id = rs.getInt("service_type_id");
+                String service_type_name = rs.getString("service_type_name");
+                String duration_service = rs.getString("duration_service");
+                Services service = new Services(service_name, service_description);
+                ServiceTypes serviceType = new ServiceTypes(type_id, service_type_name, duration_service);
+                int cost = rs.getInt("cost");
+                int service_detail_id = rs.getInt("service_detail_id");
+                ServiceDetail service_detail = new ServiceDetail(service_detail_id, service, serviceType, cost);
+                int account_id = rs.getInt("patient_id");
+                Account account = new Account(account_id);
+                UserProfile user = new UserProfile(account);
+                Appointment appointment = new Appointment(appointment_id, appointment_date2, appointment_status, doctor, slot, serviceType, service, service_detail, user);
                 list.add(appointment);
             }
         } catch (SQLException e) {
@@ -350,120 +367,50 @@ public class UserProfileDAO extends DBContext {
         return list;
     }
 
-    public List<Appointment> getAppointmentByServiceName(String service_name) {
-        List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT * FROM dbo.Appointment a "
-                + "LEFT JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id "
-                + "LEFT JOIN dbo.Services se ON se.service_id = s.service_id "
-                + "LEFT JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id "
-                + "WHERE se.service_name LIKE N'%' + ? + '%'";
-
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, service_name);
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-                Appointment appointment = new Appointment(
-                        rs.getInt("appointment_id"),
-                        rs.getString("appointment_date"),
-                        rs.getString("appointment_status"),
-                        rs.getInt("doctor_id"),
-                        rs.getInt("service_detail_id"),
-                        rs.getInt("patient_id"),
-                        rs.getInt("service_type_id"),
-                        rs.getInt("service_id"),
-                        rs.getInt("specialization_id"),
-                        rs.getString("time_begin"),
-                        rs.getString("time_end"),
-                        rs.getString("service_name"),
-                        rs.getString("service_description"),
-                        rs.getString("service_type_name"),
-                        rs.getString("duration_service"),
-                        rs.getDouble("cost"),
-                        rs.getString("phonenumber_patient")
-                );
-                list.add(appointment);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return list;
-    }
-
-    public List<Appointment> getAppointmentByAppointmentDate(String appointment_date) {
-        List<Appointment> list = new ArrayList<>();
-        String sql = """
-                     SELECT * FROM dbo.Appointment a 
-                     JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id 
-                     JOIN dbo.Services se ON se.service_id = s.service_id 
-                     JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id 
-                     WHERE CONVERT(VARCHAR, a.appointment_date, 23) LIKE N'%' + ? + '%'""";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, appointment_date);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Appointment appointment = new Appointment(
-                        rs.getInt("appointment_id"),
-                        rs.getString("appointment_date"),
-                        rs.getString("appointment_status"),
-                        rs.getInt("doctor_id"),
-                        rs.getInt("service_detail_id"),
-                        rs.getInt("patient_id"),
-                        rs.getInt("service_type_id"),
-                        rs.getInt("service_id"),
-                        rs.getInt("specialization_id"),
-                        rs.getString("time_begin"),
-                        rs.getString("time_end"),
-                        rs.getString("service_name"),
-                        rs.getString("service_description"),
-                        rs.getString("service_type_name"),
-                        rs.getString("duration_service"),
-                        rs.getDouble("cost"),
-                        rs.getString("phonenumber_patient")
-                );
-                list.add(appointment);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return list;
-    }
+    
 
     public List<Appointment> getAppoinmentByAppointmentId(int appointment_id) {
         List<Appointment> list = new ArrayList<>();
         String sql = """
-                     SELECT * FROM dbo.Appointment a 
-                     JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id 
-                     JOIN dbo.Services se ON se.service_id = s.service_id 
-                     JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id 
-                     WHERE a.appointment_id = ? """;
+                SELECT * FROM dbo.Appointment a 
+                JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id 
+                JOIN dbo.Services se ON se.service_id = s.service_id 
+                JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id 
+                JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id
+                JOIN dbo.Slots sl ON a.slot_id = sl.slot_id 
+                WHERE a.appointment_id = ? """;
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, appointment_id);
             ResultSet rs = st.executeQuery();
-            
-            while(rs.next()){
-                Appointment appointment = new Appointment(
-                        rs.getInt("appointment_id"),
-                        rs.getString("appointment_date"),
-                        rs.getString("appointment_status"),
-                        rs.getInt("doctor_id"),
-                        rs.getInt("service_detail_id"),
-                        rs.getInt("patient_id"),
-                        rs.getInt("service_type_id"),
-                        rs.getInt("service_id"),
-                        rs.getInt("specialization_id"),
-                        rs.getString("time_begin"),
-                        rs.getString("time_end"),
-                        rs.getString("service_name"),
-                        rs.getString("service_description"),
-                        rs.getString("service_type_name"),
-                        rs.getString("duration_service"),
-                        rs.getDouble("cost"),
-                        rs.getString("phonenumber_patient")
-                );
+
+            while (rs.next()) {
+                int appointment_id2 = rs.getInt("appointment_id");
+                Date appointment_date2 = rs.getDate("appointment_date");
+                String appointment_status = rs.getString("appointment_status");
+                String doctor_name = rs.getString("doctor_name");
+                int doctor_id = rs.getInt("doctor_id");
+                Doctors doctor = new Doctors(doctor_id, doctor_name);
+                java.sql.Time sqlstart_time = rs.getTime("start_time");
+                java.sql.Time sqlend_time = rs.getTime("end_time");
+                int slot_id = rs.getInt("slot_id");
+                LocalTime start_time = sqlstart_time.toLocalTime();
+                LocalTime end_time = sqlend_time.toLocalTime();
+                Slots slot = new Slots(slot_id, start_time, end_time);
+                String service_description = rs.getString("service_description");
+                String service_name = rs.getString("service_name");
+                int type_id = rs.getInt("service_type_id");
+                String service_type_name = rs.getString("service_type_name");
+                String duration_service = rs.getString("duration_service");
+                Services service = new Services(service_name, service_description);
+                ServiceTypes serviceType = new ServiceTypes(type_id, service_type_name, duration_service);
+                int cost = rs.getInt("cost");
+                int service_detail_id = rs.getInt("service_detail_id");
+                ServiceDetail service_detail = new ServiceDetail(service_detail_id, service, serviceType, cost);
+                int account_id = rs.getInt("patient_id");
+                Account account = new Account(account_id);
+                UserProfile user = new UserProfile(account);
+                Appointment appointment = new Appointment(appointment_id2, appointment_date2, appointment_status, doctor, slot, serviceType, service, service_detail, user);
                 list.add(appointment);
             }
         } catch (SQLException e) {
@@ -471,45 +418,128 @@ public class UserProfileDAO extends DBContext {
         }
         return list;
     }
+
+    public List<Appointment> searchAppointments(String serviceName, String serviceTypeName, String startDate, String endDate) {
+    List<Appointment> list = new ArrayList<>();
+    StringBuilder sql = new StringBuilder("SELECT * FROM dbo.Appointment a ");
+    sql.append("JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id ");
+    sql.append("JOIN dbo.Services se ON se.service_id = s.service_id ");
+    sql.append("JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id ");
+    sql.append("JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id ");
+    sql.append("JOIN dbo.Slots sl ON a.slot_id = sl.slot_id WHERE 1=1 ");
     
-    public List<Appointment> getAppoinmentByServiceTypeName(String service_type_name) {
-        List<Appointment> list = new ArrayList<>();
-        String sql = """
-                     SELECT * FROM dbo.Appointment a 
-                     JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id 
-                     JOIN dbo.Services se ON se.service_id = s.service_id 
-                     JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id 
-                     WHERE st.service_type_name LIKE N'%' + ? + '%'""";
+    List<Object> params = new ArrayList<>();
+    
+    if (serviceName != null && !serviceName.isEmpty()) {
+        sql.append(" AND se.service_name LIKE N'%' + ? + '%'  ");
+        params.add("%" + serviceName + "%");
+    }
+    
+    if (serviceTypeName != null && !serviceTypeName.isEmpty()) {
+        sql.append(" AND st.service_type_name LIKE N'%' + ? + '%' ");
+        params.add("%" + serviceTypeName + "%");
+    }
+    
+    if (startDate != null && !startDate.isEmpty()) {
+        sql.append(" AND a.appointment_date >= ? ");
+        params.add(startDate);
+    }
+    
+    if (endDate != null && !endDate.isEmpty()) {
+        sql.append(" AND a.appointment_date <= ? ");
+        params.add(endDate);
+    }
+    
+    try {
+        PreparedStatement st = connection.prepareStatement(sql.toString());
+        for (int i = 0; i < params.size(); i++) {
+            st.setObject(i + 1, params.get(i));
+        }
+        ResultSet rs = st.executeQuery();
+        
+        while (rs.next()) {
+            int appointment_id = rs.getInt("appointment_id");
+            Date appointment_date = rs.getDate("appointment_date");
+            String appointment_status = rs.getString("appointment_status");
+            String doctor_name = rs.getString("doctor_name");
+            int doctor_id = rs.getInt("doctor_id");
+            Doctors doctor = new Doctors(doctor_id, doctor_name);
+            LocalTime start_time = rs.getTime("start_time").toLocalTime();
+            LocalTime end_time = rs.getTime("end_time").toLocalTime();
+            Slots slot = new Slots(rs.getInt("slot_id"), start_time, end_time);
+            String service_description = rs.getString("service_description");
+            String service_name = rs.getString("service_name");
+            int type_id = rs.getInt("service_type_id");
+            String service_type_name = rs.getString("service_type_name");
+            String duration_service = rs.getString("duration_service");
+            Services service = new Services(service_name, service_description);
+            ServiceTypes serviceType = new ServiceTypes(type_id, service_type_name, duration_service);
+            int cost = rs.getInt("cost");
+            int service_detail_id = rs.getInt("service_detail_id");
+            ServiceDetail service_detail = new ServiceDetail(service_detail_id, service, serviceType, cost);
+            int account_id = rs.getInt("patient_id");
+            Account account = new Account(account_id);
+            UserProfile user = new UserProfile(account);
+            Appointment appointment = new Appointment(appointment_id, appointment_date, appointment_status, doctor, slot, serviceType, service, service_detail, user);
+            list.add(appointment);
+        }
+    } catch (SQLException e) {
+        System.out.println(e);
+    }
+    return list;
+}
+
+
+    public List<Appointment> getAppointmentByPage(ArrayList<Appointment> list, int start, int end) {
+        ArrayList<Appointment> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
+
+    public boolean CheckPhoneNumber(String phone_number, int account_id) {
+        String sql = "SELECT * FROM Accounts WHERE phone_number = ? AND account_id <> ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, service_type_name);
+            st.setString(1, phone_number);
+            st.setInt(2, account_id);
             ResultSet rs = st.executeQuery();
-            
-            while(rs.next()){
-                Appointment appointment = new Appointment(
-                        rs.getInt("appointment_id"),
-                        rs.getString("appointment_date"),
-                        rs.getString("appointment_status"),
-                        rs.getInt("doctor_id"),
-                        rs.getInt("service_detail_id"),
-                        rs.getInt("patient_id"),
-                        rs.getInt("service_type_id"),
-                        rs.getInt("service_id"),
-                        rs.getInt("specialization_id"),
-                        rs.getString("time_begin"),
-                        rs.getString("time_end"),
-                        rs.getString("service_name"),
-                        rs.getString("service_description"),
-                        rs.getString("service_type_name"),
-                        rs.getString("duration_service"),
-                        rs.getDouble("cost"),
-                        rs.getString("phonenumber_patient")
-                );
-                list.add(appointment);
-            }
+            return rs.next();
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Lỗi khi kiểm tra số điện thoại: " + e.getMessage());
         }
-        return list;
+        return false;
+    }
+
+    public boolean CheckEmail(String email, int account_id) {
+        String sql = """
+                 SELECT * FROM Accounts
+                 WHERE email = ? AND account_id <> ?
+                 """;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            st.setInt(2, account_id);
+            ResultSet rs = st.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi kiểm tra email: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean UpdateImageProfile(String imagePath, int account_id){
+        String sql = """
+                      Update Customers 
+                     Set image_profile_user = ? where account_id = ?""";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);      
+            st.setString(1, imagePath);
+            st.setInt(2, account_id);            
+            return st.executeUpdate() > 0; 
+        } catch (Exception e) {
+        }
+        return false;
     }
 }

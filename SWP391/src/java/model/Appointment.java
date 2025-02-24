@@ -12,45 +12,29 @@ import java.util.Date;
  */
 public class Appointment {
 
-    public int appointment_id;
-    public String appointment_date;
+   public int appointment_id;
+    public Date appointment_date;
     public String appointment_status;
-    public int doctor_id;
-    public int service_detail_id;
-    public int patient_id;
-    public int service_type_id;
-    public int service_id;
-    public int specialization_id;
-    public String time_begin;
-    public String time_end;
-    public String service_name;
-    public String service_description;
-    public String service_type_name;
-    public String duration_service;
-    public double cost;
-    public String phonenumber_patient;
+    public Doctors doctor;
+    public Slots slot;
+    public ServiceTypes service_type;
+    public Services service;
+    public ServiceDetail service_detail;
+    public UserProfile user;
 
     public Appointment() {
     }
 
-    public Appointment(int appointment_id, String appointment_date, String appointment_status, int doctor_id, int service_detail_id, int patient_id, int service_type_id, int service_id, int specialization_id, String time_begin, String time_end, String service_name, String service_description, String service_type_name, String duration_service, double cost, String phonenumber_patient) {
+    public Appointment(int appointment_id, Date appointment_date, String appointment_status, Doctors doctor, Slots slot, ServiceTypes service_type, Services service, ServiceDetail service_detail, UserProfile user) {
         this.appointment_id = appointment_id;
         this.appointment_date = appointment_date;
         this.appointment_status = appointment_status;
-        this.doctor_id = doctor_id;
-        this.service_detail_id = service_detail_id;
-        this.patient_id = patient_id;
-        this.service_type_id = service_type_id;
-        this.service_id = service_id;
-        this.specialization_id = specialization_id;
-        this.time_begin = time_begin;
-        this.time_end = time_end;
-        this.service_name = service_name;
-        this.service_description = service_description;
-        this.service_type_name = service_type_name;
-        this.duration_service = duration_service;
-        this.cost = cost;
-        this.phonenumber_patient = phonenumber_patient;
+        this.doctor = doctor;
+        this.slot = slot;
+        this.service_type = service_type;
+        this.service = service;
+        this.service_detail = service_detail;
+        this.user = user;
     }
 
     public int getAppointment_id() {
@@ -61,12 +45,11 @@ public class Appointment {
         this.appointment_id = appointment_id;
     }
 
-    public String getAppointment_date() {
-        return appointment_date.substring(0, 10);
+    public Date getAppointment_date() {
+        return appointment_date;
     }
 
-
-    public void setAppointment_date(String appointment_date) {
+    public void setAppointment_date(Date appointment_date) {
         this.appointment_date = appointment_date;
     }
 
@@ -78,121 +61,59 @@ public class Appointment {
         this.appointment_status = appointment_status;
     }
 
-    public int getDoctor_id() {
-        return doctor_id;
+    public Doctors getDoctor() {
+        return doctor;
     }
 
-    public void setDoctor_id(int doctor_id) {
-        this.doctor_id = doctor_id;
+    public void setDoctor(Doctors doctor) {
+        this.doctor = doctor;
     }
 
-    public int getService_detail_id() {
-        return service_detail_id;
+    public Slots getSlot() {
+        return slot;
     }
 
-    public void setService_detail_id(int service_detail_id) {
-        this.service_detail_id = service_detail_id;
+    public void setSlot(Slots slot) {
+        this.slot = slot;
     }
 
-    public int getPatient_id() {
-        return patient_id;
+    public ServiceTypes getService_type() {
+        return service_type;
     }
 
-    public void setPatient_id(int patient_id) {
-        this.patient_id = patient_id;
+    public void setService_type(ServiceTypes service_type) {
+        this.service_type = service_type;
     }
 
-    public int getService_type_id() {
-        return service_type_id;
+    public Services getService() {
+        return service;
     }
 
-    public void setService_type_id(int service_type_id) {
-        this.service_type_id = service_type_id;
+    public void setService(Services service) {
+        this.service = service;
     }
 
-    public int getService_id() {
-        return service_id;
+    public ServiceDetail getService_detail() {
+        return service_detail;
     }
 
-    public void setService_id(int service_id) {
-        this.service_id = service_id;
+    public void setService_detail(ServiceDetail service_detail) {
+        this.service_detail = service_detail;
     }
 
-    public int getSpecialization_id() {
-        return specialization_id;
+    public UserProfile getUser() {
+        return user;
     }
 
-    public void setSpecialization_id(int specialization_id) {
-        this.specialization_id = specialization_id;
-    }
-
-    public String getTime_begin() {
-        return time_begin;
-    }
-
-    public void setTime_begin(String time_begin) {
-        this.time_begin = time_begin;
-    }
-
-    public String getTime_end() {
-        return time_end;
-    }
-
-    public void setTime_end(String time_end) {
-        this.time_end = time_end;
-    }
-
-    public String getService_name() {
-        return service_name;
-    }
-
-    public void setService_name(String service_name) {
-        this.service_name = service_name;
-    }
-
-    public String getService_description() {
-        return service_description;
-    }
-
-    public void setService_description(String service_description) {
-        this.service_description = service_description;
-    }
-
-    public String getService_type_name() {
-        return service_type_name;
-    }
-
-    public void setService_type_name(String service_type_name) {
-        this.service_type_name = service_type_name;
-    }
-
-    public String getDuration_service() {
-        return duration_service;
-    }
-
-    public void setDuration_service(String duration_service) {
-        this.duration_service = duration_service;
-    }
-
-    public double getCost() {
-        return cost;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    public String getPhonenumber_patient() {
-        return phonenumber_patient;
-    }
-
-    public void setPhonenumber_patient(String phonenumber_patient) {
-        this.phonenumber_patient = phonenumber_patient;
+    public void setUser(UserProfile user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
-        return "Appointment{" + "appointment_id=" + appointment_id + ", appointment_date=" + appointment_date + ", appointment_status=" + appointment_status + ", doctor_id=" + doctor_id + ", service_detail_id=" + service_detail_id + ", patient_id=" + patient_id + ", service_type_id=" + service_type_id + ", service_id=" + service_id + ", specialization_id=" + specialization_id + ", time_begin=" + time_begin + ", time_end=" + time_end + ", service_name=" + service_name + ", service_description=" + service_description + ", service_type_name=" + service_type_name + ", duration_service=" + duration_service + ", cost=" + cost + ", phonenumber_patient=" + phonenumber_patient + '}';
+        return "Appointment{" + "appointment_id=" + appointment_id + ", appointment_date=" + appointment_date + ", appointment_status=" + appointment_status + ", doctor=" + doctor + ", slot=" + slot + ", service_type=" + service_type + ", service=" + service + ", service_detail=" + service_detail + ", user=" + user + '}';
     }
 
+    
+    
 }
