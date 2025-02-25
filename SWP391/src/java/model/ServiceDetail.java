@@ -17,9 +17,11 @@ public class ServiceDetail {
     public ServiceDetail() {
     }
 
-    public ServiceDetail(int service_detail_id) {
-        this.service_detail_id = service_detail_id;
+    public ServiceDetail(double cost) {
+        this.cost = cost;
     }
+
+    
     
     public ServiceDetail(int service_detail_id, Services services, ServiceTypes serviceType, double cost) {
         this.service_detail_id = service_detail_id;

@@ -307,13 +307,6 @@ public class UserProfileDAO extends DBContext {
         }
     }
 
-    public static void main(String[] args) {
-        UserProfileDAO dao = new UserProfileDAO();
-        for (Appointment a : dao.getAppointmentByAppointmentId(1)) {
-            System.out.println(a);
-        }
-
-    }
 
     public List<Appointment> getAppointmentByPatientID(int patientID) {
         List<Appointment> list = new ArrayList<>();
@@ -516,5 +509,13 @@ public class UserProfileDAO extends DBContext {
         } catch (Exception e) {
         }
         return false;
+    }
+    
+    public static void main(String[] args) {
+        UserProfileDAO dao = new UserProfileDAO();
+        for (Appointment a : dao.searchAppointments("", "Cơ bản", "", "")) {
+            System.out.println(a);
+        }
+
     }
 }
