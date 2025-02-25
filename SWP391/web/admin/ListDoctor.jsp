@@ -216,7 +216,7 @@
         <script src="../admin/assets/plugins/metismenu/js/metisMenu.min.js"></script>
         <script src="../admin/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
         <!--Data Tables js-->
-        <script src="../admin/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+<!--        <script src="../admin/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>-->
         <script>
                                                                 $(document).ready(function () {
                                                                     //Default data table
