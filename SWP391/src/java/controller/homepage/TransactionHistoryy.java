@@ -68,7 +68,11 @@ public class TransactionHistoryy extends HttpServlet {
         UserProfile user = dao.GetAccount(username);
         request.setAttribute("userProfile", user);
         
-        int account_id = (int) session.getAttribute("account_id");
+        Integer account_id = (Integer) session.getAttribute("account_id");
+        if (username == null || account_id == null) {
+            response.sendRedirect("login");
+            return; 
+        }
         List<Appointment> listA = dao.getAppointmentByPatientID(account_id);
         int page, numperpage = 6;
         int size = listA.size();

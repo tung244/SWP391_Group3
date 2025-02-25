@@ -57,7 +57,6 @@ public class UpdateUserProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         String fullname = request.getParameter("fullname").trim();
@@ -66,9 +65,20 @@ public class UpdateUserProfile extends HttpServlet {
         String address = request.getParameter("address").trim();
         String gender = request.getParameter("gender").trim();
         String dob = request.getParameter("dob").trim();
-        String imageProfile = request.getParameter("imageProfile").trim();
-        String account_id_Str = request.getParameter("account_id").trim();
-        int account_id = Integer.parseInt(account_id_Str);
+        int account_id = (int) session.getAttribute("account_id");
+
+        UserProfileDAO dao = new UserProfileDAO();
+        if (dao.CheckEmail(email, account_id)) {
+            session.setAttribute("error", "Email đã tồn tại.");
+            response.sendRedirect("userprofile");
+            return;
+        }
+
+        if (dao.CheckPhoneNumber(phonenumber, account_id)) {
+            session.setAttribute("error", "Số điện thoại đã tồn tại.");
+            response.sendRedirect("userprofile");
+            return;
+        }
         if (fullname.isEmpty() || !fullname.matches("\\p{L}+[\\s\\p{L}]*")) {
             session.setAttribute("error", "Họ và tên không hợp lệ! Vui lòng nhập tên hợp lệ (chỉ chứa chữ và khoảng trắng).");
             response.sendRedirect("userprofile");
@@ -92,8 +102,7 @@ public class UpdateUserProfile extends HttpServlet {
             return;
         }
 
-        UserProfileDAO dao = new UserProfileDAO();
-        dao.updateUserProfile(fullname, email, phonenumber, address, dob, gender, imageProfile, account_id);
+        dao.updateUserProfile(fullname, email, phonenumber, address, dob, gender, account_id);
         response.sendRedirect("userprofile");
     }
 
@@ -108,7 +117,7 @@ public class UpdateUserProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
     /**

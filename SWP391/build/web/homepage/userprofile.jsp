@@ -128,7 +128,7 @@
                     </div>
 
 
-                    <form action="updateuserprofile" method="post">
+                    <form action="updateuserprofile" method="get">
 
                         <div class="userprofile-change-password-container userprofile-section" id="password-section">
                             <div class="userprofile-header">

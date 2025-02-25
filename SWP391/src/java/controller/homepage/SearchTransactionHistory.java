@@ -68,6 +68,10 @@ public class SearchTransactionHistory extends HttpServlet {
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
         String queryType = request.getParameter("queryType");
+        if(query==null||startDate==null||endDate==null||queryType==null){
+            response.sendRedirect("login");
+            return; 
+        }
         UserProfileDAO dao = new UserProfileDAO();
         List<Appointment> listS = dao.searchAppointments(query, queryType, startDate, endDate);
         int page, numperpage = 6;

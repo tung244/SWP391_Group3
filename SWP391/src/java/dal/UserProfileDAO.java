@@ -267,8 +267,8 @@ public class UserProfileDAO extends DBContext {
         return false;
     }
 
-    public void updateUserProfile(String fullname, String email, String phonenumber, String address, String dob, String gender, String imageProfile, int account_id) {
-        String sqlCustomers = "UPDATE Customers SET full_name = ?, address = ?, dob = ?, gender = ?, image_profile_user = ? WHERE account_id = ?";
+    public void updateUserProfile(String fullname, String email, String phonenumber, String address, String dob, String gender, int account_id) {
+        String sqlCustomers = "UPDATE Customers SET full_name = ?, address = ?, dob = ?, gender = ? WHERE account_id = ?";
         String sqlAccounts = "UPDATE Accounts SET email = ?, phone_number = ? WHERE account_id = ?";
 
         try {
@@ -278,8 +278,7 @@ public class UserProfileDAO extends DBContext {
             preCustomers.setString(2, address);
             preCustomers.setString(3, dob);
             preCustomers.setString(4, gender);
-            preCustomers.setString(5, imageProfile);
-            preCustomers.setInt(6, account_id);
+            preCustomers.setInt(5, account_id);
             preCustomers.executeUpdate();
 
             // Cập nhật bảng Accounts
@@ -310,13 +309,13 @@ public class UserProfileDAO extends DBContext {
 
     public static void main(String[] args) {
         UserProfileDAO dao = new UserProfileDAO();
-        for (Appointment a : dao.searchAppointments("Khám", "Cơ bản", "", "")) {
+        for (Appointment a : dao.getAppointmentByAppointmentId(1)) {
             System.out.println(a);
         }
 
     }
 
-     public List<Appointment> getAppointmentByPatientID(int patientID) {
+    public List<Appointment> getAppointmentByPatientID(int patientID) {
         List<Appointment> list = new ArrayList<>();
         String sql = """
                       SELECT * FROM dbo.Appointment a 
@@ -367,51 +366,36 @@ public class UserProfileDAO extends DBContext {
         return list;
     }
 
-    
-
-    public List<Appointment> getAppoinmentByAppointmentId(int appointment_id) {
+    public List<Appointment> getAppointmentByAppointmentId(int appointment_id) {
         List<Appointment> list = new ArrayList<>();
         String sql = """
-                SELECT * FROM dbo.Appointment a 
-                JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id 
-                JOIN dbo.Services se ON se.service_id = s.service_id 
-                JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id 
-                JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id
-                JOIN dbo.Slots sl ON a.slot_id = sl.slot_id 
-                WHERE a.appointment_id = ? """;
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, appointment_id);
-            ResultSet rs = st.executeQuery();
+            SELECT a.appointment_id, a.appointment_status, 
+                   d.doctor_name, sl.start_time, sl.end_time, 
+                   s.service_description
+            FROM dbo.Appointment a 
+            JOIN dbo.Services_Detail sd ON sd.service_detail_id = a.service_detail_id 
+            JOIN dbo.Services s ON s.service_id = sd.service_id 
+            JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id
+            JOIN dbo.Slots sl ON a.slot_id = sl.slot_id 
+            WHERE a.appointment_id = ? """;
 
-            while (rs.next()) {
-                int appointment_id2 = rs.getInt("appointment_id");
-                Date appointment_date2 = rs.getDate("appointment_date");
-                String appointment_status = rs.getString("appointment_status");
-                String doctor_name = rs.getString("doctor_name");
-                int doctor_id = rs.getInt("doctor_id");
-                Doctors doctor = new Doctors(doctor_id, doctor_name);
-                java.sql.Time sqlstart_time = rs.getTime("start_time");
-                java.sql.Time sqlend_time = rs.getTime("end_time");
-                int slot_id = rs.getInt("slot_id");
-                LocalTime start_time = sqlstart_time.toLocalTime();
-                LocalTime end_time = sqlend_time.toLocalTime();
-                Slots slot = new Slots(slot_id, start_time, end_time);
-                String service_description = rs.getString("service_description");
-                String service_name = rs.getString("service_name");
-                int type_id = rs.getInt("service_type_id");
-                String service_type_name = rs.getString("service_type_name");
-                String duration_service = rs.getString("duration_service");
-                Services service = new Services(service_name, service_description);
-                ServiceTypes serviceType = new ServiceTypes(type_id, service_type_name, duration_service);
-                int cost = rs.getInt("cost");
-                int service_detail_id = rs.getInt("service_detail_id");
-                ServiceDetail service_detail = new ServiceDetail(service_detail_id, service, serviceType, cost);
-                int account_id = rs.getInt("patient_id");
-                Account account = new Account(account_id);
-                UserProfile user = new UserProfile(account);
-                Appointment appointment = new Appointment(appointment_id2, appointment_date2, appointment_status, doctor, slot, serviceType, service, service_detail, user);
-                list.add(appointment);
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, appointment_id);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("appointment_id");
+                    String status = rs.getString("appointment_status");
+                    String doctorName = rs.getString("doctor_name");
+                    LocalTime startTime = rs.getTime("start_time").toLocalTime();
+                    LocalTime endTime = rs.getTime("end_time").toLocalTime();
+                    String serviceDescription = rs.getString("service_description");
+
+                    Slots slot = new Slots(id, startTime, endTime);
+                    Doctors doctor = new Doctors(id, doctorName);
+                    Services service = new Services(doctorName, serviceDescription);
+
+                    list.add(new Appointment(id, status, doctor, slot, service));
+                }
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -421,67 +405,58 @@ public class UserProfileDAO extends DBContext {
 
     public List<Appointment> searchAppointments(String serviceName, String serviceTypeName, String startDate, String endDate) {
     List<Appointment> list = new ArrayList<>();
-    StringBuilder sql = new StringBuilder("SELECT * FROM dbo.Appointment a ");
-    sql.append("JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id ");
-    sql.append("JOIN dbo.Services se ON se.service_id = s.service_id ");
-    sql.append("JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id ");
-    sql.append("JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id ");
-    sql.append("JOIN dbo.Slots sl ON a.slot_id = sl.slot_id WHERE 1=1 ");
-    
+    StringBuilder sql = new StringBuilder("""
+        SELECT a.appointment_id, a.appointment_date, 
+               s.service_name, sd.cost, 
+               st.service_type_name, st.duration_service
+        FROM dbo.Appointment a
+        JOIN dbo.Services_Detail sd ON sd.service_detail_id = a.service_detail_id
+        JOIN dbo.Services s ON s.service_id = sd.service_id
+        JOIN dbo.Services_Type st ON st.service_type_id = sd.service_type_id
+        WHERE 1=1
+    """);
+
     List<Object> params = new ArrayList<>();
-    
+
     if (serviceName != null && !serviceName.isEmpty()) {
-        sql.append(" AND se.service_name LIKE N'%' + ? + '%'  ");
+        sql.append(" AND s.service_name LIKE ? ");
         params.add("%" + serviceName + "%");
     }
-    
+
     if (serviceTypeName != null && !serviceTypeName.isEmpty()) {
-        sql.append(" AND st.service_type_name LIKE N'%' + ? + '%' ");
+        sql.append(" AND st.service_type_name LIKE ? ");
         params.add("%" + serviceTypeName + "%");
     }
-    
+
     if (startDate != null && !startDate.isEmpty()) {
         sql.append(" AND a.appointment_date >= ? ");
         params.add(startDate);
     }
-    
+
     if (endDate != null && !endDate.isEmpty()) {
         sql.append(" AND a.appointment_date <= ? ");
         params.add(endDate);
     }
-    
-    try {
-        PreparedStatement st = connection.prepareStatement(sql.toString());
+
+    try (PreparedStatement st = connection.prepareStatement(sql.toString())) {
         for (int i = 0; i < params.size(); i++) {
             st.setObject(i + 1, params.get(i));
         }
-        ResultSet rs = st.executeQuery();
-        
-        while (rs.next()) {
-            int appointment_id = rs.getInt("appointment_id");
-            Date appointment_date = rs.getDate("appointment_date");
-            String appointment_status = rs.getString("appointment_status");
-            String doctor_name = rs.getString("doctor_name");
-            int doctor_id = rs.getInt("doctor_id");
-            Doctors doctor = new Doctors(doctor_id, doctor_name);
-            LocalTime start_time = rs.getTime("start_time").toLocalTime();
-            LocalTime end_time = rs.getTime("end_time").toLocalTime();
-            Slots slot = new Slots(rs.getInt("slot_id"), start_time, end_time);
-            String service_description = rs.getString("service_description");
-            String service_name = rs.getString("service_name");
-            int type_id = rs.getInt("service_type_id");
-            String service_type_name = rs.getString("service_type_name");
-            String duration_service = rs.getString("duration_service");
-            Services service = new Services(service_name, service_description);
-            ServiceTypes serviceType = new ServiceTypes(type_id, service_type_name, duration_service);
-            int cost = rs.getInt("cost");
-            int service_detail_id = rs.getInt("service_detail_id");
-            ServiceDetail service_detail = new ServiceDetail(service_detail_id, service, serviceType, cost);
-            int account_id = rs.getInt("patient_id");
-            Account account = new Account(account_id);
-            UserProfile user = new UserProfile(account);
-            Appointment appointment = new Appointment(appointment_id, appointment_date, appointment_status, doctor, slot, serviceType, service, service_detail, user);
-            list.add(appointment);
+        try (ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                int id = rs.getInt("appointment_id");
+                Date date = rs.getDate("appointment_date");
+                String serviceNameResult = rs.getString("service_name");
+                int cost = rs.getInt("cost");
+                String serviceTypeNameResult = rs.getString("service_type_name");
+                String duration = rs.getString("duration_service");
+
+                Services service = new Services(serviceNameResult);
+                ServiceTypes serviceType = new ServiceTypes(serviceTypeNameResult, duration);
+                ServiceDetail serviceDetail = new ServiceDetail(cost);
+
+                list.add(new Appointment(id, date, service, serviceDetail, serviceType));
+            }
         }
     } catch (SQLException e) {
         System.out.println(e);
@@ -529,15 +504,15 @@ public class UserProfileDAO extends DBContext {
         return false;
     }
 
-    public boolean UpdateImageProfile(String imagePath, int account_id){
+    public boolean UpdateImageProfile(String imagePath, int account_id) {
         String sql = """
                       Update Customers 
                      Set image_profile_user = ? where account_id = ?""";
         try {
-            PreparedStatement st = connection.prepareStatement(sql);      
+            PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, imagePath);
-            st.setInt(2, account_id);            
-            return st.executeUpdate() > 0; 
+            st.setInt(2, account_id);
+            return st.executeUpdate() > 0;
         } catch (Exception e) {
         }
         return false;

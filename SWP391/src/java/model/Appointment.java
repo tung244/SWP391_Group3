@@ -25,6 +25,22 @@ public class Appointment {
     public Appointment() {
     }
 
+    public Appointment(int appointment_id, Date appointment_date,  Services service, ServiceDetail service_detail, ServiceTypes service_type) {
+        this.appointment_id = appointment_id;
+        this.appointment_date = appointment_date;
+        this.service_type = service_type;
+        this.service = service;
+        this.service_detail = service_detail;
+    }
+
+    public Appointment(int appointment_id, String appointment_status, Doctors doctor, Slots slot, Services service) {
+        this.appointment_id = appointment_id;
+        this.appointment_status = appointment_status;
+        this.doctor = doctor;
+        this.slot = slot;
+        this.service = service;
+    }
+
     public Appointment(int appointment_id, Date appointment_date, String appointment_status, Doctors doctor, Slots slot, ServiceTypes service_type, Services service, ServiceDetail service_detail, UserProfile user) {
         this.appointment_id = appointment_id;
         this.appointment_date = appointment_date;

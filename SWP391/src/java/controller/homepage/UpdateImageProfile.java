@@ -80,12 +80,9 @@ public class UpdateImageProfile extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         //processRequest(request, response);
-        Part part = request.getPart("profileImage");  // img là tên thẻ upload bên jsp
+        Part part = request.getPart("profileImage");  
         String pathHost = getServletContext().getRealPath("");
-        System.out.println(" file ảnh:" + pathHost);
         String finalPath = pathHost.replace("build\\", "");
-        System.out.println(" file ảnh:" + finalPath);
-        String filePath = finalPath + part.getSubmittedFileName();
         UserProfileDAO dao = new UserProfileDAO();
         HttpSession session = request.getSession();
         int account_id = (int) session.getAttribute("account_id");

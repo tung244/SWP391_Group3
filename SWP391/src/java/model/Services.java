@@ -20,6 +20,10 @@ public class Services {
     public Services() {
     }
 
+    public Services(String service_name) {
+        this.service_name = service_name;
+    }
+
     public Services(String service_name, String service_description) {
         this.service_name = service_name;
         this.service_description = service_description;
