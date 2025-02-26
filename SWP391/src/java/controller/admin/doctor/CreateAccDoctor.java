@@ -7,6 +7,7 @@ package controller.admin.doctor;
 import bo.GetFormatDate;
 import dal.AccountDAO;
 import dal.DoctorsDAO;
+import dal.PassWordDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -80,47 +81,73 @@ public class CreateAccDoctor extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username").trim();
-        String pass = request.getParameter("pass").trim();
-        String pass_repeat = request.getParameter("pass_repeat").trim();
-        String email = request.getParameter("email").trim();
-        String phone = request.getParameter("phone").trim();
-
-        //Kiểm tra username tồn tại chưa
         AccountDAO accdao = new AccountDAO();
-        if (accdao.checkTonTaiUser(username) || username.isEmpty()) {
-            request.setAttribute("error", "Username already exists! Please choose another.");
-            request.getRequestDispatcher("createAccDoctor.jsp").forward(request, response);
-            return;
+        PassWordDAO passdao = new PassWordDAO();
+        String action = request.getParameter("action");
+        String respsonse = "";
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        
+        if(action.equals("checkUserName")){
+            String username = request.getParameter("user_name").trim();
+            String status = "valid";
+            if(accdao.checkTonTaiUser(username)){
+                status = "exist";
+            }else if(username.isEmpty()){
+                status = "empty";
+            } 
+            
+            respsonse = "{\"status\":\"" + status + "\"}";
         }
-
-        if (accdao.CheckExistEmail(email) || email.isEmpty()) {
-            request.setAttribute("error", "Email already exists! Please choose another.");
-            request.getRequestDispatcher("createAccDoctor.jsp").forward(request, response);
-            return;
+        
+        if(action.equals("checkPhone")){
+            String phone = request.getParameter("phone").trim();
+            String status = "valid";
+            if(accdao.checkExistPhone(phone)){
+                status = "exist";
+            }else if(phone.isEmpty()){
+                status = "empty";
+            }
+            
+            respsonse = "{\"status\":\"" + status + "\"}";
         }
-
-        // Kiểm tra mật khẩu có khớp không
-        if (!pass.trim().equals(pass_repeat.trim())) {
-            request.setAttribute("error", "Passwords do not match!");
-            request.getRequestDispatcher("createAccDoctor.jsp").forward(request, response);
-            return;
+        
+        if(action.equals("checkEmail")){
+            String email = request.getParameter("email").trim();
+            String status = "valid";
+            if(accdao.CheckExistEmail(email)){
+                status = "exist";
+            }else if(email.isEmpty()){
+                status = "empty";
+            }
+            
+            respsonse = "{\"status\":\"" + status + "\"}";
         }
-
-        // Tạo tài khoản mới
-        Account newAccount = new Account();
-        newAccount.setUsername(username);
-        newAccount.setPassword(pass);
-        newAccount.setEmail(email);
-        newAccount.setPhonenumber(phone);
-        newAccount.setCreated_date(getdate.getFormString());
-        newAccount.setRole(new Role(3, ""));
-
-        Doctors doctor = new Doctors();
-        doctor.setAcc(newAccount);
-        request.getSession().setAttribute("doctor", doctor);
-        request.getSession().setAttribute("progress", 25);
-        response.sendRedirect("createDoctor");
+        
+        response.getWriter().write(respsonse);
+        
+        if(action.equals("register")){
+            String username = request.getParameter("username");
+            String phone = request.getParameter("phone");
+            String email = request.getParameter("email");
+            String pass = passdao.randomPassword();
+            String passEncrypt = passdao.hashPasswordMD5(pass);
+            Account acc = new Account();
+            acc.setUsername(username);
+            acc.setPhonenumber(phone);
+            acc.setEmail(email);
+            acc.setPassword(passEncrypt);
+            acc.setCreated_date(getdate.getFormString());
+            acc.setRole(new Role(3,""));
+            
+            Doctors doc = new Doctors();
+            doc.setAcc(acc);
+            request.getSession().setAttribute("doctor", doc);
+            request.getSession().setAttribute("progress", 50);
+            response.sendRedirect("createDoctor");
+        }
+                
+//     
 
     }
 

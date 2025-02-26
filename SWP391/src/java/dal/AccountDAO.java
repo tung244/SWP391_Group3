@@ -4,7 +4,11 @@
  */
 package dal;
 
-
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +19,6 @@ import model.Role;
 import model.UserProfile;
 
 import model.GoogleAccount;
-
-
 
 public class AccountDAO extends DBContext {
 
@@ -57,7 +59,8 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-     public int getAccountID(String username) {
+
+    public int getAccountID(String username) {
         String sql = "Select account_id from Accounts where username =?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -65,9 +68,9 @@ public class AccountDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
-                
-                }
-            
+
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,5 +115,26 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
+    public boolean checkExistPhone(String phonenum) {
+        String sql = "select * from Accounts where phone_number = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, phonenum);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int row = rs.getInt(1);
+                if (row > 0) {
+                    return true;
+                }
+            }
+
+        } catch (Exception e) {
+        }
+        return false;
+
+    }
+
+   
     
+
 }

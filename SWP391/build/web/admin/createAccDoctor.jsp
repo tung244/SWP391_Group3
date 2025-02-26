@@ -52,7 +52,7 @@
                                             <h5 class="mb-0 text-success">Progress:</h5>
                                             <% int progress = session.getAttribute("progress") != null ? (int) session.getAttribute("progress") : 0; %>
                                             <div class="progress">
-                                                
+
                                                 <div class="progress-bar-success" role="progressbar" style="width: <%= progress %>%;" aria-valuenow="<%= progress %>" aria-valuemin="0" aria-valuemax="100">
                                                     <%= progress %>% Completed
                                                 </div>
@@ -65,52 +65,40 @@
                                             <div class="alert alert-danger">${error}</div>
                                         </c:if>
 
-                                        <form action="createAccount" method="POST" class="row g-3">
+                                        <form action="createAccount" method="POST" class="row g-3" id="doctorRegisterForm">
+                                            
+                                            <!-- username -->
                                             <div class="col-12">
                                                 <label for="inputUserName" class="form-label">User Name</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
                                                     <input name="username" type="text" class="form-control border-start-0"
-                                                           id="inputLastName1" placeholder="User Name" value="${param.username}">
+                                                           id="username" placeholder="User Name" required>                                                  
                                                 </div>
+                                                <div name = "username-error" id="username-error" ></div>
                                             </div>      
-
+                                            <!-- phonenumber -->
                                             <div class="col-12">
                                                 <label for="inputPhoneNumber" class="form-label">Phone Number</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text bg-transparent"><i class="bx bxs-microphone"></i></span>
-                                                    <input name="phone" type="text" class="form-control border-start-0"
-                                                           id="inputPhoneNo" placeholder="Phone Number" value="${param.phone}">
+                                                    <input name="phone" type="tel" class="form-control border-start-0"
+                                                           id="phone" placeholder="Phone Number"  required>                                                    
                                                 </div>
+                                                <div name = "phone-error" id="phone-error" ></div>
                                             </div>
-
+                                            <!-- Email -->
                                             <div class="col-12">
                                                 <label for="inputEmailAddress" class="form-label">Email Address</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text bg-transparent"><i class="bx bxs-message"></i></span>
-                                                    <input name="email" type="text" class="form-control border-start-0"
-                                                           id="inputEmailAddress" placeholder="Email Address" value="${param.email}">
+                                                    <input name="email" type="email" class="form-control border-start-0"
+                                                           id="email" placeholder="Email Address" required>                                                    
                                                 </div>
+                                                <div name = "email-error" id="email-error" ></div>
                                             </div>
-
-                                            <div class="col-12">
-                                                <label for="inputChoosePassword" class="form-label">Choose Password</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-lock-open"></i></span>
-                                                    <input name="pass" type="password" class="form-control border-start-0"
-                                                           id="inputChoosePassword" placeholder="Choose Password">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12">
-                                                <label for="inputConfirmPassword" class="form-label">Confirm Password</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-lock"></i></span>
-                                                    <input name="pass_repeat" type="password" class="form-control border-start-0"
-                                                           id="inputConfirmPassword" placeholder="Confirm Password">
-                                                </div>
-                                            </div>
-
+                                            
+                                            <input type="hidden" name="action" value="register">
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-success px-5">CREATE</button>     
                                             </div>
@@ -192,5 +180,107 @@
         <!-- JavaScript -->
 
     </body>
+
+    <script>
+        $(document).ready(function () {
+            function checkUserName() {
+                const username = $("#username").val();
+                const errorSpan = $("#username-error");
+
+                $.ajax({
+                    url: "createAccount",
+                    type: 'POST',
+                    data: {action: "checkUserName", user_name: username},
+                    success: function (response) {
+                        console.log(response); // Debug
+                        if (response.status === "exist") {
+                            errorSpan.text("User name is existed. Please try again!").css("color", "red");
+                        } else if (response.status === "empty") {
+                            errorSpan.text("User name is empty. Please enter username!").css("color", "red");
+                        } else if (response.status === "valid") {
+                            errorSpan.text("User name is valid").css("color", "green");
+                        } else {
+                            toastr.error("Error.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error.");
+                    }
+                });
+            }
+
+            function checkPhone() {
+                const phone = $("#phone").val();
+                const errorSpan = $("#phone-error");
+
+                $.ajax({
+                    url: "createAccount",
+                    type: 'POST',
+                    data: {action: "checkPhone", phone: phone},
+                    success: function (response) {
+                        console.log(response); // Debug
+                        if (response.status === "exist") {
+                            errorSpan.text("Phone number is existed. Please try again!").css("color", "red");
+                        } else if (response.status === "empty") {
+                            errorSpan.text("Phone number is empty. Please enter phone number!").css("color", "red");
+                        } else if (response.status === "valid") {
+                            errorSpan.text("Phone number is valid").css("color", "green");
+                        } else {
+                            toastr.error("Error.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error.");
+                    }
+                });
+            }
+
+            function checkEmail() {
+                const email = $("#email").val();
+                const errorSpan = $("#email-error");
+
+                $.ajax({
+                    url: "createAccount",
+                    type: 'POST',
+                    data: {action: "checkEmail", email: email},
+                    success: function (response) {
+                        console.log(response); // Debug
+                        if (response.status === "exist") {
+                            errorSpan.text("Email is existed. Please try again!").css("color", "red");
+                        } else if (response.status === "empty") {
+                            errorSpan.text("Email is empty. Please enter an email!").css("color", "red");
+                        } else if (response.status === "valid") {
+                            errorSpan.text("Email is valid").css("color", "green");
+                        } else {
+                            toastr.error("Error.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error.");
+                    }
+                });
+            }
+
+            // Kiểm tra khi người dùng nhập hoặc rời khỏi ô input
+            $("#username").on("input blur", checkUserName);
+            $("#phone").on("input blur", checkPhone);
+            $("#email").on("input blur", checkEmail);
+
+            // Chặn submit nếu có lỗi
+            $("#doctorRegisterForm").on("submit", function (event) {
+                const usernameError = $("#username-error").text();
+                const phoneError = $("#phone-error").text();
+                const emailError = $("#email-error").text();
+
+                if (usernameError.includes("Please") || phoneError.includes("Please") || emailError.includes("Please")) {
+                    toastr.error("Please fix the error before submitting!");
+                    event.preventDefault();
+                }
+            });
+        });
+
+    </script>
+
+
 
 </html>
