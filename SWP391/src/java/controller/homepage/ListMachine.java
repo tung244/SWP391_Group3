@@ -3,9 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.admin;
+package controller.homepage;
 
-import consts.Gmails;
+import dal.MachineDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,12 +13,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Machine;
 
 
-@WebServlet(name="LoginShowEmail", urlPatterns={"/admin/login_show_email"})
-public class LoginShowEmail extends HttpServlet {
+@WebServlet(name="ListMachine", urlPatterns={"/list_machine"})
+public class ListMachine extends HttpServlet {
    
-   
+    MachineDAO mdao = new MachineDAO();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -27,36 +30,37 @@ public class LoginShowEmail extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginShowEmail</title>");  
+            out.println("<title>Servlet ListMachine</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginShowEmail at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ListMachine at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     } 
 
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String authUrl = "https://accounts.google.com/o/oauth2/auth?"
-                + "client_id=" + Gmails.CLIENT_ID
-                + "&redirect_uri=" + Gmails.REDIRECT_URI
-                + "&response_type=code"
-                + "&scope=https://www.googleapis.com/auth/gmail.readonly"
-                + "&access_type=offline";
-
-        response.sendRedirect(authUrl);
+        
+        String machine_id= request.getParameter("machine_id");
+        
+        List<Machine> list = mdao.loadMachine(machine_id);
+        request.setAttribute("machine", list);
+        
+        
+        request.getRequestDispatcher("homepage/ListMachine.jsp").forward(request, response);
     } 
 
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    
+ 
     @Override
     public String getServletInfo() {
         return "Short description";

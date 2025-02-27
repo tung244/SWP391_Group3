@@ -26,6 +26,9 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.internet.MimeUtility;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SendMail {
 
@@ -76,9 +79,6 @@ public class SendMail {
             message.setContent(multipart);
             Transport.send(message);
             System.out.println("mail được gửi" + System.currentTimeMillis());
-
-            Transport.send(message);
-            System.out.println("Mail đã được gửi thành công!");
 
             return true;
         } catch (MessagingException e) {
@@ -158,7 +158,60 @@ public class SendMail {
 
     }
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        guiSupport("nguyenluongk2k4@gmail.com", "Hehe lương", "Lương");
+    public static boolean guiEmailTuDong(List<String> email, String noidung, String tieude) throws UnsupportedEncodingException, InterruptedException {
+        int size = 10;
+        int total = email.size();
+        int emailsent = 0;
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", Mail.HOST_NAME);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", Mail.TSL_PORT);
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                System.out.println("Xác minh gg thành công" + System.currentTimeMillis());
+                return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
+            }
+        });
+
+        try {
+            for (int i = 0; i < email.size(); i += size) {
+
+                List<String> batch = email.subList(i, Math.min(i + size, email.size())); // phòng khi số lượng list k chia hết cho 10
+                MimeMessage message = new MimeMessage(session);
+                String subject = tieude;
+                message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+                for (String string : batch) {
+
+                    message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(string));
+                }
+                // Tạo một phần MultiPart
+                MimeMultipart multipart = new MimeMultipart();
+                MimeBodyPart messageBodyPart = new MimeBodyPart();
+                messageBodyPart.setContent(noidung, "text/html; charset=UTF-8");
+                multipart.addBodyPart(messageBodyPart);
+                message.setContent(multipart);
+                Transport.send(message);
+
+                emailsent += batch.size();
+                System.out.println("Gửi xong: " + emailsent + "/" + total);
+                
+                Thread.sleep(3000);  // chờ 3s 
+                return true;
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            
+        }
+        System.out.println("Gửi hoàn tất!");
+        return false;
     }
+
+    public static void main(String[] args) throws UnsupportedEncodingException, InterruptedException {
+        List<String> email = Arrays.asList("nguyenluongk2k4@gmail.com", "luongndhe181876@fpt.edu.vn", "kn1802204@gmail.com");
+        guiEmailTuDong(email, "lương vip pro", "test mail tự động");
+    }
+
 }
