@@ -47,18 +47,17 @@ public class Login extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String username = request.getParameter("username").trim();
         String password = request.getParameter("password").trim();
-        String hashPass = EncryptPassword.hashPassword(password);
         String checkSave = request.getParameter("saveUser");
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             session.setAttribute("error", "Username or Password cannot be blank");
             response.sendRedirect("login");
         } else {
-            if (dao.CheckLogin(username, hashPass)) {
+            if (dao.CheckLogin(username, password)) {
                 UserProfile user = udao.GetAccount(username);
 
                 if (user == null) {
@@ -72,20 +71,13 @@ public class Login extends HttpServlet {
                     passCookie.setMaxAge(60 * 60 * 24 * 30);
                     response.addCookie(userCookie);
                     response.addCookie(passCookie);
-                    session.setAttribute("user", user);
-                    session.setAttribute("username", username);
-                    session.setAttribute("password", password);
-                    session.setAttribute("ms", "Login Successfully!");
-                    response.sendRedirect("trangchu");
-                } else {
-                    
+                }
                     session.setAttribute("account_id", user.account.account_id);
                     session.setAttribute("user", user);
                     session.setAttribute("username", username);
                     session.setAttribute("password", password);
                     session.setAttribute("ms", "Login Successfully!");
                     response.sendRedirect("trangchu");
-                }
             } else {
                 session.setAttribute("error", "Username or password is not correct");
                 response.sendRedirect("login");

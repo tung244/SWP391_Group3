@@ -17,8 +17,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Nguyen Phu Thinh
  */
-@WebServlet(name="searchCustomers", urlPatterns={"/searchcustomers"})
-public class searchCustomers extends HttpServlet {
+@WebServlet(name="SearchCustomer", urlPatterns={"/SearchCustomer"})
+public class SearchCustomer extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,10 +35,10 @@ public class searchCustomers extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet searchCustomers</title>");  
+            out.println("<title>Servlet SearchCustomer</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet searchCustomers at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet SearchCustomer at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
