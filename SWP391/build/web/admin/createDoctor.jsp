@@ -68,60 +68,58 @@
                                         </div>
                                         <hr>
 
-                                        <!-- Hiển thị thông báo lỗi -->
-                                        <c:if test="${not empty error}">
-                                            <div class="alert alert-danger">${error}</div>
-                                        </c:if>
+                                        
 
-                                        <form action="createDoctor" method="POST" class="row g-3" enctype="multipart/form-data">
+                                        <form action="createDoctor" method="POST" id="createDoctorform" class="row g-3" enctype="multipart/form-data">
                                             <div class="col-12">
                                                 <label class="form-label">Doctor Name</label>
-                                                <input name="doctorName" type="text" class="form-control" placeholder="Doctor Name" value="${param.doctorName}" required>
+                                                <input name="doctorName" id="doctorName" type="text" class="form-control" placeholder="Doctor Name" required>
+                                                <span id="error-doctorName" name="error-doctorName"></span>
                                             </div> 
 
                                             <div class="col-12">
                                                 <label class="form-label">Profile Image:</label>
-                                                <input type="file" name="profileImage" class="form-control">
+                                                <input type="file" id="profileImage" name="profileImage" class="form-control" required>
+                                                <span id="error-profileImage" name="error-profileImage"></span>
                                             </div>
 
                                             <div class="col-12">
                                                 <label class="form-label">Experience Years</label>
-                                                <input type="number" name="experienceYears" class="form-control" placeholder="Experience Years" value="${param.experienceYears}" required>
+                                                <input type="number" id="experienceYears" name="experienceYears" class="form-control" placeholder="Experience Years"  required>
+                                                <span id="error-experienceYears" name="error-experienceYears"></span>
                                             </div>
 
                                             <div class="col-12">
                                                 <label class="form-label">Specialization</label>                                               
-                                                <select name="specializationId" class="form-select">
+                                                <select id="specializationId" name="specializationId" class="form-select" required>
                                                     <c:forEach items="${listSpe}" var="lsp">
                                                         <option value="${lsp.specialization_id}">${lsp.specialization_name}</option>
                                                     </c:forEach>
                                                 </select>
+                                                <span id="error-specializationId" name="error-specializationId"></span>
                                             </div>
-                                            
+
                                             <div class="col-12">
                                                 <label class="form-label">Gender</label>
-                                                <input type="radio" name="gender" value="Female"> Female
-                                                <input type="radio" name="gender" value="Male"> Male
+                                                <input type="radio" name="gender" id="Female" value="Female" required> Female
+                                                <input type="radio" name="gender" id="Male" value="Male" required> Male
+                                                <span id="error-gender" name="error-gender"></span>
                                             </div>
 
                                             <div class="col-12">
                                                 <label class="form-label">Date of Birth</label>
-                                                <input name="dob" type="date" class="form-control" value="${param.dob}">
+                                                <input name="dob" id="dob" type="date" class="form-control" required>
+                                                <span id="error-dob" name="error-dob"></span>
                                             </div>
 
                                             <div class="col-12">
                                                 <label class="form-label">Address</label>
-                                                <input type="text" name="address" class="form-control" placeholder="Address" value="${param.address}">
+                                                <input type="text" name="address" id="address" class="form-control" placeholder="Address" required>
+                                                <span id="error-address" name="error-address"></span>
                                             </div>
 
-                                            <div class="col-12">
-                                                <label class="form-label">Status</label>
-                                                <select name="status" class="form-select">
-                                                    <option value="Active">Active</option>
-                                                    <option value="Inactive">Inactive</option>
-                                                </select>
-                                            </div>
 
+                                            <input type="hidden" name="action" value="createDoctor" >
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-success px-5">CREATE</button>
                                             </div>
@@ -202,5 +200,151 @@
                 <!-- JavaScript -->
 
                 </body>
+                <script>
+                    $(document).ready(function () {
+                        function checkDoctorName() {
+                            const doctorname = $("#doctorName").val();
+                            const errorSpan = $("#error-doctorName");
 
+                            $.ajax({
+                                url: "createDoctor",
+                                type: 'POST',
+                                data: {action: "checkDoctorName", doctor_name: doctorname},
+                                success: function (response) {
+                                    console.log(response); // Debug
+                                    if (response.status === "empty") {
+                                        errorSpan.text("Doctor name is empty. Please enter username!").css("color", "red");
+                                    } else if (response.status === "valid") {
+                                        errorSpan.text("Doctor name is valid").css("color", "green");
+                                    } else {
+                                        toastr.error("Error.");
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    alert("Error.");
+                                }
+                            });
+                        }
+
+                        function checkExperienceYears() {
+                            const experienceYears = $("#experienceYears").val();
+                            const errorSpan = $("#error-experienceYears");
+
+                            $.ajax({
+                                url: "createDoctor",
+                                type: 'POST',
+                                data: {action: "checkExperienceYears", experienceYears: experienceYears},
+                                success: function (response) {
+                                    console.log(response); // Debug
+                                    if (response.status === "empty") {
+                                        errorSpan.text("Experience Years is empty. Please enter experience years!").css("color", "red");
+                                    } else if (response.status === "invalid") {
+                                        errorSpan.text("Experience Years must be greater than 0. Please try again!").css("color", "red");
+                                    } else if (response.status === "valid") {
+                                        errorSpan.text("Experience Years is valid").css("color", "green");
+                                    } else {
+                                        toastr.error("Error.");
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    alert("Error.");
+                                }
+                            });
+                        }
+
+                        function checkProfileImage() {
+                            const profileImage = $("#profileImage").val();
+                            const errorSpan = $("#error-profileImage");
+
+                            $.ajax({
+                                url: "createDoctor",
+                                type: 'POST',
+                                data: {action: "checkProfileImage", profileImage: profileImage},
+                                success: function (response) {
+                                    console.log(response); // Debug
+                                    if (response.status === "empty") {
+                                        errorSpan.text("Profile image is empty. Please enter an profile image!").css("color", "red");
+                                    } else if (response.status === "valid") {
+                                        errorSpan.text("Profile image is valid").css("color", "green");
+                                    } else {
+                                        toastr.error("Error.");
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    alert("Error.");
+                                }
+                            });
+                        }
+
+                        function checkDOB() {
+                            const dob = $("#dob").val();
+                            const errorSpan = $("#error-dob");
+
+                            $.ajax({
+                                url: "createDoctor",
+                                type: 'POST',
+                                data: {action: "checkDOB", dob: dob},
+                                success: function (response) {
+                                    console.log(response); // Debug
+                                    if (response.status === "empty") {
+                                        errorSpan.text("Date of birth is empty. Please enter an date of birth!").css("color", "red");
+                                    } else if (response.status === "valid") {
+                                        errorSpan.text("Date of birth is valid").css("color", "green");
+                                    } else {
+                                        toastr.error("Error.");
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    alert("Error.");
+                                }
+                            });
+                        }
+
+                        function checkAddress() {
+                            const address = $("#address").val();
+                            const errorSpan = $("#error-address");
+
+                            $.ajax({
+                                url: "createDoctor",
+                                type: 'POST',
+                                data: {action: "checkAddress", address: address},
+                                success: function (response) {
+                                    console.log(response); // Debug
+                                    if (response.status === "empty") {
+                                        errorSpan.text("Address is empty. Please enter the address!").css("color", "red");
+                                    } else if (response.status === "valid") {
+                                        errorSpan.text("Address is valid").css("color", "green");
+                                    } else {
+                                        toastr.error("Error.");
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    alert("Error.");
+                                }
+                            });
+                        }
+
+                        // Kiểm tra khi người dùng nhập hoặc rời khỏi ô input
+                        $("#doctorName").on("input blur", checkDoctorName);
+                        $("#experienceYears").on("input blur", checkExperienceYears);
+                        $("#profileImage").on("input blur", checkProfileImage);
+                        $("#dob").on("input blur", checkDOB);
+                        $("#address").on("input blur", checkAddress);
+
+                        // Chặn submit nếu có lỗi
+                        $("#createDoctorform").on("submit", function (event) {
+                            const doctorNameError = $("#error-doctorName").text();
+                            const ExperienceYearsError = $("#error-experienceYears").text();
+                            const ProfileImagelError = $("#error-profileImage").text();
+                            const DOBError = $("#error-dob").text();
+                            const AddressError = $("#error-address").text();
+
+                            if (doctorNameError.includes("Please") || ExperienceYearsError.includes("Please") || ProfileImagelError.includes("Please") || AddressError.includes("Please") || DOBError.includes("Please")) {
+                                toastr.error("Please fix the error before submitting!");
+                                event.preventDefault();
+                            }
+                        });
+                    });
+
+                </script>
                 </html>

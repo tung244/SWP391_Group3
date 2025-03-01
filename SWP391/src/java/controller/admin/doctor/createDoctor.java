@@ -17,61 +17,35 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.List;
 import model.Doctors;
 import model.Specialization;
 import java.time.format.DateTimeFormatter;
+import org.json.JSONObject;
 
 /**
  *
  * @author PC
  */
 @WebServlet(name = "createDoctor", urlPatterns = {"/admin/createDoctor"})
-
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
-        maxRequestSize = 1024 * 1024 * 50) // 50MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
+
 public class createDoctor extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet createDoctor</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet createDoctor at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -83,70 +57,172 @@ public class createDoctor extends HttpServlet {
         request.getRequestDispatcher("createDoctor.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
+
+        // Handle AJAX validation requests
+        String action = request.getParameter("action");
+        if (action != null && !action.equals("createDoctor")) {
+            handleAjaxValidation(request, response, action);
+            return;
+        }
         try {
             // Lấy dữ liệu từ form
             String doctorName = request.getParameter("doctorName");
             int experienceYears = Integer.parseInt(request.getParameter("experienceYears"));
-            String profileImage = request.getParameter("profileImage");
             String gender = request.getParameter("gender");
             String dob = request.getParameter("dob");
             String address = request.getParameter("address");
-            String status = request.getParameter("status");
+            String status = "Active";
             int specializationId = Integer.parseInt(request.getParameter("specializationId"));
-
+ 
+            // Xử lý upload file ảnh
+            Part part = request.getPart("profileImage");
+            String pathHost = getServletContext().getRealPath("");
+            String finalPath = pathHost.replace("build\\", "");
+            String linkFile = uploadImage(part, finalPath);
+            response.getWriter().print(linkFile);
+           
             // Tạo đối tượng chuyên khoa
             Specialization specialization = new Specialization();
             specialization.setSpecialization_id(specializationId);
 
             // Tạo đối tượng Doctor
-            Doctors doctor = (Doctors) request.getSession().getAttribute("doctor");
+            
+            Doctors doctor = (Doctors) request.getSession().getAttribute("doctor"); // Create a new doctor object instead of using session
             doctor.setDoctor_name(doctorName);
             doctor.setExperience_years(experienceYears);
-            doctor.setProfile_image(profileImage);
+            doctor.setProfile_image(linkFile); // Chỉ lưu đường dẫn tương đối
             doctor.setGender(gender);
             doctor.setDob(dob);
             doctor.setAddress(address);
             doctor.setDoctor_status(status);
-            doctor.setSpecialization(specialization);           
+            doctor.setSpecialization(specialization);
+           
             // Thêm bác sĩ vào DB
             DoctorsDAO doctorDao = new DoctorsDAO();
             boolean isSuccess = doctorDao.addDoctor(doctor);
-            
-            
             if (isSuccess) {
                 HttpSession session = request.getSession();
                 session.setAttribute("doctor_id", doctor.getDoctor_id());
-                request.getSession().setAttribute("progress", 50);
-                response.sendRedirect("createDegree"); 
+                session.setAttribute("progress", 100);
+                response.sendRedirect("createDegree");
             } else {
                 request.setAttribute("error", "Failed to create doctor. Please try again.");
-                doGet(request, response); 
+                doGet(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Invalid input data.");
+            request.setAttribute("error", "Invalid input data: " + e.getMessage());
             doGet(request, response);
         }
+
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    private void handleAjaxValidation(HttpServletRequest request, HttpServletResponse response, String action)
+            throws IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        JSONObject jsonResponse = new JSONObject();
+
+        try {
+            switch (action) {
+                case "checkDoctorName":
+                    String doctorName = request.getParameter("doctor_name");
+                    if (doctorName == null || doctorName.trim().isEmpty()) {
+                        jsonResponse.put("status", "empty");
+                    } else {
+                        jsonResponse.put("status", "valid");
+                    }
+                    break;
+
+                case "checkExperienceYears":
+                    String expYearsStr = request.getParameter("experienceYears");
+                    if (expYearsStr == null || expYearsStr.trim().isEmpty()) {
+                        jsonResponse.put("status", "empty");
+                    } else {
+                        try {
+                            int expYears = Integer.parseInt(expYearsStr);
+                            if (expYears <= 0) {
+                                jsonResponse.put("status", "invalid");
+                            } else {
+                                jsonResponse.put("status", "valid");
+                            }
+                        } catch (NumberFormatException e) {
+                            jsonResponse.put("status", "invalid");
+                        }
+                    }
+                    break;
+
+                case "checkProfileImage":
+                    String profileImage = request.getParameter("profileImage");
+                    if (profileImage == null || profileImage.trim().isEmpty()) {
+                        jsonResponse.put("status", "empty");
+                    } else {
+                        jsonResponse.put("status", "valid");
+                    }
+                    break;
+
+                case "checkDOB":
+                    String dob = request.getParameter("dob");
+                    if (dob == null || dob.trim().isEmpty()) {
+                        jsonResponse.put("status", "empty");
+                    } else {
+                        jsonResponse.put("status", "valid");
+                    }
+                    break;
+
+                case "checkAddress":
+                    String address = request.getParameter("address");
+                    if (address == null || address.trim().isEmpty()) {
+                        jsonResponse.put("status", "empty");
+                    } else {
+                        jsonResponse.put("status", "valid");
+                    }
+                    break;
+
+                default:
+                    jsonResponse.put("status", "error");
+                    jsonResponse.put("message", "Unknown action");
+            }
+        } catch (Exception e) {
+            jsonResponse.put("status", "error");
+            jsonResponse.put("message", e.getMessage());
+        }
+
+        out.print(jsonResponse.toString());
+        out.flush();
+    }
+
+    public static String uploadImage(Part part, String finalPath) throws ServletException {
+
+        String uploadPath = finalPath + "images";
+
+       
+        File uploadDir = new File(uploadPath);
+
+        if (!uploadDir.exists()) {
+            uploadDir.mkdir();
+        }
+        String linkFile = "";
+
+        String fileName = part.getSubmittedFileName();
+    
+        if (fileName != null && !fileName.isEmpty()) {
+            File filePath = new File(uploadPath + File.separator + fileName);
+            try {
+                Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                linkFile = "./images/" + fileName;
+            } catch (IOException e) {
+                throw new ServletException("File upload failed: " + e.getMessage());
+            }
+        }
+        return linkFile;
+    }
+
     @Override
     public String getServletInfo() {
         return "Short description";
