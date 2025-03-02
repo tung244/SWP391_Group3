@@ -142,8 +142,9 @@ public class CreateAccDoctor extends HttpServlet {
             
             Doctors doc = new Doctors();
             doc.setAcc(acc);
+            request.getSession().setAttribute("pass", pass);
             request.getSession().setAttribute("doctor", doc);
-            request.getSession().setAttribute("progress", 50);
+            request.getSession().setAttribute("progress", 35);
             response.sendRedirect("createDoctor");
         }
                 

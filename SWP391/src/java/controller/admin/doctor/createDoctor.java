@@ -4,6 +4,7 @@
  */
 package controller.admin.doctor;
 
+import bo.SendMail;
 import dal.DoctorsDAO;
 import dal.SpecializationDAO;
 import java.io.IOException;
@@ -90,12 +91,11 @@ public class createDoctor extends HttpServlet {
             Specialization specialization = new Specialization();
             specialization.setSpecialization_id(specializationId);
 
-            // Tạo đối tượng Doctor
-            
-            Doctors doctor = (Doctors) request.getSession().getAttribute("doctor"); // Create a new doctor object instead of using session
+            // Tạo đối tượng Doctor            
+            Doctors doctor = (Doctors) request.getSession().getAttribute("doctor"); 
             doctor.setDoctor_name(doctorName);
             doctor.setExperience_years(experienceYears);
-            doctor.setProfile_image(linkFile); // Chỉ lưu đường dẫn tương đối
+            doctor.setProfile_image(linkFile); 
             doctor.setGender(gender);
             doctor.setDob(dob);
             doctor.setAddress(address);
@@ -106,10 +106,10 @@ public class createDoctor extends HttpServlet {
             DoctorsDAO doctorDao = new DoctorsDAO();
             boolean isSuccess = doctorDao.addDoctor(doctor);
             if (isSuccess) {
+                SendMail.sendMailDoctor(doctor.getAcc().email, request.getSession().getAttribute("pass").toString(), doctorName);
                 HttpSession session = request.getSession();
-                session.setAttribute("doctor_id", doctor.getDoctor_id());
-                session.setAttribute("progress", 100);
-                response.sendRedirect("createDegree");
+                session.setAttribute("progress", 70);      
+                response.sendRedirect("DoctorList");
             } else {
                 request.setAttribute("error", "Failed to create doctor. Please try again.");
                 doGet(request, response);
@@ -198,10 +198,7 @@ public class createDoctor extends HttpServlet {
     }
 
     public static String uploadImage(Part part, String finalPath) throws ServletException {
-
         String uploadPath = finalPath + "images";
-
-       
         File uploadDir = new File(uploadPath);
 
         if (!uploadDir.exists()) {

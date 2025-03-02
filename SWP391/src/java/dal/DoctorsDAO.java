@@ -455,44 +455,66 @@ public class DoctorsDAO extends DBContext {
         }
         return false;
     }
+    
+    public boolean updateStatus(String doctor_id, String status){
+         String sql = "UPDATE dbo.Doctors SET doctor_status = ? WHERE doctor_id = ?";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1,status );  
+            st.setString(2,doctor_id);
+            
+
+            int rowsUpdated = st.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
-
+       List<Doctors> l = dao.getDoctorsDash();
+        for (Doctors doctors : l) {
+            System.out.println(doctors);
+        }
 
 //        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");
 //        for (Doctors doctors : li) {
 //            System.out.println(doctors);
 //        }
 //    
-        Account account = new Account();
-        account.setUsername("doctor6");
-        account.setEmail("doctor6@example.com");
-        account.setCreated_date("2025-02-24");
-        account.setPassword("doctorpass6");
-        account.setPhonenumber("1000000019");
-        Role role = new Role();
-        role.setRole_id(3);
-        account.setRole(role);
-        Doctors doc = new Doctors();
-        doc.setDoctor_name("j");
-        doc.setExperience_years(10);
-        doc.setProfile_image("profile.jpg");
-        doc.setGender("Male");
-        doc.setDob("1985-01-01");
-        doc.setAddress("123 Street");
-        doc.setDoctor_status("Active");
-        Specialization specialization = new Specialization();
-        specialization.setSpecialization_id(1);
-        doc.setSpecialization(specialization);
-        doc.setAcc(account);
-
-        boolean flag = dao.addDoctor(doc);
-        if (flag) {
-            System.out.println("Doctor added successfully!");
-        } else {
-            System.out.println("Failed to add the doctor.");
-        }
+//        Account account = new Account();
+//        account.setUsername("doctor6");
+//        account.setEmail("doctor6@example.com");
+//        account.setCreated_date("2025-02-24");
+//        account.setPassword("doctorpass6");
+//        account.setPhonenumber("1000000019");
+//        Role role = new Role();
+//        role.setRole_id(3);
+//        account.setRole(role);
+//        Doctors doc = new Doctors();
+//        doc.setDoctor_name("j");
+//        doc.setExperience_years(10);
+//        doc.setProfile_image("profile.jpg");
+//        doc.setGender("Male");
+//        doc.setDob("1985-01-01");
+//        doc.setAddress("123 Street");
+//        doc.setDoctor_status("Active");
+//        Specialization specialization = new Specialization();
+//        specialization.setSpecialization_id(1);
+//        doc.setSpecialization(specialization);
+//        doc.setAcc(account);
+//
+//        boolean flag = dao.addDoctor(doc);
+//        if (flag) {
+//            System.out.println("Doctor added successfully!");
+//        } else {
+//            System.out.println("Failed to add the doctor.");
+//        }
+//        
+        
+        
 
 //        Doctors doc = new Doctors();
 //        doc.setDoctor_name("Lee Min Hoo");
