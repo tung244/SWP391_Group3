@@ -81,6 +81,7 @@ CREATE TABLE Accounts (
     role_id INT,
 	google_id nvarchar(255),
 	facebook_id NVARCHAR(255),
+	first_confirm NVARCHAR(255),
     FOREIGN KEY (role_id) REFERENCES Role(role_id)
 );
 
@@ -109,6 +110,8 @@ CREATE TABLE [Degree_Doctor](
 	doctor_id INT,
 	degree_id INT,
 	degree_image NVARCHAR(255),
+	date_certificate DATETIME,
+	issued_by NVARCHAR(255),
 	PRIMARY KEY(doctor_id,degree_id),
 	FOREIGN KEY (doctor_id) REFERENCES dbo.Doctors(doctor_id),
 	FOREIGN KEY (degree_id) REFERENCES dbo.Degree(degree_id)

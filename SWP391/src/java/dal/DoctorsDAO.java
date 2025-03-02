@@ -379,7 +379,6 @@ public class DoctorsDAO extends DBContext {
         }
     }
 
-
     public boolean addDoctor(Doctors doctor) {
         String accountSql = "INSERT INTO Accounts(username, password, email, phone_number, created_date, role_id) VALUES (?, ?, ?, ?, ?, ?)";
         String getAccountIdSql = "SELECT account_id FROM Accounts WHERE username = ?";
@@ -455,14 +454,13 @@ public class DoctorsDAO extends DBContext {
         }
         return false;
     }
-    
-    public boolean updateStatus(String doctor_id, String status){
-         String sql = "UPDATE dbo.Doctors SET doctor_status = ? WHERE doctor_id = ?";
+
+    public boolean updateStatus(String doctor_id, String status) {
+        String sql = "UPDATE dbo.Doctors SET doctor_status = ? WHERE doctor_id = ?";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
-            st.setString(1,status );  
-            st.setString(2,doctor_id);
-            
+            st.setString(1, status);
+            st.setString(2, doctor_id);
 
             int rowsUpdated = st.executeUpdate();
             return rowsUpdated > 0;
@@ -472,12 +470,29 @@ public class DoctorsDAO extends DBContext {
         }
     }
 
+  public boolean getFirstConfirm(String email) {
+    String sql = "SELECT first_confirm FROM dbo.Accounts WHERE email = ?";
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setString(1, email);
+        ResultSet rs = st.executeQuery();
+        if (rs.next()) { 
+            String firstConfirm = rs.getString(1); 
+            return "true".equalsIgnoreCase(firstConfirm); 
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return false; 
+}
+
+
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
-       List<Doctors> l = dao.getDoctorsDash();
-        for (Doctors doctors : l) {
-            System.out.println(doctors);
-        }
+//        List<Doctors> l = dao.getDoctorsDash();
+//        for (Doctors doctors : l) {
+//            System.out.println(doctors);
+//        }
+        System.out.println(dao.getFirstConfirm("doctor3@example.com"));
 
 //        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");
 //        for (Doctors doctors : li) {
@@ -513,9 +528,6 @@ public class DoctorsDAO extends DBContext {
 //            System.out.println("Failed to add the doctor.");
 //        }
 //        
-        
-        
-
 //        Doctors doc = new Doctors();
 //        doc.setDoctor_name("Lee Min Hoo");
 //        doc.setExperience_years(10);

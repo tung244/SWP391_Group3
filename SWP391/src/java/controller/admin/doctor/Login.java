@@ -5,6 +5,8 @@
 package controller.admin.doctor;
 
 import dal.AccountDAO;
+import dal.DoctorsDAO;
+import dal.PassWordDAO;
 import jakarta.mail.Transport;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,6 +38,7 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountDAO accdao = new AccountDAO();
+        DoctorsDAO dao = new DoctorsDAO();
         String action = request.getParameter("action");
         String respsonse = "";
         response.setContentType("application/json");
@@ -73,16 +76,40 @@ public class Login extends HttpServlet {
         }
 
         response.getWriter().write(respsonse);
-
+        PassWordDAO pdao = new PassWordDAO();
         if (action.equals("login")) {
-            String email = request.getParameter("email");
+            String email = request.getParameter("email").trim();
             String pass = request.getParameter("pass");
-            boolean success = accdao.LoginByEmail(email, pass);
+            String encryptPass = pdao.hashPasswordMD5(pass);            
+            boolean success = accdao.LoginByEmail(email, encryptPass);
             if (success) {
-               int role_id = accdao.getRoleID(email);
-               if(role_id == 3){
-                    response.sendRedirect("doctorProfile");
-               }
+                int role_id = accdao.getRoleID(email);
+                switch (role_id) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        if (dao.getFirstConfirm(email)) {
+                            request.getSession().setAttribute("email", email);
+                            response.sendRedirect("changePass");
+                        } else {
+                            response.sendRedirect("doctorProfile");
+                        }
+
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+
+                    default:
+                        throw new AssertionError();
+                }
+
+            }else{
+                request.getSession().setAttribute("error", "Password is incorect. Please try again!");
+                response.sendRedirect("login");
             }
         }
 

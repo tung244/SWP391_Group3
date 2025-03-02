@@ -29,10 +29,10 @@
                                         <div class="">                                 
                                             <div class="form-body">                                           
                                                 <form action="login" method="POST" id="loginForm" class="row g-3">
-                                                     <input type="hidden" name="action" value="login">
+                                                    <input type="hidden" name="action" value="login">
                                                     <div class="col-12">
                                                         <label for="inputEmailAddress" class="form-label">Email Address</label>
-                                                        <input type="email" name="email" class="form-control" id="email" placeholder="Email Address" required>
+                                                        <input type="email" name="email" class="form-control" id="email" value="${sessionScope.email}" placeholder="Email Address" required>
                                                         <div name = "email-error" id="email-error" ></div>
                                                     </div>
                                                     <div class="col-12">
@@ -42,8 +42,9 @@
                                                         </div>
                                                         <div name = "pass-error" id="pass-error" ></div>
                                                     </div>
+
                                                     <div class="col-12">
-                                                       
+
                                                         <div class="d-grid">
                                                             <button type="submit" class="btn btn-primary"><i class="bx bxs-lock-open"></i>Sign in</button>
                                                         </div>
@@ -57,6 +58,17 @@
                                     <img src="assets/images/login-images/login-frent-img.jpg" class="img-fluid" alt="...">
                                 </div>
                             </div>
+                            <%
+                                                      String succesMessage = (String) session.getAttribute("error");
+                                                      if(succesMessage != null) {
+                            %>
+                            <script>
+                                                        alert("<%= succesMessage %> ");
+                            </script>
+                            <%
+                                                        session.removeAttribute("error");
+                                                                                }
+                            %>
                             <!--end row-->
                         </div>
                     </div>
@@ -69,22 +81,22 @@
     <!--plugins-->
     <script src="assets/js/jquery.min.js"></script>
     <!--Password show & hide js -->
-        <script>
-            $(document).ready(function () {
-                $("#show_hide_password a").on('click', function (event) {
-                    event.preventDefault();
-                    if ($('#show_hide_password input').attr("type") == "text") {
-                        $('#show_hide_password input').attr('type', 'password');
-                        $('#show_hide_password i').addClass("bx-hide");
-                        $('#show_hide_password i').removeClass("bx-show");
-                    } else if ($('#show_hide_password input').attr("type") == "password") {
-                        $('#show_hide_password input').attr('type', 'text');
-                        $('#show_hide_password i').removeClass("bx-hide");
-                        $('#show_hide_password i').addClass("bx-show");
-                    }
-                });
-            });
-        </script>
+    <script>
+                                                        $(document).ready(function () {
+                                                            $("#show_hide_password a").on('click', function (event) {
+                                                                event.preventDefault();
+                                                                if ($('#show_hide_password input').attr("type") == "text") {
+                                                                    $('#show_hide_password input').attr('type', 'password');
+                                                                    $('#show_hide_password i').addClass("bx-hide");
+                                                                    $('#show_hide_password i').removeClass("bx-show");
+                                                                } else if ($('#show_hide_password input').attr("type") == "password") {
+                                                                    $('#show_hide_password input').attr('type', 'text');
+                                                                    $('#show_hide_password i').removeClass("bx-hide");
+                                                                    $('#show_hide_password i').addClass("bx-show");
+                                                                }
+                                                            });
+                                                        });
+    </script>
     <script>
         $(document).ready(function () {
             function checkEmail() {
@@ -105,7 +117,7 @@
                     return;
                 }
 
-            
+
 
                 // If client-side validation passes, check with server
                 $.ajax({
@@ -117,7 +129,7 @@
                         if (response.status === "empty") {
                             errorSpan.text("Email is empty. Please enter an email!").css("color", "red");
                         } else if (response.status === "invalid_format") {
-                            errorSpan.text("Invalid email format!").css("color", "red");                      
+                            errorSpan.text("Invalid email format!").css("color", "red");
                         } else if (response.status === "valid") {
                             errorSpan.text("Email is valid").css("color", "green");
                         } else {

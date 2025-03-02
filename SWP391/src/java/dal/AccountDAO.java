@@ -170,11 +170,59 @@ public class AccountDAO extends DBContext {
         }
         return 0;
     }
+    
+    public boolean changePass(String newpass, int accId){
+          String sql = "UPDATE dbo.Accounts SET password = ? WHERE account_id = ?";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, newpass);
+            st.setInt(2, accId);
+
+            int rowsUpdated = st.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+     public int getAccountIdByEmail(String email) {
+        String sql = "Select account_id from Accounts where email =?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+      public boolean changeFirstConfirm(String confirm, int accId){
+          String sql = "UPDATE dbo.Accounts SET first_confirm = ? WHERE account_id = ?";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, confirm);
+            st.setInt(2, accId);
+
+            int rowsUpdated = st.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
-        System.out.println(dao.getRoleID("doctor1@example.com"));
-        System.out.println(dao.LoginByEmail("doctor1@example.com", "doctorpass1"));
+//        System.out.println(dao.getRoleID("doctor1@example.com"));
+//        System.out.println(dao.LoginByEmail("doctor1@example.com", "doctorpass1"));
+//        System.out.println(dao.getAccountIdByEmail("doctor1@example.com"));
+//        System.out.println(dao.changePass("doctorpass1", "2"));
+//        System.out.println(dao.changeFirstConfirm("true", "4"));
     }
 
 }
