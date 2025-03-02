@@ -3,33 +3,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.homepage;
+package controller.admin;
 
-import bo.ImageServices;
-import dal.UserProfileDAO;
+import dal.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
+import model.StaffDetail;
+import model.Staffs;
 
 /**
  *
  * @author -ASUS-
  */
-
-@WebServlet(name="UpdateImageProfile", urlPatterns={"/updateimageprofile"})
-@MultipartConfig(
-    fileSizeThreshold = 1024 * 1024,    
-    maxFileSize = 2 * 1024 * 1024,        
-    maxRequestSize = 4 * 1024 * 1024      
-)
-public class UpdateImageProfile extends HttpServlet {
+@WebServlet(name="LoadStaffDetail", urlPatterns={"/loadstaffdetail"})
+public class LoadStaffDetail extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -46,10 +38,10 @@ public class UpdateImageProfile extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateImageProfile</title>");  
+            out.println("<title>Servlet LoadStaffDetail</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateImageProfile at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet LoadStaffDetail at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,7 +58,41 @@ public class UpdateImageProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        String idRaw = request.getParameter("staffId");
+        StaffDAO daoStaff = new StaffDAO();
+        Staffs s = new Staffs();
+        try {
+            int id = Integer.parseInt(idRaw);
+            s = daoStaff.getStaffById(id);
+        } catch (NumberFormatException e) {
+            System.out.println(e);
+        }
+         response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        // Tạo HTML cho bảng chi tiết
+        out.println("<div class='container-fluid'>");
+        out.println("<table class='table'>");
+        out.println("<thead>");
+        out.println("<tr>");
+        out.println("<th>Admin_hired_date</th>");
+        out.println("<th>Salary</th>");
+        //out.println("<th>Duration</th>");
+        out.println("</tr>");
+        out.println("</thead>");
+        out.println("<tbody>");
+        out.println("<tr>");
+        out.println("<td>" + s.getAdmin_hired_date()+ "</td>");
+        out.println("<td>" + s.getAdmin_salary() + "</td>");
+        //out.println("<td>" + s.getServiceType().getDuration_service()+ "</td>"); // Sửa thành duration_service
+        out.println("<td>");
+        out.println("</td>");
+        out.println("</tr>");
+
+        out.println("</tbody>");
+        out.println("</table>");
+        out.println("</div>");
     } 
 
     /** 
@@ -80,24 +106,6 @@ public class UpdateImageProfile extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         //processRequest(request, response);
-        Part part = request.getPart("profileImage");  
-        String pathHost = getServletContext().getRealPath("");
-        String finalPath = pathHost.replace("build\\", "");
-        UserProfileDAO dao = new UserProfileDAO();
-        HttpSession session = request.getSession();
-        int account_id = (int) session.getAttribute("account_id");
-        String linkFile = ImageServices.uploadImage(part, finalPath);
-        response.getWriter().print(linkFile);
-        if(dao.UpdateImageProfile(linkFile, account_id)){
-            session.setAttribute("ms", "Cập nhật ảnh thành công.");
-            response.sendRedirect("userprofile");
-            return;
-        }
-        if(dao.UpdateImageProfile(linkFile, account_id)==false){
-            session.setAttribute("error", "Cập nhật ảnh thất bại.");
-            response.sendRedirect("userprofile");
-            return;
-        }
         
     }
 

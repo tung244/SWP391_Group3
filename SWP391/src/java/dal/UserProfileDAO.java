@@ -409,10 +409,10 @@ public class UserProfileDAO extends DBContext {
         WHERE 1=1
     """);
 
-    List<Object> params = new ArrayList<>();
+    List<String> params = new ArrayList<>();
 
     if (serviceName != null && !serviceName.isEmpty()) {
-        sql.append(" AND s.service_name LIKE ? ");
+        sql.append(" AND s.service_name COLLATE SQL_Latin1_General_CP1_CI_AI LIKE  ? ");
         params.add("%" + serviceName + "%");
     }
 
@@ -433,7 +433,7 @@ public class UserProfileDAO extends DBContext {
 
     try (PreparedStatement st = connection.prepareStatement(sql.toString())) {
         for (int i = 0; i < params.size(); i++) {
-            st.setObject(i + 1, params.get(i));
+            st.setString(i + 1, params.get(i));
         }
         try (ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
@@ -513,7 +513,7 @@ public class UserProfileDAO extends DBContext {
     
     public static void main(String[] args) {
         UserProfileDAO dao = new UserProfileDAO();
-        for (Appointment a : dao.searchAppointments("", "Cơ bản", "", "")) {
+        for (Appointment a : dao.searchAppointments("K", "", "", "")) {
             System.out.println(a);
         }
 

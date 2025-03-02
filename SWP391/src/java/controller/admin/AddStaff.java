@@ -4,6 +4,7 @@
  */
 package controller.admin;
 
+import dal.AccountDAO;
 import dal.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,8 +13,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.sql.Date;
 import model.Account;
+import model.Role;
 import model.Staffs;
 
 /**
@@ -61,7 +65,67 @@ public class AddStaff extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        AccountDAO ACDao = new AccountDAO();
+        String username = request.getParameter("username");
+        if(ACDao.checkTonTaiUser(username)){
+             request.setAttribute("error", "Tên đăng nhập đã tồn tại.");
+             request.getRequestDispatcher("AddStaff.jsp").forward(request, response);
+             return;
+        }
+        String password = request.getParameter("password");
+        String staff_fullname = request.getParameter("staff_fullname");
+        String staff_address = request.getParameter("staff_address");
+        Date staffDob = Date.valueOf(request.getParameter("staff_dob"));
+        String staff_gender = request.getParameter("staff_gender");
+        String role_name = request.getParameter("role_name");
+        String phone = request.getParameter("phone");
+        if(ACDao.checkTonTai(phone, "phone_number")){
+            request.setAttribute("error", "Số điện thoại đã tồn tại.");
+            request.getRequestDispatcher("AddStaff.jsp").forward(request, response);
+            return;
+        }
+        String email = request.getParameter("email");
+        if(ACDao.checkTonTai(email, "email")){
+            request.setAttribute("error", "Email đã tồn tại.");
+            request.getRequestDispatcher("AddStaff.jsp").forward(request, response);
+            return;
+        }
+        String salaryRaw = request.getParameter("salary");
+
+        try {
+            BigDecimal salaryParse = BigDecimal.valueOf(Double.parseDouble(salaryRaw));
+            Role role = new Role();
+            role.setRole_name(role_name);
+
+            Account account = new Account();
+            account.setUsername(username);
+            account.setPassword(password);
+            account.setRole(role);
+            account.setEmail(email);
+            account.setPhonenumber(phone);
+
+            Staffs staff = new Staffs();
+            staff.setAccount(account);
+            staff.setAdmin_fullname(staff_fullname);
+            staff.setAdmin_address(staff_address);
+            staff.setAdmin_dob(staffDob);
+            staff.setAdmin_gender(staff_gender);
+            staff.setAdmin_salary(salaryParse);
+            staff.setImage_profile_admin("default.jpg"); 
+            
+            
+            StaffDAO dao = new StaffDAO();
+            boolean test = dao.addStaff(staff);
+            if(test==false){
+                response.sendRedirect("login");
+            }
+            response.sendRedirect("ListStaff");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -108,14 +172,13 @@ public class AddStaff extends HttpServlet {
 //        }
 //    }
 //}
-
-
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
-public String getServletInfo() {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

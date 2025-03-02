@@ -3,33 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.homepage;
+package controller.admin;
 
-import bo.ImageServices;
-import dal.UserProfileDAO;
+import dal.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
 
 /**
  *
  * @author -ASUS-
  */
-
-@WebServlet(name="UpdateImageProfile", urlPatterns={"/updateimageprofile"})
-@MultipartConfig(
-    fileSizeThreshold = 1024 * 1024,    
-    maxFileSize = 2 * 1024 * 1024,        
-    maxRequestSize = 4 * 1024 * 1024      
-)
-public class UpdateImageProfile extends HttpServlet {
+@WebServlet(name="DeleteStaff", urlPatterns={"/deletestaff"})
+public class DeleteStaff extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -46,10 +36,10 @@ public class UpdateImageProfile extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateImageProfile</title>");  
+            out.println("<title>Servlet DeleteStaff</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateImageProfile at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DeleteStaff at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,7 +56,39 @@ public class UpdateImageProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        try {
+            
+            int serviceDetailId = Integer.parseInt(request.getParameter("id"));
+            
+            
+            StaffDAO dao = new StaffDAO();
+            boolean isDeleted = dao.deleteStaff(serviceDetailId);
+
+            
+            String message;
+            if (isDeleted) {
+                message = "<div class='alert alert-success' style='font-size: 18px;'>"
+                        + "<i class='fas fa-check-circle' style='color: #28a745; margin-right: 10px;'></i>"
+                        + "Xóa thành công!"
+                        + "</div>";
+            } else {
+                message = "<div class='alert alert-danger' style='font-size: 18px;'>"
+                        + "<i class='fas fa-exclamation-circle' style='color: #dc3545; margin-right: 10px;'></i>"
+                        + "Không thể xóa dịch vụ. Vui lòng thử lại!"
+                        + "</div>";
+            }
+            request.getSession().setAttribute("message", message);
+            response.sendRedirect(request.getContextPath() + "/admin/StaffList");
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errorMessage = "<div class='alert alert-danger' style='font-size: 18px;'>"
+                    + "<i class='fas fa-exclamation-triangle' style='color: #dc3545; margin-right: 10px;'></i>"
+                    + "Đã xảy ra lỗi: " + e.getMessage()
+                    + "</div>";
+            request.getSession().setAttribute("message", errorMessage);
+            response.sendRedirect(request.getContextPath() + "/admin/StaffList");
+        }
     } 
 
     /** 
@@ -79,26 +101,7 @@ public class UpdateImageProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //processRequest(request, response);
-        Part part = request.getPart("profileImage");  
-        String pathHost = getServletContext().getRealPath("");
-        String finalPath = pathHost.replace("build\\", "");
-        UserProfileDAO dao = new UserProfileDAO();
-        HttpSession session = request.getSession();
-        int account_id = (int) session.getAttribute("account_id");
-        String linkFile = ImageServices.uploadImage(part, finalPath);
-        response.getWriter().print(linkFile);
-        if(dao.UpdateImageProfile(linkFile, account_id)){
-            session.setAttribute("ms", "Cập nhật ảnh thành công.");
-            response.sendRedirect("userprofile");
-            return;
-        }
-        if(dao.UpdateImageProfile(linkFile, account_id)==false){
-            session.setAttribute("error", "Cập nhật ảnh thất bại.");
-            response.sendRedirect("userprofile");
-            return;
-        }
-        
+        processRequest(request, response);
     }
 
     /** 

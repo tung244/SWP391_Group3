@@ -1,11 +1,9 @@
-                                                                                                                                    /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.admin;
 
-import dal.ServiceDao;
 import dal.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,44 +14,45 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-import model.ServiceDetail;
-import model.Specialization;
 import model.Staffs;
 
 /**
  *
- * @author DELL
+ * @author -ASUS-
  */
-@WebServlet(name="ListStaff", urlPatterns={"/admin/ListStaff"})
-public class ListStaff extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+@WebServlet(name = "SearchStaff", urlPatterns = {"/admin/searchstaff"})
+public class SearchStaff extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListStaff</title>");  
+            out.println("<title>Servlet SearchStaff</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListStaff at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet SearchStaff at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -61,14 +60,29 @@ public class ListStaff extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
+        // Lấy giá trị tham số và kiểm tra null trước khi gọi trim()
+        String sortrole = request.getParameter("sortrole");
+        String address = request.getParameter("address");
+        String name = request.getParameter("name");
+        if (name == null) {
+            name = "";
+        } else {
+            name = name.trim().replaceAll("\\s+", " ");
+        }
+
+        String phone = request.getParameter("phone");
+        if (phone == null) {
+            phone = "";
+        } else {
+            phone = phone.trim().replaceAll("\\s+", " ");
+        }
+
         StaffDAO dao = new StaffDAO();
-//        List<ServiceDetail> list = dao.getServiceAll();
-//        List<Specialization> list1 = dao.getAllSpecialization();
-        List<Staffs> staffs = dao.getAllStaff();
+        List<Staffs> listS = dao.searchStaffs(name, address, phone, sortrole);
         List<String> addressList = dao.getAllAddresses();
         int page, numperpage = 6;
-        int size = staffs.size();
+        int size = listS.size();
         int num = (size%6==0?(size/6):((size/6)+1));
         String xpage = request.getParameter("page");
         if(xpage==null){
@@ -79,17 +93,19 @@ public class ListStaff extends HttpServlet {
         int start, end;
         start = (page-1)*numperpage;
         end = Math.min(page*numperpage, size);
-        List<Staffs> listAs = dao.getStaffByPage((ArrayList<Staffs>)staffs, start, end);
-        request.setAttribute("staffs", listAs);
+        List<Staffs> listSs = dao.getStaffByPage((ArrayList<Staffs>)listS, start, end);
+        request.setAttribute("staffs", listSs);
         request.setAttribute("page", page);
         request.setAttribute("numpage", num);
         request.setAttribute("addressList", addressList);
-        request.setAttribute("type", "StaffP");
-        request.getRequestDispatcher("StaffList.jsp").forward(request, response);
-    } 
+        request.setAttribute("type", "search");
+        request.getRequestDispatcher("/admin/StaffList.jsp").forward(request, response);
+        
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -97,12 +113,13 @@ public class ListStaff extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

@@ -741,50 +741,65 @@
                 <div class="page-content-wrapper">
                     <div class="page-content">
                         <!--breadcrumb-->
+                        <!-- Breadcrumb -->
                         <div class="page-breadcrumb d-none d-md-flex align-items-center mb-3">
                             <div class="breadcrumb-title pe-3">Tables</div>
                             <div class="ps-3">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb mb-0 p-0">
-                                        <li class="breadcrumb-item"><a href="javascript:;"><i class='bx bx-home-alt'></i></a></li>
+                                        <li class="breadcrumb-item">
+                                            <a href="javascript:;"><i class='bx bx-home-alt'></i></a>
+                                        </li>
                                         <li class="breadcrumb-item active" aria-current="page">Editable</li>
                                     </ol>
                                 </nav>
                             </div>
-                            <div class="ms-auto d-flex gap-2"> <!-- Thêm d-flex và gap-2 -->
-                                <!-- Sort Specialization -->
+
+                            <div class="ms-auto d-flex gap-2">
+                                <!-- Sort Role -->
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-primary">Sort Specialization</button>
+                                    <button type="button" class="btn btn-primary"> Role</button>
                                     <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
                                         <span class="visually-hidden">Toggle Dropdown</span>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-                                        <a class="dropdown-item" href="searchService?sort=asc">Ascending</a>
-                                        <a class="dropdown-item" href="searchService?sort=desc">Descending</a>
+                                        <a class="dropdown-item" href="searchstaff?sortrole=Customer Support">Customer Support</a>
+                                        <a class="dropdown-item" href="searchstaff?sortrole=Customer">Customer</a>
                                         <div class="dropdown-divider"></div>
                                     </div>
                                 </div>
 
-                                <!-- Search by Specialization -->
+                                <!-- Search by Address -->
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-primary">Search by Specialization</button>
+                                    <button type="button" class="btn btn-primary">Search by Address</button>
                                     <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
                                         <span class="visually-hidden">Toggle Dropdown</span>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-                                        <a class="dropdown-item" href="searchService?id=0">
-                                            All Specializations
-                                        </a>
-                                        <c:forEach var="specialization" items="${listSP}">
-                                            <a class="dropdown-item" href="searchService?id=${specialization.specialization_id}">
-                                                ${specialization.specialization_name}
+                                        <a class="dropdown-item" href="searchstaff?id=0">All Addresses</a>
+                                        <c:forEach var="address" items="${requestScope.addressList}">
+                                            <a class="dropdown-item" href="searchstaff?address=${address}">
+                                                ${address}
                                             </a>
                                         </c:forEach>
                                         <div class="dropdown-divider"></div>
                                     </div>
                                 </div>
+
+                                <!-- Search by Name -->
+                                <form action="searchstaff" method="GET" class="d-flex">
+                                    <input type="text" name="name" class="form-control" placeholder="Enter name..." required>
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </form>
+
+                                <!-- Search by Phone -->
+                                <form action="searchstaff" method="GET" class="d-flex">
+                                    <input type="text" name="phone" class="form-control" placeholder="Enter phone..." required>
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </form>
                             </div>
                         </div>
+
 
                         <!--end breadcrumb-->
 
@@ -822,10 +837,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <div>
-                                    <h4 style="color:green; font-weight: bold">Services Table</h4>
+                                    <h4 style="color:green; font-weight: bold">Staff Table</h4>
                                     <hr>
-                                    <a href="AddService">
-                                        <button id="table2-new-row-button" class="btn btn-outline-success btn-sm mb-2" style="font-size: 20px; font-weight: bold" >Add Service</button>
+                                    <a href="AddStaff.jsp">
+                                        <button id="table2-new-row-button" class="btn btn-outline-success btn-sm mb-2" style="font-size: 20px; font-weight: bold" >Add Staff</button>
                                     </a>
 
                                     <div class="table-responsive">
@@ -856,7 +871,7 @@
                                                             <a href="UpdateStaff?id=${a.account.account_id}" title="Update">
                                                                 <i class="fas fa-edit icon"></i>
                                                             </a>
-                                                            <a href="#" onclick="confirmDelete(${a.account.account_id}, '${a.account.account_id}'); return false;" title="Delete">
+                                                            <a href="#" onclick="confirmDelete(${a.account.account_id}, '${a.account.username}'); return false;" title="Delete">
                                                                 <i class="fas fa-trash-alt icon"></i>
                                                             </a>    
                                                             <a href="#" title="View" onclick="loadServiceDetails(${a.account.account_id});" data-toggle="modal" data-target="#viewModal">
@@ -867,6 +882,20 @@
                                                 </c:forEach>
                                             </tbody>
                                         </table>
+                                        <div class="pagination">
+                                            <c:if test="${page > 1}">
+                                                <a href="${type == 'search' ? 'searchstaff' : 'ListStaff'}?page=${page - 1}&sortrole=${param.sortrole}&address=${param.address}&name=${param.name}">«</a>
+                                            </c:if>
+
+                                            <c:forEach var="i" begin="1" end="${numpage}">
+                                                <a href="${type == 'search' ? 'searchstaff' : 'ListStaff'}?page=${i}&sortrole=${param.sortrole}&address=${param.address}&name=${param.name}"
+                                                   class="${i == page ? 'active' : ''}">${i}</a>
+                                            </c:forEach>
+
+                                            <c:if test="${page < numpage}">
+                                                <a href="${type == 'search' ? 'searchstaff' : 'ListStaff'}?page=${page + 1}&sortrole=${param.sortrole}&address=${param.address}&name=${param.name}">»</a>
+                                            </c:if>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -881,7 +910,7 @@
                 <div class="modal-dialog modal-xl"> <!-- Thêm lớp modal-lg -->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalLabel">Service Details</h5>
+                            <h5 class="modal-title" id="modalLabel">Staff Details</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id="modalContent">
@@ -992,7 +1021,7 @@
 
                 // Send request to servlet
                 var xhr = new XMLHttpRequest();
-                xhr.open("GET", "/SWP391/LoadServiceDetail?serviceId=" + id, true);
+                xhr.open("GET", "/SWP391/loadstaffdetail?staffId=" + id, true);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         console.log("Response from server:", xhr.responseText);
@@ -1005,73 +1034,73 @@
                 xhr.send();
             }
         </script>  
-        <!--        <script>
-                    function confirmDelete(serviceId, serviceName) {
-                        Swal.fire({
-                            title: 'Xác nhận xóa',
-                            html: `Bạn có chắc chắn muốn xóa dịch vụ <b>${serviceName}</b>?`,
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Xóa',
-                            cancelButtonText: 'Hủy',
-                            customClass: {
-                                popup: 'animated fadeInDown'
-                            }
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Gửi yêu cầu xóa
-                                fetch('${pageContext.request.contextPath}/admin/deleteService?id=' + serviceId)
-                                        .then(response => response.text())
-                                        .then(data => {
-                                            // Hiển thị thông báo thành công
-                                            Swal.fire({
-                                                title: 'Thành công!',
-                                                text: 'Đã xóa dịch vụ thành công',
-                                                icon: 'success',
-                                                showConfirmButton: false,
-                                                timer: 1500,
-                                                customClass: {
-                                                    popup: 'animated fadeInDown'
-                                                }
-                                            }).then(() => {
-                                                window.location.reload();
-                                            });
-                                        })
-                                        .catch(error => {
-                                            // Hiển thị thông báo lỗi
-                                            Swal.fire({
-                                                title: 'Lỗi!',
-                                                text: 'Có lỗi xảy ra khi xóa dịch vụ',
-                                                icon: 'error',
-                                                customClass: {
-                                                    popup: 'animated fadeInDown'
-                                                }
-                                            });
-                                        });
-                            }
-                        });
+        <script>
+            function confirmDelete(account_id, username) {
+                Swal.fire({
+                    title: 'Xác nhận xóa',
+                    html: `Bạn có chắc chắn muốn xóa dịch vụ <b>${a.account.username}</b>?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy',
+                    customClass: {
+                        popup: 'animated fadeInDown'
                     }
-        
-                    // Show success/error message if exists in session
-        <% 
-            String message = (String) session.getAttribute("message");
-            if(message != null) {
-                session.removeAttribute("message"); // Clear the message
-        %>
-        Swal.fire({
-            title: '<%= message.contains("success") ? "Thành công!" : "Lỗi!" %>',
-            html: '<%= message %>',
-            icon: '<%= message.contains("success") ? "success" : "error" %>',
-            timer: 2000,
-            showConfirmButton: false,
-            customClass: {
-                popup: 'animated fadeInDown'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Gửi yêu cầu xóa
+                        fetch('${pageContext.request.contextPath}/deletestaff?id=' + account_id)
+                                .then(response => response.text())
+                                .then(data => {
+                                    // Hiển thị thông báo thành công
+                                    Swal.fire({
+                                        title: 'Thành công!',
+                                        text: 'Đã xóa dịch vụ thành công',
+                                        icon: 'success',
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        customClass: {
+                                            popup: 'animated fadeInDown'
+                                        }
+                                    }).then(() => {
+                                        window.location.reload();
+                                    });
+                                })
+                                .catch(error => {
+                                    // Hiển thị thông báo lỗi
+                                    Swal.fire({
+                                        title: 'Lỗi!',
+                                        text: 'Có lỗi xảy ra khi xóa dịch vụ',
+                                        icon: 'error',
+                                        customClass: {
+                                            popup: 'animated fadeInDown'
+                                        }
+                                    });
+                                });
+                    }
+                });
             }
-        });
-        <% } %>
-        </script>-->
+
+            // Show success/error message if exists in session
+            <% 
+    String message = (String) session.getAttribute("message");
+    if(message != null) {
+        session.removeAttribute("message"); // Clear the message
+            %>
+            Swal.fire({
+                title: '<%= message.contains("success") ? "Thành công!" : "Lỗi!" %>',
+                html: '<%= message %>',
+                icon: '<%= message.contains("success") ? "success" : "error" %>',
+                timer: 2000,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'animated fadeInDown'
+                }
+            });
+            <% } %>
+        </script>
         <!-- JavaScript -->
         <!-- Bootstrap JS -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
