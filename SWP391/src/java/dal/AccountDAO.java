@@ -134,7 +134,47 @@ public class AccountDAO extends DBContext {
 
     }
 
-   
-    
+    public boolean LoginByEmail(String email, String password) {
+        String sql = "Select * from Accounts where email =? and password = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            st.setString(2, password);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int row = rs.getInt(1);
+                if (row > 0) {
+                    return true;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+    }
+
+    public int getRoleID(String email) {
+        String sql = "Select role_id from Accounts where email =?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        AccountDAO dao = new AccountDAO();
+        System.out.println(dao.getRoleID("doctor1@example.com"));
+        System.out.println(dao.LoginByEmail("doctor1@example.com", "doctorpass1"));
+    }
 
 }
