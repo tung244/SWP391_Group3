@@ -24,7 +24,7 @@ public class DoctorsDAO extends DBContext {
     //List doctor in dashboard
     public List<Doctors> getDoctorsDash() {
         List<Doctors> list = new ArrayList<>();
-        String sql = "SELECT   * FROM [dbo].[Doctors] d\n"
+        String sql = "SELECT * FROM [dbo].[Doctors] d\n"
                 + "LEFT JOIN dbo.Specialization sp  ON sp.specialization_id = d.specialization_id\n";
 
         try {
@@ -170,8 +170,6 @@ public class DoctorsDAO extends DBContext {
     public Doctors getDoctorsById(String did) {
         String sql = "SELECT * FROM [dbo].[Doctors] d\n"
                 + "LEFT JOIN dbo.Specialization sp  ON sp.specialization_id = d.specialization_id\n"
-                + "LEFT JOIN dbo.Certificate_Doctor cd ON cd.doctor_id = d.doctor_id\n"
-                + "LEFT JOIN dbo.Certificate c ON c.certificate_id = cd.certificate_id\n"
                 + "WHERE d.doctor_id =?";
 
         try {
@@ -196,14 +194,7 @@ public class DoctorsDAO extends DBContext {
                 specialization.setSpecialization_status(rs.getString("specialization_status"));
                 doctor.setSpecialization(specialization);
 
-                Certificate certificate = new Certificate();
-                certificate.setCertificate_id(rs.getInt("certificate_id"));
-                certificate.setCertificate_name(rs.getString("certificate_name"));
-                Certificate_Doctor cer_doct = new Certificate_Doctor();
-                cer_doct.setDate_certificate(rs.getString("date_certificate"));
-                cer_doct.setIssued_by(rs.getString("issued_by"));
-                certificate.setCer_doct(cer_doct);
-                doctor.setCertificate(certificate);
+                
 
                 return doctor;
 
@@ -213,57 +204,6 @@ public class DoctorsDAO extends DBContext {
         }
 
         return null;
-    }
-// Search doctor by name
-
-    public List<Doctors> searchByName(String name) {
-        List<Doctors> list = new ArrayList<>();
-        String sql = "SELECT * FROM [dbo].[Doctors] d\n"
-                + "LEFT JOIN dbo.Specialization sp  ON sp.specialization_id = d.specialization_id\n"
-                + "LEFT JOIN dbo.Certificate_Doctor cd ON cd.doctor_id = d.doctor_id\n"
-                + "LEFT JOIN dbo.Certificate c ON c.certificate_id = cd.certificate_id\n"
-                + "WHERE d.doctor_status = 'Active'"
-                + "AND d.doctor_name LIKE ?";
-
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, "%" + name + "%");
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Doctors doctor = new Doctors();
-                doctor.setDoctor_id(rs.getInt("doctor_id"));
-                doctor.setDoctor_name(rs.getString("doctor_name"));
-                doctor.setExperience_years(rs.getInt("experience_years"));
-                doctor.setProfile_image(rs.getString("profile_image"));
-                doctor.setRating(rs.getDouble("rating"));
-                doctor.setGender(rs.getString("gender"));
-                doctor.setDob(rs.getString("dob"));
-                doctor.setAddress(rs.getString("address"));
-                doctor.setDoctor_status(rs.getString("doctor_status"));
-
-                Specialization specialization = new Specialization();
-                specialization.setSpecialization_id(rs.getInt("specialization_id"));
-                specialization.setSpecialization_name(rs.getString("specialization_name"));
-                specialization.setSpecialization_status(rs.getString("specialization_status"));
-                doctor.setSpecialization(specialization);
-
-                Certificate certificate = new Certificate();
-                certificate.setCertificate_id(rs.getInt("certificate_id"));
-                certificate.setCertificate_name(rs.getString("certificate_name"));
-                Certificate_Doctor cer_doct = new Certificate_Doctor();
-                cer_doct.setDate_certificate(rs.getString("date_certificate"));
-                cer_doct.setIssued_by(rs.getString("issued_by"));
-                certificate.setCer_doct(cer_doct);
-                doctor.setCertificate(certificate);
-
-                list.add(doctor);
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return list;
     }
 
     public List<Doctors> getDoctorsByFilter(String specializationId, String degreeId, String searchName, String sortBy, String option) {

@@ -28,13 +28,13 @@
                     <div class="page-content">
                         <!--breadcrumb-->
                         <div class="page-breadcrumb d-none d-md-flex align-items-center mb-3">
-                            <div class="breadcrumb-title pe-3">User Profile</div>
+                            <div class="breadcrumb-title pe-3">Doctor Profile</div>
                             <div class="ps-3">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb mb-0 p-0">
                                         <li class="breadcrumb-item"><a href="javascript:;"><i class='bx bx-home-alt'></i></a>
                                         </li>
-                                        <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Doctor Profile</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -61,7 +61,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-lg-5">
+                                        <div  class="col-12 col-lg-5">
                                             <table class="table table-sm table-borderless mt-md-0 mt-3">
                                                 <tbody>
                                                     <tr>
@@ -179,7 +179,7 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-8">
+                                                <div class="col-lg-12">
                                                     <div class="card shadow-none border mb-0 radius-15">
                                                         <div class="card-body">
                                                             <h5 class="mb-3">About</h5>
@@ -187,31 +187,7 @@
                                                             <hr>
                                                             <h5 class="mb-3">Skills</h5>
                                                             <div class="chip">UI Development <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
-                                                            <div class="chip">android <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
-                                                            <div class="chip">iOS <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
-                                                            <div class="chip">python <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
-                                                            <div class="chip">javascript <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
-                                                            <div class="chip">sketch <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
-                                                            <div class="chip">photoshop <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
-                                                            <div class="chip">Html5 <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
-                                                            <div class="chip">bootstrap4 <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
-                                                            <div class="chip">jQuery <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
-                                                            <div class="chip">php Development <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
-                                                            <div class="chip">ms excel <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
-                                                            <div class="chip">programming <span class="closebtn" onclick="this.parentElement.style.display = 'none'">×</span>
-                                                            </div>
+                                                            </div>                                                           
                                                             <h5 class="mb-3">Language</h5>
                                                             <hr>
                                                             <ul class="list-inline mb-0">

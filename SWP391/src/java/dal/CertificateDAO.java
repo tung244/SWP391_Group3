@@ -63,7 +63,7 @@ public class CertificateDAO extends DBContext {
 
     public List<Certificate> getCertificateByDoctorId(String doctorId) {
         List<Certificate> certificates = new ArrayList<>();
-        String sql = "SELECT c.certificate_id, c.certificate_name "
+        String sql = "SELECT * "
                 + "FROM Certificate_Doctor cd "
                 + "JOIN Certificate c ON cd.certificate_id = c.certificate_id "
                 + "WHERE cd.doctor_id = ?";
@@ -75,7 +75,13 @@ public class CertificateDAO extends DBContext {
                     Certificate certificate = new Certificate();
                     certificate.setCertificate_id(rs.getInt("certificate_id"));
                     certificate.setCertificate_name(rs.getString("certificate_name"));
+                    
+                    Certificate_Doctor cer_doc = new Certificate_Doctor();
+                    cer_doc.setIssued_by(rs.getString("issued_by"));
+                    certificate.setCer_doct(cer_doc);
+                 
                     certificates.add(certificate);
+                    
                 }
             }
         } catch (Exception e) {
@@ -103,6 +109,7 @@ public class CertificateDAO extends DBContext {
         for (Certificate certificate : l) {
             System.out.println(certificate);
         }
+        
 
     }
 }
