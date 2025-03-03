@@ -12,3 +12,18 @@ account_id INT,
 created_date_token DATETIME,
 FOREIGN KEY(account_id) REFERENCES dbo.Accounts(account_id)
 )
+
+
+CREATE TABLE EmailType(
+email_type_id INT IDENTITY(1,1),
+email_type_name NVARCHAR(255),
+
+
+)
+
+CREATE TABLE EmailLog(
+
+
+
+
+)

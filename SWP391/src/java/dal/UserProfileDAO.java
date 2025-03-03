@@ -19,8 +19,8 @@ public class UserProfileDAO extends DBContext {
 
     public boolean addAccount(UserProfile p) {
 
-        String sqlAccount = "insert into Accounts( username, password,email,phone_number,created_date,role_id)\n"
-                + "values(?,?,?,?,?,?)";
+        String sqlAccount = "insert into Accounts( username, password,email,phone_number,created_date,role_id,status_account)\n"
+                + "values(?,?,?,?,?,?,?)";
         String sqlGetAccountId = "SELECT account_id FROM dbo.Accounts WHERE username = ?";
         String sqlUserProfile = "insert into Customers(account_id,full_name,gender,image_profile_user)\n"
                 + "values(?,?,?,?)";
@@ -36,6 +36,7 @@ public class UserProfileDAO extends DBContext {
             stAccount.setString(4, p.getAccount().getPhonenumber());
             stAccount.setString(5, p.getAccount().getCreated_date());
             stAccount.setInt(6, p.getAccount().getRole().getRole_id());
+            stAccount.setString(7, "inactive");
 
             int affectedRows = stAccount.executeUpdate();
 

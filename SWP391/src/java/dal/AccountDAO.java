@@ -20,6 +20,21 @@ import model.GoogleAccount;
 
 public class AccountDAO extends DBContext {
 
+    public boolean updateStatusUser(int account){
+        String sql = "UPDATE dbo.Accounts SET status_account = 'active' WHERE account_id = ?";
+        try{
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, account);
+            int row = st.executeUpdate();
+            if(row == 1){
+                return true;
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
     public boolean checkTonTaiUser(String username) {
         String sql = "select * from Accounts where username = ?";
         try {

@@ -49,6 +49,8 @@
                 </li>
                 <li> <a href="component-cards.html"><i class="bx bx-right-arrow-alt"></i>Gửi email tự động</a>
                 </li>
+                <li> <a href="email_statistics"><i class="bx bx-right-arrow-alt"></i>Thống kê</a>
+                </li>
                 
             </ul>
         </li>

@@ -268,13 +268,10 @@
                             if (response.status === "exist") {
                                 errorSpan.textContent = "Username is existed. Please try again!!";
                                 errorSpan.style.color = "#EA4335";
-//                                    document.getElementById("register-button").style.display='none';
 
                             } else if (response.status === "oke") {
                                 errorSpan.textContent = "Username is valid";
                                 errorSpan.style.color = "black";
-
-//                                    document.getElementById("register-button").style.display='inline-block';
                             } else {
                                 toastr.error("Error.");
                             }
@@ -299,13 +296,11 @@
                             if (response.status === "exist") {
                                 errorSpan.textContent = "Email is used by other account. Please try other email!!";
                                 errorSpan.style.color = "#EA4335";
-//                                    document.getElementById("register-button").style.display='none';
+
 
                             } else if (response.status === "oke") {
                                 errorSpan.textContent = "Email is valid";
                                 errorSpan.style.color = "black";
-
-//                                    document.getElementById("register-button").style.display='inline-block';
                             } else {
                                 toastr.error("Error.");
                             }
@@ -318,10 +313,7 @@
                 function checkPhoneNumber() {
                     const phone_number = document.getElementById("register-phone").value;
                     const errorSpan = document.getElementById("phone-error");
-//                        if(!phone_number.startwidth(0)){
-//                           errorSpan.textContent = "PhoneNumber is incorrect format. Please try other phone";
-//                           errorSpan.style.color = "#EA4335"; 
-//                        }
+
                     $.ajax({
                         url: "register",
                         type: "POST",
@@ -333,13 +325,10 @@
                             if (response.status === "exist") {
                                 errorSpan.textContent = "PhoneNumber is used by other account. Please try other phone!!";
                                 errorSpan.style.color = "#EA4335";
-//                                    document.getElementById("register-button").style.display='none';
 
                             } else if (response.status === "oke") {
                                 errorSpan.textContent = "PhoneNumber is valid";
                                 errorSpan.style.color = "black";
-
-//                                    document.getElementById("register-button").style.display='inline-block';
                             } else {
                                 toastr.error("Error.");
                             }
@@ -361,28 +350,11 @@
                         errorSpan.style.display = "block";
                         errorSpan.style.color = "red";
                     }
-//                        else{
-//                            errorSpan.textContent ="Mật khẩu trùng khớp!";
-//                            errorSpan.style.display = "block";
-//                            errorSpan.style.color = "white";
-//                        }
 
                 }
 
 
-                function checkPhone() {
-                    const phonenumber = document.getElementById("register-phone").value.trim();
-                    const phoneError = document.getElementById("phone-error");
 
-                    const regex = /^(?:\+84|0)(3[2-9]|5[2689]|7[0-9]|8[1-9]|9[0-9])\d{7}$/;
-
-                    if (!regex.test(phonenumber)) {
-                        phoneError.textContent = "The phonenumber is incorrect format!";
-                        phoneError.style.display = "block";
-                        phoneError.style.color = "red";
-                    }
-
-                }
 
                 function checkFormatPassword() {
                     const password = document.getElementById("register-password");
@@ -434,13 +406,6 @@
                     return valid;
                 }
 
-                document.getElementById("customRegisterForm").addEventListener("submit", function (event) {
-                    if (!checkFormatPassword()) {
-                        event.preventDefault();
-                        toastr.error("The password is wrong format. Please check and try again!");
-                    }
-                });
-
 
                 document.getElementById("register-password").addEventListener("input", checkFormatPassword);
 
@@ -460,11 +425,16 @@
                 $("#register-username").on("blur", function () {
                     checkUser(this);
                 });
+
                 $("#repeat-password").on("blur", function () {
                     checkRepeatPassword(this);
                 });
+                $("#repeat-password").on("input", function () {
+                    $("#repeat-error").text(""); // Thêm dấu `#` trước ID
+                });
 
-                document.getElementById("register-form").addEventListener('submit', (event) => {
+
+                document.getElementById("customRegisterForm").addEventListener('submit', (event) => {
                     const usernamespan = document.getElementById("username-error").textContent;
                     const repeatspan = document.getElementById("repeat-error").textContent;
                     const phonespan = document.getElementById("phone-error").textContent;

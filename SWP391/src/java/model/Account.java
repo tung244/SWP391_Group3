@@ -13,10 +13,23 @@ public class Account {
     public String phonenumber;
     public String created_date;
     public Role role;
+    public String status_account;
 
     public Account() {
     }
 
+    public Account(int account_id, String username, String password, String email, String phonenumber, String created_date, Role role, String status_account) {
+        this.account_id = account_id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.created_date = created_date;
+        this.role = role;
+        this.status_account = status_account;
+    }
+
+    
     public Account(int account_id) {
         this.account_id = account_id;
     }
@@ -58,6 +71,14 @@ public class Account {
         this.email = email;
         this.phonenumber = phonenumber;
         this.role = role;
+    }
+
+    public String getStatus_account() {
+        return status_account;
+    }
+
+    public void setStatus_account(String status_account) {
+        this.status_account = status_account;
     }
     
     public String getPassword() {

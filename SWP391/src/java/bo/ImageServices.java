@@ -32,7 +32,7 @@ public class ImageServices {
         }
         String linkFile = "";
 
-        String fileName = part.getSubmittedFileName();
+        String fileName = part.getSubmittedFileName();  
 
         // Kiểm tra nếu file có tên hợp lệ
         if (fileName!= null && !fileName.isEmpty()) {

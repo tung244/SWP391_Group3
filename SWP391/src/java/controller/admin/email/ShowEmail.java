@@ -72,7 +72,8 @@ public class ShowEmail extends HttpServlet {
         HttpRequestFactory requestFactory = new NetHttpTransport().createRequestFactory();
         String query = "subject:(\"Yêu cầu hỗ trợ\") -from:" + Mail.APP_EMAIL;
         // 1. Lấy danh sách email
-        HttpRequest emailListRequest = requestFactory.buildGetRequest(new GenericUrl(Gmails.GMAIL_API_URL +"?q=" + URLEncoder.encode(query, "UTF-8")))
+        
+        HttpRequest emailListRequest = requestFactory.buildGetRequest(new GenericUrl(Gmails.GMAIL_API_URL +"?q=" + URLEncoder.encode(query, "UTF-8")+"&maxResults=10"))
                 .setHeaders(new HttpHeaders().setAuthorization("Bearer " + accessToken));
         
         HttpResponse emailListResponse = emailListRequest.execute();
@@ -82,7 +83,8 @@ public class ShowEmail extends HttpServlet {
         Gson gson = new Gson();
         Map<?, ?> emailListMap = gson.fromJson(emailListJson, Map.class);
         List<Map<String, String>> messages = (List<Map<String, String>>) emailListMap.get("messages");
-
+        String nextPageToken = (String) emailListMap.get("nextPageToken"); // lấy tổng số mail
+        System.out.println(nextPageToken);
         if (messages == null || messages.isEmpty()) {
             response.getWriter().write("No emails found.");
             return;

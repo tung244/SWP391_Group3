@@ -2,7 +2,9 @@ package controller.homepage;
 
 import bo.EncryptPassword;
 import bo.GetFormatDate;
+import bo.SendMail;
 import dal.AccountDAO;
+import dal.TokenDAO;
 import dal.UserProfileDAO;
 import jakarta.mail.Session;
 import java.io.IOException;
@@ -14,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import model.Account;
 import model.Role;
 import model.UserProfile;
@@ -24,8 +27,8 @@ public class Register extends HttpServlet {
     AccountDAO accountdao = new AccountDAO();
     UserProfileDAO udao = new UserProfileDAO();
     GetFormatDate getdate = new GetFormatDate();
+    TokenDAO t = new TokenDAO();
     
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -67,19 +70,19 @@ public class Register extends HttpServlet {
             respsone = "{\"status\":\"" + status + "\"}";
 
         }
-        
-        if(action.equals("checkEmail")){
+
+        if (action.equals("checkEmail")) {
             String email = request.getParameter("email").trim();
             String status = "oke";
-            if (accountdao.checkTonTai(email,"email") || email.isEmpty()) {
+            if (accountdao.checkTonTai(email, "email") || email.isEmpty()) {
                 status = "exist";
             }
             respsone = "{\"status\":\"" + status + "\"}";
         }
-        if(action.equals("checkPhone")){
+        if (action.equals("checkPhone")) {
             String phone_number = request.getParameter("phone_number").trim();
             String status = "oke";
-            if (accountdao.checkTonTai(phone_number,"phone_number") || phone_number.isEmpty()) {
+            if (accountdao.checkTonTai(phone_number, "phone_number") || phone_number.isEmpty()) {
                 status = "exist";
             }
             respsone = "{\"status\":\"" + status + "\"}";
@@ -95,7 +98,7 @@ public class Register extends HttpServlet {
             String register_phone = request.getParameter("register-phone");
             String gender = request.getParameter("customGender");
             String email = request.getParameter("register-email");
-            Account a = new Account(username, password, email, register_phone,getdate.getFormString(), new Role(5, ""));
+            Account a = new Account(username, password, email, register_phone, getdate.getFormString(), new Role(5, ""));
             UserProfile u = new UserProfile(a, fullname, "", "", gender, "logo1");
             String ms = "";
             String error = "";
@@ -103,17 +106,20 @@ public class Register extends HttpServlet {
             try {
                 if (!udao.addAccount(u)) {
                     error = "Đăng kí thất bại! Vui lòng thử lại";
+                    session.setAttribute("error", error);
+                    response.sendRedirect("trangchu");
+                } else {
+                    ms = "Đăng kí thành công !!";
+                    String token = generateToken(accountdao.getAccountID(username));
+                    t.saveTokenVerify(token, GetFormatDate.getFormString(), accountdao.getAccountID(username));
+                    sendMail(email, token, "Xác minh tài khoản", fullname);
                     
+                    session.setAttribute("ms", ms);
+                    Thread.sleep(3000);
+                    response.sendRedirect("verify_account");
                 }
-                else{
-                   ms = "Đăng kí thành công !!";
-                    
-                }
-                session.setAttribute("ms", ms); 
-                session.setAttribute("error", error);
-                Thread.sleep(3000);
-                response.sendRedirect("login");
-                    
+  
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -121,6 +127,27 @@ public class Register extends HttpServlet {
         }
 
     }
+
+    private static void sendMail(String email, String linkToken, String tieude, String name) {
+        Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
+            try {
+                System.out.println("đến 3");
+                SendMail.guiMailXacMinh(email, linkToken, tieude, name);
+
+            } catch (Exception e) {
+                e.printStackTrace();  // Log lỗi nếu có
+            }
+        });
+        emailThread.start();
+    }
+
+    private static String generateToken(int account_id) {
+        return account_id + "x" +UUID.randomUUID().toString().replace("-", "");
+    }
+    public static void main(String[] args) {
+        System.out.println(generateToken(45));
+    }
+    
 
     @Override
     public String getServletInfo() {
