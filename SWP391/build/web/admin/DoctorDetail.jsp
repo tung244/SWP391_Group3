@@ -64,7 +64,8 @@
                                                 <!-- Doctor Profile Image -->
                                                 <div class="col-lg-3 col-md-4">
                                                     <div class="doctor-thumb text-center">
-                                                        <img  src="${d.profile_image}" alt="Doctor Photo" class="rounded-circle img-fluid mb-3">
+
+                                                        <img  src=".${d.profile_image}" alt="Doctor Photo" class="rounded-circle img-fluid mb-3"/>
                                                         <div class="star-rating text-warning mb-2">
                                                             <span class="text-muted ml-2">Rating: ${d.rating}</span> ★
                                                             </br>
@@ -86,9 +87,11 @@
                                                                 <h5 class="text-success border-bottom pb-2">Personal Information</h5>
                                                                 <ul class="list-unstyled">
                                                                     <li class="mb-2"><strong>Gender:</strong>${d.gender}</li>
+                                                                        <c:forEach items="${listCer}" var="cer">
+                                                                        <li class="mb-2"><strong>Certificate:</strong> ${cer.certificate_name}</li>
+                                                                        <li class="mb-2"><strong>Certificate issued by:</strong> ${cer.cer_doct.issued_by}</li>
+                                                                        </c:forEach>
 
-                                                                    <li class="mb-2"><strong>Certificate:</strong> ${d.certificate.certificate_name}</li>
-                                                                    <li class="mb-2"><strong>Certificate issued by:</strong> ${d.certificate.cer_doct.issued_by}</li>
                                                                     <li class="mb-2"><strong>Experience:</strong> ${d.experience_years} years</li>
                                                                     <li class="mb-2"><strong>Workplace:</strong> EyeCare hospital</li>
                                                                 </ul>
@@ -117,7 +120,9 @@
                                                         <!-- Biography -->
                                                         <div class="doctor-bio mb-4">
                                                             <h5 class="text-success border-bottom pb-2">Professional Biography</h5>
-                                                            <p class="text-muted">Certificate: ${d.certificate.certificate_name}</p>
+                                                            <c:forEach items="${listCer}" var="cer">
+                                                                  <p class="text-muted">Certificate: ${cer.certificate_name}</p>
+                                                            </c:forEach>                                                         
                                                             <p class="text-muted">Working at: EyeCare hospital</p>
                                                             <p class="text-muted">Experience years: ${d.experience_years} years</p>
                                                         </div>
@@ -125,7 +130,7 @@
                                                         <!-- Action Buttons -->
                                                         <div class="doctor-actions text-center">
 
-                                                            <!--                                            <a href="consultation?id=#" class="btn btn-outline-success btn-lg">Free Consultation</a>-->
+                                                            <!--                                           
                                                         </div>
                                                     </div>
                                                 </div>

@@ -194,8 +194,6 @@ public class DoctorsDAO extends DBContext {
                 specialization.setSpecialization_status(rs.getString("specialization_status"));
                 doctor.setSpecialization(specialization);
 
-                
-
                 return doctor;
 
             }
@@ -320,7 +318,7 @@ public class DoctorsDAO extends DBContext {
     }
 
     public boolean addDoctor(Doctors doctor) {
-        String accountSql = "INSERT INTO Accounts(username, password, email, phone_number, created_date, role_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String accountSql = "INSERT INTO Accounts(username, password, email, phone_number, created_date, role_id, first_confirm) VALUES (?, ?, ?, ?, ?, ?, ?)";
         String getAccountIdSql = "SELECT account_id FROM Accounts WHERE username = ?";
         String doctorSql = "INSERT INTO Doctors(doctor_name, experience_years, profile_image, gender, dob, address, doctor_status, specialization_id, account_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -335,7 +333,7 @@ public class DoctorsDAO extends DBContext {
                 stmt.setString(4, doctor.getAcc().getPhonenumber());
                 stmt.setString(5, doctor.getAcc().getCreated_date());
                 stmt.setInt(6, doctor.getAcc().getRole().getRole_id());
-
+                stmt.setString(7, doctor.getAcc().getFirst_confirm());
                 int rowsInserted = stmt.executeUpdate();
                 if (rowsInserted == 0) {
                     connection.rollback();
@@ -410,21 +408,57 @@ public class DoctorsDAO extends DBContext {
         }
     }
 
-  public boolean getFirstConfirm(String email) {
-    String sql = "SELECT first_confirm FROM dbo.Accounts WHERE email = ?";
-    try (PreparedStatement st = connection.prepareStatement(sql)) {
-        st.setString(1, email);
-        ResultSet rs = st.executeQuery();
-        if (rs.next()) { 
-            String firstConfirm = rs.getString(1); 
-            return "true".equalsIgnoreCase(firstConfirm); 
+    public boolean getFirstConfirm(String email) {
+        String sql = "SELECT first_confirm FROM dbo.Accounts WHERE email = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                String firstConfirm = rs.getString(1);
+                return "true".equalsIgnoreCase(firstConfirm);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return false;
     }
-    return false; 
-}
 
+    public Doctors getDoctorsByAccId(int accid) {
+        String sql = " SELECT * FROM dbo.Doctors d \n"
+                + " JOIN dbo.Specialization sp ON sp.specialization_id = d.specialization_id\n"
+                + " WHERE d.account_id = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, accid);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Doctors doctor = new Doctors();
+                doctor.setDoctor_id(rs.getInt("doctor_id"));
+                doctor.setDoctor_name(rs.getString("doctor_name"));
+                doctor.setExperience_years(rs.getInt("experience_years"));
+                doctor.setProfile_image(rs.getString("profile_image"));
+                doctor.setRating(rs.getDouble("rating"));
+                doctor.setGender(rs.getString("gender"));
+                doctor.setDob(rs.getString("dob"));
+                doctor.setAddress(rs.getString("address"));
+                doctor.setDoctor_status(rs.getString("doctor_status"));
+
+                Specialization specialization = new Specialization();
+                specialization.setSpecialization_id(rs.getInt("specialization_id"));
+                specialization.setSpecialization_name(rs.getString("specialization_name"));
+                specialization.setSpecialization_status(rs.getString("specialization_status"));
+                doctor.setSpecialization(specialization);
+
+                return doctor;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
@@ -432,7 +466,7 @@ public class DoctorsDAO extends DBContext {
 //        for (Doctors doctors : l) {
 //            System.out.println(doctors);
 //        }
-        System.out.println(dao.getFirstConfirm("doctor3@example.com"));
+        System.out.println(dao.getDoctorsByAccId(2));
 
 //        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");
 //        for (Doctors doctors : li) {
@@ -445,6 +479,7 @@ public class DoctorsDAO extends DBContext {
 //        account.setCreated_date("2025-02-24");
 //        account.setPassword("doctorpass6");
 //        account.setPhonenumber("1000000019");
+//        account.setFirst_confirm("true");
 //        Role role = new Role();
 //        role.setRole_id(3);
 //        account.setRole(role);

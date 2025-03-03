@@ -77,7 +77,7 @@ public class createDoctor extends HttpServlet {
             String gender = request.getParameter("gender");
             String dob = request.getParameter("dob");
             String address = request.getParameter("address");
-            String status = "Active";
+            String status = "Active";         
             int specializationId = Integer.parseInt(request.getParameter("specializationId"));
  
             // Xử lý upload file ảnh
@@ -100,15 +100,17 @@ public class createDoctor extends HttpServlet {
             doctor.setDob(dob);
             doctor.setAddress(address);
             doctor.setDoctor_status(status);
+            
             doctor.setSpecialization(specialization);
            
             // Thêm bác sĩ vào DB
             DoctorsDAO doctorDao = new DoctorsDAO();
             boolean isSuccess = doctorDao.addDoctor(doctor);
+            System.out.println(isSuccess);
             if (isSuccess) {
-                SendMail.sendMailDoctor(doctor.getAcc().email, request.getSession().getAttribute("pass").toString(), doctorName);
+//                SendMail.sendMailDoctor(doctor.getAcc().email, request.getSession().getAttribute("pass").toString(), doctorName);
                 HttpSession session = request.getSession();
-                session.setAttribute("progress", 70);      
+                session.setAttribute("progress", 100);      
                 response.sendRedirect("DoctorList");
             } else {
                 request.setAttribute("error", "Failed to create doctor. Please try again.");

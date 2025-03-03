@@ -87,69 +87,70 @@ public class CreateAccDoctor extends HttpServlet {
         String respsonse = "";
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        
-        if(action.equals("checkUserName")){
+
+        if (action.equals("checkUserName")) {
             String username = request.getParameter("user_name").trim();
             String status = "valid";
-            if(accdao.checkTonTaiUser(username)){
+            if (accdao.checkTonTaiUser(username)) {
                 status = "exist";
-            }else if(username.isEmpty()){
+            } else if (username.isEmpty()) {
                 status = "empty";
-            } 
-            
+            }
+
             respsonse = "{\"status\":\"" + status + "\"}";
         }
-        
-        if(action.equals("checkPhone")){
+
+        if (action.equals("checkPhone")) {
             String phone = request.getParameter("phone").trim();
             String status = "valid";
-            if(accdao.checkExistPhone(phone)){
+            if (accdao.checkExistPhone(phone)) {
                 status = "exist";
-            }else if(phone.isEmpty()){
+            } else if (phone.isEmpty()) {
                 status = "empty";
             }
-            
+
             respsonse = "{\"status\":\"" + status + "\"}";
         }
-        
-        if(action.equals("checkEmail")){
+
+        if (action.equals("checkEmail")) {
             String email = request.getParameter("email").trim();
             String status = "valid";
-            if(accdao.CheckExistEmail(email)){
+            if (accdao.CheckExistEmail(email)) {
                 status = "exist";
-            }else if(email.isEmpty()){
+            } else if (email.isEmpty()) {
                 status = "empty";
             }
-            
+
             respsonse = "{\"status\":\"" + status + "\"}";
         }
-        
+
         response.getWriter().write(respsonse);
-        
-        if(action.equals("register")){
+
+        if (action.equals("register")) {
             String username = request.getParameter("username");
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
             String pass = passdao.randomPassword();
             String passEncrypt = passdao.hashPasswordMD5(pass);
+            String firstConfirm = "true";
+            
             Account acc = new Account();
             acc.setUsername(username);
             acc.setPhonenumber(phone);
             acc.setEmail(email);
             acc.setPassword(passEncrypt);
             acc.setCreated_date(getdate.getFormString());
-            acc.setRole(new Role(3,""));
-            
+            acc.setRole(new Role(3, ""));
+            acc.setFirst_confirm(firstConfirm);
+
             Doctors doc = new Doctors();
-            doc.setAcc(acc);
-            request.getSession().setAttribute("pass", pass);
+            doc.setAcc(acc);          
             request.getSession().setAttribute("doctor", doc);
-            request.getSession().setAttribute("progress", 35);
+            request.getSession().setAttribute("progress", 50);
             response.sendRedirect("createDoctor");
         }
-                
-//     
 
+//     
     }
 
     /**

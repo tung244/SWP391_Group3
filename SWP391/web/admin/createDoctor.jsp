@@ -85,7 +85,7 @@
 
                                             <div class="col-12">
                                                 <label class="form-label">Experience Years</label>
-                                                <input type="number" id="experienceYears" name="experienceYears" class="form-control" placeholder="Experience Years"  required>
+                                                <input type="number" min="1" id="experienceYears" name="experienceYears" class="form-control" placeholder="Experience Years"  required>
                                                 <span id="error-experienceYears" name="error-experienceYears"></span>
                                             </div>
 

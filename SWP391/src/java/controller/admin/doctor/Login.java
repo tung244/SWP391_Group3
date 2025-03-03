@@ -80,7 +80,8 @@ public class Login extends HttpServlet {
         if (action.equals("login")) {
             String email = request.getParameter("email").trim();
             String pass = request.getParameter("pass");
-            String encryptPass = pdao.hashPasswordMD5(pass);            
+            String encryptPass = pdao.hashPasswordMD5(pass);
+
             boolean success = accdao.LoginByEmail(email, encryptPass);
             if (success) {
                 int role_id = accdao.getRoleID(email);
@@ -94,7 +95,8 @@ public class Login extends HttpServlet {
                             request.getSession().setAttribute("email", email);
                             response.sendRedirect("changePass");
                         } else {
-                            response.sendRedirect("doctorProfile");
+                            int accId = accdao.getAccountIdByEmail(email);                                        
+                            response.sendRedirect("doctorProfile?accId=" +accId);
                         }
 
                         break;
@@ -107,7 +109,7 @@ public class Login extends HttpServlet {
                         throw new AssertionError();
                 }
 
-            }else{
+            } else {
                 request.getSession().setAttribute("error", "Password is incorect. Please try again!");
                 response.sendRedirect("login");
             }

@@ -5,21 +5,22 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
-       <jsp:include page="Common/Css.jsp"/>  
+        <jsp:include page="Common/Css.jsp"/>  
     </head>
 
     <body>
         <!-- wrapper -->
         <div class="wrapper">
             <!--sidebar-wrapper-->
-           
+
             <!--end sidebar-wrapper-->
             <!--header-->
-             <jsp:include page="Common/Sidebar.jsp"/> 
+            <jsp:include page="Common/Sidebar.jsp"/> 
             <!--end header-->
             <!--page-wrapper-->
             <div class="page-wrapper">
@@ -38,54 +39,59 @@
                                     </ol>
                                 </nav>
                             </div>
-                           
+
                         </div>
                         <!--end breadcrumb-->
                         <div class="user-profile-page">
                             <div class="card radius-15">
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-7 border-right">
-                                            <div class="d-md-flex align-items-center">
-                                                <div class="mb-md-0 mb-3">
-                                                    <img src="assets/images/avatars/avatar-1.png" class="rounded-circle shadow" width="130" height="130" alt="" />
-                                                </div>
-                                                <div class="ms-md-4 flex-grow-1">
-                                                    <div class="d-flex align-items-center mb-1">
-                                                        <h4 class="mb-0">Michle Clark</h4>
-                                                        <p class="mb-0 ms-auto">$44/hr</p>
+                                    <form action="doctorProfile" method="GET">
+                                        <div class="row">
+                                          
+                                                <div class="col-12 col-lg-7 border-right">
+                                                    <div class="d-md-flex align-items-center">
+                                                        <div class="mb-md-0 mb-3">
+                                                            <img src="" class="rounded-circle shadow" width="130" height="130" alt="Profile Image" />
+                                                        </div>
+                                                        <div class="ms-md-4 flex-grow-1">
+                                                            <div class="d-flex align-items-center mb-1">
+                                                                <h4 class="mb-0">Michle Clark</h4>
+                                                                <p class="mb-0 ms-auto">$44/hr</p>
+                                                            </div>
+                                                            <p class="mb-0 text-muted">Sr. Web Developer</p>
+                                                            <p class="text-primary"><i class='bx bx-buildings'></i> Epic Coders</p>
+
+                                                        </div>
                                                     </div>
-                                                    <p class="mb-0 text-muted">Sr. Web Developer</p>
-                                                    <p class="text-primary"><i class='bx bx-buildings'></i> Epic Coders</p>
-                                                    
                                                 </div>
-                                            </div>
+                                                <div  class="col-12 col-lg-5">
+                                                    <table class="table table-sm table-borderless mt-md-0 mt-3">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>Availability:</th>
+                                                                <td>Full-time (40hr/wk) <span class="badge badge-success">available</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Age:</th>
+                                                                <td>27</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Location:</th>
+                                                                <td>Sankt, Petersburg, Russia</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Years experience:</th>
+                                                                <td>6</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                          
                                         </div>
-                                        <div  class="col-12 col-lg-5">
-                                            <table class="table table-sm table-borderless mt-md-0 mt-3">
-                                                <tbody>
-                                                    <tr>
-                                                        <th>Availability:</th>
-                                                        <td>Full-time (40hr/wk) <span class="badge badge-success">available</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Age:</th>
-                                                        <td>27</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Location:</th>
-                                                        <td>Sankt, Petersburg, Russia</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Years experience:</th>
-                                                        <td>6</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            
-                                        </div>
-                                    </div>
+                                    </form>
+
                                     <!--end row-->
                                     <ul class="nav nav-pills">
                                         <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#Experience"><span class="p-tab-name">Experience</span><i class='bx bx-donate-blood font-24 d-sm-none'></i></a>

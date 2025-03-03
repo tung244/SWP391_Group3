@@ -12,11 +12,24 @@ public class Account {
     public String email;
     public String phonenumber;
     public String created_date;
+    public String first_confirm;
     public Role role;
 
     public Account() {
     }
 
+    public Account(int account_id, String username, String password, String email, String phonenumber, String created_date, String first_confirm, Role role) {
+        this.account_id = account_id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.created_date = created_date;
+        this.first_confirm = first_confirm;
+        this.role = role;
+    }
+
+    
     public Account(int account_id) {
         this.account_id = account_id;
     }
@@ -29,6 +42,7 @@ public class Account {
         this.created_date = created_date;
         this.role = role;
     }
+    
 
     
     public Account(int account_id, String username, String password, String email, String phonenumber, String created_date, Role role) {
@@ -66,6 +80,14 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFirst_confirm() {
+        return first_confirm;
+    }
+
+    public void setFirst_confirm(String first_confirm) {
+        this.first_confirm = first_confirm;
     }
 
     

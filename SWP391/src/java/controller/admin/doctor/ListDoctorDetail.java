@@ -6,6 +6,7 @@
 
 package controller.admin.doctor;
 
+import dal.CertificateDAO;
 import dal.DegreeDAO;
 import dal.DoctorsDAO;
 import dal.SpecializationDAO;
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Certificate;
 
 import model.Degree;
 import model.Doctors;
@@ -57,16 +59,18 @@ public class ListDoctorDetail extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 
-         String doctor_id = request.getParameter("doctor_id");
+        String doctor_id = request.getParameter("doctor_id");
         DoctorsDAO dao = new DoctorsDAO();
         Doctors doctordetail = dao.getDoctorsById(doctor_id);
-        
+        System.out.println(doctor_id);
         SpecializationDAO spdao = new SpecializationDAO();
         List<Specialization> listSpecializationByDocId = spdao.getSpecializationByDoctorId(doctor_id);
         
         DegreeDAO dedao = new DegreeDAO();
         List<Degree> listDegree = dedao.getDegreeByDoctorId(doctor_id);
-        
+        CertificateDAO cerdao = new CertificateDAO();
+        List<Certificate> listCer = cerdao.getCertificateByDoctorId(doctor_id);
+      
         String related_specid = spdao.getSpecializationIdByDoctorId(doctor_id);
 
         
@@ -74,6 +78,7 @@ public class ListDoctorDetail extends HttpServlet {
         
         request.setAttribute("listDegree", listDegree);
         request.setAttribute("listSpecById", listSpecializationByDocId);
+        request.setAttribute("listCer", listCer);
         request.setAttribute("d", doctordetail);
         request.getRequestDispatcher("DoctorDetail.jsp").forward(request, response);
 
