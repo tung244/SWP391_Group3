@@ -29,10 +29,10 @@
                     <div class="page-content">
                         <!--start email wrapper-->
                         <div class="email-wrapper">
-                            <div class="email-sidebar">
+<!--                            <div class="email-sidebar">
                                 <div class="email-sidebar-header d-grid"> <a href="javascript:;" class="btn btn-primary compose-mail-btn"><i class='bx bx-plus me-2'></i> Compose</a>
-                                </div>
-                                <div class="email-sidebar-content">
+                                </div>-->
+<!--                                <div class="email-sidebar-content">
                                     <div class="email-navigation">
                                         <div class="list-group list-group-flush"> <a href="emailbox.html" class="list-group-item active d-flex align-items-center"><i class='bx bxs-inbox me-3 font-20'></i><span>Inbox</span><span class="badge bg-primary rounded-pill ms-auto">7,513</span></a>
                                             <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-star me-3 font-20'></i><span>Starred</span></a>
@@ -74,8 +74,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div>-->
+<!--                            </div>-->
                             <div class="email-header d-xl-flex align-items-center">
                                 <div class="d-flex align-items-center">
                                     <div class="email-toggle-btn"><i class='bx bx-menu'></i>
@@ -106,11 +106,11 @@
                                     </div>
                                 </div>
                                 <div class="ms-auto d-flex align-items-center">
-                                    <button class="btn btn-sm btn-light">1-50 of 8,740</button>
-                                    <button class="btn btn-white px-2 ms-2"><i class='bx bx-chevron-left me-0'></i>
-                                    </button>
-                                    <button class="btn btn-white px-2 ms-2"><i class='bx bx-chevron-right me-0'></i>
-                                    </button>
+<!--                                    <button class="btn btn-sm btn-light">1-50 of 8,740</button>-->
+                                    <a href="show_email?next_page_token=${theCurrentPageToken}" class="btn btn-white px-2 ms-2"><i class='bx bx-chevron-left me-0'></i>
+                                    </a>
+                                    <a href="show_email?next_page_token=${theNextPageToken}" class="btn btn-white px-2 ms-2"><i class='bx bx-chevron-right me-0'></i>
+                                    </a>
                                 </div>
                             </div>
                             <div class="email-content">

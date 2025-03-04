@@ -3809,7 +3809,7 @@ input::placeholder {
 
 	height: 70px;
 
-	left: 250px;
+	left: 5px;
 
 	right: 0;
 
@@ -3841,7 +3841,7 @@ input::placeholder {
 
 	height: auto;
 
-	margin-left: 250px;
+/*	margin-left: 250px;*/
 
 	padding: 0;
 
