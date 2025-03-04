@@ -10,11 +10,13 @@ package model;
  */
 public class Customers {
     public int account_id;
-    public String full_name,address,dob,gender,username,password,phonenumber,email,image_profile_user;
+    public String full_name,address,dob,gender,username,password,phonenumber,email,created_date,image_profile_user, role_id;
 
     public Customers() {
     }
 
+    
+    
     public Customers(int account_id, String full_name, String gender, String username, String image_profile_user) {
         this.account_id = account_id;
         this.full_name = full_name;
@@ -22,8 +24,20 @@ public class Customers {
         this.username = username;
         this.image_profile_user = image_profile_user;
     }
-    
-    
+
+    public Customers(String role_id, String full_name, String address, String dob, String gender, String phonenumber, String email, String created_date, String image_profile_user) {
+        this.role_id = role_id;
+        this.full_name = full_name;
+        this.address = address;
+        this.dob = dob;
+        this.gender = gender;
+        this.phonenumber = phonenumber;
+        this.email = email;
+        this.created_date = created_date;
+        this.image_profile_user = image_profile_user;
+    }
+
+          
 
     public Customers(int account_id, String full_name, String address, String dob, String gender, String username, String password, String phonenumber, String email, String image_profile_user) {
         this.account_id = account_id;
@@ -116,6 +130,22 @@ public class Customers {
 
     public void setImage_profile_user(String image_profile_user) {
         this.image_profile_user = image_profile_user;
+    }
+
+    public String getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(String role_id) {
+        this.role_id = role_id;
+    }
+
+    public String getCreated_date() {
+        return created_date;
+    }
+
+    public void setCreated_date(String created_date) {
+        this.created_date = created_date;
     }
     
     
