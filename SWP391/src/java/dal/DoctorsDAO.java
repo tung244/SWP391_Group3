@@ -7,9 +7,11 @@ package dal;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import model.Appointments;
 import model.Certificate;
 import model.Certificate_Doctor;
 import model.Degree;
@@ -18,6 +20,9 @@ import model.Doctors;
 import model.Specialization;
 
 public class DoctorsDAO extends DBContext {
+
+    PreparedStatement ps = null;
+    ResultSet rs = null;
 
     //List doctor in dashboard
     public List<Doctors> getDoctorsDash() {
@@ -398,13 +403,59 @@ public class DoctorsDAO extends DBContext {
         return false;
     }
 
+    public List<Object[]> getDoctorStats(String startDate, String endDate) {
+        List<Object[]> statsList = new ArrayList<>();
+        String sql = "SELECT \n"
+                + "    d.doctor_id,\n"
+                + "    d.doctor_name,\n"
+                + "    COUNT(a.appointment_id) AS total_appointments,\n"
+                + "    SUM(CASE WHEN a.appointment_status = 'Completed' THEN 1 ELSE 0 END) AS successful_appointments,\n"
+                + "    COUNT(CASE WHEN a.appointment_status = 'Completed' THEN 1 END) * 100.0 / NULLIF(COUNT(a.appointment_id), 0) AS success_rate,\n"
+                + "    COUNT(CASE WHEN a.appointment_status = 'Canceled' THEN 1 END) * 100.0 / NULLIF(COUNT(a.appointment_id), 0) AS cancel_rate,\n"
+                + "    ROUND(AVG(CASE WHEN fd.feedback_rating IS NOT NULL THEN fd.feedback_rating END), 2) AS average_rating,\n"
+                + "    COALESCE(SUM(sd.cost), 0) AS total_revenue \n"
+                + "FROM Doctors d\n"
+                + "LEFT JOIN Appointment a ON d.doctor_id = a.doctor_id\n"
+                + "LEFT JOIN Feedback_Doctor fd ON a.appointment_id = fd.appointment_id\n"
+                + "LEFT JOIN Services_Detail sd ON a.service_detail_id = sd.service_detail_id\n"
+                + "WHERE a.appointment_date BETWEEN ? AND ? "
+                + "GROUP BY d.doctor_id, d.doctor_name\n"
+                + "ORDER BY total_revenue DESC;";
+
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, startDate);
+            ps.setString(2, endDate);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                statsList.add(new Object[]{
+                    rs.getString("doctor_name"),
+                    rs.getInt("total_appointments"),
+                    rs.getDouble("total_revenue"),
+                    rs.getDouble("success_rate"),
+                    rs.getDouble("cancel_rate"),
+                    rs.getDouble("average_rating")
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return statsList;
+    }
+
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
-        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");
-        for (Doctors doctors : li) {
-            System.out.println(doctors);
-        }
+//        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");
+//        for (Doctors doctors : li) {
+//            System.out.println(doctors);
+//        }
 //    
+        List<Object[]> list = dao.getDoctorStats("2025-02-20", "2025-03-03");
+        for (Object[] slots : list) {
+            System.out.println(Arrays.toString(slots));
+        }
 
 //        Doctors doc = new Doctors();
 //        doc.setDoctor_name("j");

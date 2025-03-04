@@ -76,9 +76,3 @@ VALUES
 ('16:00', '17:00', 2); -- Slot 4
 -- Insert data into Schedules
 
-INSERT INTO Schedules (doctor_id, slot_id, schedule_date, schedule_status) VALUES
-(1, 1, '2025-02-11', 'Available'),
-(2, 2,'2025-02-11', 'Booked'),
-(3, 3,'2025-02-11', 'Available'),
-(4, 4,'2025-02-11', 'Booked'),
-(5, 5, '2025-02-11','Available');

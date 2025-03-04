@@ -27,7 +27,8 @@ import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.internet.MimeUtility;
 import java.io.UnsupportedEncodingException;
 import model.Appointments;
-
+import java.text.NumberFormat;
+import java.util.Locale;
 public class SendMail {
 
     public static boolean guiMail(String email, String noidung, String nameUser) throws UnsupportedEncodingException {
@@ -171,7 +172,8 @@ public class SendMail {
                 return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
             }
         });
-
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        String formattedCost = currencyFormat.format(appointment.getService_detail().getCost());
         try {
             MimeMessage message = new MimeMessage(session);
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(appointment.getUser().getAccount().getEmail()));
@@ -192,12 +194,12 @@ public class SendMail {
                     + "<body>\n"
                     + "    <div class='email-container'>\n"
                     + "        <div class='email-content'>\n"
-                    + "            <h2>Xác Nhận Đặt Lịch Thành Công Cho"+appointment.getUser().getFullname()+"!</h2>\n"
-                    + "            <p class='details'>Bạn đã đăng ký dịch vụ: <strong>["+appointment.getService_detail().getServices().getService_name()+"]</strong></p>\n"
-                    + "            <p class='details'>Ngày: <strong>["+appointment.getAppointment_date()+"]</strong></p>\n"
-                    + "            <p class='details'>Giờ: <strong>["+appointment.getSlot().getStart_time()+" - "+appointment.getSlot().getEnd_time()+"]</strong></p>\n"
-                    + "            <p class='details'>Bác sĩ: <strong>["+appointment.getDoctor().getDoctor_name()+"]</strong></p>\n"
-                    + "            <p class='details'>Giá: <strong>["+appointment.getService_detail().getCost()+"]</strong></p>\n"
+                    + "            <h2>Xác Nhận Đặt Lịch Thành Công Cho" + appointment.getUser().getFullname() + "!</h2>\n"
+                    + "            <p class='details'>Bạn đã đăng ký dịch vụ: <strong>[" + appointment.getService_detail().getServices().getService_name() + "]</strong></p>\n"
+                    + "            <p class='details'>Ngày: <strong>[" + appointment.getAppointment_date() + "]</strong></p>\n"
+                    + "            <p class='details'>Giờ: <strong>[" + appointment.getSlot().getStart_time() + " - " + appointment.getSlot().getEnd_time() + "]</strong></p>\n"
+                    + "            <p class='details'>Bác sĩ: <strong>[" + appointment.getDoctor().getDoctor_name() + "]</strong></p>\n"
+                    + "            <p class='details'>Giá: <strong>[" + formattedCost + "]</strong></p>\n"
                     + "            <p class='reminder'>Vui lòng đến đúng lịch hẹn để được phục vụ tốt nhất!</p>\n"
                     + "        </div>\n"
                     + "    </div>\n"

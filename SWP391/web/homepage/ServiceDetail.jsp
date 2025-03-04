@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -247,14 +248,14 @@
                                                 <td style="color: black">${sd.serviceType.service_type_name}</td>
                                                 <td style="color: black">${sd.serviceType.duration_service}</td>
                                                 <td style="color: black">${sd.services.specialization.specialization_name}</td>
-                                                <td style="color: black">$${sd.cost}</td>
-                                                <td>
-                                                    <a href="appointment?id=${sd.service_detail_id}&type=${sd.serviceType.service_type_id}" class="btn btn-success">
-                                                        <i class="fa fa-calendar" aria-hidden="true"></i> Book
-                                                    </a>
-                                                </td>
-                                            </tr>  
-                                        </c:forEach>
+                                                <td style="color: black"><fmt:formatNumber value="${sd.cost}" pattern="#,###" />VNĐ</td>
+                                        <td>
+                                            <a href="appointment?id=${sd.service_detail_id}&type=${sd.serviceType.service_type_id}" class="btn btn-success">
+                                                <i class="fa fa-calendar" aria-hidden="true"></i> Book
+                                            </a>
+                                        </td>
+                                        </tr>  
+                                    </c:forEach>
 
                                     </tbody>
                                 </table>

@@ -203,12 +203,18 @@ CREATE TABLE Appointment(
 );
 
 
-create table MedicalHistory(
-	appointment_id  INT PRIMARY KEY,
-	diagnosis nvarchar(255),
-	treatment nvarchar(255),
-	note nvarchar(255),
-	FOREIGN KEY (appointment_id) REFERENCES dbo.Appointment(appointment_id),
+CREATE TABLE MedicalHistory (
+    appointment_id  INT PRIMARY KEY,
+    diagnosis NVARCHAR(255),
+    symptoms NVARCHAR(255),       -- Triệu chứng
+    treatment NVARCHAR(255),
+    prescription NVARCHAR(255),    -- Đơn thuốc
+    vision_left DECIMAL(3,2),      -- Thị lực mắt trái
+    vision_right DECIMAL(3,2),     -- Thị lực mắt phải
+    additional_tests NVARCHAR(255),-- Xét nghiệm bổ sung
+    note NVARCHAR(255),            -- Ghi chú
+    created_at DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (appointment_id) REFERENCES dbo.Appointment(appointment_id)
 );
 
 CREATE TABLE Follow_Up (
@@ -221,7 +227,8 @@ CREATE TABLE Follow_Up (
 );
 
 CREATE TABLE Staff (
-    account_id INT PRIMARY KEY,
+	staff_id int primary key identity(1,1),
+    account_id INT unique,
 	admin_fullname NVARCHAR(255),
 	admin_address NVARCHAR(255),
 	admin_dob DATE,
@@ -238,18 +245,34 @@ CREATE TABLE Feedback_Service(
 	FOREIGN KEY (appointment_id) REFERENCES Appointment(appointment_id) ,
 	feedback_text NVARCHAR(255),
 	feedback_date DATETIME,
-	feedback_rating INT,
+	feedback_rating INT CHECK (feedback_rating BETWEEN 1 AND 5),
+	response_text NVARCHAR(255),
+	response_date datetime,
+	staff_id int foreign key references Staff(staff_id),
 );
 
-CREATE TABLE Feedback_Response(
-    feedback_id INT PRIMARY KEY,
+CREATE TABLE Feedback_Doctor(
+    feedback_id INT IDENTITY(1,1) PRIMARY KEY,
+	appointment_id INT,
+	FOREIGN KEY (appointment_id) REFERENCES Appointment(appointment_id) ,
+	feedback_text NVARCHAR(255),
+	feedback_date DATETIME,
+	feedback_rating INT CHECK (feedback_rating BETWEEN 1 AND 5),
 	response_text NVARCHAR(255),
-	response_note NVARCHAR(255),
 	response_date datetime,
-    account_id INT,
-    FOREIGN KEY (account_id) REFERENCES dbo.Accounts(account_id),
-	FOREIGN KEY(feedback_id) REFERENCES dbo.Feedback_Service(feedback_id)
+	staff_id int foreign key references Staff(staff_id),
 );
+
+--CREATE TABLE Feedback_Response(
+--    feedback_id INT PRIMARY KEY,
+--	response_text NVARCHAR(255),
+--	response_note NVARCHAR(255),
+--	response_date datetime,
+--    account_id INT,
+--    FOREIGN KEY (account_id) REFERENCES dbo.Accounts(account_id),
+--	FOREIGN KEY(feedback_id) REFERENCES dbo.Feedback_Service(feedback_id)
+--);
+
 
 create table CheckOut(
 	checkout_id INT PRIMARY KEY IDENTITY(1,1),

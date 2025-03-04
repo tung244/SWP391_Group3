@@ -11,10 +11,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import model.Account;
 import model.Appointments;
 import model.Doctors;
+import model.MedicalHistory;
 import model.ServiceDetail;
 import model.ServiceTypes;
 import model.Services;
@@ -281,12 +283,102 @@ public class AppointmentDAO extends DBContext {
         }
     }
 
+    public MedicalHistory getMedicalHistoryByAId(String aid) {
+        String query = "select * from MedicalHistory where appointment_id = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, aid);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int appointment_id = rs.getInt("appointment_id");
+                Appointments appointment = new Appointments(appointment_id);
+                return new MedicalHistory(appointment, rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5), rs.getDouble(6), rs.getDouble(7),
+                        rs.getString(8), rs.getString(9), rs.getTimestamp(10).toLocalDateTime());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean insertMedicalHistory(int appointmentId, String diagnosis, String symptoms, String treatment,
+            String prescription, double visionLeft, double visionRight,
+            String additionalTests, String note) {
+        String query = "INSERT INTO MedicalHistory (appointment_id, diagnosis, symptoms, treatment, "
+                + "prescription, vision_left, vision_right, additional_tests, note, created_at) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE())";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, appointmentId);
+            ps.setString(2, diagnosis);
+            ps.setString(3, symptoms);
+            ps.setString(4, treatment);
+            ps.setString(5, prescription);
+            ps.setDouble(6, visionLeft);
+            ps.setDouble(7, visionRight);
+            ps.setString(8, additionalTests);
+            ps.setString(9, note);
+
+            int rowsInserted = ps.executeUpdate();
+            return rowsInserted > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<Object[]> getAppointmentStats(String startDate, String endDate) {
+        List<Object[]> statsList = new ArrayList<>();
+        String sql = "SELECT \n"
+                + "        s.service_name, \n"
+                + "        COUNT(a.appointment_id) AS total_appointments, \n"
+                + "        SUM(sd.cost) AS total_revenue,\n"
+                + "        COUNT(CASE WHEN a.appointment_status = 'Completed' THEN 1 END) * 100.0 / COUNT(a.appointment_id) AS success_rate,\n"
+                + "        COUNT(CASE WHEN a.appointment_status = 'Canceled' THEN 1 END) * 100.0 / COUNT(a.appointment_id) AS cancel_rate,\n"
+                + "        AVG(fs.feedback_rating) AS average_rating\n"
+                + "    FROM Appointment AS a\n"
+                + "    LEFT JOIN Feedback_Service AS fs ON a.appointment_id = fs.appointment_id\n"
+                + "    INNER JOIN Services_Detail AS sd ON a.service_detail_id = sd.service_detail_id\n"
+                + "    INNER JOIN Services AS s ON sd.service_id = s.service_id\n"
+                + "    WHERE a.appointment_date BETWEEN ? AND ? \n"
+                + "    GROUP BY s.service_name\n"
+                + "    ORDER BY total_revenue DESC";
+
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, startDate);
+            ps.setString(2, endDate);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                statsList.add(new Object[]{
+                    rs.getString("service_name"),
+                    rs.getInt("total_appointments"),
+                    rs.getDouble("total_revenue"),
+                    rs.getDouble("success_rate"),
+                    rs.getDouble("cancel_rate"),
+                    rs.getDouble("average_rating")
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return statsList;
+    }
+
     public static void main(String[] args) {
         AppointmentDAO dao = new AppointmentDAO();
-        List<Appointments> list = dao.getAppointment(null);
-        for (Appointments slots : list) {
-            System.out.println(slots);
+//        LocalDate currentDate = LocalDate.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        String formattedDate = currentDate.format(formatter);
+        List<Object[]> list = dao.getAppointmentStats("2025-02-20", "2025-03-03");
+        for (Object[] slots : list) {
+            System.out.println(Arrays.toString(slots));
         }
+        MedicalHistory h = dao.getMedicalHistoryByAId("1");
+        System.out.println(h);
 //        String date = "03/27/2025";
 //        Date appointment_date = null;
 //

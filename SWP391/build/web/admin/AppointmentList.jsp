@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -125,9 +126,32 @@
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </td>
-                                                        <td>${a.appointment_date}</td>
-                                                        <td>${a.service_detail.cost}</td>
-                                                        <td>${a.appointment_status}</td>
+                                                        <td><fmt:formatDate value="${a.appointment_date}" pattern="dd/MM/yyyy"/></td>
+                                                        <td>
+                                                            <fmt:formatNumber value="${a.service_detail.cost}" pattern="#,###" />
+                                                        </td>
+                                                        <td style="font-weight: bold">
+                                                            <c:choose>
+                                                                <c:when test="${a.appointment_status == 'Waiting Scheduled'}">
+                                                                    <span style="color: orange;">${a.appointment_status}</span>
+                                                                </c:when>
+                                                                <c:when test="${a.appointment_status == 'Scheduled'}">
+                                                                    <span style="color: blue;">${a.appointment_status}</span>
+                                                                </c:when>
+                                                                <c:when test="${a.appointment_status == 'Completed'}">
+                                                                    <span style="color: green;">${a.appointment_status}</span>
+                                                                </c:when>
+                                                                <c:when test="${a.appointment_status == 'Canceled'}">
+                                                                    <span style="color: red;">${a.appointment_status}</span>
+                                                                </c:when>
+                                                                <c:when test="${a.appointment_status == 'Payed'}">
+                                                                    <span style="color: purple;">${a.appointment_status}</span>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <span>${a.appointment_status}</span>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
                                                         <td id="action_${a.appointment_id}">
                                                             <a href="UpdateAppointment?id=${a.appointment_id}" title="Update">
                                                                 <i class="fas fa-edit icon"></i>

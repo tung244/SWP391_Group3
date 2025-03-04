@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -117,8 +118,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
+                                                <!--                                                <div class="input-box">
+                                                                                                    <input type="date" name="date" placeholder="Date" id="datepicker">
+                                                                                                    <div class="icon-box">
+                                                                                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                                                                    </div>
+                                                                                                </div>-->
                                                 <div class="input-box">
-                                                    <input type="date" name="date" placeholder="Date" id="datepicker">
+                                                    <input type="date" name="date" id="datepicker">
                                                     <div class="icon-box">
                                                         <i class="fa fa-calendar" aria-hidden="true"></i>
                                                     </div>
@@ -138,7 +145,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="input-box">
-                                                    <input type="text" name="cost" placeholder="Cost" value="${s.cost}">
+                                                    <input type="text" name="cost" placeholder="Cost" value="<fmt:formatNumber value="${s.cost}" pattern="#,###" />VNĐ">
                                                 </div>
                                             </div>
                                         </div>
@@ -463,6 +470,14 @@
         </div>
         <!--Scroll to top-->
         <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
+
+        <script>
+            // Lấy ngày hiện tại theo định dạng YYYY-MM-DD
+            let today = new Date().toISOString().split('T')[0];
+
+            // Đặt giá trị min cho input date
+            document.getElementById("datepicker").setAttribute("min", today);
+        </script>
         <!-- main jQuery -->
         <jsp:include page="Common/Message.jsp"/>
 

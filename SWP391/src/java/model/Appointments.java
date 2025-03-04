@@ -22,6 +22,10 @@ public class Appointments {
     public Appointments() {
     }
 
+    public Appointments(int appointment_id) {
+        this.appointment_id = appointment_id;
+    }
+    
     public Appointments(int appointment_id, Date appointment_date, String appointment_status, Doctors doctor, Slots slot, ServiceDetail service_detail, UserProfile user) {
         this.appointment_id = appointment_id;
         this.appointment_date = appointment_date;
