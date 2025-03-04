@@ -170,7 +170,7 @@ public class SendMail {
        
     }
     
-     public static boolean sendMailDoctor(String email, String password, String nameUser) throws UnsupportedEncodingException {
+ public static boolean guiMailDoctor(String email, String password, String nameUser) throws UnsupportedEncodingException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.host", Mail.HOST_NAME);
@@ -187,7 +187,7 @@ public class SendMail {
             MimeMessage message = new MimeMessage(session);
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             
-            String subject = "Notify Doctor Account Password";  
+            String subject = "Thông tin tài khoản bác sĩ";   
             String emailContent = "<html><head>"
                     + "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>"
                     + "<style>"
@@ -201,22 +201,23 @@ public class SendMail {
                     + "<div class='email-container'>"
                     + "<div class='email-content'>"
                     + "<h2>Hi " + nameUser + "!</h2>"
-                    + "<p>Your account password doctor is: <span class='otp'>" + password + "</span></p>"  // thay noi dung thanh password
+                    + "<p>Your account password doctor is: <span class='otp'>" + password + "</span></p>" 
+                    + "<a href='http://localhost:9999/SWP391/admin/login'>Click here</a>"
                     + "<p>Please use this password to login to your account!</p>"
                     + "</div></div>"
                     + "</body></html>";
 
-            
+            // Đặt tiêu đề với UTF-8
             message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
 
-      
+            // Đặt nội dung email với UTF-8
             MimeMultipart multipart = new MimeMultipart();
             MimeBodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setContent(emailContent, "text/html; charset=UTF-8");
             multipart.addBodyPart(messageBodyPart);
             message.setContent(multipart);
             Transport.send(message);
-            System.out.println("mail successfully" + System.currentTimeMillis());
+            System.out.println("mail được gửi" + System.currentTimeMillis());
 
             return true;
         } catch (MessagingException e) {
@@ -225,8 +226,9 @@ public class SendMail {
         }
 
     }
-    public static void main(String[] args) {
-        guiMail2("0936971273@mms.mobifone.net.vn", "029193", "Lương");
+    public static void main(String[] args) throws UnsupportedEncodingException {
+       
+        guiMailDoctor("nguyenluongk2k4@gmail.com", "12345", "luong");
     }
     
 }

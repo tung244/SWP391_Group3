@@ -4,6 +4,7 @@
  */
 package controller.admin.doctor;
 
+import dal.AccountDAO;
 import dal.DoctorsDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,17 +44,14 @@ public class DoctorProfile extends HttpServlet {
             throws ServletException, IOException {
         int accId = Integer.parseInt(request.getParameter("accId"));
         DoctorsDAO dao = new DoctorsDAO();
-        Doctors doctor = new Doctors();
-        doctor = dao.getDoctorsByAccId(accId);
+        Doctors doctor = dao.getDoctorsByAccId(accId);
         request.setAttribute("doctor", doctor);
-        request.getRequestDispatcher("doctorProfile?accId=" +accId).forward(request, response);
+        request.getRequestDispatcher("DoctorProfile.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-      
 
     }
 

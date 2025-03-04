@@ -144,7 +144,8 @@ public class CreateAccDoctor extends HttpServlet {
             acc.setFirst_confirm(firstConfirm);
 
             Doctors doc = new Doctors();
-            doc.setAcc(acc);          
+            doc.setAcc(acc);       
+            request.getSession().setAttribute("pass", pass);
             request.getSession().setAttribute("doctor", doc);
             request.getSession().setAttribute("progress", 50);
             response.sendRedirect("createDoctor");

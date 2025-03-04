@@ -182,7 +182,7 @@
                                     <div class="card-title">
                                         <h4 class="mb-0">Doctor Table</h4>
 
-                                        <a href="createAccount" class="btn btn-primary" style="margin-left:90%;">Add a doctor</a>
+                                        <a href="createAccount" class="btn btn-primary" style="margin-left:85%;">Add a doctor</a>
 
                                         <div style="" class="filter">
                                             <!-- Start filter area--> 

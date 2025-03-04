@@ -95,8 +95,9 @@ public class Login extends HttpServlet {
                             request.getSession().setAttribute("email", email);
                             response.sendRedirect("changePass");
                         } else {
-                            int accId = accdao.getAccountIdByEmail(email);                                        
-                            response.sendRedirect("doctorProfile?accId=" +accId);
+                            int accId = accdao.getAccountIdByEmail(email);
+                            System.out.println(accId);
+                            response.sendRedirect("doctorProfile?accId=" + accId);
                         }
 
                         break;

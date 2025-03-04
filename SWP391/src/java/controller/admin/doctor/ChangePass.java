@@ -70,7 +70,7 @@ public class ChangePass extends HttpServlet {
             if(success){
                 String firstConfirm = "false";
                 accdao.changeFirstConfirm(firstConfirm, accId);
-                response.sendRedirect("doctorProfile");
+                response.sendRedirect("doctorProfile?accId=" + accId);
             }
             
         }

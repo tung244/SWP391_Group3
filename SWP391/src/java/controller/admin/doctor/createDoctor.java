@@ -77,40 +77,43 @@ public class createDoctor extends HttpServlet {
             String gender = request.getParameter("gender");
             String dob = request.getParameter("dob");
             String address = request.getParameter("address");
-            String status = "Active";         
+            String status = "Active";
             int specializationId = Integer.parseInt(request.getParameter("specializationId"));
- 
+
             // Xử lý upload file ảnh
             Part part = request.getPart("profileImage");
             String pathHost = getServletContext().getRealPath("");
             String finalPath = pathHost.replace("build\\", "");
             String linkFile = uploadImage(part, finalPath);
             response.getWriter().print(linkFile);
-           
+
             // Tạo đối tượng chuyên khoa
             Specialization specialization = new Specialization();
             specialization.setSpecialization_id(specializationId);
 
             // Tạo đối tượng Doctor            
-            Doctors doctor = (Doctors) request.getSession().getAttribute("doctor"); 
+            Doctors doctor = (Doctors) request.getSession().getAttribute("doctor");
             doctor.setDoctor_name(doctorName);
             doctor.setExperience_years(experienceYears);
-            doctor.setProfile_image(linkFile); 
+            doctor.setProfile_image(linkFile);
             doctor.setGender(gender);
             doctor.setDob(dob);
             doctor.setAddress(address);
             doctor.setDoctor_status(status);
-            
+
             doctor.setSpecialization(specialization);
-           
+
             // Thêm bác sĩ vào DB
             DoctorsDAO doctorDao = new DoctorsDAO();
             boolean isSuccess = doctorDao.addDoctor(doctor);
+
             System.out.println(isSuccess);
             if (isSuccess) {
-//                SendMail.sendMailDoctor(doctor.getAcc().email, request.getSession().getAttribute("pass").toString(), doctorName);
+                String pass = (String) request.getSession().getAttribute("pass");
+                SendMail.guiMailDoctor(doctor.getAcc().email, pass, doctorName);
+
                 HttpSession session = request.getSession();
-                session.setAttribute("progress", 100);      
+                session.setAttribute("progress", 100);
                 response.sendRedirect("DoctorList");
             } else {
                 request.setAttribute("error", "Failed to create doctor. Please try again.");
@@ -121,6 +124,9 @@ public class createDoctor extends HttpServlet {
             request.setAttribute("error", "Invalid input data: " + e.getMessage());
             doGet(request, response);
         }
+        request.getSession().removeAttribute("progress");
+        request.getSession().removeAttribute("pass");
+        request.getSession().removeAttribute("doctor");
 
     }
 
@@ -209,7 +215,7 @@ public class createDoctor extends HttpServlet {
         String linkFile = "";
 
         String fileName = part.getSubmittedFileName();
-    
+
         if (fileName != null && !fileName.isEmpty()) {
             File filePath = new File(uploadPath + File.separator + fileName);
             try {
