@@ -154,13 +154,30 @@ public class DegreeDAO extends DBContext {
 
     public void updateDegree(int degreeId, String degreeName) {
         String sql = "UPDATE degree SET degree_name = ? WHERE degree_id = ?";
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, degreeName);
             ps.setInt(2, degreeId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+//    check trùng
+    public boolean getDegreeByName(String name) {
+        String sql = "SELECT * FROM Degree WHERE LOWER(degree_name) = LOWER(?)";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, name);
+
+            try (ResultSet rs = st.executeQuery()) {
+                return rs.next(); 
+            }
+        } catch (Exception e) {
+            System.err.println("Error while checking degree existence: " + e.getMessage());
+        }
+
+        return false; 
     }
 
 //    public void addDoctorDegrees(int doctorId, List<Integer> degreeIds) {
@@ -245,8 +262,8 @@ public class DegreeDAO extends DBContext {
         for (Degree degree : list) {
             System.out.println(degree);
         }
-        
+
         dao.updateDegree(1, "Bác sĩ nội trú");
-        System.out.println(dao.getDegreeById(1));
+        System.out.println(dao.getDegreeByName("BÁC sĩ nội trú"));
     }
 }

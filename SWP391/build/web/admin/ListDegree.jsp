@@ -520,7 +520,7 @@
                                             location.reload(); // Load lại danh sách
                                         },
                                         error: function () {
-                                            alert("Error adding degree!");
+                                            alert("Degree name has been existed. Error adding degree!");
                                         }
                                     });
                                 }

@@ -23,7 +23,7 @@
             .search-filter-box select,
             .search-filter-box input {
                 flex: 1;
-                min-width: 150px;
+                min-width: 200px;
                 padding: 8px 12px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
@@ -170,7 +170,7 @@
                                         <ol class="breadcrumb mb-0 p-0">
                                             <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                                             </li>
-                                            <li class="breadcrumb-item active" aria-current="page"><a>List Degree</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page"><a>List Certificate</a></li>
                                         </ol>
                                     </nav>
                                 </div>
@@ -180,16 +180,16 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="card-title">
-                                        <h4 style="margin-left: 2%" class="mb-0">Degree Table</h4>
+                                        <h4 style="margin-left: 2%" class="mb-0">Certificate Table</h4>
 
 
 
                                         <div style="margin-left: 20%" class="filter">
                                             <!-- Start filter area--> 
-                                            <form action="listDegree" method="GET">
+                                            <form action="listCertificate" method="GET">
                                                 <div style="margin: 0px 20px" class="search-filter-box">
 
-                                                    <input type="text" name="searchName" id="searchName" class="form-control" placeholder="Find degree by name" 
+                                                    <input type="text" name="searchName" id="searchName" class="form-control" placeholder="Find certificate by name" 
                                                            value="${param.searchName != null ? param.searchName : ''}">
 
                                                     <select name="option" class="form-control">
@@ -220,7 +220,7 @@
                                     <label for="pageSize">degrees per page</label>
                                 </div>
                                 <div class="table-responsive">
-                                    <div id="degreeList">
+                                    <div id="certificateList">
                                         <table id="example" class="table table-striped table-bordered" style="width:96%;
                                                margin: 0px 2%">
                                             <thead style="text-align: center">
@@ -232,21 +232,21 @@
                                                 </tr>
                                             </thead>
                                             <tbody style="text-align: center">
-                                                <c:forEach var="lde" items="${listDegree}">
+                                                <c:forEach var="lcer" items="${listCer}">
                                                     <tr>
 
-                                                        <td>${lde.degree_id}</td>
-                                                        <td>${lde.degree_name}</td>
+                                                        <td>${lcer.certificate_id}</td>
+                                                        <td>${lcer.certificate_name}</td>
 
                                                         <td>  
                                                             <a href="#" title="Update" data-bs-toggle="modal" data-bs-target="#updateModal" 
-                                                               onclick="loadUpdateModal('${lde.degree_id}', '${lde.degree_name}')">
+                                                               onclick="loadUpdateModal('${lcer.certificate_id}', '${lcer.certificate_name}')">
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
 
 
                                                             <a style="margin-left: 5%" href="#" title="View" data-toggle="modal" data-target="#viewModal"
-                                                               onclick="loadDegreeDetails('${lde.degree_id}')">
+                                                               onclick="loadCerDetails('${lcer.certificate_id}')">
                                                                 <i class="fas fa-eye"></i>
                                                             </a>
                                                             <a style="margin-left: 5%"  href="#" title="Add" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -284,17 +284,7 @@
                                 </div>
                             </div>
                         </div>
-                        <%
-                            String succesMessage = (String) session.getAttribute("success");
-                            if(succesMessage != null) {
-                        %>
-                        <script>
-                            alert("<%= succesMessage %> ");
-                        </script>
-                        <%
-                         session.removeAttribute("success");
-                            }
-                        %>
+
                     </div>
                 </div>
                 <!--end page-content-wrapper-->
@@ -305,7 +295,7 @@
                 <div class="modal-dialog modal-xl"> <!-- Thêm lớp modal-lg -->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalLabel">Degree Details</h5>
+                            <h5 class="modal-title" id="modalLabel">Certificates Details</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id="modalContent">
@@ -323,22 +313,22 @@
                 <div class="modal-dialog modal-xl"> 
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add New Degree</h5>
+                            <h5 class="modal-title">Add New Certificate</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <!-- Form thêm Degree -->
                             <form id="addDegreeForm">
                                 <div class="mb-3">
-                                    <label for="degreeName" class="form-label">Degree Name</label>
-                                    <input type="text" class="form-control" id="degreeName" name="degreeName" required>
+                                    <label for="certificateName" class="form-label">Certificate Name</label>
+                                    <input type="text" class="form-control" id="certificateName" name="certificateName" required>
                                 </div>
-                                <input type="hidden" id="degreeId" name="degreeId">
+                                <input type="hidden" id="certificateId" name="certificateId">
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="addDegree()">Save</button>
+                            <button type="button" class="btn btn-primary" onclick="addCer()">Save</button>
                         </div>
                     </div>
                 </div>
@@ -349,23 +339,24 @@
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="updateModalLabel">Update Degree Details</h5>
+                            <h5 class="modal-title" id="updateModalLabel">Update Certificate Details</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id="updateModalContent">
                             <!-- Update form -->
                             <form id="updateForm">
-                                <input type="hidden" id="degreeId" name="degreeId">
+                                <input type="hidden" id="cerId" name="cerId">
                                 <div class="mb-3">
-                                    <label for="updateDegreeName" class="form-label">Degree Name</label>
-                                    <input type="text" class="form-control" id="updateDegreeName" name="degreeName" required>
+                                    <label for="updateCertificateName" class="form-label">Certificate Name</label>
+                                    <input type="text" class="form-control" id="cerName" name="cerName" required>
+
                                 </div>
                             </form>
 
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="updateDegree()">Update</button>
+                            <button type="button" class="btn btn-primary" onclick="updateCertificate()">Update</button>
 
                         </div>
                     </div>
@@ -445,10 +436,10 @@
         <script src="../admin/assets/js/app.js"></script>  
         <script>
 
-                                function loadDegree(page = 1) {
+                                function loadCer(page = 1) {
                                     let pageSize = document.getElementById("pageSize").value;
                                     $.ajax({
-                                        url: "listDegree",
+                                        url: "listCertificate",
                                         type: "GET",
                                         data: {
 
@@ -458,7 +449,7 @@
                                             pageSize: pageSize
                                         },
                                         success: function (response) {
-                                            $("#degreeList").html($(response).find("#degreeList").html());
+                                            $("#certificateList").html($(response).find("#certificateList").html());
                                             $("#pagination").html($(response).find("#pagination").html());
                                         }
                                     });
@@ -466,7 +457,7 @@
 
 
                                 $(document).on("change", "#pageSize", function () {
-                                    loadDegree();
+                                    loadCer();
                                 });
 
 
@@ -474,22 +465,22 @@
                                     e.preventDefault();
                                     let page = $(this).attr("data-page");
                                     if (page) {
-                                        loadDegree(page);
+                                        loadCer(page);
                                     }
                                 });
 
 
                                 $(document).ready(function () {
-                                    loadDegree();
+                                    loadCer();
                                 });
 
-                                function loadDegreeDetails(degreeId) {
-                                    console.log("Loading degree ID:", degreeId);
+                                function loadCerDetails(cerId) {
+                                    console.log("Loading degree ID:", cerId);
 
                                     $.ajax({
-                                        url: 'listDegree',
+                                        url: 'listCertificate',
                                         type: 'POST',
-                                        data: {action: "loadDegreeDetails", id: degreeId},
+                                        data: {action: "loadCerDetails", id: cerId},
                                         success: function (response) {
                                             console.log("Response received:", response);
                                             $('#modalContent').html(response);
@@ -502,56 +493,57 @@
                                     });
                                 }
 
-                                function addDegree() {
-                                    var degreeName = document.getElementById("degreeName").value;
+                                function addCer() {
+                                    var certificateName = document.getElementById("certificateName").value;
 
-                                    if (degreeName.trim() === "") {
-                                        alert("Please enter a degree name!");
+                                    if (certificateName.trim() === "") {
+                                        alert("Please enter a certificate name!");
                                         return;
                                     }
 
                                     $.ajax({
-                                        url: 'listDegree',
+                                        url: 'listCertificate',
                                         type: 'POST',
-                                        data: {action: "addDegree", degreeName: degreeName},
+                                        data: {action: "addCertificate", certificateName: certificateName},
                                         success: function (response) {
-                                            alert("Degree added successfully!");
+                                            alert("Certificate added successfully!");
                                             $("#addModal").modal("hide");
                                             location.reload(); // Load lại danh sách
                                         },
                                         error: function () {
-                                            alert("Degree name has been existed. Error adding degree!");
+                                            alert("Certificate has been existed.Error adding certificate!");
                                         }
                                     });
                                 }
 
-                                function loadUpdateModal(degreeId, degreeName) {
-                                    document.getElementById("degreeId").value = degreeId;
-                                    document.getElementById("updateDegreeName").value = degreeName;
+                                function loadUpdateModal(cerId, cerName) {
+                                    document.getElementById("cerId").value = cerId;
+                                    document.getElementById("cerName").value = cerName; 
                                 }
 
-                                function updateDegree() {
-                                    var degreeId = document.getElementById("degreeId").value;
-                                    var degreeName = document.getElementById("updateDegreeName").value;
 
-                                    console.log("Sending request with Degree ID:", degreeId);
-                                    console.log("Updated Degree Name:", degreeName);
+                                function updateCertificate() {
+                                    var cerId = document.getElementById("cerId").value;
+                                    var cerName = document.getElementById("cerName").value;
+
+                                    console.log("Sending request with Certificate ID:", cerId);
+                                    console.log("Updated Certificate Name:", cerName);
 
                                     $.ajax({
-                                        url: 'listDegree',
+                                        url: 'listCertificate',
                                         type: 'POST',
-                                         data: {action: "updateDegree", degreeId: degreeId, degreeName: degreeName },
+                                        data: {action: "updateCertificate", cerId: cerId, cerName: cerName},
                                         success: function (response) {
-                                            alert("Degree updated successfully!");
+                                            alert("Certificate updated successfully!");
                                             $("#updateModal").modal("hide");
                                             location.reload(); // Load lại danh sách
                                         },
                                         error: function () {
-                                            alert("Error adding degree!");
+                                            alert("Error update certificate!");
                                         }
                                     });
 
-                                   
+
                                 }
 
 
