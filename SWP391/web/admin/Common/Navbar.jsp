@@ -51,6 +51,8 @@
                 </li>
                 <li> <a href="email_statistics"><i class="bx bx-right-arrow-alt"></i>Thống kê</a>
                 </li>
+                <li> <a href="show_email"><i class="bx bx-right-arrow-alt"></i>Email yêu cầu</a>
+                </li>
                 
             </ul>
         </li>

@@ -107,7 +107,7 @@
                                 </div>
                                 <div class="ms-auto d-flex align-items-center">
 <!--                                    <button class="btn btn-sm btn-light">1-50 of 8,740</button>-->
-                                    <a href="show_email?next_page_token=${theCurrentPageToken}" class="btn btn-white px-2 ms-2"><i class='bx bx-chevron-left me-0'></i>
+                                    <a href="show_email?next_page_token=${thePreviousToken}" class="btn btn-white px-2 ms-2"><i class='bx bx-chevron-left me-0'></i>
                                     </a>
                                     <a href="show_email?next_page_token=${theNextPageToken}" class="btn btn-white px-2 ms-2"><i class='bx bx-chevron-right me-0'></i>
                                     </a>

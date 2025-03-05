@@ -253,9 +253,9 @@ public class SendMail {
                     + "</head><body>"
                     + "<div class='email-container'>"
                     + "<div class='email-content'>"
-                    + "<h2>Chào " + nameUser + "!</h2>"
-                    + "<p>Đây là mã OTP của bạn: <span class='otp'>" + password + "</span></p>"  // thay noi dung thanh password
-                    + "<p>Vui lòng nhập mã này để xác nhận yêu cầu của bạn.</p>"
+                    + "<h2>Hi " + nameUser + "!</h2>"
+                    + "<p>Your account password doctor is: <span class='otp'>" + password + "</span></p>"  // thay noi dung thanh password
+                    + "<p>Please use this password to login to your account!</p>"
                     + "</div></div>"
                     + "</body></html>";
 
@@ -283,8 +283,7 @@ public class SendMail {
    
 
     public static void main(String[] args) throws UnsupportedEncodingException, InterruptedException {
-        List<String> email = Arrays.asList("nguyenluongk2k4@gmail.com", "luongndhe181876@fpt.edu.vn", "kn1802204@gmail.com");
-        guiEmailTuDong(email, "lương vip pro", "test mail tự động");
+        guiMailDoctor("nguyenluongk2k4@gmail.com", "123456", "luong");
     }
 
 }

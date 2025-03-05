@@ -2,18 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/GmailFetcher.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/EmailStatistics.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/email/ThongkeEmail.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/assets/css/app.css</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/GetFormatDate.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/SendMail.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/email/ShowEmail.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/GroupCustomerEmail.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/EmailRead.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/EmailBox.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/consts/Gmails.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
