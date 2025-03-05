@@ -246,7 +246,7 @@
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
 
-                                                            <a href="#" title="View" data-bs-toggle="modal" data-bs-target="#viewModal"
+                                                            <a style="margin-left: 5%" href="#" title="View" data-bs-toggle="modal" data-bs-target="#viewModal"
                                                                onclick="loadSpecializationDetails('${lsp.specialization_id}')">
                                                                 <i class="fas fa-eye"></i>
                                                             </a>
