@@ -85,9 +85,35 @@ public class CustomerDAO extends DBContext {
                     rs.getString("image_profile_user"));
         }
     } catch (SQLException e) {
-        System.out.println("Database error: " + e.getMessage()); // Log the error
+        System.out.println("Database error: " + e.getMessage());
     }
     return null;
 }
-
+public List<Customers> searchCustomers(String keyword){
+    List<Customers> list = new ArrayList<>();
+    String sql = """
+                 SELECT * FROM dbo.Customers c
+                 JOIN dbo.Accounts a ON
+                 a.account_id = c.account_id
+                 WHERE c.full_name LIKE ? 
+                 """;
+    
+    try{
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, "%" + keyword + "%");
+        ResultSet rs = st.executeQuery();
+        
+        while(rs.next()){
+            Customers c = new Customers(rs.getInt("account_id"),
+                    rs.getString("full_name"),
+                    rs.getString("gender"),
+                    rs.getString("username"),
+                    rs.getString("image_profile_user"));
+            list.add(c);
+        }
+    } catch (SQLException e){
+        e.printStackTrace();
+    }
+        return list;
+}
 }

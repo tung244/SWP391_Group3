@@ -5,6 +5,8 @@
 
 package controller.admin.customer;
 
+import com.google.gson.Gson;
+import dal.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,12 +14,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Customers;
 
 /**
  *
  * @author Nguyen Phu Thinh
  */
-@WebServlet(name="SearchCustomer", urlPatterns={"/SearchCustomer"})
+@WebServlet(name="SearchCustomer", urlPatterns={"/admin/searchcustomer"})
 public class SearchCustomer extends HttpServlet {
    
     /** 
@@ -54,9 +58,15 @@ public class SearchCustomer extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    } 
+    throws ServletException, IOException { 
+        CustomerDAO dao = new CustomerDAO();
+        String searchKeyword = request.getParameter("search");
+        List<Customers> list = dao.searchCustomers(searchKeyword);
+        
+        request.setAttribute("list", list);
+        
+        request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -68,8 +78,10 @@ public class SearchCustomer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
-    }
+                
+    } 
+    
+    
 
     /** 
      * Returns a short description of the servlet.

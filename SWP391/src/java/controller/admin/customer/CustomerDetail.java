@@ -95,9 +95,11 @@ public class CustomerDetail extends HttpServlet {
         
         if ("5".equals(customer.getRole_id())){
             customer.setRole_id("Customer");
+        } else {
+            customer.setRole_id("Staff");
         }
         
-        if (customer.getImage_profile_user() == null || customer.getImage_profile_user().endsWith(".jpg, .png")|| customer.getImage_profile_user().isEmpty()){
+        if (customer.getImage_profile_user() == null || !customer.getImage_profile_user().endsWith(".jpg, .png")|| customer.getImage_profile_user().isEmpty()){
             customer.setImage_profile_user("https://cdn.kona-blue.com/upload/kona-blue_com/post/images/2024/09/18/457/avatar-mac-dinh-10.jpg");
         }
         if (customer != null) {

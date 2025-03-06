@@ -61,7 +61,7 @@
                                     <ol class="breadcrumb mb-0 p-0">
                                         <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                                         </li>
-                                        <li class="breadcrumb-item active" aria-current="page">Data Table</li>
+                                        <li class="breadcrumb-item active" aria-current="page">List Customers</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -82,9 +82,16 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title">
-                                    <h4 class="mb-0">DataTable Example</h4>
+                                    <h4 class="mb-0">List Customers </h4>
                                 </div>
                                 <hr/>
+                                <form action="searchcustomer" method="get">
+                                    
+                                    <input type="text" name="search" class="form-control mb-3" placeholder="Search Customer"/>
+                                </form>
+          
+                                
+                                       
                                 <div class="table-responsive">
                                     <table id="example" class="table table-striped table-bordered" style="width:100%">
                                         <thead>
@@ -98,13 +105,21 @@
 
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="customerTable">
                                             <c:forEach var="list" items="${list}">
                                                 <tr>
                                                     <td>${list.account_id}</td>
                                                     <td>
-                                                        <img src="${empty list.image_profile_user ? 'https://cdn.kona-blue.com/upload/kona-blue_com/post/images/2024/09/18/457/avatar-mac-dinh-10.jpg' : list.image_profile_user}" width="50">
-                                                        ${list.full_name}
+                                                    <c:set var="image" value="${list.image_profile_user}"/>
+                                                    <c:choose>
+                                                        <c:when test="${empty image or image == null}">
+                                                            <img src="https://cdn.kona-blue.com/upload/kona-blue_com/post/images/2024/09/18/457/avatar-mac-dinh-10.jpg" width="50"/>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="${image}" width="50"/>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                            ${list.full_name}
                                                     </td>
                                                     <td>${empty list.gender ? "Unknown" : list.gender}</td>
                                                     <td>${list.username}</td>
@@ -213,7 +228,6 @@
         <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
         <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
         <!--Data Tables js-->
-        <!--	<script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>-->
         <script>
                                                                 $(document).ready(function () {
                                                                     //Default data table
@@ -224,6 +238,8 @@
                                                                     });
                                                                     table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
                                                                 });
+
+                                                                
 
                                                                 function loadUser(accountId) {
                                                                     $.ajax({

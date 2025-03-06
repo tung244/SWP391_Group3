@@ -68,15 +68,13 @@ public class Login extends HttpServlet {
                 if ("save".equals(checkSave)) {
                     Cookie userCookie = new Cookie("username", username);
                     Cookie passCookie = new Cookie("password", password);
-                    userCookie.setMaxAge(60 * 60 * 24 * 30);
-                    passCookie.setMaxAge(60 * 60 * 24 * 30);
+                    userCookie.setMaxAge(60 * 60);
+                    passCookie.setMaxAge(60 * 60);
                     response.addCookie(userCookie);
                     response.addCookie(passCookie);
                 }
                     session.setAttribute("account_id", user.account.account_id);
                     session.setAttribute("user", user);
-                    session.setAttribute("username", username);
-                    session.setAttribute("password", password);
                     session.setAttribute("ms", "Login Successfully!");
                     response.sendRedirect("trangchu");
             } else {
