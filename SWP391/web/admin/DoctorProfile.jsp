@@ -1,6 +1,6 @@
 <%-- 
-    Document   : DoctorProfile
-    Created on : Mar 2, 2025, 5:36:18 PM
+    Document   : DoctorDetail
+    Created on : Feb 11, 2025, 4:43:42 AM
     Author     : PC
 --%>
 
@@ -11,7 +11,28 @@
 <html lang="en">
 
     <head>
-        <jsp:include page="Common/Css.jsp"/>  
+        <jsp:include page="Common/Css.jsp"/> 
+        <style>
+            button {
+                background: #E8E7E6; /* Màu xanh lá */
+                border: solid #000 1px;
+                border-radius: 2%;
+                font-size: 20px;
+                font-weight: 100;
+                color: #000;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                min-width: 100px; /* Đảm bảo nút có kích thước đồng đều */
+                margin-right: 1%;
+            }
+
+            /* Hiệu ứng hover */
+            button:hover {
+                background: #009933; /* Xanh đậm hơn khi hover */
+                box-shadow: 0 4px 6px rgba(34, 139, 34, 0.3);
+                transform: translateY(-2px);
+            }
+        </style>
     </head>
 
     <body>
@@ -29,232 +50,113 @@
                 <div class="page-content-wrapper">
                     <div class="page-content">
                         <!--breadcrumb-->
-                        <div class="page-breadcrumb d-none d-md-flex align-items-center mb-3">
-                            <div class="breadcrumb-title pe-3">Doctor Profile</div>
+                        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+                            <div class="breadcrumb-title pe-3">Tables</div>
                             <div class="ps-3">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb mb-0 p-0">
-                                        <li class="breadcrumb-item"><a href="javascript:;"><i class='bx bx-home-alt'></i></a>
+                                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                                         </li>
-                                        <li class="breadcrumb-item active" aria-current="page">Doctor Profile</li>
+
+                                        <li class="breadcrumb-item active" aria-current="page">Dr.${doctor.doctor_name}</li>
                                     </ol>
                                 </nav>
                             </div>
 
                         </div>
                         <!--end breadcrumb-->
-                        <div class="user-profile-page">
-                            <div class="card radius-15">
-                                <div class="card-body">
+                        <!--Start doctor detail area-->
+                        <section class="doctor-details-area">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="doctor-details bg-white p-4 rounded-lg shadow-sm">
+                                            <div class="row">
+                                                <!-- Doctor Profile Image -->
+                                                <div class="col-lg-3 col-md-4">
+                                                    <div class="doctor-thumb text-center">
 
-                                    <div class="row">
-
-                                        <div class="col-12 col-lg-7 border-right">
-                                            <div class="d-md-flex align-items-center">
-                                                <div class="mb-md-0 mb-3">
-                                                    <img src="${doctor.profile_image}" class="rounded-circle shadow" width="200" height="200" alt="Profile Image" />
-                                                </div>
-                                                <div class="ms-md-4 flex-grow-1">
-                                                    <div class="d-flex align-items-center mb-1">
-                                                        <h4 class="mb-0">Dr.${doctor.doctor_name}</h4>
-
-                                                    </div>
-                                                    <p class="mb-0 text-muted">Dr.${doctor.specialization.specialization_name}</p>
-                                                    <p class="text-primary"><i class='bx bx-buildings'></i> EyeCare</p>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div  class="col-12 col-lg-5">
-                                            <table class="table table-sm table-borderless mt-md-0 mt-3">
-                                                <tbody>
-                                                    <tr>
-                                                        <th style="color: green">Availability:</th>
-                                                        <td>Full-time (40hr/wk) <span class="badge badge-success">available</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th  style="color: green">Rating:</th>
-                                                        <td>${doctor.rating}    <i style="color: #ffcf09" class="lni lni-star-filled"></i>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th  style="color: green">Experience years:</th>
-                                                        <td>${doctor.experience_years} years</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th style="color: green">Location:</th>
-                                                        <td>${doctor.address}</td>
-                                                    </tr>
-
-
-                                                    </td>
-
-                                                    <tr>
-                                                        <th style="color: green">Date of birth:</th>
-                                                        <td>
-                                                            <fmt:parseDate value="${doctor.dob}" pattern="yyyy-MM-dd" var="parsedDob" />
-                                                            <fmt:formatDate value="${parsedDob}" pattern="dd/MM/yyyy"/>   
-                                                        </td>
-                                                        
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    <!--end row-->
-                                    <ul class="nav nav-pills">
-                                        <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#Experience"><span class="p-tab-name">Experience</span><i class='bx bx-donate-blood font-24 d-sm-none'></i></a>
-                                        </li>
-
-                                        <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#Edit-Profile"><span class="p-tab-name">Edit Profile</span><i class='bx bx-message-edit font-24 d-sm-none'></i></a>
-                                        </li>
-                                        <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#Edit-Degree"><span class="p-tab-name">Edit Degree</span><i class='bx bx-message-edit font-24 d-sm-none'></i></a>                                           
-                                        </li>
-                                        <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#Edit-Certificate"><span class="p-tab-name">Edit Certificate</span><i class='bx bx-message-edit font-24 d-sm-none'></i></a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content mt-3">
-                                        <div class="tab-pane fade show active" id="Experience">
-                                            <div class="card shadow-none border mb-0 radius-15">
-                                                <div class="card-body">
-                                                    <div class="d-sm-flex align-items-center mb-3">
-                                                        <h4 class="mb-0">Job Experience</h4>
-                                                        <p class="mb-0 ms-sm-3 text-muted">Degrees and Certificates</p> 
-                                                    </div>
-                                                    <div class="d-flex"> 
-                                                        <div class="ms-3">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-lg-4">
-                                                                    <h5 class="mb-0">All of Degrees</h5>
-                                                                    </br>     
-                                                                </div>
-
-                                                            </div>
-
-                                                            <div class="row g-3">
-                                                                <div class="col-12 col-lg-3">
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-book'></i> Name of degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-time'></i> date-degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bxs-map'></i> issue by</h6>
-                                                                    <img src="assets/images/gallery/35.jpg" class="img-thumbnail" alt="Degree Image">
-                                                                </div>    
-
-                                                                <div class="col-12 col-lg-3">
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-book'></i> Name of degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-time'></i> date-degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bxs-map'></i> issue by</h6>
-                                                                    <img src="assets/images/gallery/35.jpg" class="img-thumbnail" alt="Degree Image">
-                                                                </div>    
-                                                                <div class="col-12 col-lg-3">
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-book'></i> Name of degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-time'></i> date-degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bxs-map'></i> issue by</h6>
-                                                                    <img src="assets/images/gallery/35.jpg" class="img-thumbnail" alt="Degree Image">
-                                                                </div>    
-                                                                <div class="col-12 col-lg-3">
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-book'></i> Name of degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-time'></i> date-degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bxs-map'></i> issue by</h6>
-                                                                    <img src="assets/images/gallery/35.jpg" class="img-thumbnail" alt="Degree Image">
-                                                                </div>    
-
-                                                            </div>
-                                                            <hr/>
+                                                        <img style="width: 250px" src=".${doctor.profile_image}" alt="Doctor Photo" class="rounded-circle img-fluid mb-3"/>
+                                                        <div class="star-rating text-warning mb-2">
+                                                            <span class="text-muted ml-2">Rating: ${doctor.rating}</span> ★
+                                                            </br>
+                                                            <span class="text-muted ml-2">(45 reviews)</span>
                                                         </div>
-                                                    </div>
-                                                    <div class="d-flex"> 
-                                                        <div class="ms-3">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-lg-4">
-                                                                    <h5 class="mb-0">All of Certificates</h5>
-                                                                    </br>     
-                                                                </div>
 
-                                                            </div>
-
-                                                            <div class="row g-3">
-                                                                <div class="col-12 col-lg-3">
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-book'></i> Name of degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-time'></i> date-degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bxs-map'></i> issue by</h6>
-                                                                    <img src="assets/images/gallery/35.jpg" class="img-thumbnail" alt="Degree Image">
-                                                                </div>    
-
-                                                                <div class="col-12 col-lg-3">
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-book'></i> Name of degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-time'></i> date-degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bxs-map'></i> issue by</h6>
-                                                                    <img src="assets/images/gallery/35.jpg" class="img-thumbnail" alt="Degree Image">
-                                                                </div>    
-                                                                <div class="col-12 col-lg-3">
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-book'></i> Name of degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-time'></i> date-degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bxs-map'></i> issue by</h6>
-                                                                    <img src="assets/images/gallery/35.jpg" class="img-thumbnail" alt="Degree Image">
-                                                                </div>    
-                                                                <div class="col-12 col-lg-3">
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-book'></i> Name of degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bx-time'></i> date-degree</h6>
-                                                                    <h6 class="text-muted mb-0"><i class='bx bxs-map'></i> issue by</h6>
-                                                                    <img src="assets/images/gallery/35.jpg" class="img-thumbnail" alt="Degree Image">
-                                                                </div>    
-
-                                                            </div>
-                                                            <hr/>
-                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="tab-pane fade" id="Edit-Profile">
-                                            <div class="card shadow-none border mb-0 radius-15">
-                                                <div class="card-body">
-                                                    <div class="form-body">
-                                                        <div class="row">
-                                                            <div class="col-12 col-lg-5 border-right">
-                                                                <form class="row g-3">
-                                                                    <div class="col-12">
-                                                                        <label class="form-label">Doctor Name</label>
-                                                                        <input type="text" name="doctorName" id="doctorName" value="" class="form-control" required>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <label class="form-label">Experience Years</label>
-                                                                        <input type="number" min="1" name="experienceYears" id="experienceYears" value="" class="form-control" required>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <label class="form-label">Profile Image</label>
-                                                                        <input type="file" name="profileimage" id="profileimage" value="" class="form-control" enctype="multipart/form-data" required>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <label class="form-label">Gender</label> 
-                                                                        <input type="radio" name="gender" id="Female" value="Female" required>Female
-                                                                        <input type="radio" name="gender" id="Male" value="Male" required>Male
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <label class="form-label">Date of Birth</label>
-                                                                        <input name="dob" id="dob" type="date" class="form-control" required>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <label class="form-label">Address</label>
-                                                                        <input type="text" name="address" id="address" class="form-control" placeholder="Address" required>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <label class="form-label">Specialization</label>                                               
-                                                                        <select id="specializationId" name="specializationId" class="form-select" required>
-
-                                                                            <option value="">specialization</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </form>														
-                                                            </div>
-                                                           
+                                                <!-- Doctor Information -->
+                                                <div class="col-lg-9 col-md-8">
+                                                    <div class="doctor-info">
+                                                        <h2 class="text-success mb-3">${doctor.doctor_name}</h2>
+                                                        <h4 class="text mb-4">Specialization: ${doctor.specialization.specialization_name}</h4>
+                                                        <div style="margin-bottom: 2%">
+                                                            <button><a style="color: black" href="degreeDetail?did=${doctor.doctor_id}">Degree Detail</a></button>
+                                                            <button><a style="color: black" href="certificateDetail?did=${doctor.doctor_id}">Certificate Detail</a></button>
+                                                            <button><a style="color: black" href="editDoctorProfile?did=${doctor.doctor_id}">Edit Profile</a></button>
+                                                            <button><a style="color: black" href="addDegree?did=${doctor.doctor_id}">Add Degree</a></button>
+                                                            <button><a style="color: black" href="">Edit Certificate</a></button>
                                                         </div>
+                                                        <!-- Personal Details -->
+                                                        <div class="row mb-4">
+                                                            <div class="col-md-6">
+                                                                <h5 class="text-success border-bottom pb-2">Personal Information</h5>
+                                                                <ul class="list-unstyled">
+                                                                    <li class="mb-2"><strong>Gender:</strong>${doctor.gender}</li>
+
+                                                                    <li class="mb-2"><strong>Date of birth:</strong>
+                                                                        <fmt:parseDate value="${doctor.dob}" pattern="yyyy-MM-dd" var="parsedDob" />
+                                                                        <fmt:formatDate value="${parsedDob}" pattern="dd/MM/yyyy"/> </li>
+
+                                                                    <li class="mb-2"><strong>Address:</strong>${doctor.address}</li>
+                                                                    <li class="mb-2"><strong>Experience:</strong> ${doctor.experience_years} years</li>
+                                                                    <li class="mb-2"><strong>Workplace:</strong> EyeCare hospital</li>
+                                                                </ul>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <h5 class="text-success border-bottom pb-2">Specialties</h5>
+                                                                <ul class="list-unstyled">
+                                                                    <c:forEach items="${listSpecById}" var="spec">
+                                                                        <li class="mb-2">🦷 ${spec.specialization_name}</li>
+                                                                        </c:forEach>
+
+                                                                </ul>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <h5 class="text-success border-bottom pb-2">Degree</h5>
+                                                                <ul class="list-unstyled">
+                                                                    <c:forEach items="${listDegree}" var="de">
+                                                                        <li class="mb-2">- ${de.degree_name}</li>
+                                                                        </c:forEach>
+
+                                                                </ul>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <h5 class="text-success border-bottom pb-2">Certificate</h5>
+                                                                <ul class="list-unstyled">
+                                                                    <c:forEach items="${listCer}" var="cer">
+                                                                        <li class="mb-2"><strong>Certificate:</strong> ${cer.certificate_name}</li>
+                                                                        <li class="mb-2"><strong>Certificate issued by:</strong> ${cer.cer_doct.issued_by}</li>
+                                                                        </c:forEach>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Biography -->
+                                                        <div class="doctor-bio mb-4">
+                                                            <h5 class="text-success border-bottom pb-2">Professional Biography</h5>
+                                                            <c:forEach items="${listCer}" var="cer">
+                                                                <p class="text-muted">Certificate: ${cer.certificate_name}</p>
+                                                            </c:forEach>                                                         
+                                                            <p class="text-muted">Working at: EyeCare hospital</p>
+                                                            <p class="text-muted">Experience years: ${d.experience_years} years</p>
+                                                        </div>
+
+                                                        <!-- Action Buttons -->
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -262,11 +164,34 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </section>
+                        <!--End doctor detail area-->
+                        <%
+                              String errorMessage = (String) session.getAttribute("error");
+                              String successMessage = (String) session.getAttribute("success");
+                              if(errorMessage != null) {
+                        %>
+                        <script>
+                            alert("<%= errorMessage %> ");
+                        </script>
+                        <%
+                         session.removeAttribute("error");       
+                            }else if(successMessage != null){
+                        %>
+                        <script>
+                             alert("<%= successMessage %> ");
+                        </script>
+                        <%
+                         session.removeAttribute("success");       
+                            }
+                        %>
                     </div>
                 </div>
                 <!--end page-content-wrapper-->
             </div>
+
+
+
             <!--end page-wrapper-->
             <!--start overlay-->
             <div class="overlay toggle-btn-mobile"></div>
@@ -317,15 +242,28 @@
         <!--end switcher-->
         <!-- JavaScript -->
         <!-- Bootstrap JS -->
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="../admin/assets/js/bootstrap.bundle.min.js"></script>
 
         <!--plugins-->
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
-        <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
-        <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+        <script src="../admin/assets/js/jquery.min.js"></script>
+        <script src="../admin/assets/plugins/simplebar/js/simplebar.min.js"></script>
+        <script src="../admin/assets/plugins/metismenu/js/metisMenu.min.js"></script>
+        <script src="../admin/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+        <!--Data Tables js-->
+        <script src="../admin/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+        <script>
+                             $(document).ready(function () {
+                                 //Default data table
+                                 $('#example').DataTable();
+                                 var table = $('#example2').DataTable({
+                                     lengthChange: false,
+                                     buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+                                 });
+                                 table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+                             });
+        </script>
         <!-- App JS -->
-        <script src="assets/js/app.js"></script>
+        <script src="../admin/assets/js/app.js"></script>
     </body>
 
 </html>

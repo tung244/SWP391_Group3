@@ -1,19 +1,11 @@
 <%-- 
-    Document   : CreateDegree
-    Created on : Feb 24, 2025, 10:19:47 PM
-    Author     : PC
---%>
-
-<%-- 
     Document   : createDoctor
     Created on : Feb 24, 2025, 12:30:15 AM
     Author     : PC
 --%>
 
 <%-- 
-    Document   : createAccDoctor
-    Created on : Feb 23, 2025, 10:28:54 PM
-    Author     : PC
+    
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -41,11 +33,10 @@
                             <div class="ps-3">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb mb-0 p-0">
-                                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                                        <li class="breadcrumb-item"><a href=""><i class="bx bx-home-alt"></i></a>
                                         </li>
-                                        <li class="breadcrumb-item active" aria-current="page"><a href="createAccount"><i>Create Account Doctor</i></a></li>
-                                        <li class="breadcrumb-item active" aria-current="page"><a href="createDoctor"><i>Create Doctor</i></a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Create Degree</li>
+                                        <li class="breadcrumb-item active" aria-current="page"><a href="doctorProfile?accId=${accId}">Dr.${doctor.doctor_name}</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page"> Edit Doctor Profile</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -55,53 +46,81 @@
                         <div class="row">
                             <div class="col-xl-7 mx-auto">
 
-                                <h6 class="mb-0 text-uppercase">Step 3: Create Degree</h6>
+
                                 <hr>
                                 <div class="card border-top border-0 border-4 border-success">
                                     <div class="card-body p-5">
                                         <div class="card-title d-flex align-items-center">
                                             <div><i class="bx bxs-user me-1 font-22 text-success"></i></div>
-                                            <h5 class="mb-0 text-uppercase text-success">Create Degree</h5>                   
+                                            <h5 class="mb-0 text-uppercase text-success">Edit Doctor Profile</h5>                   
                                         </div>
 
-                                        <div>
-                                            <h5 class="mb-0 text-success">Progress:</h5>
-                                            <% int progress = session.getAttribute("progress") != null ? (int) session.getAttribute("progress") : 0; %>
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: <%= progress %>%" aria-valuenow="<%= progress %>" aria-valuemin="0" aria-valuemax="100">
-                                                    <%= progress %>% Completed
-                                                </div>
-                                            </div>
-                                        </div>
                                         <hr>
 
-                                        <!-- Hiển thị thông báo lỗi -->
-                                        <c:if test="${not empty error}">
-                                            <div class="alert alert-danger">${error}</div>
-                                        </c:if>
+                                        <form action="editDoctorProfile" method="POST" class="row g-3"  enctype="multipart/form-data" >
 
-                                        <c:if test="${not empty message}">
-                                            <div class="alert alert-success">${message}</div>
-                                        </c:if>
+                                            <div class="col-12">                                            
+                                                <input name="doctorId" id="doctorId" value="${doctor.doctor_id}" type="hidden" class="form-control" placeholder="Doctor Name" required>
+                                                <span id="error-doctorName" name="error-doctorName"></span>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Doctor Name</label>
+                                                <input name="doctorName" id="doctorName" value="${doctor.doctor_name}" type="text" class="form-control" placeholder="Doctor Name" required>
+                                                <span id="error-doctorName" name="error-doctorName"></span>
+                                            </div> 
 
-                                        <form action="AddDegreeDoctorServlet" method="POST" class="row g-3" enctype="multipart/form-data">                                          
-                                            <div id="degreeFields">
-                                                <div class="col-12 degree-entry">
-                                                    <label class="form-label">Degree Name</label>
-                                                    <input name="degreeName" type="text" class="form-control" placeholder="Degree Name" required>
-                                                </div> 
+                                                <div class="col-12">
 
-                                                <div class="col-12 degree-entry">
-                                                    <label class="form-label">Degree Image:</label>
-                                                    <input type="file" name="degreeImage" class="form-control">
+                                                    <label class="form-label">Profile Image:</label>
+                                                    <img style="width: 150px" src=".${doctor.profile_image}" alt="Doctor Photo" class=" img-fluid mb-3"/>
+                                                    <input type="hidden" name="imageProfile" value="${doctor.profile_image}">
+                                                    <input type="file" id="profileImage" name="profileImage"  class="form-control" >
+                                                    <span id="error-profileImage" name="error-profileImage"></span>
                                                 </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label">Experience Years</label>
+                                                <input type="number" min="1" value="${doctor.experience_years}" id="experienceYears" name="experienceYears" class="form-control" placeholder="Experience Years"  required>
+                                                <span id="error-experienceYears" name="error-experienceYears"></span>
                                             </div>
 
                                             <div class="col-12">
-                                                <button type="button" class="btn btn-secondary px-5" onclick="addDegreeField()">Add More</button>
-                                                <button type="submit" class="btn btn-success px-5">CREATE</button>
+                                                <label class="form-label">Specialization</label>                                               
+                                                <select id="specializationId" name="specializationId" class="form-select" required>
+                                                    <c:forEach items="${listSpe}" var="lsp">
+                                                        <option value="${lsp.specialization_id}" ${doctor.specialization.specialization_id == lsp.specialization_id ? 'selected' : ''}>${lsp.specialization_name}</option>
+                                                    </c:forEach>
+                                                </select>
+                                                <span id="error-specializationId" name="error-specializationId"></span>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label">Gender</label>
+                                                <input type="radio" name="gender" id="Female" value="Female" ${doctor.gender == 'Female' ? 'checked' : ''} required> Female
+                                                <input type="radio" name="gender" id="Male" value="Male" ${doctor.gender == 'Male' ? 'checked' : ''} required> Male
+                                                <span id="error-gender" name="error-gender"></span>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label">Date of Birth</label>
+                                                <input name="dob" id="dob" type="date" class="form-control" value="${doctor.dob}" required>
+                                                <span id="error-dob" name="error-dob"></span>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label">Address</label>
+                                                <input type="text" name="address" id="address" value="${doctor.address}" class="form-control" placeholder="Address" required>
+                                                <span id="error-address" name="error-address"></span>
+                                            </div>
+
+
+
+                                            <div class="col-12">
+                                                <button type="submit" class="btn btn-success px-5">UPDATE</button>
                                             </div>
                                         </form>
+
+
                                     </div>
                                 </div>
                                 <!--end row-->
@@ -174,18 +193,7 @@
                 <script src="../admin/assets/js/app.js"></script>
 
                 <!-- JavaScript -->
-                <script>
-                                                    function addDegreeField() {
-                                                        let container = document.getElementById("degreeFields");
-                                                        let newField = document.createElement("div");
-                                                        newField.classList.add("col-12", "degree-entry");
-                                                        newField.innerHTML = '<label class="form-label">Degree Name:</label>' +
-                                                                '<input type="text" name="degreeName" class="form-control" placeholder="Degree Name" required>' +
-                                                                '<label class="form-label">Degree Image:</label>' +
-                                                                '<input type="file" name="degreeImage" class="form-control">';
-                                                        container.appendChild(newField);
-                                                    }
-                </script>
+
                 </body>
 
                 </html>

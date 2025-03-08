@@ -7,7 +7,7 @@
         <jsp:include page="Common/Css.jsp"/>  
         <style>
             .filter {
-                margin: 20px 80px;   
+                margin: 20px 80px;
 
                 border-radius: 8px;
             }
@@ -190,7 +190,7 @@
 
                                                 <div style="margin: 0px 50px" class="search-filter-box">
 
-                                                    <select name="sid" id="filterSpecialization" class="form-control" >
+                                                    <select  name="sid" id="filterSpecialization" class="form-control" >
                                                         <option value="">All specialization</option>
                                                         <c:forEach items="${listSpecialization}" var="s">
                                                             <option value="${s.specialization_id}" 
@@ -235,7 +235,7 @@
                                     <div class="pagination-container" style="margin-left: auto;">
                                         <label for="pageSize">Show:</label>
                                         <select name="pageSize" id="pageSize" style="width: 55px;
-                                            height: 30px">
+                                                height: 30px">
                                             <option value="5" selected >5</option>
                                             <option value="10">10</option>
                                             <option value="15">15</option>
@@ -246,7 +246,7 @@
                                     <div class="table-responsive">
                                         <div id="doctorList">
                                             <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                                <thead style="text-align: center">
+                                                <thead style="">
                                                     <tr>
                                                         <th scope="col" style="color: green">#</th>
                                                         <th scope="col" style="color: green">Name</th>
@@ -261,7 +261,7 @@
 
                                                     </tr>
                                                 </thead>
-                                                <tbody style="text-align: center">
+                                                <tbody style="">
                                                     <c:forEach var="d" items="${listDoctor}">
                                                         <tr>
 
@@ -278,11 +278,11 @@
 
                                                                     <input type="hidden" name="doctor_id" value="${d.doctor_id}"> 
                                                                     <select style="background-color:#228B22;
-                                                                        color: #ffffff" name="status" onchange="confirmStatusChange(this)" data-original="${d.doctor_status}">
+                                                                            color: #ffffff" name="status" onchange="confirmStatusChange(this)" data-original="${d.doctor_status}">
                                                                         <option style="background-color:#ffffff;
-                                                                        color: #228B22" value="Active" ${d.doctor_status == 'Active' ? 'selected' :''}>Active</option>
+                                                                                color: #228B22" value="Active" ${d.doctor_status == 'Active' ? 'selected' :''}>Active</option>
                                                                         <option style="background-color:#ffffff;
-                                                                        color: #228B22" value="Inactive" ${d.doctor_status == 'Inactive' ? 'selected' :''}>Inactive</option>
+                                                                                color: #228B22" value="Inactive" ${d.doctor_status == 'Inactive' ? 'selected' :''}>Inactive</option>
                                                                     </select>
                                                                 </form>  
                                                             </td>

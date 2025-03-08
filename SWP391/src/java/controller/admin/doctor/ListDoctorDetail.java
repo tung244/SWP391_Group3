@@ -71,7 +71,7 @@ public class ListDoctorDetail extends HttpServlet {
         CertificateDAO cerdao = new CertificateDAO();
         List<Certificate> listCer = cerdao.getCertificateByDoctorId(doctor_id);
       
-        String related_specid = spdao.getSpecializationIdByDoctorId(doctor_id);
+        
 
         
         

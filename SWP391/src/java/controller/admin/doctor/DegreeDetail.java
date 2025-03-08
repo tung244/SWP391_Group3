@@ -4,12 +4,8 @@
  */
 package controller.admin.doctor;
 
-import dal.AccountDAO;
-import dal.CertificateDAO;
-import dal.DegreeDAO;
 import dal.Degree_DoctorDAO;
 import dal.DoctorsDAO;
-import dal.SpecializationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,18 +14,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import model.Certificate;
-import model.Degree;
 import model.Degree_Doctor;
-import model.Doctors;
-import model.Specialization;
 
 /**
  *
  * @author PC
  */
-@WebServlet(name = "DoctorProfile", urlPatterns = {"/admin/doctorProfile"})
-public class DoctorProfile extends HttpServlet {
+@WebServlet(name = "DegreeDetail", urlPatterns = {"/admin/degreeDetail"})
+public class DegreeDetail extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -39,10 +31,10 @@ public class DoctorProfile extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DoctorProfile</title>");
+            out.println("<title>Servlet DegreeDetail</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DoctorProfile at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DegreeDetail at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -51,34 +43,33 @@ public class DoctorProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Degree_DoctorDAO dedocdao = new Degree_DoctorDAO();
         DoctorsDAO dao = new DoctorsDAO();
-        int accId = Integer.parseInt(request.getParameter("accId"));
-        String doctorId = dao.getDoctorIdByAccId(accId);
-        
-       
-        Doctors doctor = dao.getDoctorsByAccId(accId);
-        SpecializationDAO spdao = new SpecializationDAO();
-        List<Specialization> listSpecializationByDocId = spdao.getSpecializationByDoctorId(doctorId);
-        
-        DegreeDAO dedao = new DegreeDAO();
-        List<Degree> listDegree = dedao.getDegreeByDoctorId(doctorId);
-        CertificateDAO cerdao = new CertificateDAO();
-        List<Certificate> listCer = cerdao.getCertificateByDoctorId(doctorId);
-       
-       
-        request.setAttribute("listDegree", listDegree);
-        request.setAttribute("listSpecById", listSpecializationByDocId);
-        request.setAttribute("listCer", listCer);
-        request.setAttribute("doctor", doctor);
-        request.getRequestDispatcher("DoctorProfile.jsp").forward(request, response);
+        String doctorId = request.getParameter("did");
+        String accId = dao.getDoctorAccIdByDoctorId(doctorId);
+        List< Degree_Doctor> listDeDoc = dedocdao.getDegreeDoctorId(doctorId);
+        if (listDeDoc.size() == 0) {
+            request.getSession().setAttribute("error", "List Degree is empty. Please update degree before view detail degree!");
+            response.sendRedirect("doctorProfile?accId=" + accId);
+        } else {
+            request.setAttribute("listDeDoc", listDeDoc);
+            request.setAttribute("accId", accId);
+            request.getRequestDispatcher("DegreeDetail.jsp").forward(request, response);
+        }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";

@@ -211,7 +211,7 @@ public class DoctorsDAO extends DBContext {
                 + "LEFT JOIN dbo.Specialization sp ON sp.specialization_id = d.specialization_id "
                 + "LEFT JOIN dbo.Degree_Doctor dd ON dd.doctor_id = d.doctor_id "
                 + "LEFT JOIN dbo.Degree de ON de.degree_id = dd.degree_id "
-                + "WHERE d.doctor_status = 'Active' ");
+                + "WHERE 1=1 ");
 
         List<String> param = new ArrayList<>();
         // Chuẩn hóa searchName để loại bỏ dấu cách thừa
@@ -285,32 +285,20 @@ public class DoctorsDAO extends DBContext {
     }
 
     public boolean updateDoctor(Doctors doctor) {
-        String sql = "UPDATE Doctors SET "
-                + "doctor_name = ?, "
-                + "experience_years = ?, "
-                + "profile_image = ?, "
-                + "rating = ?, "
-                + "gender = ?, "
-                + "dob = ?, "
-                + "address = ?, "
-                + "doctor_status = ?, "
-                + "specialization_id = ? "
-                + "WHERE doctor_id = ?";
+        String sql = "UPDATE doctors SET doctor_name = ?, experience_years = ?, specialization_id = ?, gender = ?, dob = ?, address = ?, profile_image = ? WHERE doctor_id = ?";
+        try (
+                PreparedStatement ps = connection.prepareStatement(sql)) {
 
-        try (PreparedStatement st = connection.prepareStatement(sql)) {
-            st.setString(1, doctor.getDoctor_name());
-            st.setInt(2, doctor.getExperience_years());
-            st.setString(3, doctor.getProfile_image());
-            st.setDouble(4, doctor.getRating());
-            st.setString(5, doctor.getGender());
-            st.setString(6, doctor.getDob());
-            st.setString(7, doctor.getAddress());
-            st.setString(8, doctor.getDoctor_status());
-            st.setInt(9, doctor.getSpecialization().getSpecialization_id());
-            st.setInt(10, doctor.getDoctor_id());
+            ps.setString(1, doctor.getDoctor_name());
+            ps.setInt(2, doctor.getExperience_years());
+            ps.setInt(3, doctor.getSpecialization().getSpecialization_id());
+            ps.setString(4, doctor.getGender());
+            ps.setString(5, doctor.getDob());
+            ps.setString(6, doctor.getAddress());
+            ps.setString(7, doctor.getProfile_image());
+            ps.setInt(8, doctor.getDoctor_id());
 
-            int rowsUpdated = st.executeUpdate();
-            return rowsUpdated > 0;
+            return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -460,13 +448,43 @@ public class DoctorsDAO extends DBContext {
         return null;
     }
 
+    public String getDoctorIdByAccId(int accId) {
+        String sql = " SELECT doctor_id FROM dbo.Doctors WHERE account_id = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, accId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getDoctorAccIdByDoctorId(String did) {
+        String sql = " SELECT  account_id  FROM dbo.Doctors WHERE doctor_id = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, did);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
-//        List<Doctors> l = dao.getDoctorsDash();
-//        for (Doctors doctors : l) {
-//            System.out.println(doctors);
-//        }
-        System.out.println(dao.getDoctorsByAccId(2));
+        List<Doctors> l = dao.getDoctorsDash();
+        for (Doctors doctors : l) {
+            System.out.println(doctors);
+        }
+//        System.out.println(dao.getDoctorIdByAccId(2));
 
 //        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");
 //        for (Doctors doctors : li) {
@@ -507,11 +525,11 @@ public class DoctorsDAO extends DBContext {
 //        doc.setDoctor_name("Lee Min Hoo");
 //        doc.setExperience_years(10);
 //        doc.setProfile_image("profile.jpg");
-//        doc.setRating(4.5);
+//        
 //        doc.setGender("Male");
 //        doc.setDob("1985-01-01");
 //        doc.setAddress("123 Street");
-//        doc.setDoctor_status("Active");
+//       
 //        Specialization specialization = new Specialization();
 //        specialization.setSpecialization_id(1);
 //        doc.setSpecialization(specialization);
