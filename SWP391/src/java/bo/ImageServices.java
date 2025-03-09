@@ -20,9 +20,7 @@ public class ImageServices {
 //         String pathHost = getServletContext().getRealPath("");
 //
 //        String finalPath = pathHost.replace("build\\", ""); 
-
-        
-        String uploadPath = finalPath + "public" +File.separator +"images";
+        String uploadPath = finalPath + "images";
 
         // Tạo thư mục "uploads" nếu chưa tồn tại
         File uploadDir = new File(uploadPath);
@@ -32,21 +30,21 @@ public class ImageServices {
         }
         String linkFile = "";
 
-        String fileName = part.getSubmittedFileName();  
+        String fileName = part.getSubmittedFileName();
 
         // Kiểm tra nếu file có tên hợp lệ
-        if (fileName!= null && !fileName.isEmpty()) {
+        if (fileName != null && !fileName.isEmpty()) {
             File filePath = new File(uploadPath + File.separator + fileName);
             try {
                 Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "http://localhost:8080/SWP391/images" + "/" + fileName;
+                linkFile = "./images" + "/" + fileName;
             } catch (IOException e) {
                 throw new ServletException("File upload failed: " + e.getMessage());
             }
         }
         return linkFile;
     }
-    
+
     public static String uploadImageBlog(Part part, String finalPath) throws ServletException {
 //  Thêm đoạn dưới đây vào servlet
 
@@ -54,9 +52,7 @@ public class ImageServices {
 //         String pathHost = getServletContext().getRealPath("");
 //
 //        String finalPath = pathHost.replace("build\\", ""); 
-
-        
-        String uploadPath = finalPath + "public"+File.separator+"temp"+File.separator+"images";
+        String uploadPath = finalPath + "public" + File.separator + "temp" + File.separator + "images";
         System.out.println(uploadPath);
 
         // Tạo thư mục "uploads" nếu chưa tồn tại
@@ -67,14 +63,14 @@ public class ImageServices {
         }
         String linkFile = "";
 
-        String fileName = part.getSubmittedFileName();  
+        String fileName = part.getSubmittedFileName();
 
         // Kiểm tra nếu file có tên hợp lệ
-        if (fileName!= null && !fileName.isEmpty()) {
+        if (fileName != null && !fileName.isEmpty()) {
             File filePath = new File(uploadPath + File.separator + fileName);
             try {
                 Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "http://localhost:8080/SWP391/images" + "/" + fileName;
+                linkFile = "http://localhost:8080/SWP391/public/temp/images" + "/" + fileName;
             } catch (IOException e) {
                 throw new ServletException("File upload failed: " + e.getMessage());
             }
