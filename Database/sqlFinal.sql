@@ -125,9 +125,15 @@ CREATE TABLE Customers (
 );
 
 
-
-
-
+CREATE TABLE Blog(
+blog_id INT IDENTITY(1,1) PRIMARY KEY,
+blog_content NVARCHAR(MAX),
+author_id INT,
+created_date_blog DATETIME,
+title_meta NVARCHAR(MAX),
+title_image_blog NVARCHAR(255),
+FOREIGN KEY (author_id) REFERENCES dbo.Accounts(account_id)
+ )
 
 CREATE TABLE Services_Type(
 service_type_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -248,23 +254,12 @@ create table CheckOut(
 	FOREIGN KEY(appointment_id) REFERENCES dbo.Appointment(appointment_id)
 );
 
-CREATE TABLE Blog(
-blog_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-title NVARCHAR(255),
-title_content NVARCHAR(255),
-author_id INT,
-blog_created_date DATETIME,
-FOREIGN KEY(author_id) REFERENCES dbo.Accounts(account_id)
-
-)
-
 
 CREATE TABLE Images_Type(
 image_type_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 image_type NVARCHAR(255),
 
 )
-
 CREATE TABLE Images_Service(
 service_id int primary key,
 image_main NVARCHAR(255),
@@ -281,23 +276,6 @@ image_type_id INT,
 FOREIGN KEY(image_type_id) REFERENCES dbo.Images_Type(image_type_id)
 )
 
-
-CREATE TABLE Blog_Content (
-blog_content_id INT IDENTITY(1,1) PRIMARY KEY,
-blog_id INT,
-content_type NVARCHAR(50),
-content NVARCHAR(Max),
-image_id INT,
-FOREIGN KEY(blog_id) REFERENCES dbo.Blog(blog_id),
-FOREIGN KEY(image_id) REFERENCES dbo.Images_Video(image_id)
-)
-CREATE TABLE Blog_Image(
-blog_id INT,
-image_id INT,
-PRIMARY KEY(blog_id,image_id),
-FOREIGN KEY(blog_id) REFERENCES dbo.Blog(blog_id),
-FOREIGN KEY(image_id) REFERENCES dbo.Images_Video(image_id)
-)
 CREATE TABLE Content_Stories(
 patient_name NVARCHAR(255),
 image_patient nvarchar(255),

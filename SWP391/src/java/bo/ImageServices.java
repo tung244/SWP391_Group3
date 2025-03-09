@@ -39,7 +39,42 @@ public class ImageServices {
             File filePath = new File(uploadPath + File.separator + fileName);
             try {
                 Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "./images" +fileName;
+                linkFile = "http://localhost:8080/SWP391/images" + "/" + fileName;
+            } catch (IOException e) {
+                throw new ServletException("File upload failed: " + e.getMessage());
+            }
+        }
+        return linkFile;
+    }
+    
+    public static String uploadImageBlog(Part part, String finalPath) throws ServletException {
+//  Thêm đoạn dưới đây vào servlet
+
+//      Part part = request.getPart("img");  // img là tên thẻ upload bên jsp
+//         String pathHost = getServletContext().getRealPath("");
+//
+//        String finalPath = pathHost.replace("build\\", ""); 
+
+        
+        String uploadPath = finalPath + "images"+File.separator+"temp"+File.separator+"images";
+        System.out.println(uploadPath);
+
+        // Tạo thư mục "uploads" nếu chưa tồn tại
+        File uploadDir = new File(uploadPath);
+
+        if (!uploadDir.exists()) {
+            uploadDir.mkdir();
+        }
+        String linkFile = "";
+
+        String fileName = part.getSubmittedFileName();  
+
+        // Kiểm tra nếu file có tên hợp lệ
+        if (fileName!= null && !fileName.isEmpty()) {
+            File filePath = new File(uploadPath + File.separator + fileName);
+            try {
+                Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                linkFile = "http://localhost:8080/SWP391/images" + "/" + fileName;
             } catch (IOException e) {
                 throw new ServletException("File upload failed: " + e.getMessage());
             }

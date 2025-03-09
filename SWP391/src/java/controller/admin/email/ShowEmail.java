@@ -86,6 +86,7 @@ public class ShowEmail extends HttpServlet {
 
         Map<String, List<Gmail>> email = loadAllMessage(emailListJson, accessToken);  // load all tin nhắn dưới dạng tokenNextPage - List Các email chứa tiêu đề- dob
 
+        
         String previousToken = getPreviousToken(historyToken, currentToken);  // lấy ra previousToken
         request.setAttribute("thePreviousToken", previousToken);
 
@@ -97,6 +98,7 @@ public class ShowEmail extends HttpServlet {
 
         // Lấy thông tin chi tiết của từng email
         List<Gmail> emailDetails = email.get(keyNextToken);
+        
         request.setAttribute("emailDetails", emailDetails);
         request.getSession().setAttribute("historyToken", historyToken);
 
@@ -121,37 +123,40 @@ public class ShowEmail extends HttpServlet {
         System.out.println(list_id_email);
         Map<?, ?> emailListMap = gson.fromJson(list_id_email, Map.class);
         List<Map<String, String>> messages = (List<Map<String, String>>) emailListMap.get("messages");
-
+        
         List<Gmail> emailDetails = new ArrayList<>();
 
-        for (Map<String, String> message : messages) {
-            String emailId = message.get("id");
-            HttpRequestFactory requestFactory = new NetHttpTransport().createRequestFactory();
+        if (messages != null && !messages.isEmpty()) {
 
-            String emailDetailsUrl = Gmails.GMAIL_API_URL + "/" + emailId;  // gán từng id 1 
+            for (Map<String, String> message : messages) {
+                String emailId = message.get("id");
+                HttpRequestFactory requestFactory = new NetHttpTransport().createRequestFactory();
 
-            HttpRequest emailDetailRequest = requestFactory.buildGetRequest(new GenericUrl(emailDetailsUrl))
-                    .setHeaders(new HttpHeaders().setAuthorization("Bearer " + accessToken));
-            HttpResponse emailDetailResponse = emailDetailRequest.execute();
-            String emailDetailJson = emailDetailResponse.parseAsString();
+                String emailDetailsUrl = Gmails.GMAIL_API_URL + "/" + emailId;  // gán từng id 1 
 
-            // Chuyển JSON thành Map để lấy tiêu đề và nội dung
-            Map<?, ?> emailDetailMap = gson.fromJson(emailDetailJson, Map.class);
-            List<Map<String, String>> headers = (List<Map<String, String>>) ((Map<?, ?>) emailDetailMap.get("payload")).get("headers");
+                HttpRequest emailDetailRequest = requestFactory.buildGetRequest(new GenericUrl(emailDetailsUrl))
+                        .setHeaders(new HttpHeaders().setAuthorization("Bearer " + accessToken));
+                HttpResponse emailDetailResponse = emailDetailRequest.execute();
+                String emailDetailJson = emailDetailResponse.parseAsString();
 
-            String subject = "No Subject";
-            String receivedDate = "Unknown date";
-            for (Map<String, String> header : headers) {
-                if ("Subject".equals(header.get("name")) && header.get("value").contains("Yêu cầu hỗ trợ")) {
-                    subject = header.get("value");
-                } else if ("Date".equals(header.get("name"))) {
-                    receivedDate = header.get("value").replaceAll(" \\+\\d{4}.*", "");
+                // Chuyển JSON thành Map để lấy tiêu đề và nội dung
+                Map<?, ?> emailDetailMap = gson.fromJson(emailDetailJson, Map.class);
+                List<Map<String, String>> headers = (List<Map<String, String>>) ((Map<?, ?>) emailDetailMap.get("payload")).get("headers");
+
+                String subject = "No Subject";
+                String receivedDate = "Unknown date";
+                for (Map<String, String> header : headers) {
+                    if ("Subject".equals(header.get("name")) && header.get("value").contains("Yêu cầu hỗ trợ")) {
+                        subject = header.get("value");
+                    } else if ("Date".equals(header.get("name"))) {
+                        receivedDate = header.get("value").replaceAll(" \\+\\d{4}.*", "");
+                    }
                 }
+
+                Gmail g = new Gmail(emailId, subject, receivedDate);
+                emailDetails.add(g);
+
             }
-
-            Gmail g = new Gmail(emailId, subject, receivedDate);
-            emailDetails.add(g);
-
         }
 
         String nextPageToken = (String) emailListMap.get("nextPageToken");

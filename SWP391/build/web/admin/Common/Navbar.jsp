@@ -57,6 +57,33 @@
             </ul>
         </li>
         <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon icon-color-1"> <i class="bx bx-comment-edit"></i>
+                </div>
+                <div class="menu-title">Blog</div>
+            </a>
+            <ul>
+                <li> <a href="create_blog"><i class="bx bx-right-arrow-alt"></i>Create Blog</a>
+                </li>
+                <li> <a href="form-input-group.html"><i class="bx bx-right-arrow-alt"></i>Input Groups</a>
+                </li>
+                <li> <a href="form-layouts.html"><i class="bx bx-right-arrow-alt"></i>Forms Layouts</a>
+                </li>
+                <li> <a href="form-validations.html"><i class="bx bx-right-arrow-alt"></i>Form Validation</a>
+                </li>
+                <li> <a href="form-wizard.html"><i class="bx bx-right-arrow-alt"></i>Form Wizard</a>
+                </li>
+                <li> <a href="form-text-editor.html"><i class="bx bx-right-arrow-alt"></i>Text Editor</a>
+                </li>
+                <li> <a href="form-file-upload.html"><i class="bx bx-right-arrow-alt"></i>File Upload</a>
+                </li>
+                <li> <a href="form-date-time-pickes.html"><i class="bx bx-right-arrow-alt"></i>Date Pickers</a>
+                </li>
+                <li> <a href="form-select2.html"><i class="bx bx-right-arrow-alt"></i>Select2</a>
+                </li>
+            </ul>
+        </li>
+        <li>
             <a href="chat-box.html">
                 <div class="parent-icon icon-color-3"> <i class="bx bx-conversation"></i>
                 </div>

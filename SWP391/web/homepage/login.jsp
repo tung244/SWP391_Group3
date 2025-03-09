@@ -6,13 +6,10 @@
         <script src="homepage/js/jquery.js"></script>
     </head>
     <body>
-        <% String error = (String) request.getAttribute("error"); %>
-        <% if (error != null) { %>
-        <p style="color: red;"><%= error %></p>
-        <% } %>
+
 
         <div style="overflow-y: auto;" class="boxed_wrapper">         
-<!--            <div class="preloader"></div>-->
+            <!--            <div class="preloader"></div>-->
             <div class="form-login-signup">
                 <div class="container">
                     <div class="card">
@@ -21,10 +18,27 @@
                             <img src="homepage/images/resources/login.svg" width="350px"/>
                         </div>
                         <div class="col-md-6">
+                            <%@ page import="jakarta.servlet.http.Cookie" %>
+                            <%@ page import="java.util.*" %>
+
+                            <%
+                                Cookie[] cookies = request.getCookies();
+                                String username = "";
+
+                                if (cookies != null) {
+                                    for (Cookie cookie : cookies) {
+                                        if ("username".equals(cookie.getName())) {
+                                            username = cookie.getValue();
+                                            break;
+                                        }
+                                    }
+                                }
+                            %>
+                           
                             <form method="post" action="login">
 
                                 <div class="input-container">
-                                    <input type="text" name="username" id="username" required/>
+                                    <input value="<%= username %>" type="text" name="username" id="username" required/>
                                     <label for="username">Username</label>
                                     <div class="bar"></div>
                                 </div>
@@ -48,7 +62,7 @@
                                     <button type="submit"><span>Go</span></button>
                                 </div>
                                 <div style="margin-top: 20px">
-                                <span style="padding-left: 30px; font-size: 15px">Don’t have an account? <a href="register">Sign up.</a></span>
+                                    <span style="padding-left: 30px; font-size: 15px">Don’t have an account? <a href="register">Sign up.</a></span>
                                 </div>
                                 <div class="d-flex" style="margin-top: 15px; text-align: center; font-size: 16px;">
                                     <span style="color: #bfb9b9;">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;  </span>Or login with
@@ -68,7 +82,7 @@
                             </form>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <jsp:include page="Common/Message.jsp"/>
