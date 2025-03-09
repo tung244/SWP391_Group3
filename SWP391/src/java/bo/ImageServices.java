@@ -22,7 +22,7 @@ public class ImageServices {
 //        String finalPath = pathHost.replace("build\\", ""); 
 
         
-        String uploadPath = finalPath + "images";
+        String uploadPath = finalPath + "public" +File.separator +"images";
 
         // Tạo thư mục "uploads" nếu chưa tồn tại
         File uploadDir = new File(uploadPath);
@@ -56,7 +56,7 @@ public class ImageServices {
 //        String finalPath = pathHost.replace("build\\", ""); 
 
         
-        String uploadPath = finalPath + "images"+File.separator+"temp"+File.separator+"images";
+        String uploadPath = finalPath + "public"+File.separator+"temp"+File.separator+"images";
         System.out.println(uploadPath);
 
         // Tạo thư mục "uploads" nếu chưa tồn tại
