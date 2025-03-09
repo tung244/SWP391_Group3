@@ -158,6 +158,10 @@
             #content * {
                 text-transform: inherit !important;
             }
+            #content figcaption{
+                text-align: center;
+                margin: 5px 0px;
+            }
             /* Style mới cho nút Play và Stop */
             .control-buttons {
                 margin-top: 10px;
@@ -220,11 +224,11 @@
                         <div class="main-content">
                             <div class="blog-meta">
                                 <div class="author-info">
-                                    <div class="author-avatar">
-                                        <i class="fas fa-user"></i>
-                                    </div>
+                                    
+                                    <img style="margin-right: 20px; border-radius: 50%" src="${author[1]}" width="50px" height="50px" alt="alt"/>
+                                    
                                     <div>
-                                        <div class="author-name">${blog.author_id}</div>
+                                        <div class="author-name">${author[0]}</div>
                                         <div class="post-time">
                                             <i class="far fa-clock"></i> ${blog.created_date_blog}
                                         </div>
@@ -269,7 +273,7 @@
                     let textToSpeak = contentDiv.textContent || contentDiv.innerText;
                     console.log("Nội dung để đọc:", textToSpeak);
                     if (textToSpeak.trim() !== "") {
-                        responsiveVoice.speak(textToSpeak, "Vietnamese Male", {
+                        responsiveVoice.speak(textToSpeak, "Vietnamese Female", {
                             onstart: function () {
                                 console.log("Bắt đầu đọc...");
                             },
@@ -278,7 +282,7 @@
                             }
                         });
                     } else {
-                        responsiveVoice.speak("Không có nội dung để đọc!", "Vietnamese Male");
+                        responsiveVoice.speak("Không có nội dung để đọc!", "Vietnamese Female");
                     }
                 });
 

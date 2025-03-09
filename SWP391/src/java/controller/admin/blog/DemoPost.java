@@ -4,18 +4,22 @@
  */
 package controller.admin.blog;
 
+import bo.ImageServices;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
 /**
  *
  * @author fptshop
  */
+@MultipartConfig
 @WebServlet(name = "SavePostServlet", urlPatterns = {"/admin/demo_Post"})
 public class DemoPost extends HttpServlet {
 
@@ -39,18 +43,27 @@ public class DemoPost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        request.getRequestDispatcher("DemoBlog.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Thiết lập encoding để hỗ trợ tiếng Việt
+        
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         
         String postContent = request.getParameter("postContent");
-        System.out.println("Nội dung: " + postContent);
+        String tieudeMeta = request.getParameter("title_meta");
+        
+        
+        Part thumb = request.getPart("thumbnail_image");
+        String pathHost = getServletContext().getRealPath("");
+        String finalPath = pathHost.replace("build\\", ""); 
+        String linkFile = ImageServices.uploadImageThumbBlog(thumb, finalPath);
+        
+        request.getSession().setAttribute("tieudeMeta", tieudeMeta);
+        request.getSession().setAttribute("linkThumb", linkFile);
         request.getSession().setAttribute("postContent", postContent);
         
         request.getRequestDispatcher("DemoBlog.jsp").forward(request, response);

@@ -304,13 +304,29 @@ public class StaffDAO extends DBContext {
         }
         return success;
     }
+    
+    public String[] loadStaffBlog(int account_id){
+        String sql = "SELECT admin_fullname,image_profile_admin FROM dbo.Staff WHERE account_id = ?";
+        String[] s = new String[3];
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, account_id);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                s[0] = rs.getString(1);
+                s[1] = rs.getString(2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
 
     public static void main(String[] args) {
         StaffDAO dao = new StaffDAO();
-        List<Staffs> list = dao.getAllStaff();
-        for (Staffs staffs : list) {
-            System.out.println(staffs);
-        }
+        String [] s = dao.loadStaffBlog(10);
+        System.out.println(s[0]+","+s[1]);
 //        int id = 8;
 //        Staffs s = dao.getStaffById(id);
 //        System.out.println(s);

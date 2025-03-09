@@ -6,6 +6,7 @@
 package controller.homepage.blog;
 
 import dal.BlogDAO;
+import dal.StaffDAO;
 import model.Blog;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name="Blog", urlPatterns={"/blog"})
 public class BlogPage extends HttpServlet {
     private BlogDAO bdao = new BlogDAO();
+    private StaffDAO sdao = new StaffDAO();
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
@@ -45,6 +47,10 @@ public class BlogPage extends HttpServlet {
         try {
             int blogId  = Integer.parseInt(blog_id);
             Blog blog = bdao.loadBlog(blogId);
+            
+            String[] authorInfo = sdao.loadStaffBlog(blog.getAuthor_id());
+            
+            request.setAttribute("author", authorInfo);
             request.setAttribute("blog", blog);
         } catch (Exception e) {
             e.printStackTrace();
