@@ -71,13 +71,20 @@
                                                     </div>
                                                     <div>
                                                         <label class="form-label">Degree Image</label>
-                                                        <input type="file" name="degreeImage[]" class="form-control">
+                                                        <input type="file" name="degreeImage[]" class="form-control" required>
                                                     </div>
+
+                                                    <div class="mt-2">
+                                                        <label class="form-label">Issued By</label>
+                                                        <input type="text" name="issuedBy[]" class="form-control" placeholder="Institution that issued the degree" required>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <button type="button" class="btn btn-secondary px-5 me-2" onclick="addDegreeField()">Add More</button>
-                                                <button type="submit" class="btn btn-success px-5">CREATE</button>
+                                                <button   type="button" class="btn btn-secondary px-5 me-2" onclick="addDegreeField()">Add More</button>
+                                                <button  type="submit" class="btn btn-success px-5">CREATE</button>
+                                                <a style="margin-left: 26%" href="doctorProfile?accId=${accId}" class="btn btn-danger px-5 me-2">CANCEL</a>
                                             </div>
                                         </form>
                                     </div>
@@ -163,16 +170,40 @@
                                                         fileInput.classList.add("form-control");
                                                         fileSection.appendChild(fileInput);
 
+                                                        newField.appendChild(fileSection);
+
+                                                        // Create the issued by section
+                                                        let issuedBySection = document.createElement("div");
+                                                        issuedBySection.classList.add("mt-2");
+
+                                                        let issuedByLabel = document.createElement("label");
+                                                        issuedByLabel.classList.add("form-label");
+                                                        issuedByLabel.textContent = "Issued By";
+                                                        issuedBySection.appendChild(issuedByLabel);
+
+                                                        let issuedByInput = document.createElement("input");
+                                                        issuedByInput.type = "text";
+                                                        issuedByInput.name = "issuedBy[]";
+                                                        issuedByInput.classList.add("form-control");
+                                                        issuedByInput.placeholder = "Institution that issued the degree";
+                                                        issuedBySection.appendChild(issuedByInput);
+
+                                                        newField.appendChild(issuedBySection);
+
+                                                        // Add remove button
+                                                        let removeButtonDiv = document.createElement("div");
+                                                        removeButtonDiv.classList.add("mt-2");
+
                                                         let removeButton = document.createElement("button");
                                                         removeButton.type = "button";
-                                                        removeButton.classList.add("btn", "btn-danger", "btn-sm", "mt-2");
+                                                        removeButton.classList.add("btn", "btn-danger", "btn-sm");
                                                         removeButton.textContent = "Remove";
                                                         removeButton.onclick = function () {
                                                             removeDegreeField(this);
                                                         };
-                                                        fileSection.appendChild(removeButton);
+                                                        removeButtonDiv.appendChild(removeButton);
 
-                                                        newField.appendChild(fileSection);
+                                                        newField.appendChild(removeButtonDiv);
 
                                                         // Add the complete new field to the container
                                                         container.appendChild(newField);

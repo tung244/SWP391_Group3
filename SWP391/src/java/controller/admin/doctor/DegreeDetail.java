@@ -23,22 +23,6 @@ import model.Degree_Doctor;
 @WebServlet(name = "DegreeDetail", urlPatterns = {"/admin/degreeDetail"})
 public class DegreeDetail extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DegreeDetail</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DegreeDetail at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -47,7 +31,7 @@ public class DegreeDetail extends HttpServlet {
         DoctorsDAO dao = new DoctorsDAO();
         String doctorId = request.getParameter("did");
         String accId = dao.getDoctorAccIdByDoctorId(doctorId);
-        List< Degree_Doctor> listDeDoc = dedocdao.getDegreeDoctorId(doctorId);
+        List< Degree_Doctor> listDeDoc = dedocdao.getDegreeDoctorById(doctorId);
         if (listDeDoc.size() == 0) {
             request.getSession().setAttribute("error", "List Degree is empty. Please update degree before view detail degree!");
             response.sendRedirect("doctorProfile?accId=" + accId);
@@ -62,14 +46,10 @@ public class DegreeDetail extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+   
     @Override
     public String getServletInfo() {
         return "Short description";

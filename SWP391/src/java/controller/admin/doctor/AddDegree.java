@@ -4,6 +4,7 @@
  */
 package controller.admin.doctor;
 
+import bo.GetFormatDate;
 import static controller.admin.doctor.EditDoctorProfile.uploadImage;
 import dal.DegreeDAO;
 import dal.Degree_DoctorDAO;
@@ -38,6 +39,8 @@ import model.Degree_Doctor;
 )
 public class AddDegree extends HttpServlet {
 
+    GetFormatDate getdate = new GetFormatDate();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -54,87 +57,91 @@ public class AddDegree extends HttpServlet {
         request.getRequestDispatcher("AddDegree.jsp").forward(request, response);
     }
 
-   @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    DoctorsDAO dao = new DoctorsDAO();
-    String did = request.getParameter("did");
-    String accId = dao.getDoctorAccIdByDoctorId(did);
-    
-    HttpSession session = request.getSession();
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        DoctorsDAO dao = new DoctorsDAO();
+        String did = request.getParameter("did");
+        String accId = dao.getDoctorAccIdByDoctorId(did);
 
-    // Get the array of selected degree names
-    String[] degreeNames = request.getParameterValues("degreeName[]");
+        HttpSession session = request.getSession();
 
-    if (degreeNames != null && degreeNames.length > 0) {
-        Degree_DoctorDAO dedocdao = new Degree_DoctorDAO();
-        boolean allSuccess = true;
+        // Get the array of selected degree names
+        String[] degreeNames = request.getParameterValues("degreeName[]");
 
-        // Process each degree submission
-        for (int i = 0; i < degreeNames.length; i++) {
-            String degreeName = degreeNames[i];
-            
-            // Get the corresponding image file part (fixing array naming)
-            Collection<Part> parts = request.getParts();
-            Part imagePart = null;
-            
-            // Find the correct file part by index
-            int fileIndex = 0;
-            for (Part part : parts) {
-                if (part.getName().equals("degreeImage[]")) {
-                    if (fileIndex == i) {
-                        imagePart = part;
-                        break;
+        if (degreeNames != null && degreeNames.length > 0) {
+            Degree_DoctorDAO dedocdao = new Degree_DoctorDAO();
+            boolean allSuccess = true;
+
+            // Process each degree submission
+            for (int i = 0; i < degreeNames.length; i++) {
+                String degreeName = degreeNames[i];
+
+                // Get the corresponding image file part (fixing array naming)
+                Collection<Part> parts = request.getParts();
+                Part imagePart = null;
+
+                // Find the correct file part by index
+                int fileIndex = 0;
+                for (Part part : parts) {
+                    if (part.getName().equals("degreeImage[]")) {
+                        if (fileIndex == i) {
+                            imagePart = part;
+                            break;
+                        }
+                        fileIndex++;
                     }
-                    fileIndex++;
                 }
-            }
-            
-            String pathHost = getServletContext().getRealPath("");
-            String finalPath = pathHost.replace("build\\", "");
 
-            String imageLink = "";
+                String pathHost = getServletContext().getRealPath("");
+                String finalPath = pathHost.replace("build\\", "");
 
-            // Upload the image if available
-            if (imagePart != null && imagePart.getSize() > 0) {
-                imageLink = uploadImage(imagePart, finalPath);
-            }
+                String imageLink = "";
 
-            // Add degree-doctor relationship to database
-            int degreeId = Integer.parseInt(degreeName);
-            int doctorId = Integer.parseInt(did);
-            String status = "InProgress"; // Fixed typo
+                // Upload the image if available
+                if (imagePart != null && imagePart.getSize() > 0) {
+                    imageLink = uploadImage(imagePart, finalPath);
+                }
 
-            // Check if SPECIFIC degree already exists for this doctor
-            if (dedocdao.checkSpecificDoctorDegree(doctorId, degreeId)) {
-                session.setAttribute("errorMessage", "Degree " + degreeName + " has already been added for this doctor!");
-                allSuccess = false;
-                break;
-            } else {
-                boolean success = dedocdao.addDoctorDegree(doctorId, degreeId, imageLink, status);
+                // Add degree-doctor relationship to database
+                int degreeId = Integer.parseInt(degreeName);
+                int doctorId = Integer.parseInt(did);
+                String status = "InProgress";
+                String issuedBy = request.getParameter("issuedBy[]") != null
+                        ? request.getParameterValues("issuedBy[]")[i] : "";
+                
+                String degree_date = getdate.getFormString();
 
-                if (!success) {
-                    // Handle insertion failure
-                    session.setAttribute("errorMessage", "Failed to add one or more degrees.");
+                // Check if SPECIFIC degree already exists for this doctor
+                if (dedocdao.checkSpecificDoctorDegree(doctorId, degreeId)) {
+                    session.setAttribute("errorMessage", "Degree " + degreeName + " has already been added for this doctor!");
                     allSuccess = false;
                     break;
+                } else {
+                    boolean success = dedocdao.addDoctorDegree(doctorId, degreeId, imageLink, status, issuedBy, degree_date);
+
+                    if (!success) {
+                        // Handle insertion failure
+                        session.setAttribute("errorMessage", "Failed to add one or more degrees.");
+                        allSuccess = false;
+                        break;
+                    }
                 }
             }
-        }
-        
-        if (allSuccess) {
-            // All degrees added successfully
-            response.sendRedirect("doctorProfile?accId=" + accId);
+
+            if (allSuccess) {
+                // All degrees added successfully
+                response.sendRedirect("doctorProfile?accId=" + accId);
+            } else {
+                // Some error occurred
+                response.sendRedirect("addDegree?did=" + did);
+            }
         } else {
-            // Some error occurred
+            // No degrees selected, return to form with error message
+            session.setAttribute("errorMessage", "No degrees selected.");
             response.sendRedirect("addDegree?did=" + did);
         }
-    } else {
-        // No degrees selected, return to form with error message
-        session.setAttribute("errorMessage", "No degrees selected.");
-        response.sendRedirect("addDegree?did=" + did);
     }
-}
 
     public static String uploadImage(Part part, String finalPath) throws ServletException {
         String uploadPath = finalPath + "images";

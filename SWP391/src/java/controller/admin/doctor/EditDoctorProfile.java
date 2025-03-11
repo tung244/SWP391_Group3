@@ -4,7 +4,7 @@
  */
 package controller.admin.doctor;
 
-import static controller.admin.doctor.createDoctor.uploadImage;
+import static controller.admin.doctor.CreateDoctor.uploadImage;
 import dal.CertificateDAO;
 import dal.DegreeDAO;
 import dal.DoctorsDAO;

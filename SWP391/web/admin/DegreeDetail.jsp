@@ -12,27 +12,7 @@
 
     <head>
         <jsp:include page="Common/Css.jsp"/> 
-        <style>
-            button {
-                background: #E8E7E6; /* Màu xanh lá */
-                border: solid #000 1px;
-                border-radius: 2%;
-                font-size: 20px;
-                font-weight: 100;
-                color: #000;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                min-width: 100px; /* Đảm bảo nút có kích thước đồng đều */
-                margin-right: 1%;
-            }
 
-            /* Hiệu ứng hover */
-            button:hover {
-                background: #009933; /* Xanh đậm hơn khi hover */
-                box-shadow: 0 4px 6px rgba(34, 139, 34, 0.3);
-                transform: translateY(-2px);
-            }
-        </style>
     </head>
 
     <body>
@@ -88,6 +68,12 @@
                                                                         <fmt:parseDate value="${lde.date_degree}" pattern="yyyy-MM-dd" var="parsedDate" />
                                                                         <fmt:formatDate value="${parsedDate}" pattern="dd/MM/yyyy"/></h6>
                                                                     <h6 class="text-muted mb-0"><i class='bx bxs-map'></i>${lde.issued_by}</h6>
+                                                                    <h6 class="text-muted mb-0">
+                                                                        <a href="#" title="Update" data-bs-toggle="modal" data-bs-target="#updateModal" 
+                                                                           onclick="loadUpdateModal('${lde.degree_id}', '${lde.doctor_id}', '${lde.degree_image}', '${lde.issued_by}')">
+                                                                            <i class="fas fa-edit">Edit Degree</i>
+                                                                        </a>
+                                                                    </h6>
                                                                     <img src=".${lde.degree_image}" class="img-thumbnail" alt="Degree Image">
                                                                 </div> 
 
@@ -116,59 +102,60 @@
         <!--End doctor detail area-->
 
     </div>
-</div>
-<!--end page-content-wrapper-->
-</div>
 
+    <!--end page-content-wrapper-->
 
+    <!--Edit modal-->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Update Degree Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="updateModalContent">
+                    <!-- Update form -->
+                    <form id="updateForm">
+                        <input type="hidden" id="degreeId" name="degreeId">
+                        <input type="hidden" id="doctorId" name="doctorId">
+                        <input type="hidden" id="DegreeImage" name="DegreeImage">
+                        <div class="mb-3">
+                            <img src="" width="width" height="height" alt="Degree Photo"/>
+                            <label for="updateDegreeImage" class="form-label">Degree Image</label>
+                            <input type="file" name="updateDegreeImage" id="updateDegreeImage" class="form-control" >
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateDegreeIssuedBy" class="form-label">Issued By</label>
+                            <input type="text" class="form-control" id="updateDegreeIssuedBy" name="updateDegreeIssuedBy" required>
+                        </div>
+                    </form>
 
-<!--end page-wrapper-->
-<!--start overlay-->
-<div class="overlay toggle-btn-mobile"></div>
-<!--end overlay-->
-<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
-<!--End Back To Top Button-->
-<!--footer -->
-<div class="footer">
-    <p class="mb-0">Syndash @2020 | Developed By : <a href="https://themeforest.net/user/codervent" target="_blank">codervent</a>
-    </p>
-</div>
-<!-- end footer -->
-</div>
-<!-- end wrapper -->
-<!--start switcher-->
-<div class="switcher-body">
-    <button class="btn btn-primary btn-switcher shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="bx bx-cog bx-spin"></i></button>
-    <div class="offcanvas offcanvas-end shadow border-start-0 p-2" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling">
-        <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Theme Customizer</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body">
-            <h6 class="mb-0">Theme Variation</h6>
-            <hr>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="lightmode" value="option1" checked>
-                <label class="form-check-label" for="lightmode">Light</label>
-            </div>
-            <hr>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="darkmode" value="option2">
-                <label class="form-check-label" for="darkmode">Dark</label>
-            </div>
-            <hr>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="darksidebar" value="option3">
-                <label class="form-check-label" for="darksidebar">Semi Dark</label>
-            </div>
-            <hr>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="ColorLessIcons" value="option3">
-                <label class="form-check-label" for="ColorLessIcons">Color Less Icons</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="updateDegree()">Update</button>
+
+                </div>
             </div>
         </div>
     </div>
+
+    <!--end page-wrapper-->
+    <!--start overlay-->
+    <div class="overlay toggle-btn-mobile"></div>
+    <!--end overlay-->
+    <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+    <!--End Back To Top Button-->
+    <!--footer -->
+    <div class="footer">
+        <p class="mb-0">Syndash @2020 | Developed By : <a href="https://themeforest.net/user/codervent" target="_blank">codervent</a>
+        </p>
+    </div>
+    <!-- end footer -->
 </div>
+<!-- end wrapper -->
+<!--start switcher-->
+
 <!--end switcher-->
 <!-- JavaScript -->
 <!-- Bootstrap JS -->
@@ -182,18 +169,61 @@
 <!--Data Tables js-->
 <script src="../admin/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
 <script>
-    $(document).ready(function () {
-        //Default data table
-        $('#example').DataTable();
-        var table = $('#example2').DataTable({
-            lengthChange: false,
-            buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
-        });
-        table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
-    });
+                        $(document).ready(function () {
+                            //Default data table
+                            $('#example').DataTable();
+                            var table = $('#example2').DataTable({
+                                lengthChange: false,
+                                buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+                            });
+                            table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+                        });
 </script>
 <!-- App JS -->
 <script src="../admin/assets/js/app.js"></script>
 </body>
+<script>
+                        function loadUpdateModal(degreeId, doctorId, degreeImage, degreeIssuedBy) {
+                            document.getElementById("degreeId").value = degreeId;
+                            document.getElementById("doctorId").value = doctorId;
+                            document.getElementById("DegreeImage").value = degreeImage;
+                            document.getElementById("updateDegreeIssuedBy").value = degreeIssuedBy;
+                        }
 
+                        function updateDegree() {
+                            var degreeId = document.getElementById("degreeId").value;
+                            var doctorId = document.getElementById("doctorId").value;
+                            var degreeImage = document.getElementById("DegreeImage").value;
+                            var updateDegreeIssuedBy = document.getElementById("updateDegreeIssuedBy").value;
+                            var updateDegreeImage = document.getElementById("updateDegreeImage").value;
+
+                            console.log("Sending request with Degree ID:", degreeId);
+                            console.log("doctorId", doctorId);
+                            console.log("degreeImage:", degreeImage);
+                            console.log("updateDegreeIssuedBy", updateDegreeIssuedBy);
+                            console.log("updateDegreeImage", updateDegreeImage);
+
+
+                            $.ajax({
+                            url: 'degreeDetail',
+                                    type: 'POST',
+                                    data: {degreeId: degreeId,
+                                            doctorId: doctorId,
+                                            degreeImage: degreeImage,
+                                            updateDegreeIssuedBy: updateDegreeIssuedBy,
+                                            updateDegreeImage: updateDegreeImage,
+                                    }
+                            success: function (response) {
+                            alert("Send request update degree updated successfully!");
+                                    $("#updateModal").modal("hide");
+                                    location.reload(); // Load lại danh sách
+                            },
+                                    error: function () {
+                                    alert("Error adding degree!");
+                                    }
+                            });
+
+
+                        }
+</script>
 </html>
