@@ -249,13 +249,13 @@
                                                 <td style="color: black">${sd.serviceType.duration_service}</td>
                                                 <td style="color: black">${sd.services.specialization.specialization_name}</td>
                                                 <td style="color: black"><fmt:formatNumber value="${sd.cost}" pattern="#,###" />VNĐ</td>
-                                        <td>
-                                            <a href="appointment?id=${sd.service_detail_id}&type=${sd.serviceType.service_type_id}" class="btn btn-success">
-                                                <i class="fa fa-calendar" aria-hidden="true"></i> Book
-                                            </a>
-                                        </td>
-                                        </tr>  
-                                    </c:forEach>
+                                                <td>
+                                                    <a href="appointment?id=${sd.service_detail_id}&type=${sd.serviceType.service_type_id}" class="btn btn-success">
+                                                        <i class="fa fa-calendar" aria-hidden="true"></i> Book
+                                                    </a>
+                                                </td>
+                                            </tr>  
+                                        </c:forEach>
 
                                     </tbody>
                                 </table>
@@ -266,84 +266,26 @@
                                     <span class="border"></span>
                                 </div>
                                 <div class="row">
-                                    <!--Start single team member-->
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <div class="single-team-member">
-                                            <div class="img-holder">
-                                                <img src="images/team/1.jpg" alt="Awesome Image">
-                                                <div class="overlay-one">
-                                                    <div class="overlay-inner">
-                                                        <div class="content"></div>
-                                                    </div>
+                                    <c:forEach var="d" items="${doctors}">
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <div class="single-team-member">
+                                                <div class="img-holder">
+                                                    <img  src="${d.profile_image}" alt="Awesome Image">
                                                 </div>
-                                                <ul class="member-social-info">
-                                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-holder text-center">
-                                                <h3>Dr.Eliot Aldwin</h3>
-                                                <span>Hygienist</span>
-                                                <p>Denouncing pleasure and praising pain was born expound.</p>
-                                                <span class="border"></span>
-                                                <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            </div>    
-                                        </div> 
-                                    </div>
-                                    <!--End single team member-->
-                                    <!--Start single team member-->
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <div class="single-team-member">
-                                            <div class="img-holder">
-                                                <img src="images/team/2.jpg" alt="Awesome Image">
-                                                <div class="overlay-one">
-                                                    <div class="overlay-inner">
-                                                        <div class="content"></div>
-                                                    </div>
-                                                </div>
-                                                <ul class="member-social-info">
-                                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-holder text-center">
-                                                <h3>Dr.Barie Findlay</h3>
-                                                <span>Orthodontist</span>
-                                                <p>Great explorer of the truth master builder human happiness.</p>
-                                                <span class="border"></span>
-                                                <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            </div>    
-                                        </div>
-                                    </div> 
-                                    <!--End single team member-->
-                                    <!--Start single team member-->
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <div class="single-team-member">
-                                            <div class="img-holder">
-                                                <img src="images/team/3.jpg" alt="Awesome Image">
-                                                <div class="overlay-one">
-                                                    <div class="overlay-inner">
-                                                        <div class="content"></div>
-                                                    </div>
-                                                </div>
-                                                <ul class="member-social-info">
-                                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-holder text-center">
-                                                <h3>Dr.Fred Calvin</h3>
-                                                <span>Dentist</span>
-                                                <p>Circumstances occurs in which toil all pain great pleasure.</p>
-                                                <span class="border"></span>
-                                                <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            </div>    
-                                        </div>
-                                    </div> 
-                                    <!--End single team member-->
+                                                <div class="text-holder text-center">
+                                                    <h3>Dr. ${d.doctor_name}</h3>
+                                                    <span>Doctor</span>
+                                                    <p>${d.specialization.specialization_name}</p>
+                                                    <span class="border"></span>
+                                                    <span class="text-muted ml-2">Rating: ${d.rating}</span> ★
+                                                    <br>
+                                                    <hr>
+                                                    <a href="doctorDetail?doctorid=${d.doctor_id}">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                                </div>    
+                                            </div> 
+                                        </div>  
+                                    </c:forEach>
+
                                 </div>
                             </div>
 

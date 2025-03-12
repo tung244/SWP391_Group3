@@ -158,8 +158,10 @@ public class UpdateAppointment extends HttpServlet {
             for (Appointments appointments : list) {
                 appointment = appointments;
             }
-            boolean sendEmail =SendMail.MailConfirmAppointment(appointment);
-            mail = sendEmail ? "Send Email Completed" : "Send Email Fail";
+            if (status.equals("Scheduled")) {
+                boolean sendEmail = SendMail.MailConfirmAppointment(appointment);
+                mail = sendEmail ? "Send Email Completed" : "Send Email Fail";
+            }
         } catch (Exception e) {
             e.printStackTrace();
             mess = "An error occurred: " + e.getMessage(); // Cung cấp thông tin lỗi
@@ -191,7 +193,6 @@ public class UpdateAppointment extends HttpServlet {
 //
 //        return sendEmailResult[0]; // Trả về kết quả gửi email
 //    }
-
     /**
      * Returns a short description of the servlet.
      *

@@ -25,6 +25,13 @@ public class DBContext {
         }
     }
      public static void main(String[] args) {
-         
+         DBContext dbContext = new DBContext();
+        
+        // Check if the connection is not null and print a message accordingly
+        if (dbContext.connection != null) {
+            System.out.println("Database connection is active.");
+        } else {
+            System.out.println("Database connection failed.");
+        }
      }
 }

@@ -4,6 +4,8 @@
  */
 package dal;
 
+import bo.SendMail;
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,8 +15,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Account;
 import model.Appointments;
+import model.Checkout;
 import model.Doctors;
 import model.MedicalHistory;
 import model.ServiceDetail;
@@ -116,9 +121,11 @@ public class AppointmentDAO extends DBContext {
                 // Handle patient details
                 int account_id = rs.getInt("patient_id");
                 String email = rs.getString("email");
-                Account account = new Account(account_id, email);
+                String phonenumber = rs.getString("phone_number");
+                Account account = new Account(account_id, email, phonenumber);
                 String fullname = rs.getString("full_name");
-                UserProfile user = new UserProfile(account, fullname);
+                String address = rs.getString("address");
+                UserProfile user = new UserProfile(account, fullname, address);
 
                 // Create appointment object
                 Appointments appointment = new Appointments(appointment_id, appointment_date, appointment_status, doctor, slot, service_detail, user);
@@ -283,6 +290,20 @@ public class AppointmentDAO extends DBContext {
         }
     }
 
+    public boolean confirmPaymentAppointment(int appointmentId, String status) {
+        String query = "UPDATE Appointment SET appointment_status = ? WHERE appointment_id = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setInt(2, appointmentId);
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public MedicalHistory getMedicalHistoryByAId(String aid) {
         String query = "select * from MedicalHistory where appointment_id = ?";
         try {
@@ -368,17 +389,142 @@ public class AppointmentDAO extends DBContext {
         return statsList;
     }
 
+    public List<Object[]> getQuarterlyRevenue(int year) {
+        List<Object[]> revenueList = new ArrayList<>();
+        String query = "SELECT \n"
+                + "    YEAR(a.appointment_date) AS year,\n"
+                + "    DATEPART(QUARTER, a.appointment_date) AS quarter,\n"
+                + "    SUM(sd.cost) AS revenue\n"
+                + "FROM \n"
+                + "    Appointment a\n"
+                + "JOIN \n"
+                + "    Services_Detail sd ON a.service_detail_id = sd.service_detail_id\n"
+                + "WHERE \n"
+                + "    a.appointment_status IN ('Completed', 'Payed') and YEAR(a.appointment_date) = ?\n"
+                + "GROUP BY \n"
+                + "    YEAR(a.appointment_date), DATEPART(QUARTER, a.appointment_date)\n"
+                + "ORDER BY \n"
+                + "    year, quarter;";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, year);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Object[] record = new Object[2];
+                record[0] = rs.getInt("quarter");     // Quý
+                record[1] = rs.getDouble("revenue");  // Doanh thu
+                revenueList.add(record);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return revenueList;
+    }
+
+    public List<Object[]> getMonthlyRevenue(int year, int quarter) {
+        List<Object[]> revenueList = new ArrayList<>();
+        String query = "SELECT MONTH(a.appointment_date) AS month, "
+                + "SUM(sd.cost) AS revenue "
+                + "FROM Appointment a "
+                + "JOIN Services_Detail sd ON a.service_detail_id = sd.service_detail_id "
+                + "WHERE a.appointment_status IN ('Completed', 'Payed') "
+                + "AND YEAR(a.appointment_date) = ? "
+                + "AND DATEPART(QUARTER, a.appointment_date) = ? "
+                + "GROUP BY MONTH(a.appointment_date) "
+                + "ORDER BY month";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, year);     // Điều kiện năm
+            ps.setInt(2, quarter);  // Điều kiện quý
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Object[] record = new Object[2];
+                record[0] = rs.getInt("month");       // Tháng
+                record[1] = rs.getDouble("revenue"); // Doanh thu
+                revenueList.add(record);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return revenueList;
+    }
+
+    public List<Object[]> getRevenueStatsGroupByService(String year, String month) {
+        List<Object[]> statsList = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT ");
+        sql.append("s.service_name AS service_name, ");
+        sql.append("SUM(sd.cost) AS total_revenue ");
+        sql.append("FROM Appointment AS a ");
+        sql.append("INNER JOIN Services_Detail AS sd ON a.service_detail_id = sd.service_detail_id ");
+        sql.append("INNER JOIN Services AS s ON sd.service_id = s.service_id ");
+        sql.append("WHERE (a.appointment_status = 'Completed' OR a.appointment_status = 'Payed') ");
+
+        // Điều kiện thêm theo năm, quý, tháng
+        if (year != null && !year.isBlank()) {
+            sql.append("AND YEAR(a.appointment_date) = ? ");
+        }
+        if (month != null && !month.isBlank()) {
+            sql.append("AND MONTH(a.appointment_date) = ? ");
+        }
+
+        sql.append("GROUP BY s.service_name "); // Nhóm theo loại dịch vụ
+        sql.append("ORDER BY total_revenue DESC"); // Sắp xếp theo doanh thu giảm dần
+
+        try {
+            ps = connection.prepareStatement(sql.toString());
+
+            // Gán tham số cho câu SQL
+            int paramIndex = 1;
+            if (year != null && !year.isBlank()) {
+                ps.setString(paramIndex++, year); // Tham số năm
+            }
+            if (month != null && !month.isBlank()) {
+                ps.setInt(paramIndex++, Integer.parseInt(month)); // Tham số tháng
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                statsList.add(new Object[]{
+                    rs.getString("service_name"),
+                    rs.getDouble("total_revenue") // Doanh thu dịch vụ đó
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return statsList;
+    }
+
+    public Checkout getCheckoutByAppointmentId(int id) {
+        String sql = "select * from CheckOut where appointment_id = ?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Checkout(rs.getInt(1), rs.getInt(2), rs.getString(3),
+                        rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getInt(7), rs.getTimestamp(8));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         AppointmentDAO dao = new AppointmentDAO();
 //        LocalDate currentDate = LocalDate.now();
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //        String formattedDate = currentDate.format(formatter);
-        List<Object[]> list = dao.getAppointmentStats("2025-02-20", "2025-03-03");
-        for (Object[] slots : list) {
-            System.out.println(Arrays.toString(slots));
+
+        List<Appointments> list = dao.getAppointment(null);
+        for (Appointments appointments : list) {
+            System.out.println(appointments);
         }
-        MedicalHistory h = dao.getMedicalHistoryByAId("1");
-        System.out.println(h);
+
 //        String date = "03/27/2025";
 //        Date appointment_date = null;
 //

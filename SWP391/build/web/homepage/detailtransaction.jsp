@@ -67,9 +67,9 @@
                                     <th class="userprofile-table-cell userprofile-table-header">AppointmentID</th>
                                     <th class="userprofile-table-cell userprofile-table-header">Chi tiết dịch vụ</th>
                                     <th class="userprofile-table-cell userprofile-table-header">Trạng thái</th>
-                                    <th class="userprofile-table-cell userprofile-table-header">Ngày bắt đầu</th>
-                                    <th class="userprofile-table-cell userprofile-table-header">Ngày hết hạn</th>
-                                    <th class="userprofile-table-cell userprofile-table-header">Số điện thoại khách hàng</th>
+                                    <th class="userprofile-table-cell userprofile-table-header">Giờ bắt đầu</th>
+                                    <th class="userprofile-table-cell userprofile-table-header">Giờ kết thúc</th>
+                                    <th class="userprofile-table-cell userprofile-table-header">Bác sĩ phụ trách</th>
 
 
                                 </tr>
@@ -79,11 +79,11 @@
                                 <c:forEach items="${requestScope.appointment}" var="appointment">
                                     <tr>
                                         <td class="userprofile-table-cell">${appointment.appointment_id}</td>
-                                        <td class="userprofile-table-cell">${appointment.service_description}</td>
+                                        <td class="userprofile-table-cell">${appointment.service.service_description}</td>
                                         <td class="userprofile-table-cell">${appointment.appointment_status}</td>
-                                        <td class="userprofile-table-cell">${appointment.time_begin}</td>
-                                        <td class="userprofile-table-cell">${appointment.time_end}</td>
-                                        <td class="userprofile-table-cell">${appointment.phonenumber_patient}</td>
+                                        <td class="userprofile-table-cell">${appointment.slot.start_time}</td>
+                                        <td class="userprofile-table-cell">${appointment.slot.end_time}</td>
+                                        <td class="userprofile-table-cell">${appointment.doctor.doctor_name}</td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

@@ -18,6 +18,12 @@ public class UserProfile {
         this.fullname = fullname;
     }
     
+    public UserProfile(Account account, String fullname,String address) {
+        this.account = account;
+        this.fullname = fullname;
+        this.address = address;
+    }
+    
     public UserProfile(Account account, String fullname, String address, String dob, String gender, String image_profile_user) {
         this.account = account;
         this.fullname = fullname;

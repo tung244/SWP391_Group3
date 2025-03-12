@@ -10,7 +10,49 @@
     <head>
         <jsp:include page="Common/Css.jsp"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style>
+            .chart-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            /* Đặt container biểu đồ theo hàng ngang */
+            .chart-row-container {
+                display: flex; /* Đặt Flexbox để căn ngang */
+                flex-direction: row; /* Các phần tử hiển thị theo chiều ngang */
+                justify-content: space-between; /* Khoảng cách đồng đều giữa các biểu đồ */
+                align-items: flex-start; /* Căn đều trên theo độ cao */
+                gap: 20px; /* Khoảng cách giữa các biểu đồ */
+            }
 
+            .chart-wrapper {
+                flex: 1; /* Chia đều chiều rộng cho các biểu đồ */
+                min-width: 40%; /* Đảm bảo độ rộng tối thiểu của mỗi biểu đồ */
+                max-width: 45%; /* Độ rộng tối đa, đảm bảo không quá lớn */
+            }
+
+            .chart-title {
+                text-align: center;
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+
+            #quarter-revenue-chart,
+            #month-revenue-chart {
+                width: 100%; /* Biểu đồ chiếm toàn bộ khung cha */
+                height: 350px; /* Cài đặt chiều cao của biểu đồ */
+            }
+            #year-select {
+                margin-left: 10px;
+                width: auto;
+            }
+            #quarter-select{
+                width: auto;
+            }
+        </style>
     </head>
     <body>
         <jsp:include page="Common/Navbar.jsp"/>
@@ -24,16 +66,35 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div>
-                                            <h2 class="mb-0 text-white">649 <i class='bx bxs-up-arrow-alt font-14 text-white'></i> </h2>
+                                            <h2 class="mb-0 text-white">${serviceCount}</h2>
                                         </div>
                                         <div class="ms-auto font-35 text-white"><i class="bx bx-cart-alt"></i>
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div>
-                                            <p class="mb-0 text-white">Item Delivered</p>
+                                            <p class="mb-0 text-white">Service Actice</p>
                                         </div>
-                                        <div class="ms-auto font-14 text-white">+23.4%</div>
+                                        <!--                                        <div class="ms-auto font-14 text-white">+23.4%</div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <div class="card radius-15 bg-wall">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <h2 class="mb-0 text-white">${doctorCount}</h2>
+                                        </div>
+                                        <div class="ms-auto font-35 text-white"><i class="bx bx-cog"></i>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <p class="mb-0 text-white">Doctors</p>
+                                        </div>
+                                        <!--                                        <div class="ms-auto font-14 text-white">+14.7%</div>-->
                                     </div>
                                 </div>
                             </div>
@@ -43,16 +104,16 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div>
-                                            <h2 class="mb-0 text-white">114 <i class='bx bxs-down-arrow-alt font-14 text-white'></i> </h2>
+                                            <h2 class="mb-0 text-white">${cusCount}</h2>
                                         </div>
                                         <div class="ms-auto font-35 text-white"><i class="bx bx-support"></i>
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div>
-                                            <p class="mb-0 text-white">Refund Request</p>
+                                            <p class="mb-0 text-white">Customers</p>
                                         </div>
-                                        <div class="ms-auto font-14 text-white">+14.7%</div>
+                                        <!--                                        <div class="ms-auto font-14 text-white">+14.7%</div>-->
                                     </div>
                                 </div>
                             </div>
@@ -62,16 +123,16 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div>
-                                            <h2 class="mb-0 text-white">98 <i class='bx bxs-up-arrow-alt font-14 text-white'></i> </h2>
+                                            <h2 class="mb-0 text-white">${saleCount} </h2>
                                         </div>
                                         <div class="ms-auto font-35 text-white"><i class="bx bx-tachometer"></i>
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div>
-                                            <p class="mb-0 text-white">Cancelled Orders</p>
+                                            <p class="mb-0 text-white">Sales Staff</p>
                                         </div>
-                                        <div class="ms-auto font-14 text-white">-12.9%</div>
+                                        <!--                                        <div class="ms-auto font-14 text-white">-12.9%</div>-->
                                     </div>
                                 </div>
                             </div>
@@ -81,16 +142,16 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div>
-                                            <h2 class="mb-0 text-white">208 <i class='bx bxs-up-arrow-alt font-14 text-white'></i> </h2>
+                                            <h2 class="mb-0 text-white">${supportCount}</h2>
                                         </div>
                                         <div class="ms-auto font-35 text-white"><i class="bx bx-user"></i>
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div>
-                                            <p class="mb-0 text-white">New Users</p>
+                                            <p class="mb-0 text-white">Support Staff</p>
                                         </div>
-                                        <div class="ms-auto font-14 text-white">+13.6%</div>
+                                        <!--                                        <div class="ms-auto font-14 text-white">+13.6%</div>-->
                                     </div>
                                 </div>
                             </div>
@@ -153,6 +214,110 @@
                         </div>
                     </div>
 
+                    <div class="card radius-15">
+                        <div class="card-header">
+                            <h5 class="mb-2 mb-lg-0">Revenue Statistics</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Dropdown chọn năm -->
+                            <div class="row mb-4">
+                                <div class="col-6">
+                                    <label for="year-select">Select Year:</label>
+                                    <select id="year-select" class="form-select">
+                                        <option value="2025">2025</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2023">2023</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label for="quarter-select">Select Quarter:</label>
+                                    <select id="quarter-select" class="form-select">
+                                        <option value="1">Quarter 1</option>
+                                        <option value="2">Quarter 2</option>
+                                        <option value="3">Quarter 3</option>
+                                        <option value="4">Quarter 4</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Biểu đồ: hiển thị theo hàng ngang -->
+                            <div class="chart-row-container">
+                                <div class="chart-wrapper">
+                                    <h6 class="chart-title">Quarterly Revenue</h6>
+                                    <div id="quarter-revenue-chart"></div>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <h6 class="chart-title">Monthly Revenue</h6>
+                                    <div id="month-revenue-chart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card radius-15">
+                        <div class="card-header border-bottom-0">
+                            <div class="d-lg-flex align-items-center">
+                                <div>
+                                    <h5 class="mb-2 mb-lg-0">Service Statistic</h5>
+                                </div>
+                                <div class="ms-lg-auto mb-2 mb-lg-0">
+                                    <div class="d-flex align-items-center">
+                                        <select id="year-select2" class="form-select">
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                        </select>
+                                        <select id="month-select" class="form-select">
+                                            <option value="">All Months</option>
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <hr>
+                            <h5>Service Statistics</h5>
+                            <div id="service-revenue-chart"></div>
+                        </div>
+                    </div> 
+                    <!--                    <div class="card radius-15">
+                                            <div class="card-header border-bottom-0">
+                                                <div class="d-lg-flex align-items-center">
+                                                    <div>
+                                                        <h5 class="mb-2 mb-lg-0">Crowed Time</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="display: flex;justify-content: center; align-items: center" class="card-body">
+                                                <canvas id="crowed-chart"></canvas>
+                                            </div>
+                                        </div>-->
+                    <div class="card radius-15">
+                        <div class="card-header border-bottom-0">
+                            <div class="d-lg-flex align-items-center">
+                                <div>
+                                    <h5 class="mb-2 mb-lg-0">Crowed Time</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" 
+                             style="display: flex; justify-content: center; align-items: center; height: 300px; max-width: 100%;">
+                            <canvas id="crowed-chart" style="width: 100%; height: 100%;"></canvas>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-12 col-lg-6">
@@ -410,242 +575,7 @@
                         </div>
                     </div>
                     <!--end row-->
-                    <div class="row">
-                        <div class="col-12 col-lg-8 d-flex">
-                            <div class="card radius-15 w-100 overflow-hidden">
-                                <div class="card-header border-bottom-0">
-                                    <div class="d-flex align-items-center">
-                                        <div>
-                                            <h5 class="mb-0">Revenue By Locations</h5>
-                                        </div>
-                                        <div class="dropdown ms-auto">
-                                            <div class="cursor-pointer font-24 dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown"><i class="bx bx-dots-horizontal-rounded"></i>
-                                            </div>
-                                            <div class="dropdown-menu dropdown-menu-right">	<a class="dropdown-item" href="javascript:;">Action</a>
-                                                <a class="dropdown-item" href="javascript:;">Another action</a>
-                                                <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Something else here</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div id="location-map"></div>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="text-blue-ribbon">Countries</th>
-                                                <th scope="col" class="text-brink-pink">Orders</th>
-                                                <th scope="col" class="text-mountain-meadow">Earnings</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="d-flex align-items-center"><i class="flag-icon flag-icon-um me-2"></i>
-                                                    <div>United States</div>
-                                                </td>
-                                                <td>13,495</td>
-                                                <td class="text-semibold">$58,430.75</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="d-flex align-items-center"><i class="flag-icon flag-icon-nl me-2"></i>
-                                                    <div>Netherlands</div>
-                                                </td>
-                                                <td>11,495</td>
-                                                <td class="text-semibold">$68,253.90</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="d-flex align-items-center"><i class="flag-icon flag-icon-us me-2"></i>
-                                                    <div>United Kingdom</div>
-                                                </td>
-                                                <td>09,348</td>
-                                                <td class="text-semibold">$87,295.70</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="d-flex align-items-center"><i class="flag-icon flag-icon-ca me-2"></i>
-                                                    <div>Canada</div>
-                                                </td>
-                                                <td>07,845</td>
-                                                <td class="text-semibold">$64,914.20</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="d-flex align-items-center"><i class="flag-icon flag-icon-au me-2"></i>
-                                                    <div>Australia</div>
-                                                </td>
-                                                <td>05,945</td>
-                                                <td class="text-semibold">$94,335.60</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4 d-flex">
-                            <div class="card radius-15 w-100">
-                                <div class="card-body">
-                                    <div class="card radius-15 border shadow-none">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center">
-                                                <h5 class="mb-0">New Users</h5>
-                                                <p class="mb-0 ms-auto"><i class="bx bx-dots-horizontal-rounded float-right font-24"></i>
-                                                </p>
-                                            </div>
-                                            <div class="d-flex align-items-center mt-3 gap-2">
-                                                <img src="assets/images/avatars/avatar-1.png" width="45" height="45" class="rounded-circle" alt="">
-                                                <div class="flex-grow-1">
-                                                    <p class="font-weight-bold mb-0">Neil Wagner</p>
-                                                    <p class="text-secondary mb-0">United Kingdom</p>
-                                                </div>
-                                                <a href="javascript:;" class="btn btn-sm btn-light-primary px-4 radius-10">Add</a>
-                                            </div>
-                                            <hr>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <img src="assets/images/avatars/avatar-2.png" width="45" height="45" class="rounded-circle" alt="">
-                                                <div class="flex-grow-1">
-                                                    <p class="font-weight-bold mb-0">Sampoll Dinga</p>
-                                                    <p class="text-secondary mb-0">America</p>
-                                                </div> <a href="javascript:;" class="btn btn-sm btn-light-primary px-4 radius-10">Add</a>
-                                            </div>
-                                            <hr>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <img src="assets/images/avatars/avatar-3.png" width="45" height="45" class="rounded-circle" alt="">
-                                                <div class="flex-grow-1">
-                                                    <p class="font-weight-bold mb-0">Loona Ting</p>
-                                                    <p class="text-secondary mb-0">Canada</p>
-                                                </div> <a href="javascript:;" class="btn btn-sm btn-light-primary px-4 radius-10">Add</a>
-                                            </div>
-                                            <hr>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <img src="assets/images/avatars/avatar-4.png" width="45" height="45" class="rounded-circle" alt="">
-                                                <div class="flex-grow-1">
-                                                    <p class="font-weight-bold mb-0">Lee Jong</p>
-                                                    <p class="text-secondary mb-0">China</p>
-                                                </div> <a href="javascript:;" class="btn btn-sm btn-light-primary px-4 radius-10">Add</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card radius-15 border shadow-none mb-0">
-                                        <div class="card-body">
-                                            <h4 class="mb-0">87.52%</h4>
-                                            <p class="mb-0">Bounce Rate</p>
-                                        </div>
-                                        <div id="chart8"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
                     <!--end row-->
-                    <div class="card radius-15 overflow-hidden">
-                        <div class="card-header border-bottom-0">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <h5 class="mb-0">Recent Orders</h5>
-                                </div>
-                                <div class="ms-auto">
-                                    <button type="button" class="btn btn-white btn-sm px-4 radius-15">View More</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Photo</th>
-                                            <th>Product Name</th>
-                                            <th>Customer</th>
-                                            <th>Product id</th>
-                                            <th>Price</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="product-img bg-transparent border">
-                                                    <img src="assets/images/icons/smartphone.png" width="35" alt="">
-                                                </div>
-                                            </td>
-                                            <td>Honor Mobile 7x</td>
-                                            <td>Mitchell Daniel</td>
-                                            <td>#835478</td>
-                                            <td>$54.68</td>
-                                            <td><a href="javascript:;" class="btn btn-sm btn-light-success btn-block radius-30">Delivered</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="product-img bg-transparent border">
-                                                    <img src="assets/images/icons/watch.png" width="35" alt="">
-                                                </div>
-                                            </td>
-                                            <td>Hand Watch</td>
-                                            <td>Milona Burke</td>
-                                            <td>#987546</td>
-                                            <td>$43.78</td>
-                                            <td><a href="javascript:;" class="btn btn-sm btn-light-warning btn-block radius-30">Pending</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="product-img bg-transparent border">
-                                                    <img src="assets/images/icons/laptop.png" width="35" alt="">
-                                                </div>
-                                            </td>
-                                            <td>Mini Laptop</td>
-                                            <td>Craig Clayton</td>
-                                            <td>#325687</td>
-                                            <td>$62.21</td>
-                                            <td><a href="javascript:;" class="btn btn-sm btn-light-success btn-block radius-30">Delivered</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="product-img bg-transparent border">
-                                                    <img src="assets/images/icons/shirt.png" width="35" alt="">
-                                                </div>
-                                            </td>
-                                            <td>Slim-T-Shirt</td>
-                                            <td>Clark Andola</td>
-                                            <td>#658972</td>
-                                            <td>$75.68</td>
-                                            <td><a href="javascript:;" class="btn btn-sm btn-light-danger btn-block radius-30">Cancelled</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="product-img bg-transparent border">
-                                                    <img src="assets/images/icons/wine-glass.png" width="35" alt="">
-                                                </div>
-                                            </td>
-                                            <td>Mini Laptop</td>
-                                            <td>Craig Clayton</td>
-                                            <td>#325687</td>
-                                            <td>$62.21</td>
-                                            <td><a href="javascript:;" class="btn btn-sm btn-light-success btn-block radius-30">Delivered</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="product-img bg-transparent border">
-                                                    <img src="assets/images/icons/headphones.png" width="35" alt="">
-                                                </div>
-                                            </td>
-                                            <td>Honor Mobile 7x</td>
-                                            <td>Mitchell Daniel</td>
-                                            <td>#835478</td>
-                                            <td>$54.68</td>
-                                            <td><a href="javascript:;" class="btn btn-sm btn-light-success btn-block radius-30">Delivered</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <!--end page-content-wrapper-->
@@ -754,13 +684,27 @@
     
         </script> -->
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy ngày hiện tại và ngày đầu năm
+            const today = new Date();
+            const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
+
+            // Chuyển đổi thành định dạng YYYY-MM-DD
+            function formatDate(date) {
+                return date.toISOString().split("T")[0];
+            }
+
+            document.getElementById("start-date").value = formatDate(firstDayOfYear);
+            document.getElementById("end-date").value = formatDate(today);
+
+            // Gọi thống kê ngay khi trang load
+            fetchStatistics();
+        });
         function fetchStatistics() {
             let startDate = document.getElementById("start-date").value;
             let endDate = document.getElementById("end-date").value;
-
             if (!startDate || !endDate)
                 return;
-
             // Gọi dữ liệu thống kê lịch hẹn
             $.ajax({
                 url: "AppointmentStats",
@@ -770,7 +714,6 @@
                 success: function (data) {
                     let tableBody = $("#appointment-stats");
                     tableBody.empty();
-
                     if (data.length === 0) {
                         tableBody.append("<tr><td colspan='6' class='text-center'>No data available</td></tr>");
                         return;
@@ -779,12 +722,12 @@
                     data.forEach(row => {
                         let stars = getStarRating(row.average_rating);
                         tableBody.append(`<tr>
-                    <td>`+row.service+`</td>
-                    <td>`+row.totalAppointments+`</td>
-                    <td>`+row.totalRevenue.toLocaleString("vi-VN")+` đ</td>
-                    <td>`+row.success_rate+`%</td>
-                    <td>`+row.cancel_rate+`%</td>
-                    <td>`+stars+`</td>
+                    <td>` + row.service + `</td>
+                    <td>` + row.totalAppointments + `</td>
+                    <td>` + row.totalRevenue.toLocaleString("vi-VN") + ` đ</td>
+                    <td>` + row.success_rate + `%</td>
+                    <td>` + row.cancel_rate + `%</td>
+                    <td>` + stars + `</td>
                 </tr>`);
                     });
                 },
@@ -792,7 +735,6 @@
                     alert("Error fetching appointment stats.");
                 }
             });
-
             // Gọi dữ liệu thống kê bác sĩ
             $.ajax({
                 url: "DoctorStats",
@@ -802,7 +744,6 @@
                 success: function (data) {
                     let tableBody = $("#doctor-stats");
                     tableBody.empty();
-
                     if (data.length === 0) {
                         tableBody.append("<tr><td colspan='6' class='text-center'>No data available</td></tr>");
                         return;
@@ -811,12 +752,12 @@
                     data.forEach(row => {
                         let stars = getStarRating(row.average_rating);
                         tableBody.append(`<tr>
-                    <td>`+row.doctor_name+`</td>
-                    <td>`+row.total_appointments+`</td>
-                    <td>`+row.total_revenue.toLocaleString("vi-VN")+` đ</td>
-                    <td>`+row.success_rate+`%</td>
-                    <td>`+row.cancel_rate+`%</td>
-                    <td>`+stars+`</td>  
+                    <td>` + row.doctor_name + `</td>
+                    <td>` + row.total_appointments + `</td>
+                    <td>` + row.total_revenue.toLocaleString("vi-VN") + ` đ</td>
+                    <td>` + row.success_rate + `%</td>
+                    <td>` + row.cancel_rate + `%</td>
+                    <td>` + stars + `</td>  
                 </tr>`);
                     });
                 },
@@ -826,7 +767,7 @@
             });
         }
 
-// Hàm tạo icon sao cho rating
+        // Hàm tạo icon sao cho rating
         function getStarRating(rating) {
             let stars = "";
             let rounded = Math.round(rating);
@@ -844,8 +785,326 @@
         }
 
         $("#start-date, #end-date").change(fetchStatistics);
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const contextPath = "/" + window.location.pathname.split("/")[1];
+            // Khởi tạo biểu đồ doanh thu theo quý
+            const quarterRevenueChart = new ApexCharts(document.querySelector("#quarter-revenue-chart"), {
+                chart: {
+                    type: 'line',
+                    height: 350
+                },
+                series: [],
+                xaxis: {
+                    categories: []
+                },
+                yaxis: {
+                    min: 0 // Luôn bắt đầu từ 0
+                },
+                title: {
+                    //                    text: "Quarterly Revenue",
+                    align: "center",
+                    style: {fontSize: "16px"}
+                }
+            });
+            quarterRevenueChart.render();
+            // Khởi tạo biểu đồ doanh thu theo tháng
+            const monthRevenueChart = new ApexCharts(document.querySelector("#month-revenue-chart"), {
+                chart: {
+                    type: "line",
+                    height: 350
+                },
+                series: [],
+                xaxis: {
+                    categories: []
+                },
+                yaxis: {
+                    min: 0 // Luôn bắt đầu từ 0
+                },
+                title: {
+                    align: "center",
+                    style: {fontSize: "16px"}
+                }
+            });
+            monthRevenueChart.render();
+            // Load dữ liệu
+            function loadQuarterRevenueStats(year) {
+                fetch(`/SWP391/admin/RevenueStat?type=quarterly&year=` + year)
+                        .then(response => {
+                            console.log("Request URL:", response.url);
+                            console.log("HTTP Status:", response.status);
+                            if (!response.ok)
+                                throw new Error("Failed to fetch quarterly revenue data.");
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log("Quarterly Revenue Data:", data); // Kiểm tra dữ liệu từ API
+                            if (data.length === 0) {
+                                alert("No quarterly revenue data available.");
+                                return;
+                            }
+
+                            // Chuyển đổi dữ liệu và kiểm tra
+                            const quarters = data.map(item => `Quarter ` + item.quarter); // Trả về danh sách quý
+                            const revenues = data.map(item => parseFloat(item.revenue || 0)); // Đảm bảo doanh thu là số hợp lệ
+
+                            console.log("Quarters:", quarters); // Kiểm tra chuỗi danh mục (categories)
+                            console.log("Revenues:", revenues); // Kiểm tra dữ liệu series
+
+                            // Cập nhật ApexCharts
+                            quarterRevenueChart.updateSeries([{name: 'Quarterly Revenue', data: revenues}]);
+                            quarterRevenueChart.updateOptions({xaxis: {categories: quarters}});
+                        })
+                        .catch(error => {
+                            console.error("Error loading quarterly revenue stats:", error);
+                            alert("Error loading quarterly revenue stats. Check console for details.");
+                            quarterRevenueChart.updateSeries([]);
+                            quarterRevenueChart.updateOptions({xaxis: {categories: []}});
+                        });
+            }
+            function loadMonthlyRevenueStats(year, quarter) {
+                fetch(`/SWP391/admin/RevenueStat?type=monthly&year=` + year + `&quarter=` + quarter)
+                        .then(response => {
+                            console.log("Request URL:", response.url);
+                            console.log("HTTP Status:", response.status);
+                            if (!response.ok)
+                                throw new Error("Failed to fetch monthly revenue data.");
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log("Monthly Revenue Data:", data); // Log dữ liệu từ API
+                            if (!Array.isArray(data) || data.length === 0) {
+                                alert("No monthly revenue data available.");
+                                // Cập nhật biểu đồ rỗng nếu không có dữ liệu
+                                monthRevenueChart.updateSeries([]);
+                                monthRevenueChart.updateOptions({xaxis: {categories: []}});
+                                return;
+                            }
+
+
+                            const months = data.map(item => `Month ` + item.month);
+                            const revenues = data.map(item => parseFloat(item.revenue));
+                            console.log("Months:", months); // Kiểm tra danh mục tháng
+                            console.log("Revenues:", revenues); // Kiểm tra dữ liệu doanh thu
+
+                            monthRevenueChart.updateSeries([{name: 'Monthly Revenue', data: revenues}]);
+                            monthRevenueChart.updateOptions({xaxis: {categories: months}});
+                        })
+                        .catch(error => {
+                            console.error("Error loading monthly revenue stats:", error);
+                            alert("Error loading monthly revenue stats. Check console for details.");
+                            monthRevenueChart.updateSeries([]);
+                            monthRevenueChart.updateOptions({xaxis: {categories: []}});
+                        });
+            }
+
+            // Gọi hàm ban đầu
+//            window.onload = function () {
+//                loadQuarterRevenueStats(2025);
+//                loadMonthlyRevenueStats(2025, 1);
+//            };
+            const yearSelect = document.getElementById("year-select");
+            const quarterSelect = document.getElementById("quarter-select");
+            if (!yearSelect) {
+                console.error("Element with id 'year-select' not found in DOM!");
+                return;
+            }
+            if (!quarterSelect) {
+                console.error("Element with id 'quarter-select' not found in DOM!");
+                return;
+            }
+
+            yearSelect.addEventListener("change", function () {
+                const selectedYear = yearSelect.value; // Lấy giá trị năm từ dropdown
+                console.log("Selected Year:", selectedYear);
+                loadQuarterRevenueStats(selectedYear); // Gọi hàm xử lý dữ liệu quý
+                resetChart(monthRevenueChart); // Reset biểu đồ tháng
+            });
+            quarterSelect.addEventListener("change", function () {
+                const selectedYear = yearSelect.value; // Lấy giá trị năm từ dropdown
+                const selectedQuarter = quarterSelect.value; // Lấy giá trị quý từ dropdown
+                console.log("Selected Year:", selectedYear);
+                console.log("Selected Quarter:", selectedQuarter);
+                // Gọi hàm xử lý dữ liệu tháng
+                loadMonthlyRevenueStats(selectedYear, selectedQuarter);
+            });
+            const defaultYear = "2025";
+            const defaultQuarter = "1"; // Quý mặc định
+            yearSelect.value = defaultYear;
+            quarterSelect.value = defaultQuarter;
+            // Gán giá trị mặc định và tải dữ liệu năm mặc định
+            loadQuarterRevenueStats(defaultYear); // Tải dữ liệu năm mặc định
+            loadMonthlyRevenueStats(defaultYear, defaultQuarter);
+        });
+    </script>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const revenueChart = new ApexCharts(document.getElementById("service-revenue-chart"), {
+                chart: {
+                    type: "bar", // hoặc "line" nếu cần
+                    height: 350,
+                    style: {color: "green"}
+                },
+                series: [],
+                xaxis: {
+                    categories: []
+                },
+                yaxis: {
+                    title: {
+                        text: "Revenue (VNĐ)"
+                    }
+                },
+                title: {
+                    text: "Service Revenue Stats",
+                    align: "center",
+                    style: {fontSize: "12px"}
+                },
+
+                plotOptions: {
+                    bar: {
+                        horizontal: true, // Chuyển cột thành ngang
+                        barHeight: "60%" // Độ cao của thanh
+                    }
+                }
+
+            });
+            revenueChart.render();
+            // Function fetch dữ liệu từ servlet và cập nhật biểu đồ
+            const yearSelect = document.getElementById("year-select2");
+            const monthSelect = document.getElementById("month-select");
+            yearSelect.addEventListener("change", fetchAndRenderData);
+            monthSelect.addEventListener("change", fetchAndRenderData);
+            if (!yearSelect || !monthSelect) {
+                console.error("Không tìm thấy phần tử select!");
+                return;
+            }
+            const defaultYear = "2025";
+            yearSelect.value = defaultYear;
+            yearSelect.addEventListener("change", function () {
+                console.log("Year changed to:", yearSelect.value);
+                fetchAndRenderData();
+            });
+
+            monthSelect.addEventListener("change", function () {
+                console.log("Month changed to:", monthSelect.value);
+                fetchAndRenderData();
+            });
+
+            fetchAndRenderData(); // Load mặc định
+
+            function fetchAndRenderData() {
+                const year = yearSelect.value || ""; // Nếu null, sử dụng chuỗi rỗng
+                const month = monthSelect.value || ""; // Nếu null, sử dụng chuỗi rỗng
+
+                // Log kiểm tra các giá trị vừa chọn
+                console.log(`Year:` + year + `,Month: ` + month);
+
+                // Gửi yêu cầu GET đến servlet RevenueStats
+                fetch(`/SWP391/admin/ServiceRevenueStats?year=` + year + `&month=` + month)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error("Failed to fetch data from the server.");
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.length === 0) {
+                                alert("No data found for the selected filters!");
+                                revenueChart.updateSeries([]);
+                                revenueChart.updateOptions({xaxis: {categories: []}});
+                                return;
+                            }
+
+                            const services = data.map(item => item[0]); // Tên dịch vụ
+                            const revenues = data.map(item => item[1]); // Doanh thu
+                            const colors = generateColors(services.length);
+                            revenueChart.updateSeries([{name: "Revenue", data: revenues}]);
+                            revenueChart.updateOptions({
+                                xaxis: {categories: services},
+                                plotOptions: {
+                                    bar: {
+                                        distributed: true // Phân phối màu sắc khác nhau cho từng cột
+                                    }
+                                },
+                                colors: colors
+                            });
+
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            alert("Could not fetch data from server. Check console for details!");
+                        });
+            }
+
+            // Lắng nghe sự kiện thay đổi ở dropdown
+            // Tải dữ liệu mặc định khi khởi chạy
+            fetchAndRenderData();
+        });
+
+        function generateColors(count) {
+            // Một danh sách sẵn các màu đẹp, phổ biến
+            const predefinedColors = [
+                "#B03A2E", // Dark Red
+                "#239B56", // Dark Green
+                "#2E86C1", // Dark Blue
+                "#922B5D", // Dark Pink
+                "#B7950B", // Dark Yellow
+                "#5B2C6F", // Dark Purple
+                "#A04000", // Dark Orange
+                "#117864", // Dark Teal
+                "#1F618D", // Dark Sky Blue
+                "#922B21", // Dark Crimson
+                "#512E5F", // Dark Violet
+                "#0E6655"  // Dark Cyan
+            ];
+
+
+            // Lặp lại màu nếu số danh mục vượt quá số màu có sẵn
+            return Array.from({length: count}, (_, i) => predefinedColors[i % predefinedColors.length]);
+        }
+
+
+
 
     </script>
+    <script>
+        fetch('/SWP391/admin/GetCrowedTime')
+                .then(response => response.json())
+                .then(data => {
+                    // Tạo mảng labels chứa khung giờ, và values chứa số lượng đặt lịch
+                    const labels = data.map(item => item.start_time + " - " + item.end_time);
+                    const values = data.map(item => item.total_appointments);
+
+                    // Vẽ biểu đồ bằng Chart.js
+                    new Chart(document.getElementById("crowed-chart"), {
+                        type: "line",
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                    data: values,
+                                    borderColor: "blue",
+                                    backgroundColor: "rgba(0, 0, 255, 0.2)",
+                                    fill: true
+                                }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                x: {title: {display: true, text: "Khung giờ"}},
+                                y: {display: false} // Ẩn hoàn toàn cột y
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error("Lỗi khi lấy dữ liệu:", error));
+    </script>
+
+
     <jsp:include page="Common/Js.jsp"/>
 </body>
 </html>

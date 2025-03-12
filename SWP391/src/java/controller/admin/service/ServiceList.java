@@ -83,7 +83,6 @@ public class ServiceList extends HttpServlet {
         request.setAttribute("listSP", list1);
         request.getRequestDispatcher("ServiceList.jsp").forward(request, response);
     }
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *

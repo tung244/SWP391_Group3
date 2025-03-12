@@ -7,12 +7,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="sidebar-wrapper" data-simplebar="true">
-    <div class="sidebar-header">
+    <div class="sidebar-header" >
         <div class="">
-            <img src="assets/images/logo-icon.png" class="logo-icon-2" alt="" />
+            <img src="assets/images/logoicon.png" class="logo-icon-2" alt=""  />
         </div>
         <div>
-            <h4 class="logo-text">Syndash</h4>
+            <h4 class="logo-text">Dashboard</h4>
         </div>
         <a href="javascript:;" class="toggle-btn ms-auto"> <i class="bx bx-menu"></i>
         </a>

@@ -17,6 +17,7 @@ import model.Certificate_Doctor;
 import model.Degree;
 import model.Degree_Doctor;
 import model.Doctors;
+import model.Services;
 import model.Specialization;
 
 public class DoctorsDAO extends DBContext {
@@ -444,17 +445,41 @@ public class DoctorsDAO extends DBContext {
 
         return statsList;
     }
+    public List<Doctors> getSameSpecializationDoctors(int id) {
+        String query = "SELECT DISTINCT d.*,sp.specialization_name \n"
+                + "FROM Doctors d\n"
+                + "LEFT JOIN Specialization sp ON d.specialization_id = sp.specialization_id\n"
+                + "LEFT JOIN [Services] s ON s.specialization_id = sp.specialization_id\n"
+                + "WHERE d.specialization_id = ?";
+        List<Doctors> list = new ArrayList<>();
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                int specialization_id = rs.getInt("specialization_id");
+                String spe_name = rs.getString("specialization_name");
+                Specialization specialization = new Specialization(specialization_id,spe_name);
+                list.add(new Doctors(rs.getInt("doctor_id"), rs.getString("doctor_name"), rs.getInt("experience_years"), 
+                        rs.getString("profile_image"), rs.getDouble("rating"), rs.getString("gender"), rs.getString("dob"), rs.getString("address"), specialization, null));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
+        ServiceDao dao1 = new ServiceDao();
 //        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");
 //        for (Doctors doctors : li) {
 //            System.out.println(doctors);
 //        }
 //    
-        List<Object[]> list = dao.getDoctorStats("2025-02-20", "2025-03-03");
-        for (Object[] slots : list) {
-            System.out.println(Arrays.toString(slots));
+        Services service = dao1.getOnlyServiceById(1);
+        List<Doctors> list = dao.getSameSpecializationDoctors(service.getSpecialization().getSpecialization_id());
+        for (Doctors slots : list) {
+            System.out.println(slots);
         }
 
 //        Doctors doc = new Doctors();

@@ -5,6 +5,11 @@
 
 package controller.admin;
 
+import dal.AccountDAO;
+import dal.AdminDAO;
+import dal.AppointmentDAO;
+import dal.DoctorsDAO;
+import dal.ServiceDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +17,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Account;
+import model.Appointments;
+import model.Doctors;
+import model.Services;
 
 /**
  *
@@ -55,6 +65,20 @@ public class AdminDashboard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        AdminDAO aDao = new AdminDAO();
+        DoctorsDAO dDao = new DoctorsDAO();
+        ServiceDao sDao = new ServiceDao();
+        AccountDAO accDao = new AccountDAO();
+        List<Services> sList = sDao.getAllServicesOnly();
+        List<Doctors> dList = dDao.getAllDoctors();
+        int cusCount = aDao.getCountCustomer(); 
+        int saleCount =  aDao.getCountSale();
+        int supportCount = aDao.getCountCustomerSupport();
+        request.setAttribute("cusCount", cusCount);
+        request.setAttribute("saleCount", saleCount);
+        request.setAttribute("supportCount", supportCount);
+        request.setAttribute("serviceCount", sList.size());
+        request.setAttribute("doctorCount", dList.size());
         request.getRequestDispatcher("/admin/AdminDashBoard.jsp").forward(request, response);
     } 
     

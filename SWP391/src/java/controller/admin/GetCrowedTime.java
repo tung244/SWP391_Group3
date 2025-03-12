@@ -4,7 +4,8 @@
  */
 package controller.admin;
 
-import dal.AppointmentDAO;
+import com.google.gson.Gson;
+import dal.AdminDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,16 +13,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  *
- * @author DELL
+ * @author APC
  */
-@WebServlet(name = "AppointmentStats", urlPatterns = {"/admin/AppointmentStats"})
-public class AppointmentStats extends HttpServlet {
+@WebServlet(name = "GetCrowedTime", urlPatterns = {"/admin/GetCrowedTime"})
+public class GetCrowedTime extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class AppointmentStats extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AppointmentStats</title>");
+            out.println("<title>Servlet GetCrowedTime</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AppointmentStats at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet GetCrowedTime at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,25 +64,35 @@ public class AppointmentStats extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        String start = request.getParameter("start");
-        String end = request.getParameter("end");
+        AdminDAO dao = new AdminDAO();
+        List<Object[]> data = dao.getCrowedTime(); // Lấy dữ liệu từ database
 
-        AppointmentDAO dao = new AppointmentDAO();
-        List<Object[]> stats = dao.getAppointmentStats(start, end);
-
-        JSONArray jsonArray = new JSONArray();
-        for (Object[] row : stats) {
-            JSONObject json = new JSONObject();
-            json.put("service", row[0]);
-            json.put("totalAppointments", row[1]);
-            json.put("totalRevenue", row[2]);
-            json.put("success_rate", row[3]);
-            json.put("cancel_rate", row[4]);
-            json.put("average_rating", row[5]);
-            jsonArray.put(json);
+        // Chuyển dữ liệu thành danh sách đối tượng JSON
+        List<SlotStatistics> slotStats = new ArrayList<>();
+        for (Object[] row : data) {
+            slotStats.add(new SlotStatistics(
+                    (String) row[0], // start_time
+                    (String) row[1], // end_time
+                    (int) row[2] // total_appointments
+            ));
         }
 
-        response.getWriter().write(jsonArray.toString());
+        // Chuyển danh sách thành JSON và gửi về client
+        String json = new Gson().toJson(slotStats);
+        response.getWriter().write(json);
+    }
+
+    class SlotStatistics {
+
+        String start_time;
+        String end_time;
+        int total_appointments;
+
+        public SlotStatistics(String start_time, String end_time, int total_appointments) {
+            this.start_time = start_time;
+            this.end_time = end_time;
+            this.total_appointments = total_appointments;
+        }
     }
 
     /**
