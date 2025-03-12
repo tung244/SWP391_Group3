@@ -96,7 +96,7 @@
                                                             <button><a style="color: black" href="certificateDetail?did=${doctor.doctor_id}">Certificate Detail</a></button>
                                                             <button><a style="color: black" href="editDoctorProfile?did=${doctor.doctor_id}">Edit Profile</a></button>
                                                             <button><a style="color: black" href="addDegree?did=${doctor.doctor_id}">Add Degree</a></button>
-                                                            <button><a style="color: black" href="">Edit Certificate</a></button>
+<!--                                                            <button><a style="color: black" href="">Edit Certificate</a></button>-->
                                                         </div>
                                                         <!-- Personal Details -->
                                                         <div class="row mb-4">

@@ -19,20 +19,7 @@ INSERT INTO Degree (degree_name) VALUES
 (N'Phó giáo sư'),
 (N'Giáo sư');
 
--- Insert data into Degree
-INSERT INTO Degree_Doctor (doctor_id, degree_id) VALUES
-(1,1),
-(1,4),
-(2,2),
-(2,5),
-(2,6),
-(3,3),
-(3,5),
-(3,7),
-(4,1),
-(4,3),
-(5,2),
-(5,5);
+
 
 
 

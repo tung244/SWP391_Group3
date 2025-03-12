@@ -68,12 +68,23 @@
                                                                         <fmt:parseDate value="${lde.date_degree}" pattern="yyyy-MM-dd" var="parsedDate" />
                                                                         <fmt:formatDate value="${parsedDate}" pattern="dd/MM/yyyy"/></h6>
                                                                     <h6 class="text-muted mb-0"><i class='bx bxs-map'></i>${lde.issued_by}</h6>
-                                                                    <h6 class="text-muted mb-0">
-                                                                        <a href="#" title="Update" data-bs-toggle="modal" data-bs-target="#updateModal" 
-                                                                           onclick="loadUpdateModal('${lde.degree_id}', '${lde.doctor_id}', '${lde.degree_image}', '${lde.issued_by}')">
-                                                                            <i class="fas fa-edit">Edit Degree</i>
-                                                                        </a>
-                                                                    </h6>
+                                                                    <h6 class="text-muted mb-0"><i class='bx bxs-save'></i>${lde.status}</h6>
+                                                                        <c:if test="${lde.status eq 'Accept'}">
+                                                                        <h6 class="text-muted mb-0">
+                                                                            <a href="#" title="Update" 
+                                                                               data-bs-toggle="modal" 
+                                                                               data-bs-target="#updateModal" 
+                                                                               data-degree-id="${lde.degree_id}" 
+                                                                               data-doctor-id="${lde.doctor_id}" 
+                                                                               data-dateDegree="${lde.date_degree}" 
+                                                                               data-degree-image="${lde.degree_image}" 
+                                                                               data-issued-by="${lde.issued_by}"
+                                                                               data-version="${lde.version}"
+                                                                               class="edit-degree">
+                                                                                <i class="fas fa-edit">Edit Degree</i>
+                                                                            </a>
+                                                                        </h6>
+                                                                    </c:if>
                                                                     <img src=".${lde.degree_image}" class="img-thumbnail" alt="Degree Image">
                                                                 </div> 
 
@@ -106,7 +117,7 @@
     <!--end page-content-wrapper-->
 
     <!--Edit modal-->
-    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true"  >
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -115,12 +126,15 @@
                 </div>
                 <div class="modal-body" id="updateModalContent">
                     <!-- Update form -->
-                    <form id="updateForm">
+                    <form id="updateForm" enctype="multipart/form-data" >
                         <input type="hidden" id="degreeId" name="degreeId">
                         <input type="hidden" id="doctorId" name="doctorId">
-                        <input type="hidden" id="DegreeImage" name="DegreeImage">
+                        <input type="hidden" id="dateDegree" name="dateDegree"/>
+                        <input type="hidden" id="version" name="version"/>
                         <div class="mb-3">
-                            <img src="" width="width" height="height" alt="Degree Photo"/>
+
+                            <img style="margin-left: 35%" id="degreePhoto" src="" width="350" height="350" alt="Degree Photo"/>
+                            </br>
                             <label for="updateDegreeImage" class="form-label">Degree Image</label>
                             <input type="file" name="updateDegreeImage" id="updateDegreeImage" class="form-control" >
                         </div>
@@ -177,53 +191,82 @@
                                 buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
                             });
                             table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
-                        });
-</script>
+                        });</script>
 <!-- App JS -->
 <script src="../admin/assets/js/app.js"></script>
-</body>
 <script>
-                        function loadUpdateModal(degreeId, doctorId, degreeImage, degreeIssuedBy) {
-                            document.getElementById("degreeId").value = degreeId;
-                            document.getElementById("doctorId").value = doctorId;
-                            document.getElementById("DegreeImage").value = degreeImage;
-                            document.getElementById("updateDegreeIssuedBy").value = degreeIssuedBy;
-                        }
+
+                        document.addEventListener("DOMContentLoaded", function () {
+                            document.querySelectorAll(".edit-degree").forEach(function (button) {
+                                button.addEventListener("click", function () {
+                                    let degreeId = this.getAttribute("data-degree-id");
+                                    let doctorId = this.getAttribute("data-doctor-id");
+                                    let degreeImage = this.getAttribute("data-degree-image");
+                                    let issuedBy = this.getAttribute("data-issued-by");
+                                    let dateDegree = this.getAttribute("data-dateDegree");
+                                    let dataVersion = this.getAttribute("data-version");
+                                    console.log("Degree ID:", degreeId);
+                                    console.log("Doctor ID:", doctorId);
+                                    console.log("Degree Image:", degreeImage);
+                                    console.log("Issued By:", issuedBy);
+                                    console.log("Degree Date:", dateDegree);
+                                    console.log("dataVersion", dataVersion);
+                                    // Gán giá trị vào modal
+                                    document.getElementById("degreeId").value = degreeId;
+                                    document.getElementById("doctorId").value = doctorId;
+                                    document.getElementById("degreePhoto").src = "." + degreeImage;
+                                    document.getElementById("updateDegreeIssuedBy").value = issuedBy;
+                                    document.getElementById("dateDegree").value = dateDegree;
+                                    document.getElementById("version").value = dataVersion;
+                                });
+                            });
+                        });
 
                         function updateDegree() {
-                            var degreeId = document.getElementById("degreeId").value;
-                            var doctorId = document.getElementById("doctorId").value;
-                            var degreeImage = document.getElementById("DegreeImage").value;
-                            var updateDegreeIssuedBy = document.getElementById("updateDegreeIssuedBy").value;
-                            var updateDegreeImage = document.getElementById("updateDegreeImage").value;
-
-                            console.log("Sending request with Degree ID:", degreeId);
-                            console.log("doctorId", doctorId);
-                            console.log("degreeImage:", degreeImage);
-                            console.log("updateDegreeIssuedBy", updateDegreeIssuedBy);
-                            console.log("updateDegreeImage", updateDegreeImage);
-
-
-                            $.ajax({
-                            url: 'degreeDetail',
-                                    type: 'POST',
-                                    data: {degreeId: degreeId,
-                                            doctorId: doctorId,
-                                            degreeImage: degreeImage,
-                                            updateDegreeIssuedBy: updateDegreeIssuedBy,
-                                            updateDegreeImage: updateDegreeImage,
-                                    }
-                            success: function (response) {
-                            alert("Send request update degree updated successfully!");
-                                    $("#updateModal").modal("hide");
-                                    location.reload(); // Load lại danh sách
-                            },
-                                    error: function () {
-                                    alert("Error adding degree!");
-                                    }
-                            });
-
-
+                            // Lấy giá trị từ modal
+                            let degreeId = document.getElementById("degreeId").value;
+                            let doctorId = document.getElementById("doctorId").value;
+                            let degreeImage = document.getElementById("degreePhoto").src;
+                            let issuedBy = document.getElementById("updateDegreeIssuedBy").value;
+                            let updateDegreeImageInput = document.getElementById("updateDegreeImage");
+                            let updateDegreeImage = updateDegreeImageInput.files[0]; // Lấy file thực tế
+                            let dateDegree = document.getElementById("dateDegree").value;
+                            let version = document.getElementById("version").value;
+                            // Đối tượng dữ liệu gửi lên server
+                            let formData = new FormData();
+                            formData.append("degreeId", degreeId);
+                            formData.append("doctorId", doctorId);
+                            formData.append("degreeImage", degreeImage);
+                            formData.append("issuedBy", issuedBy);
+                            formData.append("version", version);
+                            if (updateDegreeImage) {
+                                formData.append("updateDegreeImage", updateDegreeImage);
+                            }
+                            formData.append("dateDegree", dateDegree);
+                            console.log(updateDegreeImage);
+                            fetch("degreeDetail", {
+                                method: "POST",
+                                body: formData
+                            })
+                                    .then(response => response.text()) // Thay vì .json()
+                                    .then(data => {
+                                        try {
+                                            let jsonData = JSON.parse(data); // Chuyển đổi thành JSON
+                                            if (jsonData.success) {
+                                                alert("Send requirement update degree successfully!");
+                                                location.reload(); // Load lại trang để hiển thị dữ liệu mới
+                                            } else {
+                                                alert("Send requirement update degree fail!");
+                                            }
+                                        } catch (error) {
+                                            console.error("Response is not valid JSON:", data); // Debug phản hồi từ server
+                                        }
+                                    })
+                                    .catch(error => console.error("Fail to update:", error));
                         }
+
 </script>
+
+</body>
+
 </html>

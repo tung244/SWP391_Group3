@@ -8,7 +8,7 @@ package model;
  * 
  */
 public class Degree_Doctor {
-
+    private int degree_doctor_id;
     private int doctor_id;
     private int degree_id;
     private String degree_image;
@@ -18,10 +18,27 @@ public class Degree_Doctor {
     private String issued_by;
     private Doctors doctor;   
     private Degree degree;
+    private int version;
 
     public Degree_Doctor() {
     }
 
+    public Degree_Doctor(int degree_doctor_id, int doctor_id, int degree_id, String degree_image, String date_degree, String date_change, String status, String issued_by, Doctors doctor, Degree degree, int version) {
+        this.degree_doctor_id = degree_doctor_id;
+        this.doctor_id = doctor_id;
+        this.degree_id = degree_id;
+        this.degree_image = degree_image;
+        this.date_degree = date_degree;
+        this.date_change = date_change;
+        this.status = status;
+        this.issued_by = issued_by;
+        this.doctor = doctor;
+        this.degree = degree;
+        this.version = version;
+    }
+
+  
+    
     public Degree_Doctor(int doctor_id, int degree_id, String degree_image, String date_degree, String date_change, String status, String issued_by, Degree degree) {
         this.doctor_id = doctor_id;
         this.degree_id = degree_id;
@@ -44,16 +61,32 @@ public class Degree_Doctor {
         this.doctor = doctor;
         this.degree = degree;
     }
-    
-    
 
-    
     public Degree_Doctor(int doctor_id, int degree_id, String degree_image, Degree degree) {
         this.doctor_id = doctor_id;
         this.degree_id = degree_id;
         this.degree_image = degree_image;
         this.degree = degree;
     }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    
+    public int getDegree_doctor_id() {
+        return degree_doctor_id;
+    }
+
+    public void setDegree_doctor_id(int degree_doctor_id) {
+        this.degree_doctor_id = degree_doctor_id;
+    }
+    
+    
 
     public String getDate_degree() {
         return date_degree;
@@ -130,8 +163,13 @@ public class Degree_Doctor {
 
     @Override
     public String toString() {
-        return "Degree_Doctor{" + "doctor_id=" + doctor_id + ", degree_id=" + degree_id + ", degree_image=" + degree_image + ", date_degree=" + date_degree + ", date_change=" + date_change + ", status=" + status + ", issued_by=" + issued_by + ", doctor=" + doctor + ", degree=" + degree + '}';
+        return "Degree_Doctor{" + "degree_doctor_id=" + degree_doctor_id + ", doctor_id=" + doctor_id + ", degree_id=" + degree_id + ", degree_image=" + degree_image + ", date_degree=" + date_degree + ", date_change=" + date_change + ", status=" + status + ", issued_by=" + issued_by + ", doctor=" + doctor + ", degree=" + degree + ", version=" + version + '}';
     }
+
+    
+
+    
+    
 
    
 
