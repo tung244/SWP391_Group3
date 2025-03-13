@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/BlogDAO.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/CreateBlog.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/blog/Blog_DashBoard.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/Update_Blog.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/Blog_DashBoard.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/blog/Update_Blog.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/Common/Navbar.jsp</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/DemoBlog.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/blog/Save_Blog.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/blog/Create_Blog.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/blog/DemoPost.java</file>
         </group>
     </open-files>

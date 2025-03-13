@@ -134,10 +134,8 @@
                             <div class="form-group">
                                 <label for="title_meta" class="form-label">Tiêu đề bài viết:</label>
                                 <input type="text" id="title_meta" name="title_meta" class="form-control" placeholder="Nhập tiêu đề bài viết"
-                                       
-                                       <c:if test="${sessionScope.tieudeMeta eq not null}">
-                                           value="${tieudeMeta}"
-                                       </c:if>/>
+                                       value="${sessionScope.tieudeMeta}"
+                                       />
                             </div>
 
                             <!-- Thumbnail Image Upload -->
@@ -146,7 +144,12 @@
                                 <div class="custom-file-upload">
                                     <label for="thumbnail_image" class="file-upload-label">
                                         <span class="upload-icon"><i class='bx bx-upload'></i></span>
-                                        <span class="upload-text">Chọn ảnh hoặc kéo thả vào đây</span>
+                                            <c:if test="${empty sessionScope.linkThumb}">
+                                            <span class="upload-text">Chọn ảnh hoặc kéo thả vào đây</span></c:if>
+                                        <c:if test="${not empty sessionScope.linkThumb}">
+                                            <span class="upload-text">${sessionScope.linkThumb}</span>
+
+                                        </c:if>
                                     </label>
                                     <input type="file" id="thumbnail_image" name="thumbnail_image"/>
                                 </div>
@@ -158,7 +161,10 @@
                                     </div>
                                     <img id="preview" src="" alt="Preview"/>
                                 </div>
+
+
                             </div>
+
 
                             <div id="toolbar-container"></div>
                             <div style="height: 800px; border: 1px solid lightslategray" id="editor"></div>
@@ -194,7 +200,7 @@
             <!--End Back To Top Button-->
             <!--footer -->
             <!-- end footer -->
-            
+
         </div>
         <jsp:include page="Common/Message.jsp"/>
         <jsp:include page="Common/Js.jsp"/>
@@ -219,7 +225,7 @@
                         editorInstance = editor;
                         document.querySelector('#toolbar-container')
                                 .appendChild(editor.ui.view.toolbar.element);
-                        let postContent = '${sessionScope.postContent}'; 
+                        let postContent = '${sessionScope.postContent}';
                         if (postContent.trim() !== "") {
                             editorInstance.setData(postContent);
                         }
@@ -227,7 +233,7 @@
                     .catch(error => {
                         console.error('CKEditor lỗi:', error);
                     });
-
+            // gán dl ckeditor vô thẻ input mà cho hidden        
             document.getElementById('formSubmitBlog').addEventListener('submit', function () {
                 document.getElementById('postContent').value = editorInstance.getData();
             });

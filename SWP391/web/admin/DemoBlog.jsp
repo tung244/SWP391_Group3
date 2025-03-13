@@ -1,8 +1,3 @@
-<%-- 
-    Document   : DemoBlog
-    Created on : Mar 5, 2025, 8:10:19 PM
-    Author     : fptshop
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

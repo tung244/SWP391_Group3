@@ -68,7 +68,7 @@
                 <li> <a href="create_blog"><i class="bx bx-right-arrow-alt"></i>Tạo Blog</a>
                 </li>
                 
-                <li> <a href="form-layouts.html"><i class="bx bx-right-arrow-alt"></i>Forms Layouts</a>
+<!--                <li> <a href="form-layouts.html"><i class="bx bx-right-arrow-alt"></i>Forms Layouts</a>
                 </li>
                 <li> <a href="form-validations.html"><i class="bx bx-right-arrow-alt"></i>Form Validation</a>
                 </li>
@@ -81,7 +81,7 @@
                 <li> <a href="form-date-time-pickes.html"><i class="bx bx-right-arrow-alt"></i>Date Pickers</a>
                 </li>
                 <li> <a href="form-select2.html"><i class="bx bx-right-arrow-alt"></i>Select2</a>
-                </li>
+                </li>-->
             </ul>
         </li>
         <li>
