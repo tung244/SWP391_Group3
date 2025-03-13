@@ -6,6 +6,7 @@ package controller.admin.blog;
 
 import bo.GetFormatDate;
 import consts.ConfigWeb;
+import dal.BlogDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,10 +20,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Normalizer;
+import model.Blog;
 import org.json.JSONObject;
 
 @WebServlet(name = "Save_Draft", urlPatterns = {"/admin/save_draft"})
 public class Save_Draft extends HttpServlet {
+
+    private BlogDAO bdao = new BlogDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,7 +48,7 @@ public class Save_Draft extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     @Override
@@ -52,48 +56,35 @@ public class Save_Draft extends HttpServlet {
             throws ServletException, IOException {
         String method = request.getParameter("method");
         String account_id = (String) request.getSession().getAttribute("account_id");
-        String ms = ""; String error = "";
-        if ("step1".equals(method)) {  
-            String[] s = new String[5];
-            s[0] = request.getParameter("tieude_draft");
-            s[1] = request.getParameter("content_draft");
-            s[2] = "";
-            s[3] = GetFormatDate.getFormString();
-            s[4] = "10";  // sau thay thanh account_id
-            createJsonDraftBlog(s,"10");
-            ms = "Lưu bản nháp thành công !!";
-            response.sendRedirect("blog_dashboard");
-        }
-        
-    }
-    
-    private void createJsonDraftBlog(String[] blogDraft, String account_id){
-        JSONObject obj = new JSONObject();
-        String file = normalizeString(blogDraft[0]);
-        Path path = Paths.get(ConfigWeb.FOLDER_TEMP_BLOG + File.separator+ account_id+"_" +file+ normalizeString(GetFormatDate.getFormString())+".json");
-        obj.put("title", blogDraft[0]);
-        obj.put("content", blogDraft[1]);
-        obj.put("image_blog", blogDraft[2]);
-        obj.put("created_date_blog", blogDraft[3]);
-        obj.put("author_id", blogDraft[4]);
-        try {
-            // Ghi JSON vào file (file tự động tạo nếu chưa có)
-            Files.write(path, obj.toString(4).getBytes(StandardCharsets.UTF_8));
-            System.out.println("Dữ liệu đã ghi vào file.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    private String normalizeString(String str){
-        str = str.length() >=15 ? str.substring(0, 15) : str;
-        String str2 = str.replaceAll("[\\\\/:*?\"<>|]", "");
-        String normalize = Normalizer.normalize(str2, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-        return normalize.replace(" ", "_");
-    }
-   
+        String content = request.getParameter("content_draft");
+        String tieude = request.getParameter("tieude_draft");
 
-    
+        String ms = "";
+        String error = "";
+        System.out.println(content);
+        System.out.println(tieude);
+        if ("step1".equals(method)) {
+            Blog b = new Blog(content, 10,
+                    GetFormatDate.getFormString(),
+                    tieude,
+                    "",
+                    ConfigWeb.STATUS_DRAFT_BLOG);
+            if (bdao.saveDraftBlog(b)) {
+                ms = "Lưu bản nháp thành công !!";
+                request.getSession().setAttribute("ms", ms);
+                response.sendRedirect("blog_dashboard");
+            }
+            else{
+                
+                error = "Lưu bản nháp không thành công !!";
+                request.getSession().setAttribute("error", error);
+                response.sendRedirect("blog_dashboard");
+            }
+            
+        }
+
+    }
+
     @Override
     public String getServletInfo() {
         return "Short description";

@@ -35,12 +35,19 @@ public class Blog_DashBoard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String type = request.getParameter("type");
-        int sizeDraft = loadFileNameWithAccount_id("10").size();
-        int sizePublic = blog.loadSizeBlog("10");
 
-        
-        
+        int sizeDraft = blog.loadSizeBlog("10", ConfigWeb.STATUS_DRAFT_BLOG);
+        int sizePublic = blog.loadSizeBlog("10", ConfigWeb.STATUS_PUBLIC_BLOG);
+
+        String[] info = getInfo(request);
+
+        List<Blog> list = blog.filterBlog(info);
+        int numberPage = calculatePage(blog.calculateTotalBlog(info));
+        System.out.println(blog.calculateTotalBlog(info));
+        System.out.println(numberPage);
+
+        request.setAttribute("numberPage", numberPage);
+        request.setAttribute("list", list);
         request.setAttribute("sizeDraft", sizeDraft);
         request.setAttribute("sizePublic", sizePublic);
         request.setAttribute("total", sizeDraft + sizePublic);
@@ -48,41 +55,20 @@ public class Blog_DashBoard extends HttpServlet {
         request.getRequestDispatcher("Blog_DashBoard.jsp").forward(request, response);
     }
 
-    private List<String> loadFileNameWithAccount_id(String author_id) {
-        File folder = new File(ConfigWeb.FOLDER_TEMP_BLOG);
-        List<String> matchedFiles = new ArrayList<>();
-
-        if (folder.exists() && folder.isDirectory()) {
-            File[] files = folder.listFiles((dir, name) -> name.startsWith(author_id + "_") && name.endsWith(".json"));
-
-            if (files != null) {
-                for (File file : files) {
-                    matchedFiles.add(file.getName());
-                }
-            }
-        }
-        return matchedFiles;
+    private int calculatePage(int size) {
+        int batch = 2;
+        return (int) Math.ceil((double) size / batch);
     }
 
-    public List<Blog> loadData(String author_id) {
-        List<String> nameFile = loadFileNameWithAccount_id(author_id);
-        List<Blog> list = new ArrayList<>();
-        for (String string : nameFile) {
-            String path = ConfigWeb.FOLDER_TEMP_BLOG + File.separator + string;
-            try {
-                String contentJson = Files.readString(Paths.get(path));
-                JSONObject obj = new JSONObject(contentJson);
-                Blog b = new Blog(obj.getString("content"),
-                        obj.getInt("author_id"),
-                        obj.getString("created_date_blog"),
-                        obj.getString("title"),
-                        obj.getString("image_blog"));
-                list.add(b);
+    private String[] getInfo(HttpServletRequest request) {
 
-            } catch (Exception e) {
-            }
-        }
-        return list;
+        String type = request.getParameter("type");
+        String search = request.getParameter("search");
+        String page = request.getParameter("page");
+        String pageNew = page == null ? "1" : page;
+        String dateFrom = request.getParameter("dateFrom");
+        String dateTo = request.getParameter("dateTo");
+        return new String[]{type, search, pageNew, dateFrom, dateTo};
     }
 
     @Override

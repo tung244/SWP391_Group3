@@ -1,9 +1,5 @@
-<%-- 
-    Document   : Blog_DashBoard
-    Created on : Mar 9, 2025, 10:56:49 PM
-    Author     : fptshop
---%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
@@ -12,7 +8,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <jsp:include page="Common/Css.jsp"/>
         <style>
-            /* Chỉ áp dụng cho giao diện dashboard */
             .dashboard-header {
                 display: flex;
                 justify-content: space-between;
@@ -27,25 +22,8 @@
                 border-radius: 0.25rem;
                 border: none;
                 cursor: pointer;
-                font-weight: 500;
-                display: inline-flex;
-                align-items: center;
-                gap: 0.5rem;
             }
 
-            .dashboard-btn-outline {
-                background-color: transparent;
-                border: 1px solid #cbd5e1;
-                padding: 0.5rem 1rem;
-                border-radius: 0.25rem;
-                cursor: pointer;
-                font-weight: 500;
-                display: inline-flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            /* Stats Section */
             .stats-container {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -60,84 +38,15 @@
                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             }
 
-            .stat-title {
-                color: #64748b;
-                font-size: 0.875rem;
-                margin-bottom: 0.5rem;
-                text-transform: uppercase;
-            }
-
-            .stat-value {
-                font-size: 2rem;
-                font-weight: 700;
-            }
-
-            .stat-change {
-                display: flex;
-                align-items: center;
-                margin-top: 0.5rem;
-                font-size: 0.875rem;
-            }
-
-            .increase {
-                color: #10b981;
-            }
-
-            .decrease {
-                color: #ef4444;
-            }
-
-            /* Tabs Section */
-            .blog-tabs {
-                display: flex;
-                border-bottom: 1px solid #e2e8f0;
-                margin-bottom: 1.5rem;
-            }
-
-            .blog-tab {
-                padding: 0.75rem 1rem;
-                cursor: pointer;
-                color: #64748b;
-                font-weight: 500;
-                border-bottom: 2px solid transparent;
-            }
-
-            .blog-tab.active {
-                color: rgb(34,139,34);
-                border-bottom: 2px solid rgb(34,139,34);
-            }
-
-            /* Badge */
-            .blog-badge {
-                display: inline-block;
-                padding: 0.25rem 0.5rem;
-                border-radius: 9999px;
-                font-size: 0.75rem;
-                font-weight: 500;
-                margin-left: 0.5rem;
-            }
-
-            .blog-badge-primary {
-                background-color: rgb(34,139,34);
-                color: white;
-            }
-
-            .blog-badge-secondary {
-                background-color: #e2e8f0;
-                color: #64748b;
-            }
-
-            /* Filter Section */
             .filter-section {
                 display: flex;
                 align-items: center;
-                gap: 0.5rem;
+                gap: 1rem;
                 margin-bottom: 1.5rem;
             }
 
             .search-box {
                 position: relative;
-                margin-right: 1rem;
                 flex-grow: 1;
                 max-width: 400px;
             }
@@ -147,7 +56,6 @@
                 padding: 0.5rem 1rem 0.5rem 2.5rem;
                 border-radius: 0.25rem;
                 border: 1px solid #cbd5e1;
-                font-size: 0.875rem;
             }
 
             .search-icon {
@@ -158,13 +66,17 @@
                 color: #94a3b8;
             }
 
-            /* Blog Table */
+            .date-filter input {
+                padding: 0.5rem;
+                border-radius: 0.25rem;
+                border: 1px solid #cbd5e1;
+            }
+
             .blog-table {
                 width: 100%;
                 border-collapse: collapse;
                 background-color: white;
                 border-radius: 0.5rem;
-                overflow: hidden;
                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             }
 
@@ -178,163 +90,23 @@
                 background-color: #f1f5f9;
                 font-weight: 600;
                 color: #64748b;
-                text-transform: uppercase;
-                font-size: 0.75rem;
-            }
-
-            .blog-table tr:last-child td {
-                border-bottom: none;
-                vertical-align: baseline;
-            }
-
-            .text-ellipsis {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 300px;
-            }
-
-            /* Status Badges */
-            .status-badge {
-                display: inline-block;
-                padding: 0.25rem 0.5rem;
-                border-radius: 9999px;
-                font-size: 0.75rem;
-                font-weight: 500;
-            }
-
-            .status-published {
-                background-color: #d1fae5;
-                color: #065f46;
-            }
-
-            .status-draft {
-                background-color: #fee2e2;
-                color: #991b1b;
-            }
-
-            .status-scheduled {
-                background-color: #e0f2fe;
-                color: #0369a1;
-            }
-
-            /* Dropdown */
-            .dropdown {
-                position: relative;
-                display: inline-block;
-            }
-
-            .dropdown-content {
-                display: none;
-                position: absolute;
-                right: 0;
-                background-color: white;
-                min-width: 160px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                z-index: 1;
-                border-radius: 0.25rem;
-                border: 1px solid #e2e8f0;
-            }
-
-            .dropdown:hover .dropdown-content {
-                display: block;
-            }
-
-            .dropdown-item {
-                padding: 0.75rem 1rem;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                cursor: pointer;
-                transition: background-color 0.2s;
-            }
-
-            .dropdown-item:hover {
-                background-color: #f1f5f9;
-            }
-
-            /* Chips */
-            .chip {
-                display: inline-block;
-                padding: 0.25rem 0.5rem;
-                border-radius: 9999px;
-                font-size: 0.75rem;
-                background-color: #e2e8f0;
-                color: #475569;
-                margin-right: 0.25rem;
-                margin-bottom: 0.25rem;
-            }
-
-            /* Pagination */
-            .blog-pagination {
-                display: flex;
-                justify-content: flex-end;
-                margin-top: 1.5rem;
-            }
-
-            .pagination-item {
-                padding: 0.5rem 0.75rem;
-                border: 1px solid #e2e8f0;
-                margin-left: -1px;
-                cursor: pointer;
-                background-color: white;
-            }
-
-            .pagination-item:first-child {
-                border-top-left-radius: 0.25rem;
-                border-bottom-left-radius: 0.25rem;
-            }
-
-            .pagination-item:last-child {
-                border-top-right-radius: 0.25rem;
-                border-bottom-right-radius: 0.25rem;
-            }
-
-            .pagination-item.active {
-                background-color: rgb(34,139,34);
-                color: white;
-                border-color: rgb(34,139,34);
             }
 
             @media (max-width: 768px) {
-                .stats-container {
-                    grid-template-columns: 1fr;
-                }
-
-                .dashboard-header {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 1rem;
-                }
-
                 .filter-section {
-                    flex-wrap: wrap;
+                    flex-direction: column;
+                    align-items: stretch;
                 }
-
                 .search-box {
                     max-width: 100%;
-                    margin-right: 0;
-                }
-
-                .blog-table th, .blog-table td {
-                    padding: 0.75rem 0.5rem;
-                }
-
-                .text-ellipsis {
-                    max-width: 150px;
                 }
             }
         </style>
     </head>
     <body>
         <div class="wrapper">
-            <!--sidebar-wrapper-->
             <jsp:include page="Common/Navbar.jsp"/>
-            <!--end sidebar-wrapper-->
-            <!--header-->
             <jsp:include page="Common/Search.jsp"/>
-            <!--end header-->
-            <!--page-wrapper-->
             <div class="page-wrapper">
                 <div style="padding: 0" class="page-content-wrapper">
                     <div style="background-color: white" class="page-content">
@@ -348,101 +120,155 @@
 
                             <div class="stats-container">
                                 <div class="stat-card">
-                                    <h3 class="stat-title">Tổng số bài viết</h3>
-                                    <div class="stat-value">${total}</div>
-
+                                    <h4>Tổng số bài viết</h4>
+                                    <div style="font-size: 25px">${total}</div>
                                 </div>
                                 <div class="stat-card">
-                                    <h3 class="stat-title">Bài viết đã xuất bản</h3>
-                                    <div class="stat-value">${sizePublic}</div>
-
+                                    <h4>Bài viết đã xuất bản</h4>
+                                    <div style="font-size: 25px">${sizePublic}</div>
                                 </div>
                                 <div class="stat-card">
-                                    <h3 class="stat-title">Bản nháp</h3>
-                                    <div class="stat-value">${sizeDraft}</div>
-
+                                    <h4>Bản nháp</h4>
+                                    <div style="font-size: 25px">${sizeDraft}</div>
                                 </div>
                                 <div class="stat-card">
-                                    <h3 class="stat-title">Tổng lượt xem</h3>
-                                    <div class="stat-value">42,591</div>
+                                    <h4>Tổng lượt xem</h4>
+                                    <div style="font-size: 25px">42,591</div>
                                 </div>
                             </div>
 
-                            <div class="blog-tabs">
-                                <div class="blog-tab active">Tất cả <span class="blog-badge blog-badge-primary">${total}</span></div>
-                                <div class="blog-tab">Đã xuất bản <span class="blog-badge blog-badge-secondary">${sizePublic}</span></div>
-                                <div class="blog-tab">Bản nháp <span class="blog-badge blog-badge-secondary">${sizeDraft}</span></div>
-
-                            </div>
-
-                            <div class="filter-section">
+                            <!-- Filter Section -->
+                            <form action="blog_dashboard" method="get" class="filter-section">
+                                <div class="status-filter">
+                                    <label>Loại:</label>
+                                    <select style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px" name="type" onchange="this.form.submit()" class="status-select">
+                                        <option value="All">Tất cả</option>
+                                        <option value="Public">Đã xuất bản</option>
+                                        <option value="Draft">Bản nháp</option>
+                                    </select>
+                                </div>
                                 <div class="search-box">
                                     <span class="search-icon">🔍</span>
-                                    <input type="text" placeholder="Tìm kiếm bài viết...">
+                                    <input type="text" name="search" placeholder="Tìm kiếm tiêu đề..." 
+                                           value="${param.search}">
                                 </div>
+                                <div class="date-filter">
+                                    <label for="dateFrom">From:</label>
+                                    <input type="date" name="dateFrom" value="${param.dateFrom}">
+                                </div>
+                                <div class="date-filter">
+                                    <label for="dateTo">To:</label>
+                                    <input type="date" name="dateTo" value="${param.dateTo}">
+                                </div>
+                                <button type="submit" class="dashboard-btn-primary">Lọc</button>
+                            </form>
 
-                                <button class="dashboard-btn-outline">
-                                    Tác giả
-                                    <span>▼</span>
-                                </button>
+                            <div style="box-shadow: none" class="card">
+                                <div style="padding:0;" class="card-body">
+                                    <div style="min-height: 300px;" class="table-responsive">
+                                        <table class="blog-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Tiêu đề</th>
+                                                    <th>Ngày tạo</th>
+                                                    <th>Người tạo</th>
+                                                    <th>Tình trạng</th>
+                                                    <th>Lượt xem</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="list" items="${list}">
+                                                    <tr>
+                                                        <td>${list.blog_id}</td>
+                                                        <td>${list.title_meta}</td>
+                                                        <td>${list.created_date_blog}</td>
+                                                        <td>${list.author_name}</td>
+                                                        <td>${list.status_blog}</td>
+                                                        <td>320,800</td>
+                                                        <td>
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-success dropdown-toggle" 
+                                                                        data-bs-toggle="dropdown">
+                                                                    Action
+                                                                </button>
+                                                                <div class="dropdown-menu">
+                                                                    <a class="dropdown-item" href="#">Edit</a>
 
-                                <button class="dashboard-btn-outline">
-                                    Ngày
-                                    <span>▼</span>
-                                </button>
-                            </div>
+                                                                    <a class="dropdown-item" href="javascript:void(0);" data-blog="${list.blog_id}" onclick="confirmDelete(this)">Delete</a>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                        <nav style="margin-top: 20px; display: flex; justify-content: end" aria-label="Page navigation example">
+                                            <ul class="pagination round-pagination">
 
-                            <table style=" min-height: 350px;vertical-align: text-top" class="blog-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 5%;">ID</th>
-                                        <th style="width: 30%;">Tiêu đề</th>
+                                                <li class="page-item"><button onclick="previousPage()" class="page-link">Previous</button>
+                                                </li>
 
-                                        <th style="width: 10%;">Tác giả</th>
-                                        <th style="width: 10%;">Trạng thái</th>
-                                        <th style="width: 15%;">Ngày cập nhật</th>
-                                        <th style="width: 10%;">Lượt xem</th>
-                                        <th style="width: 5%;">Hành động</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                        <td>1</td>
-                                        <td class="text-ellipsis">10 xu hướng thiết kế website mới nhất năm 2025</td>
+                                                <c:forEach var="i" begin="1" end="${numberPage}">
+                                                    <li class="page-item"><button onclick="choosePage(this)" data-index ="${i}" class="page-link" href="blog_dashboard?page=${i}">${i}</button>
+                                                    </li>
+                                                    <input type="hidden" value="${numberPage}" id="numberPage"/>
+                                                </c:forEach>
 
-                                        <td>Nguyễn Văn A</td>
-                                        <td><span class="status-badge status-published">Đã xuất bản</span></td>
-                                        <td>09/03/2025</td>
-                                        <td>5,783</td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Success</button>
-                                                <div class="dropdown-menu">	<a class="dropdown-item" href="#">Action</a>
-                                                    <a class="dropdown-item" href="#">Another action</a>
-                                                    <a class="dropdown-item" href="#">Something else here</a>
-                                                    <div class="dropdown-divider"></div>	<a class="dropdown-item" href="#">Separated link</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-
-                                </tbody>
-                            </table>
-
-                            <div class="blog-pagination">
-                                <div class="pagination-item">«</div>
-                                <div class="pagination-item active">1</div>
-                                <div class="pagination-item">2</div>
-                                <div class="pagination-item">3</div>
-                                <div class="pagination-item">4</div>
-                                <div class="pagination-item">5</div>
-                                <div class="pagination-item">»</div>
+                                                <li class="page-item"><button class="page-link" onclick="nextPage()">Next</button>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
                             </div>
                         </main>
-                    </div></div>
-            </div></div>
-            <jsp:include page="Common/Message.jsp"/>
-            <jsp:include page="Common/Js.jsp"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <jsp:include page="Common/Message.jsp"/>
+        <jsp:include page="Common/Js.jsp"/>
+        <script>
+            function confirmDelete(element) {
+                var blog_id = element.getAttribute("data-blog");
+                if (confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) {
+                    window.location.href = "delete_blog?blog_id=" + blog_id;
+                }
+            }
+            function previousPage() {
+                var param = new URLSearchParams(window.location.search);
+                var page = parseInt(param.get("page"));
+                if (!isNaN(page) && page > 1) {
+                    param.set("page",page-1);
+                    window.location.search = param.toString(); 
+                }
+            }
+            function choosePage(element) {
+                var param = new URLSearchParams(window.location.search);
+                var index = element.getAttribute("data-index");
+
+                if (!index)
+                    return; 
+
+                param.set("page", index); 
+
+                window.location.search = param.toString(); 
+            }
+            function nextPage(){
+                var numberPage = document.getElementById("numberPage").value;
+                
+                var param = new URLSearchParams(window.location.search);
+                var index = parseInt(param.get("page"));
+                if(param.get("page") < numberPage){
+                    param.set("page",index + 1);
+                    window.location.search = param.toString();
+                }
+                
+            }
+
+
+        </script>
     </body>
 </html>

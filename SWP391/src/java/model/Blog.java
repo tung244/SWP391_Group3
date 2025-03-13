@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model;
 
 
@@ -12,7 +9,31 @@ public class Blog {
     private String created_date_blog;
     private String title_meta;
     private String title_image_blog;
+    private String status_blog;
+    private String author_name;
 
+    public Blog(int blog_id, String blog_content, int author_id, String created_date_blog, String title_meta, String title_image_blog, String status_blog, String author_name) {
+        this.blog_id = blog_id;
+        this.blog_content = blog_content;
+        this.author_id = author_id;
+        this.created_date_blog = created_date_blog;
+        this.title_meta = title_meta;
+        this.title_image_blog = title_image_blog;
+        this.status_blog = status_blog;
+        this.author_name = author_name;
+    }
+    
+
+    public Blog(String blog_content, int author_id, String created_date_blog, String title_meta, String title_image_blog, String status_blog) {
+        this.blog_content = blog_content;
+        this.author_id = author_id;
+        this.created_date_blog = created_date_blog;
+        this.title_meta = title_meta;
+        this.title_image_blog = title_image_blog;
+        this.status_blog = status_blog;
+    }
+
+    
     public Blog(int blog_id, String blog_content, int author_id, String created_date_blog, String title_meta, String title_image_blog) {
         this.blog_id = blog_id;
         this.blog_content = blog_content;
@@ -42,6 +63,32 @@ public class Blog {
         this.blog_content = blog_content;
         this.author_id = author_id;
         this.created_date_blog = created_date_blog;
+    }
+
+    public Blog(int blog_id, String blog_content, int author_id, String created_date_blog, String title_meta, String title_image_blog, String status_blog) {
+        this.blog_id = blog_id;
+        this.blog_content = blog_content;
+        this.author_id = author_id;
+        this.created_date_blog = created_date_blog;
+        this.title_meta = title_meta;
+        this.title_image_blog = title_image_blog;
+        this.status_blog = status_blog;
+    }
+
+    public String getAuthor_name() {
+        return author_name;
+    }
+
+    public void setAuthor_name(String author_name) {
+        this.author_name = author_name;
+    }
+
+    public String getStatus_blog() {
+        return status_blog;
+    }
+
+    public void setStatus_blog(String status_blog) {
+        this.status_blog = status_blog;
     }
 
     public String getTitle_meta() {

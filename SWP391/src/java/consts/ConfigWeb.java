@@ -14,4 +14,12 @@ public class ConfigWeb {
     
     public static final String FOLDER_TEMP_BLOG ="F:\\FPT\\SWP391\\SWP391_Group3\\SWP391\\web\\public\\temp";
     
+    
+    public static final String STATUS_DRAFT_BLOG = "Draft";
+    public static final String STATUS_PUBLIC_BLOG = "Public";
+    
+    
+    
+    
+    
 }

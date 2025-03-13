@@ -3,20 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/CreateBlog.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/blog/Save_Draft.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/Blog.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/BlogDAO.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/blog/Blog_DashBoard.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/Blog_DashBoard.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/ImageServices.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/blog/Save_Blog.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/public/temp/10_Tong_Bi_thu_To_2025-03-10_000.json</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/BlogDAO.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/component-buttons.html</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/GetToken.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/consts/ConfigWeb.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/blog/Create_Blog.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/blog/DemoPost.java</file>
         </group>
     </open-files>
 </project-private>

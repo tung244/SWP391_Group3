@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
+
 package controller.admin.blog;
 
 import dal.BlogDAO;
@@ -12,53 +9,55 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Blog;
 
-@WebServlet(name = "Update_Blog", urlPatterns = {"/admin/update_blog"})
-public class Update_Blog extends HttpServlet {
 
+@WebServlet(name="Delete_Blog", urlPatterns={"/admin/delete_blog"})
+public class Delete_Blog extends HttpServlet {
     BlogDAO blog = new BlogDAO();
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Update_Blog</title>");
+            out.println("<title>Servlet Delete_Blog</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Update_Blog at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Delete_Blog at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         String blog_id = request.getParameter("blog_id");
         System.out.println(blog_id);
-        
-        try {
-            int blogId = Integer.parseInt(blog_id);
-            Blog b = blog.loadBlog(blogId);
-            request.setAttribute("blog", b);
-            System.out.println(b.getAuthor_id());
-        } catch (Exception e) {
+        String ms = ""; String error ="";
+        if(blog.deleteBlog(blog_id)){
+            ms = "Xóa bài viết thành công!";
         }
-        
-        request.getRequestDispatcher("Update_Blog.jsp").forward(request, response);
-    }
+        else{
+            error = "Xóa bài viết không thành công !";
+        }
+        request.getSession().setAttribute("ms", ms);
+        request.getSession().setAttribute("error", error);
+        response.sendRedirect("blog_dashboard");
+    } 
 
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
+   
     @Override
     public String getServletInfo() {
         return "Short description";
