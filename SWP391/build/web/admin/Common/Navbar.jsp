@@ -63,10 +63,11 @@
                 <div class="menu-title">Blog</div>
             </a>
             <ul>
-                <li> <a href="create_blog"><i class="bx bx-right-arrow-alt"></i>Create Blog</a>
+                <li> <a href="blog_dashboard"><i class="bx bx-right-arrow-alt"></i>Tổng quan</a>
                 </li>
-                <li> <a href="form-input-group.html"><i class="bx bx-right-arrow-alt"></i>Input Groups</a>
+                <li> <a href="create_blog"><i class="bx bx-right-arrow-alt"></i>Tạo Blog</a>
                 </li>
+                
                 <li> <a href="form-layouts.html"><i class="bx bx-right-arrow-alt"></i>Forms Layouts</a>
                 </li>
                 <li> <a href="form-validations.html"><i class="bx bx-right-arrow-alt"></i>Form Validation</a>

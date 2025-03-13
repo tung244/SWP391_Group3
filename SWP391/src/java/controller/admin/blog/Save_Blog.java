@@ -51,11 +51,17 @@ public class Save_Blog extends HttpServlet {
         String content = request.getParameter("content");
         String tieudeMeta = (String) request.getSession().getAttribute("tieudeMeta");
         String thumb = (String) request.getSession().getAttribute("linkThumb");
+        
         String created_date = GetFormatDate.getFormString();       
 
         String ms = "";
         String error = "";
-        Blog b = new Blog(content, 10, created_date, tieudeMeta,thumb);
+        if(tieudeMeta == null || thumb ==null){
+            error = "Đã có lỗi xảy ra. Vui Lòng thử lại !!";
+            response.sendRedirect("create_blog");
+        }
+        Blog b = new Blog(content, 10, created_date, 
+                tieudeMeta,thumb,"Public");
         if(blog.createBlog(b)){
             ms = "Đăng bài thành công!";
             
@@ -67,6 +73,7 @@ public class Save_Blog extends HttpServlet {
         request.getSession().setAttribute("error", error);
         request.getSession().removeAttribute("tieudeMeta");
         request.getSession().removeAttribute("linkThumb");
+        request.getSession().removeAttribute("postContent");
         response.sendRedirect("create_blog");
     }
 

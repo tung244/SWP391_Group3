@@ -17,9 +17,9 @@ public class BlogDAO extends DBContext {
 
     public boolean createBlog(Blog blog) {
         String sql = "INSERT INTO dbo.Blog\n"
-                + "( blog_content, author_id, created_date_blog,title_meta,title_image_blog)\n"
+                + "( blog_content, author_id, created_date_blog,title_meta,title_image_blog, status_blog)\n"
                 + "VALUES\n"
-                + "( ?, ?, ?,?,?)";
+                + "( ?, ?, ?,?,?,?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, blog.getBlog_content());
@@ -27,6 +27,7 @@ public class BlogDAO extends DBContext {
             st.setString(3, blog.getCreated_date_blog());
             st.setString(4, blog.getTitle_meta());
             st.setString(5, blog.getTitle_image_blog());
+            st.setString(6, blog.getStatus_blog());
             int affect_row = st.executeUpdate();
             if (affect_row == 1) {
                 return true;

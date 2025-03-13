@@ -106,7 +106,7 @@
         <div style="padding-bottom: 200px;" class="boxed_wrapper">
             <div class="container-fluid py-5">
                 <div>
-                    <img src="../images/navbarReview.png" style="width: 100%"/>
+                    <img src="../admin/assets/images/anhDemoPost.png" style="width: 100%"/>
                 </div>
                 <div class="wrapper">
 

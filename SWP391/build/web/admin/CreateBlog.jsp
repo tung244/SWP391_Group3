@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -132,7 +133,11 @@
                             <!-- Title/Meta Input -->
                             <div class="form-group">
                                 <label for="title_meta" class="form-label">Tiêu đề bài viết:</label>
-                                <input type="text" id="title_meta" name="title_meta" class="form-control" placeholder="Nhập tiêu đề bài viết"/>
+                                <input type="text" id="title_meta" name="title_meta" class="form-control" placeholder="Nhập tiêu đề bài viết"
+                                       
+                                       <c:if test="${sessionScope.tieudeMeta eq not null}">
+                                           value="${tieudeMeta}"
+                                       </c:if>/>
                             </div>
 
                             <!-- Thumbnail Image Upload -->
@@ -189,6 +194,7 @@
             <!--End Back To Top Button-->
             <!--footer -->
             <!-- end footer -->
+            
         </div>
         <jsp:include page="Common/Message.jsp"/>
         <jsp:include page="Common/Js.jsp"/>
@@ -213,6 +219,10 @@
                         editorInstance = editor;
                         document.querySelector('#toolbar-container')
                                 .appendChild(editor.ui.view.toolbar.element);
+                        let postContent = '${sessionScope.postContent}'; 
+                        if (postContent.trim() !== "") {
+                            editorInstance.setData(postContent);
+                        }
                     })
                     .catch(error => {
                         console.error('CKEditor lỗi:', error);
@@ -230,11 +240,11 @@
                     const preview = document.getElementById('preview');
                     const previewContainer = document.getElementById('image_preview');
                     const uploadLabel = document.querySelector('.file-upload-label');
-                    
+
 
                     reader.onload = function (e) {
                         preview.src = e.target.result;
-                        
+
                         previewContainer.style.display = 'block';
                         uploadLabel.innerHTML = '<span class="upload-text">' + file.name + '</span>';
                     };
@@ -253,8 +263,8 @@
                 previewContainer.style.display = 'none';
                 uploadLabel.innerHTML = '<span class="upload-icon"><i class="bx bx-upload"></i></span><span class="upload-text">Chọn ảnh hoặc kéo thả vào đây</span>';
             });
-            
-            document.getElementById('formSaveDraft').addEventListener('submit',function (){
+
+            document.getElementById('formSaveDraft').addEventListener('submit', function () {
                 document.getElementById('tieude_draft').value = document.getElementById('title_meta').value;
                 document.getElementById('content_draft').value = editorInstance.getData();
             });
