@@ -156,6 +156,7 @@
                                         </div>
                                         <input type="hidden" name="service" value="${s.service_detail_id}">
                                         <input type="hidden" name="patient" value="${sessionScope.user.account.account_id}">
+                                        <input type="hidden" name="rank" value="${sessionScope.user.rank.rankId}">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <button class="thm-btn bg-1" type="submit">submit</button>   

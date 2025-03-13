@@ -20,8 +20,10 @@ import java.util.logging.Logger;
 import model.Account;
 import model.Appointments;
 import model.Checkout;
+import model.Discount;
 import model.Doctors;
 import model.MedicalHistory;
+import model.Rank;
 import model.ServiceDetail;
 import model.ServiceTypes;
 import model.Services;
@@ -71,10 +73,13 @@ public class AppointmentDAO extends DBContext {
                 + "LEFT JOIN dbo.Slots sl ON a.slot_id = sl.slot_id\n"
                 + "JOIN Customers c ON c.account_id = a.patient_id\n"
                 + "join Accounts acc on acc.account_id = c.account_id\n"
+                + "LEFT JOIN Discount dc on a.discountId = dc.discountId\n"
                 + "WHERE 1=1";
 
         if (id != null && !id.isEmpty()) {
-            sql += " AND a.appointment_id = ?";
+            sql += " AND a.appointment_id = ? Order by a.appointment_date";
+        } else {
+            sql += " Order by a.appointment_date";
         }
 
         try {
@@ -117,7 +122,7 @@ public class AppointmentDAO extends DBContext {
                 int cost = rs.getInt("cost");
                 int service_detail_id = rs.getInt("service_detail_id");
                 ServiceDetail service_detail = new ServiceDetail(service_detail_id, service, serviceType, cost);
-
+                Discount discount = new Discount(rs.getInt("discountId"), rs.getInt("percent"));
                 // Handle patient details
                 int account_id = rs.getInt("patient_id");
                 String email = rs.getString("email");
@@ -126,15 +131,43 @@ public class AppointmentDAO extends DBContext {
                 String fullname = rs.getString("full_name");
                 String address = rs.getString("address");
                 UserProfile user = new UserProfile(account, fullname, address);
-
+                double actualCost = rs.getDouble("actualCost");
                 // Create appointment object
-                Appointments appointment = new Appointments(appointment_id, appointment_date, appointment_status, doctor, slot, service_detail, user);
+                Appointments appointment = new Appointments(appointment_id, appointment_date, appointment_status, doctor, slot, service_detail, user, discount, actualCost);
                 list.add(appointment);
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return list;
+    }
+
+    public List<Appointments> getPaginationAppointment(List<Appointments> list, int start, int end) {
+        List<Appointments> list1 = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            list1.add(list.get(i));
+        }
+        return list1;
+    }
+
+    public Discount getDiscountByRankId(int id) {
+        String query = "select * from Discount d \n"
+                + "join CustomerRank r on d.rankId = r.rankId\n"
+                + "where r.rankId = ?";
+        List<Discount> list = new ArrayList<>();
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Rank rank = new Rank(rs.getInt("rankId"), rs.getString("rankName"));
+                Discount discount = new Discount(rs.getInt("discountId"), rs.getInt("percent"), rank);
+                return discount;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<Appointments> getFilterAppointment(String service_Id, String doctor_Id, String date, String status, String name) {
@@ -259,15 +292,35 @@ public class AppointmentDAO extends DBContext {
     }
 
     public boolean addAppointment(Appointments appointment) {
-        String query = "INSERT INTO Appointment (appointment_date, appointment_status, service_detail_id, patient_id) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO Appointment (appointment_date, appointment_status, service_detail_id, patient_id, discountId,actualCost) VALUES (?, ?, ?, ?,?,?)";
         try {
             ps = connection.prepareStatement(query);
             ps.setDate(1, appointment.getAppointment_date());
             ps.setString(2, appointment.getAppointment_status());
             ps.setInt(3, appointment.getService_detail().getService_detail_id());
             ps.setInt(4, appointment.getUser().getAccount().getAccount_id());
+            ps.setInt(5, appointment.getDiscount().getDiscountId());
+            ps.setDouble(6, appointment.getActualCost());
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean insertCheckout(Checkout checkout) {
+        String query = "INSERT INTO CheckOut (appointment_id,transaction_type,transaction_status,total_bill,"
+                + "checkout_code)values(?,?,?,?,?)";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, checkout.getAppointmentId());
+            ps.setString(2, checkout.getTransactionType());
+            ps.setString(3, checkout.getTransactionStatus());
+            ps.setDouble(4, checkout.getTotalBill());
+            ps.setString(5, checkout.getCheckoutCode());
+            int success = ps.executeUpdate();
+            return success > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -520,10 +573,12 @@ public class AppointmentDAO extends DBContext {
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //        String formattedDate = currentDate.format(formatter);
 
-        List<Appointments> list = dao.getAppointment(null);
-        for (Appointments appointments : list) {
-            System.out.println(appointments);
-        }
+//        List<Discount> list = dao.getDiscountByRankId(1);
+//        for (Discount appointments : list) {
+//            System.out.println(appointments);
+//        }
+        Discount d = dao.getDiscountByRankId(1);
+        System.out.println(d);
 
 //        String date = "03/27/2025";
 //        Date appointment_date = null;

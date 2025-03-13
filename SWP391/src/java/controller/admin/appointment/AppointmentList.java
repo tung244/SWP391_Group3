@@ -71,7 +71,22 @@ public class AppointmentList extends HttpServlet {
         List<Doctors> list1 = dao1.getAllDoctors();
         List<Services> list2 = dao2.getAllServicesOnly();
         List<Appointments> list = dao.getAppointment(null);
-        request.setAttribute("listA", list);
+        int page, numperpage = 20;
+        int size = list.size();
+        int num = (size % numperpage == 0 ? (size / numperpage) : ((size / numperpage) + 1));
+        String xpage = request.getParameter("page");
+        if (xpage == null) {
+            page = 1;
+        } else {
+            page = Integer.parseInt(xpage);
+        }
+        int start, end;
+        start = (page - 1) * numperpage;
+        end = Math.min(page * numperpage, size);
+        List<Appointments> list3 = dao.getPaginationAppointment(list, start, end);
+        request.setAttribute("page", page);
+        request.setAttribute("number", num);
+        request.setAttribute("listA", list3);
         request.setAttribute("listS", list2);
         request.setAttribute("listD", list1);
         request.getRequestDispatcher("AppointmentList.jsp").forward(request, response);
@@ -99,8 +114,9 @@ public class AppointmentList extends HttpServlet {
         String date = request.getParameter("date");
         String status = request.getParameter("status");
 // Xóa khoảng trắng ở đầu và cuối, và giảm bớt khoảng trắng bên trong
-        name = name.trim().replaceAll("\\s+", "");
-
+        if(name!= null){
+           name = name.trim().replaceAll("\\s+", ""); 
+        }
 // Kết hợp các từ lại với nhau
         String[] words = name.split(" ");
         if (words.length > 1) {

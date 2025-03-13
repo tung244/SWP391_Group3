@@ -175,9 +175,9 @@ public class SendMail {
                 return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
             }
         });
-        String paymentLink = "http://localhost:9999/SWP391/payment?id="+appointment.getAppointment_id()+"&cost=5000";
+        String paymentLink = "http://localhost:9999/SWP391/payment?id=" + appointment.getAppointment_id() + "&cost=5000";
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        String formattedCost = currencyFormat.format(appointment.getService_detail().getCost());
+        String formattedCost = currencyFormat.format(appointment.getActualCost());
         try {
             MimeMessage message = new MimeMessage(session);
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(appointment.getUser().getAccount().getEmail()));
@@ -245,8 +245,9 @@ public class SendMail {
                 return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
             }
         });
+        String billLink = "http://localhost:9999/SWP391/Invoice?appointment=" + appointment.getAppointment_id();
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        String formattedCost = currencyFormat.format(appointment.getService_detail().getCost());
+        String formattedCost = currencyFormat.format(appointment.getActualCost());
         try {
             MimeMessage message = new MimeMessage(session);
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(appointment.getUser().getAccount().getEmail()));
@@ -256,6 +257,7 @@ public class SendMail {
             String emailContent = "<html>\n"
                     + "<head>\n"
                     + "    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>\n"
+                    + "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css\">"
                     + "    <style>\n"
                     + "        body { font-family: Arial, sans-serif; }\n"
                     + "        .email-container { width: 100%; padding: 20px; background-color: #f4f4f4; text-align: center; }\n"
@@ -272,6 +274,7 @@ public class SendMail {
                     + "            <p class='details'>Bạn đã thanh toán thành công cho cuộc hẹn: <strong>[" + appointment.getAppointment_id() + "]</strong></p>\n"
                     + "            <p class='details'>Ngày: <strong>[" + formattedDateTime + "]</strong></p>\n"
                     + "            <p class='details'>Giá: <strong>[" + formattedCost + "]</strong></p>\n"
+                    + "            <a href='" + billLink + "' class='pay-button'><i class='fas fa-file-invoice'></i> Xem bill tại đây</a>\n"
                     + "            <p class='reminder'>Vui lòng đến đúng lịch hẹn để được phục vụ tốt nhất. Nếu hủy lịch bạn sẽ mất một số tiền đấy nhé!</p>\n"
                     + "        </div>\n"
                     + "    </div>\n"

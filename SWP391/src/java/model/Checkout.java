@@ -17,12 +17,21 @@ public class Checkout {
     private String transactionStatus;
     private double totalBill;
     private String checkoutCode;
-    private int discount;
     private Timestamp checkoutTime;
 
     public Checkout() {
     }
 
+    public Checkout(int appointmentId, String transactionType, String transactionStatus, double totalBill, String checkoutCode) {
+        this.appointmentId = appointmentId;
+        this.transactionType = transactionType;
+        this.transactionStatus = transactionStatus;
+        this.totalBill = totalBill;
+        this.checkoutCode = checkoutCode;
+    }
+
+    
+        
     public Checkout(int checkoutId, int appointmentId, String transactionType, String transactionStatus, double totalBill, String checkoutCode, int discount, Timestamp checkoutTime) {
         this.checkoutId = checkoutId;
         this.appointmentId = appointmentId;
@@ -30,7 +39,6 @@ public class Checkout {
         this.transactionStatus = transactionStatus;
         this.totalBill = totalBill;
         this.checkoutCode = checkoutCode;
-        this.discount = discount;
         this.checkoutTime = checkoutTime;
     }
 
@@ -82,14 +90,6 @@ public class Checkout {
         this.checkoutCode = checkoutCode;
     }
 
-    public int getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
-
     public Timestamp getCheckoutTime() {
         return checkoutTime;
     }
@@ -100,7 +100,7 @@ public class Checkout {
 
     @Override
     public String toString() {
-        return "Checkout{" + "checkoutId=" + checkoutId + ", appointmentId=" + appointmentId + ", transactionType=" + transactionType + ", transactionStatus=" + transactionStatus + ", totalBill=" + totalBill + ", checkoutCode=" + checkoutCode + ", discount=" + discount + ", checkoutTime=" + checkoutTime + '}';
+        return "Checkout{" + "checkoutId=" + checkoutId + ", appointmentId=" + appointmentId + ", transactionType=" + transactionType + ", transactionStatus=" + transactionStatus + ", totalBill=" + totalBill + ", checkoutCode=" + checkoutCode + ", checkoutTime=" + checkoutTime + '}';
     }
     
     

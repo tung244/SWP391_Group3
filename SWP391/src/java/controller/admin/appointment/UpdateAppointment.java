@@ -6,6 +6,7 @@ package controller.admin.appointment;
 
 import bo.SendMail;
 import bo.SendSMS;
+import com.google.gson.Gson;
 import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
 import dal.AppointmentDAO;
 import dal.DoctorsDAO;
@@ -17,7 +18,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Appointments;
 import model.Doctors;
 import org.json.JSONObject;
@@ -129,30 +132,95 @@ public class UpdateAppointment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+//        response.setContentType("application/json");
+//        AppointmentDAO dao = new AppointmentDAO();
+//        String id_raw = request.getParameter("id");
+//        String doctor_id_raw = request.getParameter("doctor_select");
+//        String slot_id_raw = request.getParameter("slot");
+//        String status = request.getParameter("status");
+//        System.out.println("Received in doPost - AppointmentId: " + id_raw);
+//        System.out.println("Received in doPost - DoctorId: " + doctor_id_raw);
+//        System.out.println("Received in doPost - SlotId: " + slot_id_raw);
+//        if (status == null || status.isEmpty()) {
+//            status = "Scheduled";
+//        }
+//        int doctor_id = 0;
+//        int slot_id = 0;
+//        int id = 0;
+//        String mess = "";
+//        String mail = "";
+//        boolean check = false;
+//        try {
+//            if (doctor_id_raw != null && !doctor_id_raw.isEmpty()) {
+//                doctor_id = Integer.parseInt(doctor_id_raw);
+//            }
+//            if (slot_id_raw != null && !slot_id_raw.isEmpty()) {
+//                slot_id = Integer.parseInt(slot_id_raw);
+//            }
+//            if (id_raw != null && !id_raw.isEmpty()) {
+//                id = Integer.parseInt(id_raw);
+//            }
+//
+//            check = dao.confirmAppointment(id, doctor_id, slot_id, status);
+//            mess = check ? "Update Completed" : "Update Failed";
+//            Appointments appointment = new Appointments();
+//            List<Appointments> list = dao.getAppointment(id_raw);
+//            for (Appointments appointments : list) {
+//                appointment = appointments;
+//            }
+////            if (status.equals("Scheduled")) {
+//////                boolean sendEmail = SendMail.MailConfirmAppointment(appointment);
+//////                mail = sendEmail ? "Send Email Completed" : "Send Email Fail";
+////            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            mess = "An error occurred: " + e.getMessage(); // Cung cấp thông tin lỗi
+//            check = false;
+//        }
+//        Map<String, Object> responseMap = new HashMap<>();
+//        responseMap.put("success", check);
+//        responseMap.put("message", mess);
+//        responseMap.put("mail", mail);
+//
+//        String jsonResponse = new Gson().toJson(responseMap);
+//        response.getWriter().write(jsonResponse);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+// Khởi tạo DAO
         AppointmentDAO dao = new AppointmentDAO();
-        String id_raw = request.getParameter("id");
-        String doctor_id_raw = request.getParameter("doctor_select");
-        String slot_id_raw = request.getParameter("slot");
-        String status = request.getParameter("status");
+        JSONObject jsonResponse = new JSONObject();
 
-        int doctor_id = 0;
-        int slot_id = 0;
-        int id = 0;
-        String mess = "";
-        String mail = "";
         try {
-            if (doctor_id_raw != null && !doctor_id_raw.isEmpty()) {
-                doctor_id = Integer.parseInt(doctor_id_raw);
-            }
-            if (slot_id_raw != null && !slot_id_raw.isEmpty()) {
-                slot_id = Integer.parseInt(slot_id_raw);
-            }
-            if (id_raw != null && !id_raw.isEmpty()) {
-                id = Integer.parseInt(id_raw);
+            // Lấy tham số từ request
+            String id_raw = request.getParameter("id");
+            String doctor_id_raw = request.getParameter("doctor_select");
+            String slot_id_raw = request.getParameter("slot");
+            String status = request.getParameter("status");
+
+            // Kiểm tra null
+            if (id_raw == null || doctor_id_raw == null || slot_id_raw == null) {
+                throw new IllegalArgumentException("Thiếu tham số đầu vào.");
             }
 
-            boolean check = dao.confirmAppointment(id, doctor_id, slot_id, status);
-            mess = check ? "Update Completed" : "Update Failed";
+            int appointmentId = Integer.parseInt(id_raw);
+            int doctorId = Integer.parseInt(doctor_id_raw);
+            int slotId = Integer.parseInt(slot_id_raw);
+
+            // Nếu status null, đặt mặc định là "Scheduled"
+            if (status == null || status.isEmpty()) {
+                status = "Scheduled";
+            }
+
+            // Debug log
+            System.out.println("Appointment ID: " + appointmentId);
+            System.out.println("Doctor ID: " + doctorId);
+            System.out.println("Slot ID: " + slotId);
+            System.out.println("Status: " + status);
+
+            // Gọi DAO để cập nhật dữ liệu
+            boolean isUpdated = dao.confirmAppointment(appointmentId, doctorId, slotId, status);
+            String mess = isUpdated ? "Update Completed" : "Update Failed";
             Appointments appointment = new Appointments();
             List<Appointments> list = dao.getAppointment(id_raw);
             for (Appointments appointments : list) {
@@ -160,17 +228,34 @@ public class UpdateAppointment extends HttpServlet {
             }
             if (status.equals("Scheduled")) {
                 boolean sendEmail = SendMail.MailConfirmAppointment(appointment);
-                mail = sendEmail ? "Send Email Completed" : "Send Email Fail";
+                String mail = sendEmail ? "Send Email Completed" : "Send Email Fail";
             }
+            // Tạo phản hồi JSON
+            jsonResponse.put("success", isUpdated);
+            jsonResponse.put("message", isUpdated ? "Cập nhật thành công!" : "Cập nhật thất bại.");
+
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            jsonResponse.put("success", false);
+            jsonResponse.put("message", "Tham số không hợp lệ.");
+        } catch (IllegalArgumentException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            jsonResponse.put("success", false);
+            jsonResponse.put("message", e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            mess = "An error occurred: " + e.getMessage(); // Cung cấp thông tin lỗi
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            jsonResponse.put("success", false);
+            jsonResponse.put("message", "Lỗi xử lý request: " + e.getMessage());
         }
-        request.setAttribute("mail", mail);
-        request.setAttribute("mess", mess);
-        request.getRequestDispatcher("/hompage/Test.jsp").forward(request, response);
-    }
 
+// Gửi phản hồi về client
+        PrintWriter out = response.getWriter();
+        out.print(jsonResponse.toString());
+        out.flush();
+
+    }
+    
 //    public boolean sendOTP(Appointments appointment) {
 //        final boolean[] sendEmailResult = {false}; // Mảng để lưu kết quả
 //

@@ -127,12 +127,29 @@ CREATE TABLE Certificate_Doctor(
     FOREIGN KEY (certificate_id) REFERENCES Certificate(certificate_id) 
 );
 
+create table CustomerRank(
+	rankId INT IDENTITY(1,1) primary key,
+	rankName NVARCHAR(50),
+	minAmount float,
+);
+
+create table Discount(
+	discountId int IDENTITY(1,1) primary key,
+	discountName nvarchar(50),
+	[percent] int,
+	rankId int foreign key references CustomerRank(rankId),
+	endDate Date,
+	[status] bit DEFault 1,
+);
+
 CREATE TABLE Customers (
 	account_id INT PRIMARY KEY,
     full_name NVARCHAR(255) NOT NULL,
     address NVARCHAR(500),
     dob DATE,
     gender NVARCHAR(50),
+	rankId int,
+	FOREIGN KEY (rankId) REFERENCES CustomerRank(rankId),
     image_profile_user NVARCHAR(255),
     FOREIGN KEY (account_id) REFERENCES Accounts(account_id) 
 );
@@ -194,9 +211,12 @@ CREATE TABLE Appointment(
 	doctor_id INT,
 	slot_id int,
 	service_detail_id INT,
+	discountId int,
+	actualCost DECIMAL(18,2),
 	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
 	FOREIGN KEY (slot_id) REFERENCES dbo.Slots(slot_id) ,
 	FOREIGN KEY (service_detail_id) REFERENCES dbo.Services_Detail(service_detail_id) ,
+	FOREIGN KEY (discountId) REFERENCES dbo.Discount(discountId) ,
 	patient_id int,
 	FOREIGN KEY (patient_id) REFERENCES dbo.Customers(account_id) ,
 	unique(doctor_id, slot_id, appointment_date)
@@ -281,9 +301,10 @@ create table CheckOut(
 	transaction_status nvarchar(255),
 	total_bill DECIMAL(18,2),
 	checkout_code NVARCHAR(255),
-	payer NVARCHAR(255),
+	checkout_time DATETIME DEFAULT GETDATE(),
 	FOREIGN KEY(appointment_id) REFERENCES dbo.Appointment(appointment_id)
 );
+
 
 CREATE TABLE Blog(
 blog_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,

@@ -16,6 +16,35 @@ VALUES
 ('2025-02-23', 'Completed', 3, 11, 18, 7),
 ('2025-02-27', 'Scheduled', 2, 10, 16, 7);
 
+INSERT INTO appointment (appointment_date, appointment_status, doctor_id, slot_id, service_detail_id, patient_id) 
+VALUES 
+('2025-01-05 10:00:00', 'Completed', 1, 1, 7, 7),
+('2025-01-12 14:00:00', 'Completed', 2, 2, 3, 7),
+('2025-01-20 09:30:00', 'Completed', 3, 3, 5, 7),
+('2025-03-05 15:00:00', 'Completed', 4, 4, 8, 7),
+('2025-03-10 16:30:00', 'Completed', 5, 5, 10, 7),
+('2025-03-18 11:00:00', 'Completed', 1, 6, 12, 7);
+
+
+INSERT INTO appointment (appointment_date, appointment_status, doctor_id, slot_id, service_detail_id, patient_id) 
+VALUES 
+-- Tháng 1
+('2025-01-03 08:00:00', 'Completed', 1, 1, 7, 7),
+('2025-01-07 10:30:00', 'Completed', 2, 2, 3, 7),
+('2025-01-15 13:00:00', 'Completed', 3, 3, 5, 7),
+('2025-01-22 09:45:00', 'Completed', 4, 4, 8, 7),
+('2025-01-25 15:20:00', 'Completed', 5, 5, 10, 7),
+('2025-01-30 16:10:00', 'Completed', 1, 6, 12, 7),
+
+-- Tháng 3
+('2025-03-02 08:40:00', 'Completed', 2, 1, 7, 7),
+('2025-03-06 11:30:00', 'Completed', 3, 2, 3, 7),
+('2025-03-12 14:15:00', 'Completed', 4, 3, 5, 7),
+('2025-03-17 10:00:00', 'Completed', 5, 4, 8, 7),
+('2025-03-22 09:30:00', 'Completed', 1, 5, 10, 7),
+('2025-03-28 16:45:00', 'Completed', 2, 6, 12, 7);
+
+
 -- Chèn dữ liệu vào bảng Schedules (chỉ lấy ngày làm việc của bác sĩ từ bảng Appointment)
 INSERT INTO Schedules (doctor_id, slot_id, schedule_date, schedule_status) 
 VALUES 

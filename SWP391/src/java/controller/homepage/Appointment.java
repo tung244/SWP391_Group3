@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import model.Account;
 import model.Appointments;
+import model.Discount;
 import model.Doctors;
 import model.ServiceDetail;
 import model.Slots;
@@ -101,8 +102,10 @@ public class Appointment extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AppointmentDAO dao = new AppointmentDAO();
+        ServiceDao serDao = new ServiceDao();
         String date = request.getParameter("date");
         String user_raw = request.getParameter("patient");
+        String rankId_raw = request.getParameter("rank");
         String service_detail_raw = request.getParameter("service");
         Date appointment_date = null;
 
@@ -116,12 +119,26 @@ public class Appointment extends HttpServlet {
         try {
             int user_id = Integer.parseInt(user_raw);
             int service_detail_id = Integer.parseInt(service_detail_raw);
+            int rankId = Integer.parseInt(rankId_raw);
             Account account = new Account(user_id);
             UserProfile user = new UserProfile(account);
             Slots slot = new Slots();
             Doctors doctor = new Doctors();
-            ServiceDetail service_detail = new ServiceDetail(service_detail_id);
-            Appointments appointment = new Appointments(appointment_date, "Waiting Scheduled", doctor, slot, service_detail, user);
+//            ServiceDetail service_detail = new ServiceDetail(service_detail_id);
+            ServiceDetail service_detail = serDao.getServiceDetailById(service_detail_id);
+            Discount discount = dao.getDiscountByRankId(rankId);
+            int percent = 0;
+            double actualCost = 0.0;
+            Appointments appointment = new Appointments();
+            if (discount != null) {
+                percent = discount.getPercent();
+                actualCost = service_detail.getCost() - (service_detail.getCost() *((double)percent/100));
+                appointment = new Appointments(appointment_date, "Waiting Scheduled", doctor, slot, service_detail, user, discount,actualCost);
+            }else{
+                percent = 0;
+                actualCost = service_detail.getCost() - (service_detail.getCost() *(percent/100));
+                appointment = new Appointments(appointment_date, "Waiting Scheduled", doctor, slot, service_detail, user, discount,actualCost);
+            } 
             boolean correct = dao.addAppointment(appointment);
             if (correct) {
                 request.setAttribute("mess", "Completed");

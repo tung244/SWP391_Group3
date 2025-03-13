@@ -85,6 +85,8 @@
                                                         <th scope="col" style="color: green">Time</th>
                                                         <th scope="col" style="color: green">Date</th>
                                                         <th scope="col" style="color: green">Cost</th>
+                                                        <th scope="col" style="color: green">Discount</th>
+                                                        <th scope="col" style="color: green">ActualCost</th>
                                                         <th scope="col" style="color: green">Status</th>
                                                         <th scope="col" style="color: green">Action</th>
                                                     </tr>
@@ -115,11 +117,13 @@
                                                         <td>
                                                             <c:choose>
                                                                 <c:when test="${empty a.slot || empty a.slot.slot_id}">
-                                                                    <select class="form-control" class="form-control" name="slot" id="slot_${a.appointment_id}" onchange="updateAction(${a.appointment_id});">
-                                                                        <c:if test="${not empty a.slot.slot_id}">
+                                                                    <select class="form-control" name="slot" id="slot_${a.appointment_id}" onchange="updateAction(${a.appointment_id});">
+                                                                        <option value="">-Select Slot-</option>
+                                                                        <c:if test="${not empty a.slot}">
                                                                             <option value="${a.slot.slot_id}" selected>${a.slot.start_time} - ${a.slot.end_time}</option>
                                                                         </c:if>
                                                                     </select>
+
                                                                 </c:when>
                                                                 <c:otherwise>
                                                                     <span>${a.slot.start_time} - ${a.slot.end_time}</span>
@@ -129,6 +133,12 @@
                                                         <td><fmt:formatDate value="${a.appointment_date}" pattern="dd/MM/yyyy"/></td>
                                                         <td>
                                                             <fmt:formatNumber value="${a.service_detail.cost}" pattern="#,###" />
+                                                        </td>
+                                                        <td>
+                                                            <span>${a.discount.percent}</span>
+                                                        </td>
+                                                        <td>
+                                                            <fmt:formatNumber value="${a.actualCost}" pattern="#,###" />
                                                         </td>
                                                         <td style="font-weight: bold">
                                                             <c:choose>
@@ -172,7 +182,7 @@
                                         <ul class="pagination justify-content-center">
                                             <c:forEach var="i" begin="1" end="${requestScope.number}">
                                                 <li class="page-item ${i == page ? 'active' : ''}">
-                                                    <a class="page-link" href="ServiceList?page=${i}">${i}</a>
+                                                    <a class="page-link" href="AppointmentList?page=${i}">${i}</a>
                                                 </li>
                                             </c:forEach>
                                         </ul>
@@ -344,7 +354,6 @@
                 console.log('doctorId:', doctorId);
                 console.log('serviceTypeId:', serviceTypeId);
                 console.log('appointmentDate:', appointmentDate);
-
                 if (doctorId) {
                     const slotSelect = document.getElementById('slot_' + appointmentId);
                     if (!slotSelect) {
@@ -403,6 +412,7 @@
                 console.log('Doctor: ', doctorSelect);
                 console.log('Slot: ', slotSelect);
                 console.log('action ', actionCell);
+                console.log('Slot Changed:', slotSelect ? slotSelect.value : 'Không tìm thấy element');
                 // Kiểm tra xem đã chọn bác sĩ và slot chưa
                 if (doctorSelect.value && slotSelect.value) {
                     actionCell.innerHTML = '<i class="fas fa-check-circle" style="color: green;" onclick="updateAppointment(' + appointmentId + ');" title="Update"></i>';
@@ -410,45 +420,109 @@
                     actionCell.innerHTML = ''; // Xóa dấu tick nếu chưa chọn đủ
                 }
             }
+//            function updateAppointment(appointmentId) {
+//                console.log('Id: ', appointmentId);
+//                const doctorSelect = document.getElementById(`doctor_` + appointmentId);
+//                const slotSelect = document.getElementById(`slot_` + appointmentId);
+//
+//                const selectedDoctorId = doctorSelect.value;
+//                const selectedSlotId = slotSelect.value;
+//                const status = "Scheduled";
+//
+//                console.log('Doctor: ', selectedDoctorId);
+//                console.log('Slot: ', selectedSlotId);
+//                console.log('Status: ', status);
+//
+//                const params = new URLSearchParams();
+//                params.append('id', appointmentId);
+//                params.append('doctor_select', selectedDoctorId);
+//                params.append('slot', selectedSlotId);
+//                params.append('status', status);
+//
+//                console.log("Sending request with:");
+//                console.log("ID:", appointmentId);
+//                console.log("Doctor ID:", selectedDoctorId);
+//                console.log("Slot ID:", selectedSlotId);
+//                console.log("Status:", status);
+//
+//                fetch('UpdateAppointment', {
+//                    method: 'POST',
+//                    headers: {
+//                        'Content-Type': 'application/x-www-form-urlencoded'
+//                    },
+//                    body: params.toString()
+//                })
+//                        .then(response => response.text())
+//                        .then(text => {
+//                            try {
+//                                const data = JSON.parse(text);
+//                                if (data.success) {
+//                                    alert('Cập nhật thành công!\n' + data.message);
+//                                } else {
+//                                    alert('Cập nhật thất bại: ' + data.message);
+//                                }
+//                            } catch (error) {
+//                                console.error('JSON Parse Error:', error, '\nResponse:', text);
+//                                alert('Lỗi JSON: ' + text);
+//                            }
+//                        })
+//                        .catch(error => {
+//                            console.error('Fetch Error:', error);
+//                            alert('Có lỗi xảy ra, vui lòng thử lại.');
+//                        });
+//            }
             function updateAppointment(appointmentId) {
-                console.log('Id ', appointmentId);
+                console.log('Id: ', appointmentId);
                 const doctorSelect = document.getElementById(`doctor_` + appointmentId);
                 const slotSelect = document.getElementById(`slot_` + appointmentId);
 
                 const selectedDoctorId = doctorSelect.value;
                 const selectedSlotId = slotSelect.value;
+                const status = "Scheduled";
+
                 console.log('Doctor: ', selectedDoctorId);
                 console.log('Slot: ', selectedSlotId);
+                console.log('Status: ', status);
 
-                const formData = new FormData();
-                formData.append('appointmentId', appointmentId);
-                formData.append('doctorId', selectedDoctorId);
-                formData.append('slotId', selectedSlotId);
+                const params = new URLSearchParams();
+                params.append('id', appointmentId);
+                params.append('doctor_select', selectedDoctorId);
+                params.append('slot', selectedSlotId);
+                params.append('status', status);
 
-                const url = `getAvailableSlots`;
-                // Gọi AJAX để gửi dữ liệu đến servlet
-                fetch(url, {
-                    method: 'POST', // Giữ nguyên là GET
-                    headers: {
-                        'Content-Type': 'application/json',
+                console.log("Sending request with:");
+                console.log("ID:", appointmentId);
+                console.log("Doctor ID:", selectedDoctorId);
+                console.log("Slot ID:", selectedSlotId);
+                console.log("Status:", status);
+
+                $.ajax({
+                    url: 'UpdateAppointment',
+                    type: 'POST',
+                    data: {
+                        id: appointmentId,
+                        doctor_select: selectedDoctorId,
+                        slot: selectedSlotId,
+                        status: status
                     },
-                })
-                        .then(response => response.json()) // Chuyển đổi phản hồi thành JSON
-                        .then(data => {
-                            if (data.success) {
-                                alert('Cập nhật thành công!');
-                                // Có thể cập nhật lại bảng hoặc làm gì đó khác nếu cần
-                            } else {
-                                alert('Cập nhật thất bại: ' + data.message);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Có lỗi xảy ra, vui lòng thử lại.');
-                        });
+                    success: function (data) {
+                        if (data.success) {
+                            alert('Cập nhật thành công!\n' + data.message);
+                             window.location.reload();
+                        } else {
+                            alert('Cập nhật thất bại: ' + data.message);
+                        }
+                    },
+                    error: function (error) {
+                        console.error('AJAX Error:', error);
+                        alert('Có lỗi xảy ra, vui lòng thử lại.');
+                    }
+                });
             }
 
+
         </script>
+
         <!-- JavaScript -->
         <!-- Bootstrap JS -->
         <jsp:include page="Common/Js.jsp"/>

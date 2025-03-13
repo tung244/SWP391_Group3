@@ -1,11 +1,13 @@
 package dal;
 
 import bo.GetFormatDate;
+import java.math.BigDecimal;
 import java.security.Timestamp;
 import model.UserProfile;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import model.Appointment;
 import model.Doctors;
 import model.FaceBookAccount;
 import model.GoogleAccount;
+import model.Rank;
 import model.Role;
 import model.ServiceDetail;
 import model.ServiceTypes;
@@ -88,10 +91,12 @@ public class UserProfileDAO extends DBContext {
     }
 
     public UserProfile GetAccount(String username) {
-        String sql = "select *\n"
-                + "from Accounts a join \n"
-                + "Customers u on a.account_id = u.account_id "
-                + "join Role r on r.role_id = a.role_id where a.username= ?";
+        String sql = "SELECT * \n"
+                + "FROM Accounts AS a \n"
+                + "JOIN Customers AS u ON a.account_id = u.account_id \n"
+                + "JOIN Role AS r ON r.role_id = a.role_id \n"
+                + "join CustomerRank ra on ra.rankId = u.rankId\n"
+                + "WHERE a.username = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
@@ -103,11 +108,12 @@ public class UserProfileDAO extends DBContext {
                         rs.getString("username"),
                         "", rs.getString("email"),
                         rs.getString("phone_number"), rs.getString("created_date"), r);
+                Rank rank = new Rank(rs.getInt("rankid"), rs.getString("rankName"));
                 UserProfile u = new UserProfile(ac, rs.getString("full_name"),
                         rs.getString("address"),
                         rs.getString("dob"),
                         rs.getString("gender"),
-                        rs.getString("image_profile_user"));
+                        rs.getString("image_profile_user"), rank);
                 return u;
 
             }
@@ -136,6 +142,25 @@ public class UserProfileDAO extends DBContext {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public double getAmountSpendingByCusId(int id) {
+        String sql = "select SUM(sd.cost) from Appointment a\n"
+                + "join Customers c on a.patient_id = c.account_id\n"
+                + "join Services_Detail sd on a.service_detail_id = sd.service_detail_id\n"
+                + "where a.patient_id = ?";
+        double total = 0.0;
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return total;
     }
 
     public boolean isertAccountGoogle(GoogleAccount gg) {
@@ -358,15 +383,15 @@ public class UserProfileDAO extends DBContext {
 
     public List<Appointment> getAppointmentByAppointmentId(int appointment_id) {
         List<Appointment> list = new ArrayList<>();
-        String sql = "SELECT a.appointment_id, a.appointment_status, \n" +
-"                   d.doctor_name, sl.start_time, sl.end_time, sl.slot_id, \n" +
-"                   s.service_description\n" +
-"            FROM dbo.Appointment a \n" +
-"            JOIN dbo.Services_Detail sd ON sd.service_detail_id = a.service_detail_id \n" +
-"            JOIN dbo.Services s ON s.service_id = sd.service_id \n" +
-"            JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id\n" +
-"            JOIN dbo.Slots sl ON a.slot_id = sl.slot_id \n" +
-"            WHERE a.appointment_id = ?";
+        String sql = "SELECT a.appointment_id, a.appointment_status, \n"
+                + "                   d.doctor_name, sl.start_time, sl.end_time, sl.slot_id, \n"
+                + "                   s.service_description\n"
+                + "            FROM dbo.Appointment a \n"
+                + "            JOIN dbo.Services_Detail sd ON sd.service_detail_id = a.service_detail_id \n"
+                + "            JOIN dbo.Services s ON s.service_id = sd.service_id \n"
+                + "            JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id\n"
+                + "            JOIN dbo.Slots sl ON a.slot_id = sl.slot_id \n"
+                + "            WHERE a.appointment_id = ?";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, appointment_id);
@@ -506,12 +531,45 @@ public class UserProfileDAO extends DBContext {
         }
         return false;
     }
-
+    
+    public List<Rank> getAllRank(){
+        List<Rank> list = new ArrayList<>();
+        String query = "select * from CustomerRank";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Rank(rs.getInt("rankId"), rs.getString("rankName"), rs.getDouble("minAmount")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public boolean updateRank(int rankId, int accountId){
+        String sql = "Update Customers set rankId = ? where account_id =?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, rankId);
+            ps.setInt(2, accountId);
+            return ps.executeUpdate() >0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     public static void main(String[] args) {
         UserProfileDAO dao = new UserProfileDAO();
-        for (Appointment a : dao.getAppointmentByAppointmentId(2)) {
-            System.out.println(a);
-        }
+//        for (UserProfile a : dao.GetAccount("guest1")) {
+//            System.out.println(a);
+//        }
+//        UserProfile u = dao.GetAccount("guest1");
+//        System.out.println(u);
+        double d = dao.getAmountSpendingByCusId(7);
+        DecimalFormat df = new DecimalFormat("#,###");
+        System.out.println(df.format(d));
 
     }
 }
