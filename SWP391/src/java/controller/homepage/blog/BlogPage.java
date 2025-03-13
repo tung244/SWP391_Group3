@@ -56,7 +56,7 @@ public class BlogPage extends HttpServlet {
             e.printStackTrace();
         }
         
-        request.getRequestDispatcher("homepage/DemoBlog.jsp").forward(request, response);
+        request.getRequestDispatcher("homepage/BlogSingle.jsp").forward(request, response);
     } 
 
    
