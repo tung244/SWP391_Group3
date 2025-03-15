@@ -54,7 +54,7 @@ public class ImageServices {
 //         String pathHost = getServletContext().getRealPath("");
 //
 //        String finalPath = pathHost.replace("build\\", ""); 
-        String uploadPath = finalPath + "public" + File.separator + "images";
+        String uploadPath = finalPath + "images";
         System.out.println(uploadPath);
 
         // Tạo thư mục "uploads" nếu chưa tồn tại
@@ -88,7 +88,7 @@ public class ImageServices {
 //         String pathHost = getServletContext().getRealPath("");
 //
 //        String finalPath = pathHost.replace("build\\", ""); 
-        String uploadPath = finalPath + "public"  + File.separator + "thumb";
+        String uploadPath = finalPath +  "thumb";
         System.out.println(uploadPath);
 
         // Tạo thư mục "uploads" nếu chưa tồn tại

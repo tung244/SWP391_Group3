@@ -13,10 +13,12 @@ public class TokenDAO extends DBContext {
                 + "(token,created_date)\n"
                 + "VALUES\n"
                 + "(?,?)";
+        System.out.println(sql);
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, token);
             st.setString(2, GetFormatDate.getFormString());
+            System.out.println(sql);
             int row = st.executeUpdate();
             if (row == 1) {
                 return true;
@@ -26,6 +28,11 @@ public class TokenDAO extends DBContext {
         }
         return false;
 
+    }
+    
+    public static void main(String[] args) {
+        TokenDAO t = new TokenDAO();
+        System.out.println(t.addRefreshToken("hehe"));
     }
 
     public String loadNewestToken() {

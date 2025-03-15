@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import model.Account;
+import model.Rank;
 import model.Role;
 import model.UserProfile;
 
@@ -98,8 +99,9 @@ public class Register extends HttpServlet {
             String register_phone = request.getParameter("register-phone");
             String gender = request.getParameter("customGender");
             String email = request.getParameter("register-email");
+            Rank r = new Rank(1, "");
             Account a = new Account(username, password, email, register_phone, getdate.getFormString(), new Role(5, ""));
-            UserProfile u = new UserProfile(a, fullname, "", "", gender, "logo1");
+            UserProfile u = new UserProfile(a, fullname, "", "", gender,r, "logo1");
             String ms = "";
             String error = "";
             HttpSession session = request.getSession();

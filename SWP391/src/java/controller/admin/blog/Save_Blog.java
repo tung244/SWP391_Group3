@@ -53,16 +53,20 @@ public class Save_Blog extends HttpServlet {
         String thumb = (String) request.getSession().getAttribute("linkThumb");
         
         String created_date = GetFormatDate.getFormString();       
-
+        System.out.println(content);
+        System.out.println(tieudeMeta);
+        System.out.println(thumb);
         String ms = "";
         String error = "";
         if(tieudeMeta == null || thumb ==null){
             error = "Đã có lỗi xảy ra. Vui Lòng thử lại !!";
             response.sendRedirect("create_blog");
         }
+        System.out.println("heheh blog1");
         Blog b = new Blog(content, 10, created_date, 
                 tieudeMeta,thumb,"Public");
         if(blog.createBlog(b)){
+            System.out.println("heheh blog2");
             ms = "Đăng bài thành công!";
             
         }

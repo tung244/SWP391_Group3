@@ -27,6 +27,13 @@ public class ServiceTypes {
         this.duration_service = duration_service;
     }
 
+    public ServiceTypes(String service_type_name, String duration_service) {
+        this.service_type_name = service_type_name;
+        this.duration_service = duration_service;
+    }
+    
+    
+    
     public int getService_type_id() {
         return service_type_id;
     }

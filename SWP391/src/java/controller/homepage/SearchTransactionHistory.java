@@ -64,18 +64,35 @@ public class SearchTransactionHistory extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
 
-        String query = request.getParameter("query");
-        String querydate = request.getParameter("date");
+        String query = request.getParameter("query").trim().replaceAll("\\s+", " ");
+        String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
+        String queryType = request.getParameter("queryType");
+        if(query==null||startDate==null||endDate==null||queryType==null){
+            response.sendRedirect("login");
+            return; 
+        }
         UserProfileDAO dao = new UserProfileDAO();
-        List<Appointment> listS = dao.getAppointmentByServiceName(query);
-        List<Appointment> listSD = dao.getAppointmentByAppointmentDate(querydate);
-        List<Appointment> listST = dao.getAppoinmentByServiceTypeName(query);
-        List<Appointment> combinedList = new ArrayList<>();
-        combinedList.addAll(listS);
-        combinedList.addAll(listSD);
-        combinedList.addAll(listST);
+        List<Appointment> listS = dao.searchAppointments(query, queryType, startDate, endDate);
+        int page, numperpage = 6;
+        int size = listS.size();
+        int num = (size%6==0?(size/6):((size/6)+1));
+        String xpage = request.getParameter("page");
+        if(xpage==null){
+            page = 1;
+        }else{
+            page = Integer.parseInt(xpage);
+        }
+        int start, end;
+        start = (page-1)*numperpage;
+        end = Math.min(page*numperpage, size);
+        List<Appointment> listSs = dao.getAppointmentByPage((ArrayList<Appointment>) listS, start, end);
+        request.setAttribute("appointment", listSs);
+        request.setAttribute("page", page);
+        request.setAttribute("numpage", num);
+        request.setAttribute("type", "search");
 
-        request.setAttribute("appointment", combinedList);
+        request.setAttribute("appointment", listSs);
 
         request.getRequestDispatcher("homepage/transactionhistory.jsp").forward(request, response);
     }

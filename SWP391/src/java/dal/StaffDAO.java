@@ -206,8 +206,8 @@ public class StaffDAO extends DBContext {
                     psUpdateStaff.close();
                 }
                 if (conn != null) {
-                    conn.setAutoCommit(true); // Reset auto commit về true
-                    conn.close(); // Đảm bảo đóng kết nối
+                    conn.setAutoCommit(true); // Reset auto commit về true  
+                    conn.close(); // Đảm bảo đóng kết nối  
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -304,8 +304,8 @@ public class StaffDAO extends DBContext {
         }
         return success;
     }
-    
-    public String[] loadStaffBlog(int account_id){
+
+    public String[] loadStaffBlog(int account_id) {
         String sql = "SELECT admin_fullname,image_profile_admin FROM dbo.Staff WHERE account_id = ?";
         String[] s = new String[3];
         try {
@@ -325,8 +325,10 @@ public class StaffDAO extends DBContext {
 
     public static void main(String[] args) {
         StaffDAO dao = new StaffDAO();
-        String [] s = dao.loadStaffBlog(10);
-        System.out.println(s[0]+","+s[1]);
+        List<Staffs> list = dao.getAllStaff();
+        for (Staffs staffs : list) {
+            System.out.println(staffs);
+        }
 //        int id = 8;
 //        Staffs s = dao.getStaffById(id);
 //        System.out.println(s);

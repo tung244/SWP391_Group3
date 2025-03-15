@@ -93,7 +93,7 @@ public class UpdateUserProfile extends HttpServlet {
         }
 
         UserProfileDAO dao = new UserProfileDAO();
-        dao.updateUserProfile(fullname, email, phonenumber, address, dob, gender, imageProfile, account_id);
+//        dao.updateUserProfile(fullname, email, phonenumber, address, dob, gender, imageProfile, account_id);
         response.sendRedirect("userprofile");
     }
 

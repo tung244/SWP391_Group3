@@ -467,25 +467,23 @@
                                             <i class="fas fa-user"></i>
                                         </div>
                                         <input type="hidden" name="method" value="basicComment"/>
-                                        <input type="hidden" name="blogid" value="${blog_id}"/>
-
-                                        <input type="hidden" id="author_id" name="author_id" value="${user.account.account_id}"/>
+                                        <input type="hidden" id="blog-id" name="blog-id" value=""/>
+                                        <input type="hidden" id="account_id" name="account_id" value=""/>
                                         <div class="form-input">
                                             <textarea name="comment" placeholder="Viết bình luận của bạn..."></textarea>
-                                            <button type="submit" class="submit-comment">Gửi</button>
+                                            <button class="submit-comment">Gửi</button>
                                         </div>
                                     </div>
                                 </form>
                             </c:if>
                             <c:if test="${empty sessionScope.user}">
                                 <div style="display: flex; justify-content: center; margin: 40px 0px; font-size: 20px">
-                                    <label>Vui lòng đăng nhập để có thể bình luận</label>
+                                <label>Vui lòng đăng nhập để có thể bình luận</label>
                                 </div>
                             </c:if>
                             <!-- Comment list - Newest -->
                             <div class="comment-list active" id="newest-comments">
                                 <!-- Comment 1 -->
-                                <c:forEach var="comment" items="${list}">
                                 <div class="comment">
                                     <div class="comment-avatar">
                                         <img src="" alt="User">
@@ -526,7 +524,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                </c:forEach>
+
                                 <!-- Comment 2 -->
                                 <div class="comment">
                                     <div class="comment-avatar">
@@ -548,7 +546,70 @@
                                 </div>
                             </div>
 
-                           
+                            <!-- Comment list - Popular -->
+                            <div class="comment-list" id="popular-comments">
+                                <!-- Comment 1 (Most liked) -->
+                                <div class="comment">
+                                    <div class="comment-avatar">
+                                        <img src="" alt="User">
+                                    </div>
+                                    <div class="comment-content">
+                                        <div class="comment-header">
+                                            <span class="comment-author">Lê Thị D</span>
+                                            <span class="comment-time">1 ngày trước</span>
+                                        </div>
+                                        <div class="comment-text">
+                                            <p>Đây là một trong những phân tích hay nhất về chủ đề này mà tôi từng đọc. Tôi đặc biệt thích cách tác giả đưa ra các ví dụ thực tế để minh họa cho quan điểm của mình.</p>
+                                        </div>
+                                        <div class="comment-actions">
+                                            <button class="like-btn active"><i class="fas fa-thumbs-up"></i> <span>127</span></button>
+                                            <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
+                                        </div>
+
+                                        <!-- Replies -->
+                                        <div class="comment-replies">
+                                            <div class="comment reply">
+                                                <div class="comment-avatar">
+                                                    <img src="" alt="User">
+                                                </div>
+                                                <div class="comment-content">
+                                                    <div class="comment-header">
+                                                        <span class="comment-author">Hoàng Văn E</span>
+                                                        <span class="comment-time">12 giờ trước</span>
+                                                    </div>
+                                                    <div class="comment-text">
+                                                        <p>Tôi cũng nghĩ vậy! Rất ấn tượng với cách tác giả trình bày vấn đề.</p>
+                                                    </div>
+                                                    <div class="comment-actions">
+                                                        <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>43</span></button>
+                                                        <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Comment 2 -->
+                                <div class="comment">
+                                    <div class="comment-avatar">
+                                        <img src="" alt="User">
+                                    </div>
+                                    <div class="comment-content">
+                                        <div class="comment-header">
+                                            <span class="comment-author">Trương Minh F</span>
+                                            <span class="comment-time">2 ngày trước</span>
+                                        </div>
+                                        <div class="comment-text">
+                                            <p>Tôi đã theo dõi chủ đề này từ lâu và phải nói rằng quan điểm của tác giả rất đáng suy ngẫm. Mong được đọc thêm nhiều bài viết như thế này!</p>
+                                        </div>
+                                        <div class="comment-actions">
+                                            <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>89</span></button>
+                                            <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <!-- Load more comments button -->
                             <div class="load-more">
@@ -571,8 +632,7 @@
 
             </div>
         </div>
-        <jsp:include page="Common/Message.jsp"/>
-        <jsp:include page="Common/Js.jsp"/>
+
         <!-- Script ResponsiveVoice -->
         <script src="https://code.responsivevoice.org/responsivevoice.js?key=8e2qFdn3"></script>
         <script>
@@ -642,72 +702,54 @@
             });
 
         </script>
-
-
-        <script>
-            const isUserLoggedIn = ${not empty sessionScope.user ? 'true' : 'false'};
-        </script>
-
         <script>
 
             const replyButtons = document.querySelectorAll('.reply-btn');
-
             replyButtons.forEach(button => {
                 button.addEventListener('click', function () {
                     const parentComment = this.closest('.comment-content');
 
-
-                    const existingForm = parentComment.querySelector('.reply-form');
-                    if (existingForm) {
-                        existingForm.remove();
+                    // check lặp form
+                    if (parentComment.querySelector('.reply-form')) {
+                        parentComment.querySelector('.reply-form').remove();
                         return;
                     }
-
-
+                    const isUserLoggedIn = ${not empty sessionScope.user ? 'true' : 'false'};
+                    if (!isUserLoggedIn) {
+                        
                     const replyForm = document.createElement('div');
                     replyForm.className = 'reply-form';
+                    replyForm.innerHTML = `
+            <div class="comment-form" style="margin-top: 15px;">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="form-input">
+                    <textarea placeholder="Viết trả lời của bạn..."></textarea>
+                    <div style="display: flex; gap: 10px; align-self: flex-end;">
+                        <button class="cancel-reply" style="padding: 8px 15px; background: #f1f1f1; border: none; border-radius: 20px; cursor: pointer;">Hủy</button>
+                        <button class="submit-reply" style="padding: 8px 15px; background: rgb(34,139,34); color: white; border: none; border-radius: 20px; cursor: pointer;">Gửi</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+                    // Add reply form after comment actions
+                    const commentActions = this.parentElement;
+                    commentActions.insertAdjacentElement('afterend', replyForm);
 
+                    // Focus on textarea
+                    replyForm.querySelector('textarea').focus();
 
-                    if (isUserLoggedIn) {
-                        replyForm.innerHTML = `
-                        <form action="comment" method="post">
-                                <div class="comment-form" style="margin-top: 15px;">
-                                    <div class="user-avatar">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    <input type="hidden" name="method" value="childComment"/>
-                                        <input type="hidden" name="blogid" value="${blog_id}"/>
+                    // Handle cancel reply
+                    replyForm.querySelector('.cancel-reply').addEventListener('click', function () {
+                        replyForm.remove();
+                    });
+                }
+                    
 
-                                        <input type="hidden" id="author_id" name="author_id" value="${user.account.account_id}"/>
-                                    <div class="form-input">
-                                        <textarea name="comment" placeholder="Viết trả lời của bạn..."></textarea>
-                                        <div style="display: flex; gap: 10px; align-self: flex-end;">
-                                            <button class="cancel-reply" style="padding: 8px 15px; background: #f1f1f1; border: none; border-radius: 20px; cursor: pointer;">Hủy</button>
-                                            <button type="submit" class="submit-reply" style="padding: 8px 15px; background: rgb(34,139,34); color: white; border: none; border-radius: 20px; cursor: pointer;">Gửi</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                            `;
-
-
-                        const commentActions = this.parentElement;
-                        commentActions.insertAdjacentElement('afterend', replyForm);
-
-
-                        replyForm.querySelector('.cancel-reply').addEventListener('click', () => {
-                            replyForm.remove();
-                        });
-
-                    } else {
-                        replyForm.innerHTML = `<p style="color: red;">Vui lòng đăng nhập để trả lời!</p>`;
-                        const commentActions = this.parentElement;
-                        commentActions.insertAdjacentElement('afterend', replyForm);
-                    }
                 });
             });
-
         </script>
-
     </body>
 </html>
