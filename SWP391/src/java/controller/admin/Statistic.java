@@ -3,9 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.admin.customer;
+package controller.admin;
 
-import dal.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,15 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.Customers;
 
 /**
  *
  * @author Nguyen Phu Thinh
  */
-@WebServlet(name="Customers", urlPatterns={"/admin/customers"})
-public class ListsCustomers extends HttpServlet {
+@WebServlet(name="Statistic", urlPatterns={"/statistic"})
+public class Statistic extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +35,10 @@ public class ListsCustomers extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Customers</title>");  
+            out.println("<title>Servlet Statistic</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Customers at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet Statistic at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,31 +55,7 @@ public class ListsCustomers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-CustomerDAO dao = new CustomerDAO();
-    List<Customers> list = dao.getAllCustomers();
-    int page;
-    int recordPage = 10;
-
-    String pageStr = request.getParameter("page");
-    if (pageStr != null) {
-        page = Integer.parseInt(pageStr);
-    } else {
-        page = 1;
-    }
-
-    int size = list.size();
-    int totalPages = (int) Math.ceil(size * 1.0 / recordPage);
-
-    int start = (page - 1) * recordPage;
-    
-    // Gọi phương thức getPagination từ DAO
-    List<Customers> list1 = dao.getPagination(list, start, recordPage);
-
-    // Gửi dữ liệu đến JSP
-    request.setAttribute("currentPage", page);
-    request.setAttribute("totalPages", totalPages);
-    request.setAttribute("list", list1);
-    request.getRequestDispatcher("ListCustomer.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 

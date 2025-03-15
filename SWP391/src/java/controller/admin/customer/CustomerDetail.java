@@ -83,6 +83,13 @@ public class CustomerDetail extends HttpServlet {
         
         if(customer.getGender() == null){
             customer.setGender("Không rõ");
+        } 
+        
+        if (customer.getGender().equals("male")){
+            customer.setGender("Male");
+        }
+        if (customer.getGender().equals("female")){
+            customer.setGender("Female");
         }
         
         if (customer.getAddress() == null){
@@ -99,8 +106,12 @@ public class CustomerDetail extends HttpServlet {
             customer.setRole_id("Staff");
         }
         
-        if (customer.getImage_profile_user() == null || !customer.getImage_profile_user().endsWith(".jpg, .png")|| customer.getImage_profile_user().isEmpty()){
+        if (customer.getImage_profile_user() == null){
             customer.setImage_profile_user("https://cdn.kona-blue.com/upload/kona-blue_com/post/images/2024/09/18/457/avatar-mac-dinh-10.jpg");
+        }
+        
+        if (customer.email == null){
+            customer.setEmail("Đang cập nhật");
         }
         if (customer != null) {
             Gson gson = new Gson();

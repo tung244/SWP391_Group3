@@ -42,33 +42,20 @@ public class CustomerDAO extends DBContext {
         return list;
     }
 
-    public List<Customers> BatchCustomers(int offset, int limit) {
-        List<Customers> list = new ArrayList<>();
+public List<Customers> getPagination(List<Customers> list, int start, int limit) {
+    List<Customers> paginatedList = new ArrayList<>();
 
-        String sql = "SELECT * FROM dbo.Customers\n"
-                + "ORDER BY account_id\n"
-                + "OFFSET ? ROWS\n"
-                + "FETCH NEXT ? ROWS ONLY";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, offset);
-            st.setInt(2, limit);
-
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-                Customers c = new Customers(rs.getInt("account_id"),
-                        rs.getString("full_name"),
-                        rs.getString("gender"),
-                        rs.getString("username"),
-                        rs.getString("image_profile_user"));
-            }
-
-        } catch (SQLException e) {
-        }
-        return list;
+    if (start >= list.size()) {
+        return paginatedList;
     }
 
+    int end = Math.min(start + limit, list.size());
+
+    for (int i = start; i < end; i++) {
+        paginatedList.add(list.get(i));
+    }
+    return paginatedList;
+}
     public Customers GetCustomerById(int account_id) {
     String sql = """
                  SELECT c.full_name, c.dob,c.gender,c.address,a.phone_number,a.email,a.created_date,a.role_id,c.image_profile_user FROM dbo.Customers c
