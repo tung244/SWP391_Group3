@@ -206,6 +206,213 @@
                 transform: translateY(1px);
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
+
+            .comment-section {
+                margin-top: 40px;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+
+            .comment-section h3 {
+                font-size: 22px !important;
+                margin-bottom: 20px !important;
+                color: #333 !important;
+                font-weight: 600 !important;
+            }
+
+            .comment-tabs {
+                display: flex;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #eee;
+            }
+
+            .tab-btn {
+                padding: 10px 20px;
+                background: none;
+                border: none;
+                font-size: 16px;
+                font-weight: 500;
+                color: #666;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+
+            .tab-btn.active {
+                color: rgb(34,139,34);
+                border-bottom: 2px solid rgb(34,139,34);
+            }
+
+            .comment-form {
+                display: flex;
+                margin-bottom: 30px;
+                gap: 15px;
+            }
+
+            .user-avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background-color: #f0f0f0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+            .user-avatar i {
+                font-size: 20px;
+                color: #aaa;
+            }
+
+            .form-input {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .form-input textarea {
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 12px;
+                height: 100px;
+                resize: vertical;
+                margin-bottom: 10px;
+                font-size: 16px;
+            }
+
+            .submit-comment {
+                align-self: flex-end;
+                padding: 8px 20px;
+                background-color: rgb(34,139,34);
+                color: white;
+                border: none;
+                border-radius: 20px;
+                cursor: pointer;
+                font-weight: 500;
+                transition: all 0.3s;
+            }
+
+            .submit-comment:hover {
+                background-color: #1b7e1b;
+            }
+
+            .comment-list {
+                display: none;
+            }
+
+            .comment-list.active {
+                display: block;
+            }
+
+            .comment {
+                display: flex;
+                margin-bottom: 25px;
+                gap: 15px;
+            }
+
+            .comment.reply {
+                margin-top: 15px;
+                margin-left: 20px;
+            }
+
+            .comment-avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                overflow: hidden;
+                flex-shrink: 0;
+            }
+
+            .comment-avatar img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .comment-content {
+                flex-grow: 1;
+            }
+
+            .comment-header {
+                margin-bottom: 5px;
+            }
+
+            .comment-author {
+                font-weight: 600;
+                color: #333;
+                margin-right: 10px;
+            }
+
+            .comment-time {
+                color: #999;
+                font-size: 14px;
+            }
+
+            .comment-text {
+                margin-bottom: 10px;
+            }
+
+            .comment-text p {
+                font-size: 16px !important;
+                line-height: 1.5 !important;
+                margin-bottom: 0 !important;
+            }
+
+            .comment-actions {
+                display: flex;
+                gap: 15px;
+            }
+
+            .like-btn, .reply-btn {
+                background: none;
+                border: none;
+                padding: 5px 10px;
+                color: #666;
+                font-size: 14px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                transition: all 0.2s;
+            }
+
+            .like-btn:hover, .reply-btn:hover {
+                color: rgb(34,139,34);
+            }
+
+            .like-btn.active {
+                color: rgb(34,139,34);
+            }
+
+            .like-btn i, .reply-btn i {
+                font-size: 16px;
+            }
+
+            .comment-replies {
+                margin-top: 15px;
+            }
+
+            .load-more {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            #load-more-btn {
+                padding: 10px 25px;
+                background-color: #f5f5f5;
+                border: 1px solid #ddd;
+                border-radius: 20px;
+                color: #666;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+
+            #load-more-btn:hover {
+                background-color: #eee;
+            }
         </style>
     </head>
     <body>
@@ -224,9 +431,9 @@
                         <div class="main-content">
                             <div class="blog-meta">
                                 <div class="author-info">
-                                    
+
                                     <img style="margin-right: 20px; border-radius: 50%" src="${author[1]}" width="50px" height="50px" alt="alt"/>
-                                    
+
                                     <div>
                                         <div class="author-name">${author[0]}</div>
                                         <div class="post-time">
@@ -244,6 +451,172 @@
                                 ${blog.blog_content}
                             </div>
                         </div>
+                        <div class="comment-section">
+                            <h3>Bình luận</h3>
+
+                            <!--                             Comment tabs 
+                                                        <div class="comment-tabs">
+                                                            <button class="tab-btn active" data-tab="newest">Mới nhất</button>
+                                                            <button class="tab-btn" data-tab="popular">Quan tâm nhất</button>
+                                                        </div>-->
+                            <c:if test="${not empty sessionScope.user}">
+                                <form id="commentBlog" action="comment" method="post">
+                                    <!-- New comment form -->
+                                    <div class="comment-form">
+                                        <div class="user-avatar">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <input type="hidden" name="method" value="basicComment"/>
+                                        <input type="hidden" name="blogid" value="${blog_id}"/>
+
+                                        <input type="hidden" id="author_id" name="author_id" value="${user.account.account_id}"/>
+                                        <div class="form-input">
+                                            <textarea name="comment" placeholder="Viết bình luận của bạn..."></textarea>
+                                            <button type="submit" class="submit-comment">Gửi</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </c:if>
+                            <c:if test="${empty sessionScope.user}">
+                                <div style="display: flex; justify-content: center; margin: 40px 0px; font-size: 20px">
+                                    <label>Vui lòng đăng nhập để có thể bình luận</label>
+                                </div>
+                            </c:if>
+                            <!-- Comment list - Newest -->
+                            <div class="comment-list active" id="newest-comments">
+                                <!-- Comment 1 -->
+                                <div class="comment">
+                                    <div class="comment-avatar">
+                                        <img src="" alt="User">
+                                    </div>
+                                    <div class="comment-content">
+                                        <div class="comment-header">
+                                            <span class="comment-author">Nguyễn Văn A</span>
+                                            <span class="comment-time">2 giờ trước</span>
+                                        </div>
+                                        <div class="comment-text">
+                                            <p>Bài viết rất hay và bổ ích. Cảm ơn tác giả đã chia sẻ!</p>
+                                        </div>
+                                        <div class="comment-actions">
+                                            <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>23</span></button>
+                                            <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
+                                        </div>
+
+                                        <!-- Replies -->
+                                        <div class="comment-replies">
+                                            <div class="comment reply">
+                                                <div class="comment-avatar">
+                                                    <img src="" alt="User">
+                                                </div>
+                                                <div class="comment-content">
+                                                    <div class="comment-header">
+                                                        <span class="comment-author">Trần Thị B</span>
+                                                        <span class="comment-time">1 giờ trước</span>
+                                                    </div>
+                                                    <div class="comment-text">
+                                                        <p>Tôi hoàn toàn đồng ý với bạn!</p>
+                                                    </div>
+                                                    <div class="comment-actions">
+                                                        <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>5</span></button>
+                                                        <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Comment 2 -->
+                                <div class="comment">
+                                    <div class="comment-avatar">
+                                        <img src="" alt="User">
+                                    </div>
+                                    <div class="comment-content">
+                                        <div class="comment-header">
+                                            <span class="comment-author">Phạm Văn C</span>
+                                            <span class="comment-time">15 phút trước</span>
+                                        </div>
+                                        <div class="comment-text">
+                                            <p>Tôi có vài câu hỏi về nội dung này. Làm thế nào để áp dụng những điều này vào thực tế?</p>
+                                        </div>
+                                        <div class="comment-actions">
+                                            <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>7</span></button>
+                                            <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comment list - Popular -->
+                            <div class="comment-list" id="popular-comments">
+                                <!-- Comment 1 (Most liked) -->
+                                <div class="comment">
+                                    <div class="comment-avatar">
+                                        <img src="" alt="User">
+                                    </div>
+                                    <div class="comment-content">
+                                        <div class="comment-header">
+                                            <span class="comment-author">Lê Thị D</span>
+                                            <span class="comment-time">1 ngày trước</span>
+                                        </div>
+                                        <div class="comment-text">
+                                            <p>Đây là một trong những phân tích hay nhất về chủ đề này mà tôi từng đọc. Tôi đặc biệt thích cách tác giả đưa ra các ví dụ thực tế để minh họa cho quan điểm của mình.</p>
+                                        </div>
+                                        <div class="comment-actions">
+                                            <button class="like-btn active"><i class="fas fa-thumbs-up"></i> <span>127</span></button>
+                                            <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
+                                        </div>
+
+                                        <!-- Replies -->
+                                        <div class="comment-replies">
+                                            <div class="comment reply">
+                                                <div class="comment-avatar">
+                                                    <img src="" alt="User">
+                                                </div>
+                                                <div class="comment-content">
+                                                    <div class="comment-header">
+                                                        <span class="comment-author">Hoàng Văn E</span>
+                                                        <span class="comment-time">12 giờ trước</span>
+                                                    </div>
+                                                    <div class="comment-text">
+                                                        <p>Tôi cũng nghĩ vậy! Rất ấn tượng với cách tác giả trình bày vấn đề.</p>
+                                                    </div>
+                                                    <div class="comment-actions">
+                                                        <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>43</span></button>
+                                                        <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Comment 2 -->
+                                <div class="comment">
+                                    <div class="comment-avatar">
+                                        <img src="" alt="User">
+                                    </div>
+                                    <div class="comment-content">
+                                        <div class="comment-header">
+                                            <span class="comment-author">Trương Minh F</span>
+                                            <span class="comment-time">2 ngày trước</span>
+                                        </div>
+                                        <div class="comment-text">
+                                            <p>Tôi đã theo dõi chủ đề này từ lâu và phải nói rằng quan điểm của tác giả rất đáng suy ngẫm. Mong được đọc thêm nhiều bài viết như thế này!</p>
+                                        </div>
+                                        <div class="comment-actions">
+                                            <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>89</span></button>
+                                            <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Load more comments button -->
+                            <div class="load-more">
+                                <button id="load-more-btn">Xem thêm bình luận</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="content-right">
                         <h2 style="color: rgb(34,139,34)">Bài viết liên quan</h2>
@@ -253,10 +626,15 @@
                             <li>Tổng Trump tuyên bố...</li>
                         </ul>
                     </div>
+
+
+
                 </div>
+
             </div>
         </div>
-
+        <jsp:include page="Common/Message.jsp"/>
+        <jsp:include page="Common/Js.jsp"/>
         <!-- Script ResponsiveVoice -->
         <script src="https://code.responsivevoice.org/responsivevoice.js?key=8e2qFdn3"></script>
         <script>
@@ -273,14 +651,7 @@
                     let textToSpeak = contentDiv.textContent || contentDiv.innerText;
                     console.log("Nội dung để đọc:", textToSpeak);
                     if (textToSpeak.trim() !== "") {
-                        responsiveVoice.speak(textToSpeak, "Vietnamese Female", {
-                            onstart: function () {
-                                console.log("Bắt đầu đọc...");
-                            },
-                            onend: function () {
-                                console.log("Đã đọc xong.");
-                            }
-                        });
+                        responsiveVoice.speak(textToSpeak, "Vietnamese Female");
                     } else {
                         responsiveVoice.speak("Không có nội dung để đọc!", "Vietnamese Female");
                     }
@@ -307,6 +678,14 @@
 
         </script>
         <script>
+            document.getElementById("commentBlog").addEventListener("submit", function () {
+                let link = window.location.search;
+                var blog_id = parseInt(link.get("blog"));
+                document.getElementById("blog-id").value = blog_id;
+            });
+
+        </script>
+        <script>
             document.getElementById("linkIn-share").addEventListener("click", function () {
                 let linkInShareURL = 'https://www.linkedin.com/sharing/share-offsite/?url=<%= request.getRequestURL() %>';
                 window.open(linkInShareURL, "_blank", "width=800,height=600");
@@ -325,5 +704,72 @@
             });
 
         </script>
+
+
+        <script>
+            const isUserLoggedIn = ${not empty sessionScope.user ? 'true' : 'false'};
+        </script>
+
+        <script>
+
+            const replyButtons = document.querySelectorAll('.reply-btn');
+
+            replyButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const parentComment = this.closest('.comment-content');
+
+
+                    const existingForm = parentComment.querySelector('.reply-form');
+                    if (existingForm) {
+                        existingForm.remove();
+                        return;
+                    }
+
+
+                    const replyForm = document.createElement('div');
+                    replyForm.className = 'reply-form';
+
+
+                    if (isUserLoggedIn) {
+                        replyForm.innerHTML = `
+                        <form action="comment" method="post">
+                                <div class="comment-form" style="margin-top: 15px;">
+                                    <div class="user-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <input type="hidden" name="method" value="childComment"/>
+                                        <input type="hidden" name="blogid" value="${blog_id}"/>
+
+                                        <input type="hidden" id="author_id" name="author_id" value="${user.account.account_id}"/>
+                                    <div class="form-input">
+                                        <textarea name="comment" placeholder="Viết trả lời của bạn..."></textarea>
+                                        <div style="display: flex; gap: 10px; align-self: flex-end;">
+                                            <button class="cancel-reply" style="padding: 8px 15px; background: #f1f1f1; border: none; border-radius: 20px; cursor: pointer;">Hủy</button>
+                                            <button type="submit" class="submit-reply" style="padding: 8px 15px; background: rgb(34,139,34); color: white; border: none; border-radius: 20px; cursor: pointer;">Gửi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            `;
+
+
+                        const commentActions = this.parentElement;
+                        commentActions.insertAdjacentElement('afterend', replyForm);
+
+
+                        replyForm.querySelector('.cancel-reply').addEventListener('click', () => {
+                            replyForm.remove();
+                        });
+
+                    } else {
+                        replyForm.innerHTML = `<p style="color: red;">Vui lòng đăng nhập để trả lời!</p>`;
+                        const commentActions = this.parentElement;
+                        commentActions.insertAdjacentElement('afterend', replyForm);
+                    }
+                });
+            });
+
+        </script>
+
     </body>
 </html>

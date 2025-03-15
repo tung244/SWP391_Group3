@@ -49,7 +49,7 @@ public class BlogPage extends HttpServlet {
             Blog blog = bdao.loadBlog(blogId);
             
             String[] authorInfo = sdao.loadStaffBlog(blog.getAuthor_id());
-            
+            request.setAttribute("blog_id", blogId);
             request.setAttribute("author", authorInfo);
             request.setAttribute("blog", blog);
         } catch (Exception e) {

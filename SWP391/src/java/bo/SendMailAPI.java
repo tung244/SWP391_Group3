@@ -9,7 +9,6 @@ import com.google.api.client.util.Base64;
 import consts.Gmails;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;

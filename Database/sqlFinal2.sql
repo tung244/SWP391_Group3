@@ -1,4 +1,4 @@
-CREATE TABLE CommnentBlog(
+CREATE TABLE CommentBlog(
 comment_blog_id INT IDENTITY(1,1),
 commnent NVARCHAR(255),
 author_id INT,
