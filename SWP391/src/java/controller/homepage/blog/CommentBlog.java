@@ -45,64 +45,64 @@ public class CommentBlog extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String method = request.getParameter("method");
-        String ms = "";
-        String error = "";
-        if (method.equals("basicComment")) {
-            String comment = request.getParameter("comment");
-            String blog_id = request.getParameter("blogid");
-            String author_id = request.getParameter("author_id");
-
-            if (author_id == null || author_id.isEmpty()
-                    || blog_id == null || blog_id.isEmpty()
-                    || comment == null || comment.isEmpty()) {
-                error = "Lỗi! Vui lòng thử lại";
-                return;
-            }
-            try {
-                int blogID = Integer.parseInt(blog_id);
-                int authorID = Integer.parseInt(author_id);
-                Comment cmt = new Comment(blogID, authorID, 0,
-                         comment);
-                if (cdao.createCommentBasic(cmt)) {
-                    ms = "Bình luận thành công!!";
-                } else {
-                    error = "Lỗi! Không thể bình luận!";
-                }
-            } catch (Exception e) {
-            }
-            request.getSession().setAttribute("ms", ms);
-            request.getSession().setAttribute("error", error);
-            response.sendRedirect("blog?blog=" + blog_id);
-
-        }
+//        String method = request.getParameter("method");
+//        String ms = "";
+//        String error = "";
+//        if (method.equals("basicComment")) {
+//            String comment = request.getParameter("comment");
+//            String blog_id = request.getParameter("blogid");
+//            String author_id = request.getParameter("author_id");
+//
+//            if (author_id == null || author_id.isEmpty()
+//                    || blog_id == null || blog_id.isEmpty()
+//                    || comment == null || comment.isEmpty()) {
+//                error = "Lỗi! Vui lòng thử lại";
+//                return;
+//            }
+//            try {
+//                int blogID = Integer.parseInt(blog_id);
+//                int authorID = Integer.parseInt(author_id);
+//                Comment cmt = new Comment(blogID, authorID, 0,
+//                         comment);
+//                if (cdao.createCommentBasic(cmt)) {
+//                    ms = "Bình luận thành công!!";
+//                } else {
+//                    error = "Lỗi! Không thể bình luận!";
+//                }
+//            } catch (Exception e) {
+//            }
+//            request.getSession().setAttribute("ms", ms);
+//            request.getSession().setAttribute("error", error);
+//            response.sendRedirect("blog?blog=" + blog_id);
+//
+//        }
         
-        if(method.equals("childComment")){
-            String comment = request.getParameter("comment");
-            String blog_id = request.getParameter("blogid");
-            String author_id = request.getParameter("author_id");
-            if (author_id == null || author_id.isEmpty()
-                    || blog_id == null || blog_id.isEmpty()
-                    || comment == null || comment.isEmpty()) {
-                error = "Lỗi! Vui lòng thử lại";
-                return;
-            }
-            try {
-                int blogID = Integer.parseInt(blog_id);
-                int authorID = Integer.parseInt(author_id);
-                Comment cmt = new Comment(blogID, authorID, 0,
-                         comment);
-                if (cdao.createCommentBasic(cmt)) {
-                    ms = "Bình luận thành công!!";
-                } else {
-                    error = "Lỗi! Không thể bình luận!";
-                }
-            } catch (Exception e) {
-            }
-            request.getSession().setAttribute("ms", ms);
-            request.getSession().setAttribute("error", error);
-            response.sendRedirect("blog?blog=" + blog_id);
-        }
+//        if(method.equals("childComment")){
+//            String comment = request.getParameter("comment");
+//            String blog_id = request.getParameter("blogid");
+//            String author_id = request.getParameter("author_id");
+//            if (author_id == null || author_id.isEmpty()
+//                    || blog_id == null || blog_id.isEmpty()
+//                    || comment == null || comment.isEmpty()) {
+//                error = "Lỗi! Vui lòng thử lại";
+//                return;
+//            }
+//            try {
+//                int blogID = Integer.parseInt(blog_id);
+//                int authorID = Integer.parseInt(author_id);
+//                Comment cmt = new Comment(blogID, authorID, 0,
+//                         comment);
+//                if (cdao.createCommentBasic(cmt)) {
+//                    ms = "Bình luận thành công!!";
+//                } else {
+//                    error = "Lỗi! Không thể bình luận!";
+//                }
+//            } catch (Exception e) {
+//            }
+//            request.getSession().setAttribute("ms", ms);
+//            request.getSession().setAttribute("error", error);
+//            response.sendRedirect("blog?blog=" + blog_id);
+//        }
 
     }
 

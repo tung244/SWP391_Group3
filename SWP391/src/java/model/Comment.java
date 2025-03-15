@@ -9,32 +9,16 @@ package model;
  * @author fptshop
  */
 public class Comment {
-    private int blog_id, comment_blog_id,author_id, tuongtac, parent_comment_id;
+    private int blog_id, comment_blog_id, tuongtac, parent_comment_id;
     private String comment;
+    private Account author;
 
-    public Comment(int blog_id, int author_id, int tuongtac, String comment) {
+    public Comment(int blog_id, int tuongtac, int parent_comment_id, String comment, Account author) {
         this.blog_id = blog_id;
-        this.author_id = author_id;
-        this.tuongtac = tuongtac;
-        this.comment = comment;
-    }
-
-
-    public Comment(int comment_blog_id, int blog_id,  int author_id, int tuongtac, int parent_comment_id, String comment) {
-        this.blog_id = blog_id;
-        this.comment_blog_id = comment_blog_id;
-        this.author_id = author_id;
         this.tuongtac = tuongtac;
         this.parent_comment_id = parent_comment_id;
         this.comment = comment;
-    }
-
-    public Comment(int blog_id, int author_id, int tuongtac, int parent_comment_id, String comment) {
-        this.blog_id = blog_id;
-        this.author_id = author_id;
-        this.tuongtac = tuongtac;
-        this.parent_comment_id = parent_comment_id;
-        this.comment = comment;
+        this.author = author;
     }
 
     public int getBlog_id() {
@@ -53,13 +37,14 @@ public class Comment {
         this.comment_blog_id = comment_blog_id;
     }
 
-    public int getAuthor_id() {
-        return author_id;
+    public Account getAuthor() {
+        return author;
     }
 
-    public void setAuthor_id(int author_id) {
-        this.author_id = author_id;
+    public void setAuthor(Account author) {
+        this.author = author;
     }
+    
 
     public int getTuongtac() {
         return tuongtac;
@@ -85,9 +70,6 @@ public class Comment {
         this.comment = comment;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" + "blog_id=" + blog_id + ", comment_blog_id=" + comment_blog_id + ", author_id=" + author_id + ", tuongtac=" + tuongtac + ", parent_comment_id=" + parent_comment_id + ", comment=" + comment + '}';
-    }
+    
     
 }

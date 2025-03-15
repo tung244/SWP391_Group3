@@ -6,6 +6,7 @@
 package controller.homepage.blog;
 
 import dal.BlogDAO;
+import dal.CommentDAO;
 import dal.StaffDAO;
 import model.Blog;
 import java.io.IOException;
@@ -15,12 +16,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
+import model.Comment;
 
 
 @WebServlet(name="Blog", urlPatterns={"/blog"})
 public class BlogPage extends HttpServlet {
     private BlogDAO bdao = new BlogDAO();
     private StaffDAO sdao = new StaffDAO();
+    private CommentDAO cdao = new CommentDAO();
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
@@ -49,12 +54,18 @@ public class BlogPage extends HttpServlet {
             Blog blog = bdao.loadBlog(blogId);
             
             String[] authorInfo = sdao.loadStaffBlog(blog.getAuthor_id());
+            
+//            Map<Comment,List<Comment>> list = cdao.loadCommentBlog(blogId);
+//            
+//            request.setAttribute("list", list);
             request.setAttribute("blog_id", blogId);
             request.setAttribute("author", authorInfo);
             request.setAttribute("blog", blog);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        
         
         request.getRequestDispatcher("homepage/BlogSingle.jsp").forward(request, response);
     } 

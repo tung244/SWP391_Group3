@@ -485,6 +485,7 @@
                             <!-- Comment list - Newest -->
                             <div class="comment-list active" id="newest-comments">
                                 <!-- Comment 1 -->
+                                <c:forEach var="comment" items="${list}">
                                 <div class="comment">
                                     <div class="comment-avatar">
                                         <img src="" alt="User">
@@ -525,7 +526,7 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                </c:forEach>
                                 <!-- Comment 2 -->
                                 <div class="comment">
                                     <div class="comment-avatar">
@@ -547,70 +548,7 @@
                                 </div>
                             </div>
 
-                            <!-- Comment list - Popular -->
-                            <div class="comment-list" id="popular-comments">
-                                <!-- Comment 1 (Most liked) -->
-                                <div class="comment">
-                                    <div class="comment-avatar">
-                                        <img src="" alt="User">
-                                    </div>
-                                    <div class="comment-content">
-                                        <div class="comment-header">
-                                            <span class="comment-author">Lê Thị D</span>
-                                            <span class="comment-time">1 ngày trước</span>
-                                        </div>
-                                        <div class="comment-text">
-                                            <p>Đây là một trong những phân tích hay nhất về chủ đề này mà tôi từng đọc. Tôi đặc biệt thích cách tác giả đưa ra các ví dụ thực tế để minh họa cho quan điểm của mình.</p>
-                                        </div>
-                                        <div class="comment-actions">
-                                            <button class="like-btn active"><i class="fas fa-thumbs-up"></i> <span>127</span></button>
-                                            <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
-                                        </div>
-
-                                        <!-- Replies -->
-                                        <div class="comment-replies">
-                                            <div class="comment reply">
-                                                <div class="comment-avatar">
-                                                    <img src="" alt="User">
-                                                </div>
-                                                <div class="comment-content">
-                                                    <div class="comment-header">
-                                                        <span class="comment-author">Hoàng Văn E</span>
-                                                        <span class="comment-time">12 giờ trước</span>
-                                                    </div>
-                                                    <div class="comment-text">
-                                                        <p>Tôi cũng nghĩ vậy! Rất ấn tượng với cách tác giả trình bày vấn đề.</p>
-                                                    </div>
-                                                    <div class="comment-actions">
-                                                        <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>43</span></button>
-                                                        <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Comment 2 -->
-                                <div class="comment">
-                                    <div class="comment-avatar">
-                                        <img src="" alt="User">
-                                    </div>
-                                    <div class="comment-content">
-                                        <div class="comment-header">
-                                            <span class="comment-author">Trương Minh F</span>
-                                            <span class="comment-time">2 ngày trước</span>
-                                        </div>
-                                        <div class="comment-text">
-                                            <p>Tôi đã theo dõi chủ đề này từ lâu và phải nói rằng quan điểm của tác giả rất đáng suy ngẫm. Mong được đọc thêm nhiều bài viết như thế này!</p>
-                                        </div>
-                                        <div class="comment-actions">
-                                            <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>89</span></button>
-                                            <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                           
 
                             <!-- Load more comments button -->
                             <div class="load-more">
