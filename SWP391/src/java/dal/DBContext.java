@@ -15,7 +15,7 @@ public class DBContext {
     public DBContext() {
         try {
 // Edit URL , username, password to authenticate with your MS SQL Server
-            String url = "jdbc:sqlserver://localhost:1433;databaseName= EyeCare";
+            String url = "jdbc:sqlserver://localhost:1433;databaseName= EyeCare1";
             String username = "sa";
             String password = "123";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -24,16 +24,14 @@ public class DBContext {
             System.out.println(ex);
         }
     }
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public static void main(String[] args) {
-        DBContext db = new DBContext();
-        if (db.getConnection() != null) {
-            System.out.println("Kết nối đến CSDL thành công!");
+     public static void main(String[] args) {
+         DBContext dbContext = new DBContext();
+        
+        // Check if the connection is not null and print a message accordingly
+        if (dbContext.connection != null) {
+            System.out.println("Database connection is active.");
         } else {
-            System.out.println("Kết nối đến CSDL thất bại!");
+            System.out.println("Database connection failed.");
         }
-    }
+     }
 }

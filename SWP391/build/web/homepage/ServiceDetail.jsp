@@ -6,30 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title>Services Single || Dental Implant || Dental Care || Responsive HTML 5 Template</title>
-
-        <!-- responsive meta -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- For IE -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <!-- master stylesheet -->
-        <link rel="stylesheet" href="css/style.css">
-        <!-- Responsive stylesheet -->
-        <link rel="stylesheet" href="css/responsive.css">
-        <!-- Favicon -->
-        <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
-        <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
-        <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
-
-        <!-- Fixing Internet Explorer-->
-        <!--[if lt IE 9]>
-            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-            <script src="js/html5shiv.js"></script>
-        <![endif]-->
+        <jsp:include page="Common/Css.jsp"/>
         <style>
             .img-holder img {
                 width: 100%; /* Hoặc chiều rộng cụ thể tùy vào yêu cầu */
@@ -47,127 +28,7 @@
             <!--End Preloader -->  
 
             <!--Start Top bar area -->  
-            <section class="top-bar-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <div class="language-switcher">
-                                <div id="polyglotLanguageSwitcher">
-                                    <form action="#">
-                                        <select id="polyglot-language-options">
-                                            <option id="en" value="en" selected>English</option>
-                                            <option id="fr" value="fr">French</option>
-                                            <option id="de" value="de">German</option>
-                                            <option id="it" value="it">Italian</option>
-                                            <option id="es" value="es">Spanish</option>
-                                        </select>
-                                    </form>
-                                </div>
-                            </div> 
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <div class="logo text-center">
-                                <a href="index.html">
-                                    <img src="images/resources/logo.png" alt="Awesome Logo">
-                                </a>
-                            </div>   
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <div class="top-social-links">
-                                <ul>
-                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                </ul>
-                            </div>     
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!--End Top bar area -->
-
-            <!--Start mainmenu area-->
-            <section class="mainmenu-area stricky">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="left pull-left">
-                                <!--Start mainmenu-->
-                                <nav class="main-menu">
-                                    <div class="navbar-header">   	
-                                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                            <span class="icon-bar"></span>
-                                            <span class="icon-bar"></span>
-                                            <span class="icon-bar"></span>
-                                        </button>
-                                    </div>
-                                    <div class="navbar-collapse collapse clearfix">
-                                        <ul class="navigation clearfix">
-                                            <li><a href="index.html">Home</a></li>
-                                            <li class="dropdown"><a href="about.html">About Us</a>
-                                                <ul>
-                                                    <li><a href="about.html">About Dentalcare</a></li>
-                                                    <li><a href="team.html">Meet Our Dentist</a></li>
-                                                    <li><a href="special-offers.html">Special Offers</a></li>
-                                                    <li><a href="faq.html">FAQ’s</a></li>
-                                                    <li><a href="testimonials.html">Testimonials</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown current"><a href="services.html">Services</a>
-                                                <ul>
-                                                    <c:forEach var="s" items="${listS}">
-                                                        <li><a >${s.service_name}</a></li> 
-                                                        </c:forEach>
-                                                </ul>
-                                            </li>
-                                            <li><a href="appointment.html">Appointment</a></li>
-                                            <li class="dropdown"><a href="gallery.html">Gallery</a>
-                                                <ul>
-                                                    <li><a href="gallery.html">Gallery Before After</a></li>
-                                                    <li><a href="gallery-grid.html">Gallery Grid View</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown"><a href="blog.html">Blog</a>
-                                                <ul>
-                                                    <li><a href="blog.html">Blog Default</a></li>
-                                                    <li><a href="blog-with-sidebar.html">Blog With Sidebar</a></li>
-                                                    <li><a href="blog-single.html">Blog Single Post</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="contact.html">Contact Us</a></li>
-                                        </ul>
-                                    </div>
-                                </nav>
-                                <!--End mainmenu-->
-                                <!--Start outer serach box-->
-                                <div class="outer-search-box">
-                                    <div class="seach-toggle"><i class="fa fa-search"></i></div>
-                                    <ul class="search-box">
-                                        <li>
-                                            <form method="post" action="index.html">
-                                                <div class="form-group">
-                                                    <input type="search" name="search" placeholder="Search Here" required>
-                                                    <button type="submit"><i class="fa fa-search"></i></button>
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!--End outer serach box-->
-                            </div>
-                            <div class="right pull-right">
-                                <div class="icon-box">
-                                    <span class="flaticon-technology-1"></span>
-                                </div>
-                                <div class="title-box">
-                                    <h3>Call Us: 1-800-901-234</h3>
-                                </div>    
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <jsp:include page="Common/Navbar.jsp"/>
             <!--End mainmenu area-->
 
             <!--Start header area-->
@@ -271,7 +132,7 @@
                                         <div class="col-md-6">
                                             <div class="single-item">
                                                 <div class="img-holder">
-                                                    <img src="https://isofhcare-backup.s3-ap-southeast-1.amazonaws.com/images/kham-mat-isofhcare-bao-son_6e9c0278_d5fa_46cf_81dd_71c7033c808d.jpg" alt="Awesome Image">
+                                                    <img src="${imageService.image_before}" alt="Awesome Image">
                                                 </div>
                                                 <h3>Before</h3>
                                             </div>
@@ -280,7 +141,7 @@
                                         <div class="col-md-6">
                                             <div class="single-item">
                                                 <div class="img-holder">
-                                                    <img src="https://isofhcare-backup.s3-ap-southeast-1.amazonaws.com/images/kham-mat_27a3b93f_313c_4f47_9679_31af94cb3265.jpg" alt="Awesome Image">
+                                                    <img src="${imageService.image_after}" alt="Awesome Image">
                                                 </div>
                                                 <h3>After</h3>
                                             </div>
@@ -377,6 +238,7 @@
                                             <th style="color: green">Duration</th>
                                             <th style="color: green">Specialization</th>
                                             <th style="color: green">Cost</th>
+                                            <th style="color: green">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -386,7 +248,12 @@
                                                 <td style="color: black">${sd.serviceType.service_type_name}</td>
                                                 <td style="color: black">${sd.serviceType.duration_service}</td>
                                                 <td style="color: black">${sd.services.specialization.specialization_name}</td>
-                                                <td style="color: black">$${sd.cost}</td>
+                                                <td style="color: black"><fmt:formatNumber value="${sd.cost}" pattern="#,###" />VNĐ</td>
+                                                <td>
+                                                    <a href="appointment?id=${sd.service_detail_id}&type=${sd.serviceType.service_type_id}" class="btn btn-success">
+                                                        <i class="fa fa-calendar" aria-hidden="true"></i> Book
+                                                    </a>
+                                                </td>
                                             </tr>  
                                         </c:forEach>
 
@@ -399,84 +266,26 @@
                                     <span class="border"></span>
                                 </div>
                                 <div class="row">
-                                    <!--Start single team member-->
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <div class="single-team-member">
-                                            <div class="img-holder">
-                                                <img src="images/team/1.jpg" alt="Awesome Image">
-                                                <div class="overlay-one">
-                                                    <div class="overlay-inner">
-                                                        <div class="content"></div>
-                                                    </div>
+                                    <c:forEach var="d" items="${doctors}">
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <div class="single-team-member">
+                                                <div class="img-holder">
+                                                    <img  src="${d.profile_image}" alt="Awesome Image">
                                                 </div>
-                                                <ul class="member-social-info">
-                                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-holder text-center">
-                                                <h3>Dr.Eliot Aldwin</h3>
-                                                <span>Hygienist</span>
-                                                <p>Denouncing pleasure and praising pain was born expound.</p>
-                                                <span class="border"></span>
-                                                <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            </div>    
-                                        </div> 
-                                    </div>
-                                    <!--End single team member-->
-                                    <!--Start single team member-->
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <div class="single-team-member">
-                                            <div class="img-holder">
-                                                <img src="images/team/2.jpg" alt="Awesome Image">
-                                                <div class="overlay-one">
-                                                    <div class="overlay-inner">
-                                                        <div class="content"></div>
-                                                    </div>
-                                                </div>
-                                                <ul class="member-social-info">
-                                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-holder text-center">
-                                                <h3>Dr.Barie Findlay</h3>
-                                                <span>Orthodontist</span>
-                                                <p>Great explorer of the truth master builder human happiness.</p>
-                                                <span class="border"></span>
-                                                <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            </div>    
-                                        </div>
-                                    </div> 
-                                    <!--End single team member-->
-                                    <!--Start single team member-->
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <div class="single-team-member">
-                                            <div class="img-holder">
-                                                <img src="images/team/3.jpg" alt="Awesome Image">
-                                                <div class="overlay-one">
-                                                    <div class="overlay-inner">
-                                                        <div class="content"></div>
-                                                    </div>
-                                                </div>
-                                                <ul class="member-social-info">
-                                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-holder text-center">
-                                                <h3>Dr.Fred Calvin</h3>
-                                                <span>Dentist</span>
-                                                <p>Circumstances occurs in which toil all pain great pleasure.</p>
-                                                <span class="border"></span>
-                                                <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            </div>    
-                                        </div>
-                                    </div> 
-                                    <!--End single team member-->
+                                                <div class="text-holder text-center">
+                                                    <h3>Dr. ${d.doctor_name}</h3>
+                                                    <span>Doctor</span>
+                                                    <p>${d.specialization.specialization_name}</p>
+                                                    <span class="border"></span>
+                                                    <span class="text-muted ml-2">Rating: ${d.rating}</span> ★
+                                                    <br>
+                                                    <hr>
+                                                    <a href="doctorDetail?doctorid=${d.doctor_id}">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                                </div>    
+                                            </div> 
+                                        </div>  
+                                    </c:forEach>
+
                                 </div>
                             </div>
 
@@ -487,7 +296,7 @@
                                 <div class="single-sidebar">
                                     <ul class="all-service">
                                         <c:forEach var="s" items="${listS}">
-                                            <li ><a href="LoadServiceDetailHomepage?id=${s.service_id}" style="color: grey" >${s.service_name}</a></li> 
+                                            <li ><a href="loadServiceDetailHomepage?id=${s.service_id}" style="color: grey" >${s.service_name}</a></li> 
                                             </c:forEach>
                                     </ul>            
                                 </div> 
@@ -751,64 +560,10 @@
         <!--Scroll to top-->
         <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
 
+        <jsp:include page="Common/Message.jsp"/>
+
         <!-- main jQuery -->
-        <script src="js/jquery.js"></script>
-        <!-- Wow Script -->
-        <script src="js/wow.min.js"></script>
-        <!-- bootstrap -->
-        <script src="js/bootstrap.min.js"></script>
-        <!-- bx slider -->
-        <script src="js/jquery.bxslider.min.js"></script>
-        <!-- count to -->
-        <script src="js/jquery.countTo.js"></script>
-        <!-- owl carousel -->
-        <script src="js/owl.carousel.min.js"></script>
-        <!-- validate -->
-        <script src="js/validation.js"></script>
-        <!-- mixit up -->
-        <script src="js/jquery.mixitup.min.js"></script>
-        <!-- easing -->
-        <script src="js/jquery.easing.min.js"></script>
-        <!-- gmap helper -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHzPSV2jshbjI8fqnC_C4L08ffnj5EN3A"></script>
-        <!--gmap script-->
-        <script src="js/gmaps.js"></script>
-        <script src="js/map-helper.js"></script>
-        <!-- video responsive script -->
-        <script src="js/jquery.fitvids.js"></script>
-        <!-- jQuery ui js -->
-        <script src="assets/jquery-ui-1.11.4/jquery-ui.js"></script>
-        <!-- Language Switche  -->
-        <script src="assets/language-switcher/jquery.polyglot.language.switcher.js"></script>
-        <!-- fancy box -->
-        <script src="js/jquery.fancybox.pack.js"></script>
-        <script src="js/jquery.appear.js"></script>
-        <!-- isotope script-->
-        <script src="js/isotope.js"></script>
-        <script src="js/jquery.prettyPhoto.js"></script> 
-        <!-- jQuery timepicker js -->
-        <script src="assets/timepicker/timePicker.js"></script>
-        <!-- Bootstrap select picker js -->
-        <script src="assets/bootstrap-sl-1.12.1/bootstrap-select.js"></script>                               
-
-
-        <!-- revolution slider js -->
-        <script src="assets/revolution/js/jquery.themepunch.tools.min.js"></script>
-        <script src="assets/revolution/js/jquery.themepunch.revolution.min.js"></script>
-        <script src="assets/revolution/js/extensions/revolution.extension.actions.min.js"></script>
-        <script src="assets/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
-        <script src="assets/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
-        <script src="assets/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
-        <script src="assets/revolution/js/extensions/revolution.extension.migration.min.js"></script>
-        <script src="assets/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
-        <script src="assets/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
-        <script src="assets/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
-        <script src="assets/revolution/js/extensions/revolution.extension.video.min.js"></script>
-
-
-
-        <!-- thm custom script -->
-        <script src="js/custom.js"></script>
+        <jsp:include page="Common/Js.jsp"/>
 
 
 

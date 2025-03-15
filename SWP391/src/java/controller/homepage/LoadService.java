@@ -14,13 +14,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.ImagesService;
 import model.Services;
 
 /**
  *
  * @author DELL
  */
-@WebServlet(name="LoadService", urlPatterns={"/homepage/LoadService"})
+@WebServlet(name="LoadService", urlPatterns={"/loadService"})
 public class LoadService extends HttpServlet {
    
     /** 
@@ -58,8 +59,8 @@ public class LoadService extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        ServiceDao dao = new ServiceDao();
-        List<Services> list = dao.getAllServicesOnly();
+                ServiceDao dao = new ServiceDao();
+        List<ImagesService> list = dao.getAllServiceWithImage();
         request.setAttribute("listS", list);
         request.getRequestDispatcher("/homepage/Service.jsp").forward(request, response);
     } 

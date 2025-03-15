@@ -4,19 +4,73 @@
  */
 package model;
 
-
 public class Account {
+
     public int account_id;
     public String username;
     public String password;
     public String email;
     public String phonenumber;
     public String created_date;
+    public String first_confirm;
     public Role role;
+    public String status_account;
+    
 
     public Account() {
     }
 
+    public Account(int account_id, String username, String password, String email, String phonenumber, String created_date, String first_confirm, Role role, String status_account) {
+        this.account_id = account_id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.created_date = created_date;
+        this.first_confirm = first_confirm;
+        this.role = role;
+        this.status_account = status_account;
+    }
+
+    public Account(String username, String password, String email, String phonenumber, String created_date, String first_confirm, Role role, String status_account) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.created_date = created_date;
+        this.first_confirm = first_confirm;
+        this.role = role;
+        this.status_account = status_account;
+    }
+
+    public Account(int account_id) {
+        this.account_id = account_id;
+        this.email = email;
+    }
+    
+    
+    public Account(int account_id, String email) {
+        this.account_id = account_id;
+        this.email = email;
+    }
+
+    public Account(int account_id, String email, String phonenumber) {
+        this.account_id = account_id;
+        this.email = email;
+        this.phonenumber = phonenumber;
+    }
+
+    public Account(int account_id, String username, String password, String email, String phonenumber, String created_date, String first_confirm, Role role) {
+        this.account_id = account_id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.created_date = created_date;
+        this.first_confirm = first_confirm;
+        this.role = role;
+    }
+    
     public Account(int account_id, String username, String email, String phonenumber, String created_date, Role role) {
         this.account_id = account_id;
         this.username = username;
@@ -26,7 +80,6 @@ public class Account {
         this.role = role;
     }
 
-    
     public Account(int account_id, String username, String password, String email, String phonenumber, String created_date, Role role) {
         this.account_id = account_id;
         this.username = username;
@@ -45,8 +98,6 @@ public class Account {
         this.created_date = created_date;
         this.role = role;
     }
-    
-    
 
     public Account(String username, String password, String email, String phonenumber, Role role) {
         this.username = username;
@@ -55,7 +106,7 @@ public class Account {
         this.phonenumber = phonenumber;
         this.role = role;
     }
-    
+
     public String getPassword() {
         return password;
     }
@@ -63,8 +114,6 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    
 
     public int getAccount_id() {
         return account_id;
@@ -114,9 +163,21 @@ public class Account {
         this.role = role;
     }
 
+    public String getFirst_confirm() {
+        return first_confirm;
+    }
+
+    public void setFirst_confirm(String first_confirm) {
+        this.first_confirm = first_confirm;
+    }
+
     @Override
     public String toString() {
-        return "Account{" + "account_id=" + account_id + ", username=" + username + ", password=" + password + ", email=" + email + ", phonenumber=" + phonenumber + ", created_date=" + created_date + ", role=" + role + '}';
+        return "Account{" + "account_id=" + account_id + ", username=" + username + ", password=" + password + ", email=" + email + ", phonenumber=" + phonenumber + ", created_date=" + created_date + ", first_confirm=" + first_confirm + ", role=" + role + '}';
     }
     
+    
+
+    
+
 }

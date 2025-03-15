@@ -2,9 +2,7 @@
 
 package controller.homepage;
 
-
 import dal.AccountDAO;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,15 +10,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-
 import jakarta.servlet.http.HttpSession;
-
 
 
 @WebServlet(name="Forgot_Password", urlPatterns={"/forgot_password"})
 public class Forgot_Password extends HttpServlet {
-
     AccountDAO adao = new AccountDAO();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
@@ -50,8 +44,6 @@ public class Forgot_Password extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
-
         String username_forgot  = request.getParameter("forgotPasswordUsername").trim();
         String error = "";
         if(username_forgot ==null){

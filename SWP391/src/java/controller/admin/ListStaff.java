@@ -1,4 +1,4 @@
-/*
+                                                                                                                                    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
@@ -68,7 +68,7 @@ public class ListStaff extends HttpServlet {
 //        request.setAttribute("listS", list);
 //        request.setAttribute("listSP", list1);
         request.setAttribute("staffs", staffs);
-        request.getRequestDispatcher("/admin/StaffList.jsp").forward(request, response);
+        request.getRequestDispatcher("StaffList.jsp").forward(request, response);
     } 
 
     /** 

@@ -4,9 +4,10 @@
  */
 package controller.homepage;
 
-import bo.getFormatDate;
-import bo.randomSixNumber;
-import bo.sendMail;
+import bo.GetFormatDate;
+import bo.RandomSixNumber;
+import bo.SendMail;
+import bo.SendSMS;
 import dal.OTPServicesDAO;
 import dal.UserProfileDAO;
 import java.io.IOException;
@@ -52,7 +53,32 @@ public class CheckOTP extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String verificationCode = request.getParameter("verificationCode");
+        HttpSession session = request.getSession();
+        OTP_Services otp = otpdao.getOTPNewest((String) session.getAttribute("username_forgot"));
         
+        String ms = "";
+        String error = "";
+
+        if (otp != null && verificationCode != null) {
+            if (GetFormatDate.checkFiveMinute(otp.getOtp_expiry_date())) {
+                if (otp.getOtp().equals(verificationCode)) {
+                    ms = "OTP chính xác";
+                    session.setAttribute("ms", ms);
+                    response.sendRedirect("create_new_password");
+                    return; 
+                } else {
+                    error = "OTP không chính xác, vui lòng thử lại!";
+                }
+            } else {
+                error = "OTP đã hết hạn, vui lòng lấy mã mới!";
+            }
+        } else {
+            error = "Lỗi hệ thống, vui lòng thử lại!";
+        }
+
+        session.setAttribute("error", error);
+        response.sendRedirect("otp_checking");
 
     }
 

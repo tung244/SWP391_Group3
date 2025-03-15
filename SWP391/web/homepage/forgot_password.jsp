@@ -1,17 +1,9 @@
-<<<<<<< HEAD
-
-
-=======
->>>>>>> Tungdthe181764
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <jsp:include page="Common/Css.jsp"/>
-<<<<<<< HEAD
-=======
 
->>>>>>> Tungdthe181764
     </head>
     <body>
         <div class="boxed_wrapper">         
@@ -19,14 +11,6 @@
             
             
             <div class="forgot-password-form">
-<<<<<<< HEAD
-
-            </div>
-        </div>
-        <jsp:include page="Common/Message.jsp"/>
-        <jsp:include page="Common/Js.jsp"/>
-
-=======
                 <div class="forgot-password-card" id="forgotPasswordStep1">
                     <form method="post" action="forgot_password">
                         <img src="homepage/images/resources/logoicon.png" style="margin: 0px 0px  15px 115px" width="140px"/>
@@ -88,6 +72,5 @@
 
             }
         </script>
->>>>>>> Tungdthe181764
     </body>
 </html>

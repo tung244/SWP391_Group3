@@ -8,7 +8,7 @@ import java.util.Random;
 
 
 
-public class randomSixNumber {
+public class RandomSixNumber {
 
     Random random = new Random();
 

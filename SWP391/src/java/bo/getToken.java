@@ -4,6 +4,7 @@
  */
 package bo;
 
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import consts.Facebook;
@@ -15,7 +16,18 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 
-public class getToken {
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import consts.Facebook;
+import consts.Google;
+import java.io.IOException;
+import model.FaceBookAccount;
+import model.GoogleAccount;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.fluent.Form;
+import org.apache.http.client.fluent.Request;
+
+public class GetToken {
 
     public static String getToken(String code) throws ClientProtocolException, IOException {
 
@@ -25,6 +37,27 @@ public class getToken {
                                 .add("client_id", Google.GOOGLE_CLIENT_ID)
                                 .add("client_secret", Google.GOOGLE_CLIENT_SECRET)
                                 .add("redirect_uri", Google.GOOGLE_REDIRECT_URI)
+                                .add("code", code)
+                                .add("grant_type", Google.GOOGLE_GRANT_TYPE)
+                                .build()
+                )
+                .execute().returnContent().asString();
+
+        JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
+
+        String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
+
+        return accessToken;
+
+    }
+    public static String getToken2(String code) throws ClientProtocolException, IOException {
+
+        String response = Request.Post(Google.GOOGLE_LINK_GET_TOKEN)
+                .bodyForm(
+                        Form.form()
+                                .add("client_id", Google.GOOGLE_CLIENT_ID)
+                                .add("client_secret", Google.GOOGLE_CLIENT_SECRET)
+                                .add("redirect_uri", Google.GOOGLE_REDIRECT_URI2)
                                 .add("code", code)
                                 .add("grant_type", Google.GOOGLE_GRANT_TYPE)
                                 .build()

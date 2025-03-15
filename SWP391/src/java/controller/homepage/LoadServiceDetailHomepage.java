@@ -4,6 +4,7 @@
  */
 package controller.homepage;
 
+import dal.DoctorsDAO;
 import dal.ServiceDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +13,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import model.Doctors;
+import model.ImagesService;
 import model.ServiceDetail;
 import model.Services;
 
@@ -20,7 +24,7 @@ import model.Services;
  *
  * @author DELL
  */
-@WebServlet(name = "LoadServiceDetailHomepage", urlPatterns = {"/homepage/LoadServiceDetailHomepage"})
+@WebServlet(name = "LoadServiceDetailHomepage", urlPatterns = {"/loadServiceDetailHomepage"})
 public class LoadServiceDetailHomepage extends HttpServlet {
 
     /**
@@ -63,15 +67,20 @@ public class LoadServiceDetailHomepage extends HttpServlet {
             throws ServletException, IOException {
         String id_raw = request.getParameter("id");
         ServiceDao dao = new ServiceDao();
+        DoctorsDAO ddao = new DoctorsDAO();
         int id = 0;
         Services service = null;
         List<ServiceDetail> list1 = null;
+        List<Doctors> listDoctor = null;
         ServiceDetail service1 = null;
+        ImagesService imageService = null;
         String[] introduceParts = null;
         String[] benefitParts = null;
+        int spe_id = 0;
         try {
             id = Integer.parseInt(id_raw);
             service = dao.getOnlyServiceById(id);
+            imageService = dao.getServiceWithImageById(id);
             String name = service.getService_name();
             list1 = dao.getServiceByName(name);
             service1 = list1.isEmpty() ? null : list1.get(0);
@@ -80,13 +89,18 @@ public class LoadServiceDetailHomepage extends HttpServlet {
 
             introduceParts = serviceIntroduce.split("\\.");
             benefitParts = serviceBenefit.split("\\.");
+            spe_id = service.getSpecialization().getSpecialization_id();
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
+        listDoctor = ddao.getSameSpecializationDoctors(spe_id);
         List<Services> list = dao.getAllServicesOnly();
         request.setAttribute("listS", list);
         request.setAttribute("listSD", list1);
+        request.setAttribute("doctors", listDoctor);
         request.setAttribute("service", service);
+        request.setAttribute("imageService", imageService);
         request.setAttribute("introducePart1", introduceParts[0]);
         request.setAttribute("introducePart2", introduceParts.length > 1 ? introduceParts[1] : "");
         request.setAttribute("benefitPart1", benefitParts[0]);
