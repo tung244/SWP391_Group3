@@ -70,6 +70,8 @@
                             </li>
                             <li> <a href="index2.html"><i class="bx bx-right-arrow-alt"></i>Sales</a>
                             </li>
+                            <li> <a href="dashboardcustomersupport"><i class="bx bx-right-arrow-alt"></i>Customer Support</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="menu-label">Web Apps</li>
@@ -764,7 +766,7 @@
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
                                         <a class="dropdown-item" href="searchstaff?sortrole=Customer Support">Customer Support</a>
-                                        <a class="dropdown-item" href="searchstaff?sortrole=Customer">Customer</a>
+                                        <a class="dropdown-item" href="searchstaff?sortrole=Sale">Sale</a>
                                         <div class="dropdown-divider"></div>
                                     </div>
                                 </div>
@@ -837,7 +839,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div>
-                                    <h4 style="color:green; font-weight: bold">Staff Table</h4>
+                                    <h4 style="color:green; font-weight: bold" ><a href="ListStaff">Staff Table</a></h4>
                                     <hr>
                                     <a href="AddStaff.jsp">
                                         <button id="table2-new-row-button" class="btn btn-outline-success btn-sm mb-2" style="font-size: 20px; font-weight: bold" >Add Staff</button>

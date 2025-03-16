@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import model.Staffs;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -96,6 +97,8 @@ public class UpdateStaff extends HttpServlet {
             Date adminDob = Date.valueOf(request.getParameter("admin_dob"));
             String adminGender = request.getParameter("admin_gender");
             String roleName = request.getParameter("role_name");
+            String salaryRaw = request.getParameter("salary");
+             BigDecimal salaryParse = BigDecimal.valueOf(Double.parseDouble(salaryRaw));
             StaffDAO dao = new StaffDAO();
             // Tạo đối tượng Role
             Role role = new Role();
@@ -114,6 +117,7 @@ public class UpdateStaff extends HttpServlet {
             staff.setAdmin_address(adminAddress);
             staff.setAdmin_dob(adminDob);
             staff.setAdmin_gender(adminGender);
+            staff.setAdmin_salary(salaryParse);
 
             // Gọi phương thức cập nhật
             boolean isUpdated = dao.updateStaff(staff);

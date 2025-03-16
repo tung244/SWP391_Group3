@@ -75,7 +75,7 @@ public class SearchStaff extends HttpServlet {
         if (phone == null) {
             phone = "";
         } else {
-            phone = phone.trim().replaceAll("\\s+", " ");
+            phone = phone.trim().replaceAll("\\s+", "");
         }
 
         StaffDAO dao = new StaffDAO();

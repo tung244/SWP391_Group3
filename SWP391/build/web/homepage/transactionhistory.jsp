@@ -7,6 +7,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -132,9 +133,16 @@
                                 <tr>
                                     <td class="userprofile-table-cell"> ${appointment.appointment_id}</td>
                                     <td class="userprofile-table-cell">${appointment.service.service_name}</td>
-                                    <td class="userprofile-table-cell">${appointment.service_detail.cost}</td>
+                                    
+                                    <td> 
+                                        <fmt:formatNumber value="${appointment.service_detail.cost}" pattern="#,###"/>
+                                    </td>
+                                    
                                     <td class="userprofile-table-cell">${appointment.service_type.service_type_name}</td>
-                                    <td class="userprofile-table-cell">${appointment.appointment_date}</td>
+                                    <td> 
+                                        <fmt:formatDate value="${appointment.appointment_date}" pattern="dd/MM/yyyy"/>
+                                    </td>
+                                    
                                     <td class="userprofile-table-cell">${appointment.service_type.duration_service}</td>
                                     <td class="userprofile-table-cell">
                                         <a href="transactiondetail?appointment_id=${appointment.appointment_id}" class="login-button">Chi tiết</a>

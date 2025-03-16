@@ -91,6 +91,28 @@ public class AddStaff extends HttpServlet {
             request.getRequestDispatcher("AddStaff.jsp").forward(request, response);
             return;
         }
+         if (staff_fullname.isEmpty() || !staff_fullname.matches("\\p{L}+[\\s\\p{L}]*")) {
+            request.setAttribute("error", "Họ và tên không hợp lệ! Vui lòng nhập tên hợp lệ (chỉ chứa chữ và khoảng trắng).");
+            request.getRequestDispatcher("AddStaff.jsp").forward(request, response);
+            return;
+        }
+
+        if (!phone.matches("\\d{10,11}")) {
+            request.setAttribute("error", "Số điện thoại không hợp lệ! Vui lòng nhập số có 10-11 chữ số.");
+            request.getRequestDispatcher("AddStaff.jsp").forward(request, response);
+            return;
+        }
+        if (!email.matches("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+            request.setAttribute("error", "Email không hợp lệ! Vui lòng nhập đúng định dạng (ví dụ: example@gmail.com).");
+            request.getRequestDispatcher("AddStaff.jsp").forward(request, response);
+            return;
+        }
+
+        if (staff_address.isEmpty() || !staff_address.matches("^[\\p{L}\\p{N}\\s.,\\/-]+$")) {
+            request.setAttribute("error", "Địa chỉ không hợp lệ! Vui lòng nhập địa chỉ hợp lệ (chỉ chứa chữ, số, khoảng trắng và các ký tự .,\\/-).");
+            request.getRequestDispatcher("AddStaff.jsp").forward(request, response);
+            return;
+        }
         String salaryRaw = request.getParameter("salary");
 
         try {

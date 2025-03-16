@@ -30,10 +30,12 @@
                 </li>
                 <li> <a href="index2.html"><i class="bx bx-right-arrow-alt"></i>Sales</a>
                 </li>
+                <li> <a href="dashboardcustomersupport.html"><i class="bx bx-right-arrow-alt"></i>Customer Support</a>
+                </li>
             </ul>
         </li>
         <li class="menu-label">Web Apps</li>
-        
+
         <li>
             <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon icon-color-2"><i class="bx bx-envelope"></i>
@@ -49,7 +51,7 @@
                 </li>
                 <li> <a href="component-cards.html"><i class="bx bx-right-arrow-alt"></i>Gửi email tự động</a>
                 </li>
-                
+
             </ul>
         </li>
         <li>

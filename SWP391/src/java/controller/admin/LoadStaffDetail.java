@@ -78,14 +78,14 @@ public class LoadStaffDetail extends HttpServlet {
         out.println("<tr>");
         out.println("<th>Admin_hired_date</th>");
         out.println("<th>Salary</th>");
-        //out.println("<th>Duration</th>");
+        
         out.println("</tr>");
         out.println("</thead>");
         out.println("<tbody>");
         out.println("<tr>");
         out.println("<td>" + s.getAdmin_hired_date()+ "</td>");
         out.println("<td>" + s.getAdmin_salary() + "</td>");
-        //out.println("<td>" + s.getServiceType().getDuration_service()+ "</td>"); // Sửa thành duration_service
+        
         out.println("<td>");
         out.println("</td>");
         out.println("</tr>");
@@ -93,6 +93,28 @@ public class LoadStaffDetail extends HttpServlet {
         out.println("</tbody>");
         out.println("</table>");
         out.println("</div>");
+        
+//        out.println("<div class='container-fluid'>");
+//        out.println("<table class='table'>");
+//        out.println("<thead>");
+//        out.println("<tr><th>Ảnh</th><th>Admin_hired_date</th><th>Salary</th></tr>");
+//        out.println("</thead>");
+//        out.println("<tbody>");
+//        out.println("<tr>");
+//
+//        
+//        if (s.getImage_profile_admin() != null && !s.getImage_profile_admin().isEmpty()) {
+//            out.println("<td><img src='" + s.getImage_profile_admin() + "' width='100'></td>");
+//        } else {
+//            out.println("<td>Không có ảnh</td>");
+//        }
+//
+//        out.println("<td>" + s.getAdmin_hired_date() + "</td>");
+//        out.println("<td>" + s.getAdmin_salary() + "</td>");
+//        out.println("</tr>");
+//        out.println("</tbody>");
+//        out.println("</table>");
+//        out.println("</div>");
     } 
 
     /** 

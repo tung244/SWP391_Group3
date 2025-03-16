@@ -21,6 +21,7 @@ import model.ServiceDetail;
 import model.ServiceTypes;
 import model.Services;
 import model.Slots;
+import model.Staffs;
 
 public class UserProfileDAO extends DBContext {
 
@@ -311,12 +312,13 @@ public class UserProfileDAO extends DBContext {
     public List<Appointment> getAppointmentByPatientID(int patientID) {
         List<Appointment> list = new ArrayList<>();
         String sql = """
-                      SELECT * FROM dbo.Appointment a 
-                                     JOIN dbo.Services_Detail s ON s.service_detail_id = a.service_detail_id 
-                                     JOIN dbo.Services se ON se.service_id = s.service_id 
-                                     JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id 
-                                     JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id
-                                     JOIN dbo.Slots sl ON a.slot_id = sl.slot_id 
+                       SELECT a.appointment_id, a.appointment_date, 
+                                     s.service_name, sd.cost, 
+                                     st.service_type_name, st.duration_service
+                              FROM dbo.Appointment a
+                              JOIN dbo.Services_Detail sd ON sd.service_detail_id = a.service_detail_id
+                              JOIN dbo.Services s ON s.service_id = sd.service_id
+                              JOIN dbo.Services_Type st ON st.service_type_id = sd.service_type_id
                                      where a.patient_id = ?                                                   """;
 
         try {
@@ -325,32 +327,17 @@ public class UserProfileDAO extends DBContext {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
-                int appointment_id = rs.getInt("appointment_id");
-                Date appointment_date2 = rs.getDate("appointment_date");
-                String appointment_status = rs.getString("appointment_status");
-                String doctor_name = rs.getString("doctor_name");
-                int doctor_id = rs.getInt("doctor_id");
-                Doctors doctor = new Doctors(doctor_id, doctor_name);
-                java.sql.Time sqlstart_time = rs.getTime("start_time");
-                java.sql.Time sqlend_time = rs.getTime("end_time");
-                int slot_id = rs.getInt("slot_id");
-                LocalTime start_time = sqlstart_time.toLocalTime();
-                LocalTime end_time = sqlend_time.toLocalTime();
-                Slots slot = new Slots(slot_id, start_time, end_time);
-                String service_description = rs.getString("service_description");
-                String service_name = rs.getString("service_name");
-                int type_id = rs.getInt("service_type_id");
-                String service_type_name = rs.getString("service_type_name");
-                String duration_service = rs.getString("duration_service");
-                Services service = new Services(service_name, service_description);
-                ServiceTypes serviceType = new ServiceTypes(type_id, service_type_name, duration_service);
+                int id = rs.getInt("appointment_id");
+                Date date = rs.getDate("appointment_date");
+                String serviceNameResult = rs.getString("service_name");
                 int cost = rs.getInt("cost");
-                int service_detail_id = rs.getInt("service_detail_id");
-                ServiceDetail service_detail = new ServiceDetail(service_detail_id, service, serviceType, cost);
-                int account_id = rs.getInt("patient_id");
-                Account account = new Account(account_id);
-                UserProfile user = new UserProfile(account);
-                Appointment appointment = new Appointment(appointment_id, appointment_date2, appointment_status, doctor, slot, serviceType, service, service_detail, user);
+                String serviceTypeNameResult = rs.getString("service_type_name");
+                String duration = rs.getString("duration_service");
+
+                Services service = new Services(serviceNameResult);
+                ServiceTypes serviceType = new ServiceTypes(serviceTypeNameResult, duration);
+                ServiceDetail serviceDetail = new ServiceDetail(cost);
+                Appointment appointment = new Appointment(id, date, service, serviceDetail, serviceType);
                 list.add(appointment);
             }
         } catch (SQLException e) {
@@ -364,10 +351,11 @@ public class UserProfileDAO extends DBContext {
         String sql = """
             SELECT a.appointment_id, a.appointment_status, 
                    d.doctor_name, sl.start_time, sl.end_time, 
-                   s.service_description
+                   s.service_description, st.admin_fullname
             FROM dbo.Appointment a 
             JOIN dbo.Services_Detail sd ON sd.service_detail_id = a.service_detail_id 
             JOIN dbo.Services s ON s.service_id = sd.service_id 
+            JOIN dbo.Staff st on a.staff_id = st.account_id
             JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id
             JOIN dbo.Slots sl ON a.slot_id = sl.slot_id 
             WHERE a.appointment_id = ? """;
@@ -382,12 +370,13 @@ public class UserProfileDAO extends DBContext {
                     LocalTime startTime = rs.getTime("start_time").toLocalTime();
                     LocalTime endTime = rs.getTime("end_time").toLocalTime();
                     String serviceDescription = rs.getString("service_description");
-
+                    String staff_name = rs.getString("admin_fullname");
+                    Staffs staff = new Staffs(staff_name);
                     Slots slot = new Slots(id, startTime, endTime);
                     Doctors doctor = new Doctors(id, doctorName);
                     Services service = new Services(doctorName, serviceDescription);
 
-                    list.add(new Appointment(id, status, doctor, slot, service));
+                    list.add(new Appointment(id, status, staff, doctor, slot, service));
                 }
             }
         } catch (SQLException e) {
@@ -513,7 +502,7 @@ public class UserProfileDAO extends DBContext {
     
     public static void main(String[] args) {
         UserProfileDAO dao = new UserProfileDAO();
-        for (Appointment a : dao.searchAppointments("K", "", "", "")) {
+        for (Appointment a : dao.getAppointmentByAppointmentId(7)) {
             System.out.println(a);
         }
 

@@ -28,7 +28,12 @@ INSERT INTO Accounts (username, password, email, phone_number, role_id, google_i
 ('doctor3', 'doctorpass3', 'doctor3@example.com', '1112233447', 3, NULL, NULL),
 ('doctor4', 'doctorpass4', 'doctor4@example.com', '1112233448', 3, NULL, NULL),
 ('doctor5', 'doctorpass5', 'doctor5@example.com', '1112233449', 3, NULL, NULL),
-('guest1', 'guestpass', 'guest1@example.com', '6677889900', 5, NULL, NULL);
+('guest1', 'guestpass', 'guest1@example.com', '6677889900', 5, NULL, NULL),
+('guest2', 'guestpass', 'guest2@example.com', '6677889901', 5, NULL, NULL),
+('guest3', 'guestpass', 'guest3@example.com', '6677889902', 5, NULL, NULL),
+('guest4', 'guestpass', 'guest4@example.com', '6677889903', 5, NULL, NULL),
+('guest5', 'guestpass', 'guest5@example.com', '6677889904', 5, NULL, NULL);
+
 
 
 INSERT INTO Accounts (username, password, email, phone_number, role_id, google_id, facebook_id) VALUES

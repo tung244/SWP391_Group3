@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -47,6 +48,13 @@
         <div class="container">
             <div class="form-container">
                 <h2 class="page-title">Add Staff</h2>
+                
+
+                <c:if test="${error != null}">
+                    <div class="alert alert-danger" role="alert">
+                        ${error}
+                    </div>  
+                </c:if>
 
                 <form action="${pageContext.request.contextPath}/admin/AddStaff" method="get">
                     <div class="row g-3">
@@ -111,13 +119,13 @@
                                 <input type="email" class="form-control" name="email" required/>
                             </div>
                         </div>
-                         <div class="col-md-6">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Salary</label>
                                 <input type="text" class="form-control" name="salary" required/>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="text-center mt-4">

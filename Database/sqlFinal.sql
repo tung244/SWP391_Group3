@@ -1,4 +1,5 @@
-﻿USE [master]
+﻿
+USE [master]
 GO
 
 /*******************************************************************************
@@ -174,6 +175,18 @@ CREATE TABLE Schedules (
     FOREIGN KEY (slot_id) REFERENCES Slots(slot_id)
 );
 
+CREATE TABLE Staff (
+    account_id INT PRIMARY KEY,
+	admin_fullname NVARCHAR(255),
+	admin_address NVARCHAR(255),
+	admin_dob DATE,
+	admin_gender NVARCHAR(50),
+	image_profile_admin NVARCHAR(255),
+	admin_hired_date DATETIME,
+	admin_salary DECIMAL(18,2),
+	FOREIGN KEY(account_id) REFERENCES dbo.Accounts(account_id)
+);
+
 CREATE TABLE Appointment(
 	appointment_id INT PRIMARY KEY IDENTITY(1,1),
 	appointment_date DATETIME,
@@ -181,6 +194,8 @@ CREATE TABLE Appointment(
 	doctor_id INT,
 	slot_id int,
 	service_detail_id INT,
+	staff_id int, 
+	FOREIGN KEY (staff_id) REFERENCES Staff(account_id),
 	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
 	FOREIGN KEY (slot_id) REFERENCES dbo.Slots(slot_id) ,
 	FOREIGN KEY (service_detail_id) REFERENCES dbo.Services_Detail(service_detail_id) ,
@@ -206,17 +221,7 @@ CREATE TABLE Follow_Up (
 	FOREIGN KEY (appointment_id) REFERENCES Appointment(appointment_id) ,
 );
 
-CREATE TABLE Staff (
-    account_id INT PRIMARY KEY,
-	admin_fullname NVARCHAR(255),
-	admin_address NVARCHAR(255),
-	admin_dob DATE,
-	admin_gender NVARCHAR(50),
-	image_profile_admin NVARCHAR(255),
-	admin_hired_date DATETIME,
-	admin_salary DECIMAL(18,2),
-	FOREIGN KEY(account_id) REFERENCES dbo.Accounts(account_id)
-);
+
 
 CREATE TABLE Feedback_Service(
     feedback_id INT IDENTITY(1,1) PRIMARY KEY,

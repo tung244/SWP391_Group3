@@ -24,6 +24,13 @@ public class Staffs {
     public Staffs() {
     }
 
+    public Staffs(String admin_fullname) {
+        this.admin_fullname = admin_fullname;
+    }
+
+    
+
+    
     public Staffs(Account account, String admin_fullname, String admin_address, Date admin_dob, String admin_gender, String image_profile_admin, Timestamp admin_hired_date, BigDecimal admin_salary) {
         this.account = account;
         this.admin_fullname = admin_fullname;
