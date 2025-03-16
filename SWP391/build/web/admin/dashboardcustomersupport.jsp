@@ -953,11 +953,64 @@
         <script src="assets/plugins/vectormap/jquery-jvectormap-us-aea-en.js"></script>
         <script src="assets/plugins/vectormap/jquery-jvectormap-uk-mill-en.js"></script>
         <script src="assets/plugins/vectormap/jquery-jvectormap-au-mill.js"></script>
-        <script src="assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+        <!--        <script src="assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>-->
+                <script src="assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+
         <script src="assets/js/index2.js"></script>
         <!-- App JS -->
         <script src="assets/js/app.js"></script>
-
+        <script>
+                            $(function () {
+                                "use strict";
+                                var options = {
+                                    series: [{
+                                            name: 'Visitors',
+                                            data: [10, 9, 24, 19, 22, 9, 12, 7]
+                                        }],
+                                    chart: {
+                                        type: 'bar',
+                                        width: 130,
+                                        height: 65,
+                                        sparkline: {
+                                            enabled: true
+                                        },
+                                        stacked: true,
+                                        toolbar: {
+                                            show: false
+                                        },
+                                    },
+                                    plotOptions: {
+                                        bar: {
+                                            horizontal: false,
+                                            columnWidth: '25%',
+                                            endingShape: 'rounded'
+                                        },
+                                    },
+                                    legend: {
+                                        position: 'top',
+                                        horizontalAlign: 'left',
+                                        offsetX: 0
+                                    },
+                                    dataLabels: {
+                                        enabled: false
+                                    },
+                                    stroke: {
+                                        show: true,
+                                        width: 0,
+                                        colors: ['transparent']
+                                    },
+                                    colors: ["#673ab7"],
+                                    xaxis: {
+                                        categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                                    },
+                                    fill: {
+                                        opacity: 1
+                                    }
+                                };
+                                var chart = new ApexCharts(document.querySelector("#chart1"), options);
+                                chart.render();
+                            });
+        </script>
     </body>
 
 </html>
