@@ -65,6 +65,8 @@ public class DashBoardFeedBackCustomerSupport extends HttpServlet {
         FeedbackDAO dao = new FeedbackDAO();
         List<FeedbackService> listFWP = dao.getCustomerSupportFeedbackWithPercentage();
         List<FeedbackService> listF = dao.getFeedbackServiceCustomerSupport();
+        List<String> listName = dao.getCustomerSupportNames();
+        request.getParameter("");
         int page, numperpage = 6;
         int size = listF.size();
         int num = (size%6==0?(size/6):((size/6)+1));
@@ -79,6 +81,7 @@ public class DashBoardFeedBackCustomerSupport extends HttpServlet {
         end = Math.min(page*numperpage, size);
         List<FeedbackService> listFS = dao.getFeedbackServiceByPage((ArrayList<FeedbackService>) listF, start, end);
         request.setAttribute("listFWP", listFWP);
+        request.setAttribute("listName", listName);
         request.setAttribute("page", page);
         request.setAttribute("numpage", num);
         request.setAttribute("listF", listFS);
@@ -104,13 +107,15 @@ public class DashBoardFeedBackCustomerSupport extends HttpServlet {
         String appointment_id_Raw = request.getParameter("appointment_id");
         int appointment_id = Integer.parseInt(appointment_id_Raw);
         FeedbackDAO dao = new FeedbackDAO();
-        System.out.println("aaaaaaaaaaaaaaaaaaaaa");
         boolean checkAdd = dao.addFeedback(appointment_id, text, rating);
         if (checkAdd == false) {
             session.setAttribute("error", "Chưa thể thêm feedback");
             request.getRequestDispatcher("homepage/detailtransaction.jsp").forward(request, response);
             return;
         }
+        String staffName = request.getParameter("staffName");
+        String year = request.getParameter("year");
+        
         request.getRequestDispatcher("dashboardcustomersupport.jsp").forward(request, response);
 
     }

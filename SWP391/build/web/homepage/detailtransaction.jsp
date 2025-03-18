@@ -159,7 +159,7 @@
                                         <td class="userprofile-table-cell">${appointment.doctor.doctor_name}</td>
                                         <td class="userprofile-table-cell">
                                             ${appointment.staff.admin_fullname}
-                                            <button class="review-button" onclick="openReviewModal('${appointment.appointment_id}')">Đánh giá</button>
+                                            <button class="review-button" onclick="openReviewModal('${appointment.appointment_id}')">★</button>
                                         </td>
                                     </tr>
                                 </c:forEach>

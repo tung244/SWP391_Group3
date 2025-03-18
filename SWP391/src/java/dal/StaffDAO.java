@@ -170,7 +170,7 @@ public class StaffDAO extends DBContext {
         boolean success = false;
 
         String updateStaffQuery = "UPDATE Staff SET admin_fullname = ?, admin_address = ?, admin_dob = ?, "
-                + "admin_gender = ?, image_profile_admin = ?, admin_hired_date = ?, admin_salary = ? WHERE account_id = ?";
+                + "admin_gender = ?, image_profile_admin = ?, admin_salary = ? WHERE account_id = ?";
 
         try {
             // Khởi tạo kết nối
@@ -184,9 +184,8 @@ public class StaffDAO extends DBContext {
             psUpdateStaff.setDate(3, new java.sql.Date(staff.getAdmin_dob().getTime()));
             psUpdateStaff.setString(4, staff.getAdmin_gender());
             psUpdateStaff.setString(5, staff.getImage_profile_admin()); // Kiểm tra giá trị này
-            psUpdateStaff.setTimestamp(6, staff.getAdmin_hired_date()); // Kiểm tra giá trị này
-            psUpdateStaff.setBigDecimal(7, staff.getAdmin_salary()); // Kiểm tra giá trị này
-            psUpdateStaff.setInt(8, staff.getAccount().getAccount_id());
+            psUpdateStaff.setBigDecimal(6, staff.getAdmin_salary()); // Kiểm tra giá trị này
+            psUpdateStaff.setInt(7, staff.getAccount().getAccount_id());
 
             int rowsUpdatedStaff = psUpdateStaff.executeUpdate();
 

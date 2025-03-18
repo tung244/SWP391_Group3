@@ -3,17 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/controller/admin/DashBoardFeedBackCustomerSupport.java</file>
-            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/dal/UserProfileDAO.java</file>
-            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/model/Appointment.java</file>
-            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/model/FeedbackService.java</file>
-            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/model/Staffs.java</file>
-            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/dal/StaffDAO.java</file>
-            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/web/homepage/detailtransaction.jsp</file>
             <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/dal/FeedbackDAO.java</file>
-            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/web/admin/dashboardcustomersupport.jsp</file>
-            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/web/admin/StaffList.jsp</file>
-            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/web/admin/AddStaff.jsp</file>
+            <file>file:/C:/Users/-ASUS-/Downloads/Swp/SWP391_Group3/SWP391/src/java/controller/admin/AddStaff.java</file>
         </group>
     </open-files>
 </project-private>

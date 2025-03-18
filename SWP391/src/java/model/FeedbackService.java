@@ -22,9 +22,20 @@ public class FeedbackService {
     public int total_feedback ;
     public int totalStars ;
     public String full_name;
+    public int month;
+ 
      
     public FeedbackService() {
     }
+
+    public FeedbackService(double average_rating, int month) {
+        this.average_rating = average_rating;
+        this.month = month;
+    }
+
+   
+
+    
 
     public FeedbackService(String status, int rating, int feedback_id, Date feedback_date, Appointment appointment, String full_name) {
         this.status = status;

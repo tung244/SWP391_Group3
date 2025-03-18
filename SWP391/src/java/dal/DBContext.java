@@ -8,8 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
 public class DBContext {
+
     protected Connection connection;
 
     public DBContext() {
@@ -24,7 +24,13 @@ public class DBContext {
             System.out.println(ex);
         }
     }
-     public static void main(String[] args) {
-         
-     }
+
+    public static void main(String[] args) {
+        DBContext db = new DBContext();
+        if (db.connection != null) {
+            System.out.println("Kết nối thành công!");
+        } else {
+            System.out.println("Kết nối thất bại!");
+        }
+    }
 }

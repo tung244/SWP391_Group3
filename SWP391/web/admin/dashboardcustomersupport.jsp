@@ -722,14 +722,22 @@
                                     <div>
                                         <h5 class="mb-2 mb-lg-0">Sales Update</h5>
                                     </div>
+
+
                                     <div class="ms-lg-auto mb-2 mb-lg-0">
-                                        <div class="btn-group-round">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-white">Daiiy</button>
-                                                <button type="button" class="btn btn-white">Weekly</button>
-                                                <button type="button" class="btn btn-white">Monthly</button>
-                                            </div>
-                                        </div>
+                                        <form action="dashboardcustomersupport" method="POST">
+                                            <label for="staffName">Customer Support:</label>
+                                            <select id="staffName" name="staffName" required>
+                                                <option value="">-- Chose Customer Support --</option>
+                                                <c:forEach var="name" items="${listName}">
+                                                    <option value="${name}">${name}</option>
+                                                </c:forEach>
+                                            </select>
+
+                                            <label for="year">Year:</label>
+                                            <input type="number" id="year" name="year" required min="2000" max="2100" value="<%= java.time.Year.now().getValue() %>">
+                                            <button type="submit">View</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -953,60 +961,87 @@
         <script src="assets/plugins/vectormap/jquery-jvectormap-us-aea-en.js"></script>
         <script src="assets/plugins/vectormap/jquery-jvectormap-uk-mill-en.js"></script>
         <script src="assets/plugins/vectormap/jquery-jvectormap-au-mill.js"></script>
-        <!--        <script src="assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>-->
-                <script src="assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+        <script src="assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
 
-        <script src="assets/js/index2.js"></script>
+        <!--        <script src="assets/js/index2.js"></script>-->
         <!-- App JS -->
         <script src="assets/js/app.js"></script>
         <script>
                             $(function () {
-                                "use strict";
                                 var options = {
                                     series: [{
-                                            name: 'Visitors',
-                                            data: [10, 9, 24, 19, 22, 9, 12, 7]
+                                            name: 'Income', // Ch? gi? l?i chu?i d? li?u Income
+                                            data: [18, 51, 80, 38, 88, 50, 40, 52, 88, 80, 60, 70]
                                         }],
                                     chart: {
-                                        type: 'bar',
-                                        width: 130,
-                                        height: 65,
-                                        sparkline: {
-                                            enabled: true
-                                        },
-                                        stacked: true,
+                                        foreColor: '#9ba7b2',
+                                        type: 'area', // Gi? l?i lo?i bi?u ?? là di?n tích
+                                        height: 340,
                                         toolbar: {
                                             show: false
                                         },
-                                    },
-                                    plotOptions: {
-                                        bar: {
-                                            horizontal: false,
-                                            columnWidth: '25%',
-                                            endingShape: 'rounded'
+                                        zoom: {
+                                            enabled: false
                                         },
+                                        dropShadow: {
+                                            enabled: false,
+                                            top: 3,
+                                            left: 14,
+                                            blur: 4,
+                                            opacity: 0.10,
+                                        }
                                     },
                                     legend: {
                                         position: 'top',
                                         horizontalAlign: 'left',
-                                        offsetX: 0
+                                        offsetX: -25
                                     },
                                     dataLabels: {
                                         enabled: false
                                     },
                                     stroke: {
                                         show: true,
-                                        width: 0,
-                                        colors: ['transparent']
+                                        width: 3,
+                                        curve: 'smooth'
                                     },
-                                    colors: ["#673ab7"],
-                                    xaxis: {
-                                        categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                                    tooltip: {
+                                        theme: 'dark',
+                                        y: {
+                                            formatter: function (val) {
+                                                return "$ " + val + " "; // Hi?n th? d?u $
+                                            }
+                                        }
                                     },
                                     fill: {
-                                        opacity: 1
+                                        type: 'gradient',
+                                        gradient: {
+                                            shade: 'light',
+                                            gradientToColors: ['#377dff'], // Ch? m?t màu cho Income
+                                            shadeIntensity: 1,
+                                            type: 'vertical',
+                                            inverseColors: false,
+                                            opacityFrom: 0.4,
+                                            opacityTo: 0.1,
+                                        },
+                                    },
+                                    grid: {
+                                        show: true,
+                                        borderColor: '#f8f8f8',
+                                        strokeDashArray: 5,
+                                    },
+                                    colors: ["rgb(34,139,34)"], // Ch? gi? l?i màu cho Income
+                                    yaxis: {
+                                        labels: {
+                                            formatter: function (value) {
+                                                return value + "$"; // Hi?n th? d?u $
+                                            }
+                                        },
+                                    },
+                                    xaxis: {
+                                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                                     }
                                 };
+
                                 var chart = new ApexCharts(document.querySelector("#chart1"), options);
                                 chart.render();
                             });
