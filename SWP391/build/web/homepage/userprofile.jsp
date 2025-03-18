@@ -120,6 +120,10 @@
                                 <input type="text" class="userprofile-form-input" value="${userProfile.gender}" readonly>
                             </div>
                             <div class="userprofile-form-group">
+                                <label class="userprofile-form-label">Hạng Thành Viên</label>
+                                <input type="text" class="userprofile-form-input" value="${userProfile.rank.rankName}" readonly>
+                            </div>
+                            <div class="userprofile-form-group">
                                 <label class="userprofile-form-label">Ngày sinh</label>
                                 <input type="text" class="userprofile-form-input" value="${userProfile.dob}" readonly>
                             </div>

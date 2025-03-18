@@ -91,7 +91,11 @@ public class TransactionHistoryy extends HttpServlet {
         request.setAttribute("page", page);
         request.setAttribute("numpage", num);
         request.setAttribute("type", "history");
+<<<<<<< HEAD
         request.getRequestDispatcher("homepage/transactionhistory.jsp").forward(request, response);
+=======
+        request.getRequestDispatcher("/homepage/transactionhistory.jsp").forward(request, response);
+>>>>>>> test
     } 
 
     /** 

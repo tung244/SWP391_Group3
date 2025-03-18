@@ -37,12 +37,21 @@
         <div class="wrapper">
             <!--sidebar-wrapper-->
             <div class="sidebar-wrapper" data-simplebar="true">
+<<<<<<< HEAD
                 <div class="sidebar-header">
                     <div class="">
                         <img src="assets/images/logo-icon.png" class="logo-icon-2" alt="" />
                     </div>
                     <div>
                         <h4 class="logo-text">Syndash</h4>
+=======
+                <div class="sidebar-header" >
+                    <div class="">
+                        <img src="assets/images/logoicon.png" class="logo-icon-2" alt=""  />
+                    </div>
+                    <div>
+                        <h4 class="logo-text">Dashboard</h4>
+>>>>>>> test
                     </div>
                     <a href="javascript:;" class="toggle-btn ms-auto"> <i class="bx bx-menu"></i>
                     </a>
@@ -725,7 +734,11 @@
 
 
                                     <div class="ms-lg-auto mb-2 mb-lg-0">
+<<<<<<< HEAD
                                         <form action="dashboardcustomersupport" method="POST">
+=======
+                                        <form action="dashboardcustomersupport" method="get">
+>>>>>>> test
                                             <label for="staffName">Customer Support:</label>
                                             <select id="staffName" name="staffName" required>
                                                 <option value="">-- Chose Customer Support --</option>
@@ -966,6 +979,7 @@
         <!--        <script src="assets/js/index2.js"></script>-->
         <!-- App JS -->
         <script src="assets/js/app.js"></script>
+<<<<<<< HEAD
         <script>
                             $(function () {
                                 var options = {
@@ -1045,6 +1059,77 @@
                                 var chart = new ApexCharts(document.querySelector("#chart1"), options);
                                 chart.render();
                             });
+=======
+       
+        <script>
+            $(function () {
+                var feedbackData = [];
+                var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+            <c:forEach var="feedback" items="${requestScope.listFM}">
+                feedbackData.push({month: ${feedback.month}, rating: ${feedback.average_rating}});
+            </c:forEach>
+
+                var ratings = new Array(12).fill(0);
+                feedbackData.forEach(function (data) {
+                    ratings[data.month - 1] = data.rating;
+                });
+
+                var options = {
+                    series: [{
+                            name: 'Average Rating',
+                            data: ratings
+                        }],
+                    chart: {
+                        foreColor: '#9ba7b2',
+                        type: 'area',
+                        height: 340,
+                        toolbar: {show: false},
+                        zoom: {enabled: false}
+                    },
+                    legend: {
+                        position: 'top',
+                        horizontalAlign: 'left',
+                        offsetX: -25
+                    },
+                    dataLabels: {enabled: false},
+                    stroke: {show: true, width: 3, curve: 'smooth'},
+                    tooltip: {
+                        theme: 'dark',
+                        y: {
+                            formatter: function (val) {
+                                return val + '%';
+                            }
+                        }
+                    },
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shade: 'light',
+                            gradientToColors: ['#377dff'],
+                            shadeIntensity: 1,
+                            type: 'vertical',
+                            inverseColors: false,
+                            opacityFrom: 0.4,
+                            opacityTo: 0.1
+                        }
+                    },
+                    grid: {show: true, borderColor: '#f8f8f8', strokeDashArray: 5},
+                    colors: ["rgb(34,139,34)"],
+                    yaxis: {
+                        labels: {
+                            formatter: function (value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    xaxis: {categories: months}
+                };
+
+                var chart = new ApexCharts(document.querySelector("#chart1"), options);
+                chart.render();
+            });
+>>>>>>> test
         </script>
     </body>
 

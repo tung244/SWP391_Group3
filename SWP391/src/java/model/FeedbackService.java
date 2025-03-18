@@ -114,6 +114,17 @@ public class FeedbackService {
         return full_name;
     }
 
+<<<<<<< HEAD
+=======
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+>>>>>>> test
     public void setFull_name(String full_name) {
         this.full_name = full_name;
     }
@@ -161,7 +172,11 @@ public class FeedbackService {
     public void setAppointment_id(int appointment_id) {
         this.appointment_id = appointment_id;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> test
     @Override
     public String toString() {
         return "FeedbackService{" + "status=" + status + ", rating=" + rating + ", feedback_id=" + feedback_id + ", average_rating=" + average_rating + ", feedback_date=" + feedback_date + ", appointment=" + appointment + ", appointment_id=" + appointment_id + ", staff_id=" + staff_id + ", total_feedback=" + total_feedback + ", totalStars=" + totalStars + ", full_name=" + full_name + '}';

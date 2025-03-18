@@ -26,9 +26,12 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.internet.MimeUtility;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import model.Appointments;
+import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 public class SendMail {
 
@@ -70,6 +73,56 @@ public class SendMail {
 
             // Đặt tiêu đề với UTF-8
             message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+
+            // Đặt nội dung email với UTF-8
+            MimeMultipart multipart = new MimeMultipart();
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(emailContent, "text/html; charset=UTF-8");
+            multipart.addBodyPart(messageBodyPart);
+            message.setContent(multipart);
+            Transport.send(message);
+            System.out.println("mail được gửi" + System.currentTimeMillis());
+
+            Transport.send(message);
+            System.out.println("Mail đã được gửi thành công!");
+
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+    
+    public static boolean guiMailXacMinh(String email,String token, String tieude, String nameUser) throws UnsupportedEncodingException {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", Mail.HOST_NAME);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", Mail.TSL_PORT);
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+
+            message.setSubject(tieude);
+
+            // Tạo link xác nhận với token
+            String confirmationLink = "http://localhost:8080/SWP391/xacminh?token="+token;
+            String emailContent = "Xin chào,<br>"+nameUser+" 😉<br>"
+                    +"Cảm ơn bạn đã tin tưởng Eyecare. Đây là link xác minh tài khoản của bạn.<br>"
+                    + "Vui lòng nhấp vào liên kết dưới đây để xác nhận tài khoản của bạn:<br>"
+                    + "<a href='" + confirmationLink + "'>Xác nhận tài khoản</a><br><br>"
+                    + "Nếu bạn không yêu cầu điều này, vui lòng bỏ qua email này.";
+            
+            // Đặt tiêu đề với UTF-8
+            message.setSubject(MimeUtility.encodeText(tieude, "UTF-8", "B"));
 
             // Đặt nội dung email với UTF-8
             MimeMultipart multipart = new MimeMultipart();
@@ -158,7 +211,214 @@ public class SendMail {
 
     }
 
-    public static void guiEmailTuDong(List<String> email, String noidung, String tieude) throws UnsupportedEncodingException, InterruptedException {
+    public static boolean MailConfirmAppointment(Appointments appointment) throws UnsupportedEncodingException {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", Mail.HOST_NAME);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", Mail.TSL_PORT);
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
+            }
+        });
+        String paymentLink = "http://localhost:9999/SWP391/payment?id=" + appointment.getAppointment_id() + "&cost=5000";
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        String formattedCost = currencyFormat.format(appointment.getActualCost());
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(appointment.getUser().getAccount().getEmail()));
+
+            String subject = "Notify EyeCare Appointment";
+            String emailContent = "<html>\n"
+                    + "<head>\n"
+                    + "    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>\n"
+                    + "    <style>\n"
+                    + "        body { font-family: Arial, sans-serif; }\n"
+                    + "        .email-container { width: 100%; padding: 20px; background-color: #f4f4f4; text-align: center; }\n"
+                    + "        .email-content { background-color: #fff; padding: 20px; border-radius: 10px; width: 100%; max-width: 600px; margin: 0 auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }\n"
+                    + "        h2 { color: #333; }\n"
+                    + "        .details { font-size: 18px; color: #555; }\n"
+                    + "        .reminder { font-weight: bold; color: #e74c3c; }\n"
+                    + "    </style>\n"
+                    + "</head>\n"
+                    + "<body>\n"
+                    + "    <div class='email-container'>\n"
+                    + "        <div class='email-content'>\n"
+                    + "            <h2>Xác Nhận Đặt Lịch Thành Công Cho" + appointment.getUser().getFullname() + "!</h2>\n"
+                    + "            <p class='details'>Bạn đã đăng ký dịch vụ: <strong>[" + appointment.getService_detail().getServices().getService_name() + "]</strong></p>\n"
+                    + "            <p class='details'>Ngày: <strong>[" + appointment.getAppointment_date() + "]</strong></p>\n"
+                    + "            <p class='details'>Giờ: <strong>[" + appointment.getSlot().getStart_time() + " - " + appointment.getSlot().getEnd_time() + "]</strong></p>\n"
+                    + "            <p class='details'>Bác sĩ: <strong>[" + appointment.getDoctor().getDoctor_name() + "]</strong></p>\n"
+                    + "            <p class='details'>Giá: <strong>[" + formattedCost + "]</strong></p>\n"
+                    + "            <a href='" + paymentLink + "' class='pay-button'>💳 Thanh toán tại đây</a>\n"
+                    + "            <p class='reminder'>Vui lòng đến đúng lịch hẹn để được phục vụ tốt nhất!</p>\n"
+                    + "        </div>\n"
+                    + "    </div>\n"
+                    + "</body>\n"
+                    + "</html>";
+
+            // Đặt tiêu đề với UTF-8
+            message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+
+            // Đặt nội dung email với UTF-8
+            MimeMultipart multipart = new MimeMultipart();
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(emailContent, "text/html; charset=UTF-8");
+            multipart.addBodyPart(messageBodyPart);
+            message.setContent(multipart);
+            Transport.send(message);
+            System.out.println("mail được gửi" + System.currentTimeMillis());
+
+            Transport.send(message);
+            System.out.println("Mail đã được gửi thành công!");
+
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean MailConfirmPaymentAppointment(Appointments appointment) throws UnsupportedEncodingException {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", Mail.HOST_NAME);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", Mail.TSL_PORT);
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
+            }
+        });
+        String billLink = "http://localhost:9999/SWP391/Invoice?appointment=" + appointment.getAppointment_id();
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        String formattedCost = currencyFormat.format(appointment.getActualCost());
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(appointment.getUser().getAccount().getEmail()));
+            LocalDateTime now = LocalDateTime.now();
+            String formattedDateTime = now.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+            String subject = "Notify EyeCare Appointment";
+            String emailContent = "<html>\n"
+                    + "<head>\n"
+                    + "    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>\n"
+                    + "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css\">"
+                    + "    <style>\n"
+                    + "        body { font-family: Arial, sans-serif; }\n"
+                    + "        .email-container { width: 100%; padding: 20px; background-color: #f4f4f4; text-align: center; }\n"
+                    + "        .email-content { background-color: #fff; padding: 20px; border-radius: 10px; width: 100%; max-width: 600px; margin: 0 auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }\n"
+                    + "        h2 { color: #333; }\n"
+                    + "        .details { font-size: 18px; color: #555; }\n"
+                    + "        .reminder { font-weight: bold; color: #e74c3c; }\n"
+                    + "    </style>\n"
+                    + "</head>\n"
+                    + "<body>\n"
+                    + "    <div class='email-container'>\n"
+                    + "        <div class='email-content'>\n"
+                    + "            <h2>Xác nhận thanh toán thành công cho cuộc hẹn của " + appointment.getUser().getFullname() + "!</h2>\n"
+                    + "            <p class='details'>Bạn đã thanh toán thành công cho cuộc hẹn: <strong>[" + appointment.getAppointment_id() + "]</strong></p>\n"
+                    + "            <p class='details'>Ngày: <strong>[" + formattedDateTime + "]</strong></p>\n"
+                    + "            <p class='details'>Giá: <strong>[" + formattedCost + "]</strong></p>\n"
+                    + "            <a href='" + billLink + "' class='pay-button'><i class='fas fa-file-invoice'></i> Xem bill tại đây</a>\n"
+                    + "            <p class='reminder'>Vui lòng đến đúng lịch hẹn để được phục vụ tốt nhất. Nếu hủy lịch bạn sẽ mất một số tiền đấy nhé!</p>\n"
+                    + "        </div>\n"
+                    + "    </div>\n"
+                    + "</body>\n"
+                    + "</html>";
+
+            // Đặt tiêu đề với UTF-8
+            message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+
+            // Đặt nội dung email với UTF-8
+            MimeMultipart multipart = new MimeMultipart();
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(emailContent, "text/html; charset=UTF-8");
+            multipart.addBodyPart(messageBodyPart);
+            message.setContent(multipart);
+            Transport.send(message);
+            System.out.println("mail được gửi" + System.currentTimeMillis());
+
+            Transport.send(message);
+            System.out.println("Mail đã được gửi thành công!");
+
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean MailNotifyPaymentAppointment(Appointments appointment) throws UnsupportedEncodingException {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", Mail.HOST_NAME);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", Mail.TSL_PORT);
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
+            }
+        });
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        String formattedCost = currencyFormat.format(appointment.getService_detail().getCost());
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(appointment.getUser().getAccount().getEmail()));
+            LocalDateTime now = LocalDateTime.now();
+            String formattedDateTime = now.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+            String subject = "Nhắc nhở thanh toán cho cuộc hẹn của EyeCare";
+            String emailContent = "<html>\n"
+                    + "<head>\n"
+                    + "    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>\n"
+                    + "    <style>\n"
+                    + "        body { font-family: Arial, sans-serif; }\n"
+                    + "        .email-container { width: 100%; padding: 20px; background-color: #f4f4f4; text-align: center; }\n"
+                    + "        .email-content { background-color: #fff; padding: 20px; border-radius: 10px; width: 100%; max-width: 600px; margin: 0 auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }\n"
+                    + "        h2 { color: #333; }\n"
+                    + "        .details { font-size: 18px; color: #555; }\n"
+                    + "        .reminder { font-weight: bold; color: #e74c3c; }\n"
+                    + "    </style>\n"
+                    + "</head>\n"
+                    + "<body>\n"
+                    + "    <div class='email-container'>\n"
+                    + "        <div class='email-content'>\n"
+                    + "            <h2>Làm ơn hãy nhanh chóng thanh toán hóa đơn cho cuộc hẹn " + appointment.getAppointment_id() + "!</h2>\n"
+                    + "            <p class='details'>Ngày: <strong>[" + formattedDateTime + "]</strong></p>\n"
+                    + "            <p class='details'>Giờ: <strong>[" + appointment.getSlot().getStart_time() + " - " + appointment.getSlot().getEnd_time() + "]</strong></p>\n"
+                    + "            <p class='details'>Giá: <strong>[" + formattedCost + "]</strong></p>\n"
+                    + "            <p class='reminder'>Vui lòng thanh toán đúng hạn trước khi cuộc hẹn bị hủy đấy nhé!</p>\n"
+                    + "        </div>\n"
+                    + "    </div>\n"
+                    + "</body>\n"
+                    + "</html>";
+
+            // Đặt tiêu đề với UTF-8
+            message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+
+            // Đặt nội dung email với UTF-8
+            MimeMultipart multipart = new MimeMultipart();
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(emailContent, "text/html; charset=UTF-8");
+            multipart.addBodyPart(messageBodyPart);
+            message.setContent(multipart);
+            Transport.send(message);
+            System.out.println("mail được gửi" + System.currentTimeMillis());
+
+            Transport.send(message);
+            System.out.println("Mail đã được gửi thành công!");
+
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean guiEmailTuDong(List<String> email, String noidung, String tieude) throws UnsupportedEncodingException, InterruptedException {
         int size = 10;
         int total = email.size();
         int emailsent = 0;
@@ -197,19 +457,76 @@ public class SendMail {
 
                 emailsent += batch.size();
                 System.out.println("Gửi xong: " + emailsent + "/" + total);
-                
-                Thread.sleep(3000);  // chờ 3s 
 
+                Thread.sleep(3000);  // chờ 3s 
+                return true;
             }
         } catch (MessagingException e) {
             e.printStackTrace();
+
         }
         System.out.println("Gửi hoàn tất!");
+        return false;
     }
 
-    public static void main(String[] args) throws UnsupportedEncodingException, InterruptedException {
-        List<String> email = Arrays.asList("nguyenluongk2k4@gmail.com", "luongndhe181876@fpt.edu.vn", "kn1802204@gmail.com");
-        guiEmailTuDong(email, "lương vip pro", "test mail tự động");
+    public static boolean guiMailDoctor(String email, String password, String nameUser) throws UnsupportedEncodingException {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", Mail.HOST_NAME);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", Mail.TSL_PORT);
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+
+            String subject = "Thông tin tài khoản bác sĩ";
+            String emailContent = "<html><head>"
+                    + "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>"
+                    + "<style>"
+                    + "  body { font-family: Arial, sans-serif; }"
+                    + "  .email-container { width: 100%; padding: 20px; background-color: #f4f4f4; text-align: center; }"
+                    + "  .email-content { background-color: #fff; padding: 20px; border-radius: 10px; width: 100%; max-width: 600px; margin: 0 auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }"
+                    + "  h2 { color: #333; }"
+                    + "  .otp { font-size: 20px; color: #3498db; font-weight: bold; }"
+                    + "</style>"
+                    + "</head><body>"
+                    + "<div class='email-container'>"
+                    + "<div class='email-content'>"
+                    + "<h2>Hi " + nameUser + "!</h2>"
+                    + "<p>Your account password doctor is: <span class='otp'>" + password + "</span></p>"
+                    + "<a href='http://localhost:9999/SWP391/admin/login'>Click here</a>"
+                    + "<p>Please use this password to login to your account!</p>"
+                    + "</div></div>"
+                    + "</body></html>";
+
+            // Đặt tiêu đề với UTF-8
+            message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+
+            // Đặt nội dung email với UTF-8
+            MimeMultipart multipart = new MimeMultipart();
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(emailContent, "text/html; charset=UTF-8");
+            multipart.addBodyPart(messageBodyPart);
+            message.setContent(multipart);
+            Transport.send(message);
+            System.out.println("mail được gửi" + System.currentTimeMillis());
+
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        guiSupport("nguyenluongk2k4@gmail.com", "Hehe lương", "Lương");
+    }
 }

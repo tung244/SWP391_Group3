@@ -24,6 +24,7 @@ public class DBContext {
             System.out.println(ex);
         }
     }
+<<<<<<< HEAD
 
     public static void main(String[] args) {
         DBContext db = new DBContext();
@@ -33,4 +34,16 @@ public class DBContext {
             System.out.println("Kết nối thất bại!");
         }
     }
+=======
+     public static void main(String[] args) {
+         DBContext dbContext = new DBContext();
+        
+        // Check if the connection is not null and print a message accordingly
+        if (dbContext.connection != null) {
+            System.out.println("Database connection is active.");
+        } else {
+            System.out.println("Database connection failed.");
+        }
+     }
+>>>>>>> test
 }

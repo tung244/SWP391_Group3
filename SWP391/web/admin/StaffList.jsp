@@ -47,12 +47,12 @@
         <div class="wrapper">
             <!--sidebar-wrapper-->
             <div class="sidebar-wrapper" data-simplebar="true">
-                <div class="sidebar-header">
+                <div class="sidebar-header" >
                     <div class="">
-                        <img src="assets/images/logo-icon.png" class="logo-icon-2" alt="" />
+                        <img src="assets/images/logoicon.png" class="logo-icon-2" alt=""  />
                     </div>
                     <div>
-                        <h4 class="logo-text">Syndash</h4>
+                        <h4 class="logo-text">Dashboard</h4>
                     </div>
                     <a href="javascript:;" class="toggle-btn ms-auto"> <i class="bx bx-menu"></i>
                     </a>
@@ -766,7 +766,11 @@
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
                                         <a class="dropdown-item" href="searchstaff?sortrole=Customer Support">Customer Support</a>
+<<<<<<< HEAD
                                         <a class="dropdown-item" href="searchstaff?sortrole=Sale">Sale</a>
+=======
+                                        <a class="dropdown-item" href="searchstaff?sortrole=Sales">Sale</a>
+>>>>>>> test
                                         <div class="dropdown-divider"></div>
                                     </div>
                                 </div>

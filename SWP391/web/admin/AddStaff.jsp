@@ -48,8 +48,13 @@
         <div class="container">
             <div class="form-container">
                 <h2 class="page-title">Add Staff</h2>
+<<<<<<< HEAD
                 
 
+=======
+
+
+>>>>>>> test
                 <c:if test="${error != null}">
                     <div class="alert alert-danger" role="alert">
                         ${error}

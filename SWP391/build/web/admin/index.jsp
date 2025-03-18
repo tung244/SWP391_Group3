@@ -35,6 +35,7 @@
     </head>
     <body>
         <!-- wrapper -->
+<<<<<<< HEAD
         <div class="wrapper">
             <!--sidebar-wrapper-->
             <div class="sidebar-wrapper" data-simplebar="true">
@@ -725,6 +726,9 @@
                     </div>
                 </nav>
             </header>
+=======
+        <jsp:include page="Common/Navbar.jsp"/>
+>>>>>>> test
             <!--end header-->
             <!--page-wrapper-->
             <div class="page-wrapper">

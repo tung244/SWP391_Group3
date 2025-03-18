@@ -2,11 +2,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
+    
     <head>
         <jsp:include page="Common/Css.jsp"/>
         <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/decoupled-document/ckeditor.js"></script>
-        
+
     </head>
 
     <body>
@@ -25,53 +25,53 @@
                     <div class="page-content">
                         <!--start email wrapper-->
                         <div class="email-wrapper">
-                            <div class="email-sidebar">
-                                <div class="email-sidebar-header d-grid"> <a href="javascript:;" class="btn btn-primary compose-mail-btn"><i class='bx bx-plus me-2'></i> Compose</a>
-                                </div>
-                                <div class="email-sidebar-content">
-                                    <div class="email-navigation">
-                                        <div class="list-group list-group-flush"> <a href="emailbox.html" class="list-group-item active d-flex align-items-center"><i class='bx bxs-inbox me-3 font-20'></i><span>Inbox</span><span class="badge bg-primary rounded-pill ms-auto">7,513</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-star me-3 font-20'></i><span>Starred</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-alarm-snooze me-3 font-20'></i><span>Snoozed</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-send me-3 font-20'></i><span>Sent</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-file-blank me-3 font-20'></i><span>Drafts</span><span class="badge bg-primary rounded-pill ms-auto">4</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-bookmark me-3 font-20'></i><span>Important</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-message-rounded-error me-3 font-20'></i><span>Chats</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bx-mail-send me-3 font-20'></i><span>Scheduled</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-envelope-open me-3 font-20'></i><span>All Mail</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-info-circle me-3 font-20'></i><span>Spam</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-trash-alt me-3 font-20'></i><span>Trash</span></a>
-                                        </div>
-                                    </div>
-                                    <div class="email-meeting">
-                                        <div class="list-group list-group-flush">
-                                            <div class="list-group-item"><span>Meet</span>
-                                            </div> <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-video me-3 font-20'></i><span>Start a meeting</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-group me-3 font-20'></i><span>Join a meeting</span></a>
-                                            <div class="list-group-item email-hangout cursor-pointer border-top">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="chat-user-online">
-                                                        <img src="assets/images/avatars/avatar-1.png" width="42" height="42" class="rounded-circle" alt="" />
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        <p class="mb-0">Jessica Doe</p>
-                                                    </div>
-                                                    <div class="dropdown">
-                                                        <div class="font-24 dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown"><i class='bx bx-plus'></i>
-                                                        </div>
-                                                        <div class="dropdown-menu dropdown-menu-right">	<a class="dropdown-item" href="javascript:;">Settings</a>
-                                                            <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Help & Feedback</a>
-                                                            <a class="dropdown-item" href="javascript:;">Enable Split View Mode</a>
-                                                            <a class="dropdown-item" href="javascript:;">Keyboard Shortcuts</a>
-                                                            <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Sign Out</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--                            <div class="email-sidebar">
+                                                            <div class="email-sidebar-header d-grid"> <a href="javascript:;" class="btn btn-primary compose-mail-btn"><i class='bx bx-plus me-2'></i> Compose</a>
+                                                            </div>
+                                                            <div class="email-sidebar-content">
+                                                                <div class="email-navigation">
+                                                                    <div class="list-group list-group-flush"> <a href="emailbox.html" class="list-group-item active d-flex align-items-center"><i class='bx bxs-inbox me-3 font-20'></i><span>Inbox</span><span class="badge bg-primary rounded-pill ms-auto">7,513</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-star me-3 font-20'></i><span>Starred</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-alarm-snooze me-3 font-20'></i><span>Snoozed</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-send me-3 font-20'></i><span>Sent</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-file-blank me-3 font-20'></i><span>Drafts</span><span class="badge bg-primary rounded-pill ms-auto">4</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-bookmark me-3 font-20'></i><span>Important</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-message-rounded-error me-3 font-20'></i><span>Chats</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bx-mail-send me-3 font-20'></i><span>Scheduled</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-envelope-open me-3 font-20'></i><span>All Mail</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-info-circle me-3 font-20'></i><span>Spam</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-trash-alt me-3 font-20'></i><span>Trash</span></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="email-meeting">
+                                                                    <div class="list-group list-group-flush">
+                                                                        <div class="list-group-item"><span>Meet</span>
+                                                                        </div> <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-video me-3 font-20'></i><span>Start a meeting</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-group me-3 font-20'></i><span>Join a meeting</span></a>
+                                                                        <div class="list-group-item email-hangout cursor-pointer border-top">
+                                                                            <div class="d-flex align-items-center">
+                                                                                <div class="chat-user-online">
+                                                                                    <img src="assets/images/avatars/avatar-1.png" width="42" height="42" class="rounded-circle" alt="" />
+                                                                                </div>
+                                                                                <div class="flex-grow-1 ms-2">
+                                                                                    <p class="mb-0">Jessica Doe</p>
+                                                                                </div>
+                                                                                <div class="dropdown">
+                                                                                    <div class="font-24 dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown"><i class='bx bx-plus'></i>
+                                                                                    </div>
+                                                                                    <div class="dropdown-menu dropdown-menu-right">	<a class="dropdown-item" href="javascript:;">Settings</a>
+                                                                                        <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Help & Feedback</a>
+                                                                                        <a class="dropdown-item" href="javascript:;">Enable Split View Mode</a>
+                                                                                        <a class="dropdown-item" href="javascript:;">Keyboard Shortcuts</a>
+                                                                                        <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Sign Out</a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>-->
                             <div class="email-header d-xl-flex align-items-center">
                                 <div class="d-flex align-items-center">
                                     <div class="email-toggle-btn"><i class='bx bx-menu'></i>
@@ -79,22 +79,25 @@
                                     <div class="btn btn-white">
                                         <input class="form-check-input" type="checkbox">
                                     </div>
+                                    
                                     <div class="">
-                                        <button type="button" class="btn btn-white ms-2"><i class='bx bx-refresh me-0'></i>
-                                        </button>
+                                        <!--                                        <button type="button" class="btn btn-white ms-2"><i class='bx bx-downvote me-0'></i>
+                                                                                </button>-->
+                                        <a href="#" style="margin-left: 10px" class="btn btn-primary compose-mail-btn">Phản hồi</a>
                                     </div>
                                     <div class="">
-                                        <button type="button" class="btn btn-white ms-2"><i class='bx bx-downvote me-0'></i>
-                                        </button>
+                                        <!--                                        <button type="button" class="btn btn-white ms-2"><i class='bx bx-refresh me-0'></i>
+                                                                                </button>-->
+                                        <a href="#" class="btn btn-primary" style="margin-left: 10px; background-color: #3498db; border: none" onclick="history.back(); return false;">Quay lại</a>
                                     </div>
-                                    <div class="d-none d-md-flex">
+<!--                                    <div class="d-none d-md-flex">
                                         <button type="button" class="btn btn-white ms-2"><i class='bx bx-file me-0'></i>
                                         </button>
                                     </div>
                                     <div class="">
                                         <button type="button" class="btn btn-white ms-2"><i class='bx bx-trash me-0'></i>
                                         </button>
-                                    </div>
+                                    </div>-->
                                 </div>
                                 <div class="flex-grow-1 mx-xl-2 my-2 my-xl-0">
                                     <div class="input-group">	<span class="input-group-text bg-transparent"><i class="bx bx-search"></i></span>
@@ -111,9 +114,9 @@
                             </div>
                             <div class="email-content">
                                 <div class="email-read-box p-3">
-                                    <h4>${gmail.subject}</h4>
+                                    <h4 style="margin-left: 20px">${gmail.subject}</h4>
                                     <hr>
-                                    <div class="d-flex align-items-center">
+                                    <div style="padding: 10px 20px" class="d-flex align-items-center">
                                         <img src="assets/images/avatars/avatar-1.png" width="42" height="42" class="rounded-circle" alt="" />
                                         <div class="flex-grow-1 ms-2">
                                             <p class="mb-0 font-weight-bold">Support</p>
@@ -157,13 +160,13 @@
                                                         <div class="">
                                                             <div class="btn-group">
                                                                 <button type="submit" class="btn btn-primary">Send</button>
-<!--                                                                <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-                                                                </button>
-                                                                <div class="dropdown-menu">	<a class="dropdown-item" href="javascript:;">Action</a>
-                                                                    <a class="dropdown-item" href="javascript:;">Another action</a>
-                                                                    <a class="dropdown-item" href="javascript:;">Something else here</a>
-                                                                    <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-                                                                </div>-->
+                                                                <!--                                                                <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
+                                                                                                                                </button>
+                                                                                                                                <div class="dropdown-menu">	<a class="dropdown-item" href="javascript:;">Action</a>
+                                                                                                                                    <a class="dropdown-item" href="javascript:;">Another action</a>
+                                                                                                                                    <a class="dropdown-item" href="javascript:;">Something else here</a>
+                                                                                                                                    <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
+                                                                                                                                </div>-->
                                                             </div>
                                                         </div>
                                                         <div class="ms-2">
@@ -207,6 +210,7 @@
 
             <!-- end footer -->
         </div>
+       
         <!-- end wrapper -->
         <!--start switcher-->
 
@@ -221,63 +225,65 @@
         <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
         <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
         <script>
-            new PerfectScrollbar('.email-navigation');
-            new PerfectScrollbar('.email-read-box');
+                new PerfectScrollbar('.email-navigation');
+                new PerfectScrollbar('.email-read-box');
         </script>
         <!-- App JS -->
         <script src="assets/js/app.js"></script>
 
         <script>
-            let custom_mail_2024_editor = null;
 
-            function custom_mail_2024_initEditor() {
-                if (custom_mail_2024_editor)
-                    return;
 
-                DecoupledEditor
-                        .create(document.querySelector('#custom_mail_2024_content'), {
-                            language: 'vi',
-                            toolbar: [
-                                'heading', '|',
-                                'fontSize', 'fontFamily', '|',
-                                'bold', 'italic', 'underline', '|',
-                                'alignment', '|',
-                                'bulletedList', 'numberedList', '|',
-                                'fontColor', 'fontBackgroundColor', '|',
-                                'link', 'blockQuote', '|',
-                                'undo', 'redo'
-                            ],
-                            fontSize: {
-                                options: [12, 14, 16, 18, 20, 24]
-                            }
-                        })
-                        .then(editor => {
-                            custom_mail_2024_editor = editor;
-                            document.querySelector('#custom_mail_2024_toolbar').appendChild(editor.ui.view.toolbar.element);
-                        })
-                        .catch(error => {
-                            console.error('CKEditor lỗi:', error);
-                        });
-            }
+                let custom_mail_2024_editor = null;
 
-            // Mở modal + khởi tạo CKEditor
-            function custom_mail_2024_openModal() {
-                document.getElementById('custom_mail_2024_emailModal').style.display = 'block';
-                if (!custom_mail_2024_editor) {
-                    custom_mail_2024_initEditor();
+                function custom_mail_2024_initEditor() {
+                    if (custom_mail_2024_editor)
+                        return;
+
+                    DecoupledEditor
+                            .create(document.querySelector('#custom_mail_2024_content'), {
+                                language: 'vi',
+                                toolbar: [
+                                    'heading', '|',
+                                    'fontSize', 'fontFamily', '|',
+                                    'bold', 'italic', 'underline', '|',
+                                    'alignment', '|',
+                                    'bulletedList', 'numberedList', '|',
+                                    'fontColor', 'fontBackgroundColor', '|',
+                                    'link', 'blockQuote', '|',
+                                    'undo', 'redo'
+                                ],
+                                fontSize: {
+                                    options: [12, 14, 16, 18, 20, 24]
+                                }
+                            })
+                            .then(editor => {
+                                custom_mail_2024_editor = editor;
+                                document.querySelector('#custom_mail_2024_toolbar').appendChild(editor.ui.view.toolbar.element);
+                            })
+                            .catch(error => {
+                                console.error('CKEditor lỗi:', error);
+                            });
                 }
-                custom_mail_2024_editor.setData(''); // Reset nội dung
-            }
 
-            // Đóng modal
-            function custom_mail_2024_closeModal() {
-                document.getElementById('custom_mail_2024_emailModal').style.display = 'none';
-            }
+                // Mở modal + khởi tạo CKEditor
+                function custom_mail_2024_openModal() {
+                    document.getElementById('custom_mail_2024_emailModal').style.display = 'block';
+                    if (!custom_mail_2024_editor) {
+                        custom_mail_2024_initEditor();
+                    }
+                    custom_mail_2024_editor.setData(''); // Reset nội dung
+                }
 
-            // Lấy nội dung CKEditor khi submit form
-            document.getElementById("custom_mail_2024_emailForm").addEventListener("submit", function (event) {
-                document.getElementById("content").value = custom_mail_2024_editor.getData();
-            });
+                // Đóng modal
+                function custom_mail_2024_closeModal() {
+                    document.getElementById('custom_mail_2024_emailModal').style.display = 'none';
+                }
+
+                // Lấy nội dung CKEditor khi submit form
+                document.getElementById("custom_mail_2024_emailForm").addEventListener("submit", function (event) {
+                    document.getElementById("content").value = custom_mail_2024_editor.getData();
+                });
         </script>
 
     </body>

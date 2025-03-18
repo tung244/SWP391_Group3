@@ -9,27 +9,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <link rel="icon" href="assets/images/favicon-32x32.png" type="image/png" />
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-        <!--plugins-->
-        <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
-        <link href="assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
-        <link href="assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
-        <!-- loader-->
-        <link href="assets/css/pace.min.css" rel="stylesheet" />
-        <script src="assets/js/pace.min.js"></script>
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Roboto&display=swap" />
-        <!-- Icons CSS -->
-        <link rel="stylesheet" href="assets/css/icons.css" />
-        <!-- App CSS -->
-        <link rel="stylesheet" href="assets/css/app.css" />
-        <link rel="stylesheet" href="assets/css/dark-sidebar.css" />
-        <link rel="stylesheet" href="assets/css/dark-theme.css" />
+        <jsp:include page="Common/Css.jsp"/>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <style>
             .icon {
                 width: 25px;
@@ -38,14 +19,24 @@
                 margin-right: 10px; /* Tăng khoảng cách giữa các biểu tượng */
                 vertical-align: middle; /* Căn chỉnh với văn bản */
             }
+            .pagination .page-item:hover .page-link {
+                background-color: purple; /* Màu nền khi hover */
+                color: white; /* Màu chữ khi hover */
+            }
+            .pagination .page-item.active .page-link {
+                background-color: green; /* Màu nền khi active */
+                color: white; /* Màu chữ khi active */
+            }
+            .pagination .page-link {
+                color: green; /* Màu chữ mặc định */
+            }
         </style>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <title>JSP Page</title>
     </head>
     <body>
         <!-- wrapper -->
         <div class="wrapper">
             <!--sidebar-wrapper-->
+<<<<<<< HEAD
             <div class="sidebar-wrapper" data-simplebar="true">
                 <div class="sidebar-header">
                     <div class="">
@@ -736,6 +727,9 @@
                     </div>
                 </nav>
             </header>
+=======
+            <jsp:include page="Common/Navbar.jsp"/>
+>>>>>>> test
             <!--end header-->
             <!--page-wrapper-->
             <div class="page-wrapper">
@@ -766,7 +760,6 @@
                                         <div class="dropdown-divider"></div>
                                     </div>
                                 </div>
-
                                 <!-- Search by Specialization -->
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-primary">Search by Specialization</button>
@@ -846,6 +839,15 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center">
+                                            <c:forEach var="i" begin="1" end="${requestScope.number}">
+                                                <li class="page-item ${i == page ? 'active' : ''}">
+                                                    <a class="page-link" href="ServiceList?page=${i}">${i}</a>
+                                                </li>
+                                            </c:forEach>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -1052,17 +1054,7 @@
         </script>
         <!-- JavaScript -->
         <!-- Bootstrap JS -->
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <jsp:include page="Common/Js.jsp"/>
 
-        <!--plugins-->
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
-        <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
-        <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-        <!--        <script src="assets/plugins/edittable/bstable.js"></script>-->
-        <!-- App JS -->
-        <script src="assets/js/app.js"></script>
     </body>
 </html>

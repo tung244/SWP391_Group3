@@ -77,7 +77,11 @@
                             display: none; z-index: 1000; padding: 20px; color:black; font-size: 16px">
                             <li style="padding: 4px; cursor: pointer;" ><a href="userprofile"><i style="margin-right: 10px" class='bx bxs-user'></i>Thông tin tài khoản</a></li>
                             <li style="padding: 4px; cursor: pointer;" ><a href="transactionhistoryy"><i style="margin-right: 10px" class='bx bx-history' ></i>Lịch sử dịch vụ<a></li>
+<<<<<<< HEAD
                                         <li style="padding: 4px; cursor: pointer;" ><a href="/homepage/ChangePassword.jsp"><i style="margin-right: 10px" class='bx bxs-edit'></i>Đổi mật khẩu</a></li>
+=======
+                                        <li style="padding: 4px; cursor: pointer;" ><a href="homepage/ChangePassword.jsp"><i style="margin-right: 10px" class='bx bxs-edit'></i>Đổi mật khẩu</a></li>
+>>>>>>> test
                                         <li style="border-top: 1px solid #ddd; margin: 4px 0;"></li>
                                         <li style="padding: 4px; cursor: pointer;" ><a href="logout"><i style="margin-right: 10px" class='bx bx-log-in'></i>Đăng xuất</a></li>
                                         </ul>
@@ -107,15 +111,14 @@
                                                             </div>
                                                             <div class="navbar-collapse collapse clearfix">
                                                                 <ul class="navigation clearfix">
-                                                                    <li class="current"><a href="trangchu">Home</a></li>
-                                                                    
+                                                                    <li class="current"><a href="index.html">Home</a></li>
                                                                     <li class="dropdown"><a href="about.html">About Us</a>
                                                                         <ul>
                                                                             <li><a href="about.html">About Dentalcare</a></li>
-                                                                            <li><a href="list_machine">Device Catalog</a></li>
+
                                                                             <li><a href="listDoctors">Meet Our Dentist</a></li>
                                                                             <li><a href="special-offers.html">Special Offers</a></li>
-                                                                            <li><a href="faq.html">FAQ</a></li>
+                                                                            <li><a href="faq.html">FAQâs</a></li>
                                                                             <li><a href="testimonials.html">Testimonials</a></li>
                                                                         </ul>
                                                                     </li>

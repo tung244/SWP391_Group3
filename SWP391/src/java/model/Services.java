@@ -19,6 +19,7 @@ public class Services {
 
     public Services() {
     }
+<<<<<<< HEAD
 
     public Services(String service_name) {
         this.service_name = service_name;
@@ -29,6 +30,9 @@ public class Services {
         this.service_description = service_description;
     }
 
+=======
+    
+>>>>>>> test
     public Services(int service_id, String service_name, String service_description,String service_status, Specialization specialization) {
         this.service_id = service_id;
         this.service_name = service_name;
@@ -37,6 +41,24 @@ public class Services {
         this.specialization = specialization;
     }
 
+    public Services(int service_id, String service_name) {
+        this.service_id = service_id;
+        this.service_name = service_name;
+    }
+
+    public Services(String service_name) {
+        this.service_name = service_name;
+    }
+    
+    
+    
+    public Services(String service_name, String service_description) {
+        this.service_name = service_name;
+        this.service_description = service_description;
+    }
+    
+    
+    
     public Services(int service_id, String service_name, String service_description) {
         this.service_id = service_id;
         this.service_name = service_name;

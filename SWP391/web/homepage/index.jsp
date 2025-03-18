@@ -277,7 +277,7 @@
                                                            -webkit-box-orient: vertical;
                                                            overflow: hidden;
                                                            text-overflow: ellipsis;font-size: 15px; line-height: 1.5">${machine.machine_description}</p>
-                                                        <a href="list_machine?machine_id=${machine.machine_id}">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
+                                                        <a href="#">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
                                                     </div>
                                                 </div>
                                             </div>

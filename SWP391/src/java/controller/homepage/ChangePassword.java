@@ -71,24 +71,40 @@ public class ChangePassword extends HttpServlet {
         
         if(usernameTest.equals("") || !usernameTest.equals(username)){
             session.setAttribute("error", "Tên đăng nhập không đúng.");
+<<<<<<< HEAD
             response.sendRedirect("homepage/ChangePassword.jsp");
+=======
+            response.sendRedirect("homepage/changepass.jsp");
+>>>>>>> test
             return;
         }
 
         if (current_password.equals("") || !current_password.equals(password)) {
             session.setAttribute("error", "Mật khẩu hiện tại không đúng.");
+<<<<<<< HEAD
             response.sendRedirect("homepage/ChangePassword.jsp");
+=======
+            response.sendRedirect("homepage/changepass.jsp");
+>>>>>>> test
             return;
         }
 
         if (!newpassword.equals(newpassword2)) {
             session.setAttribute("error", "Mật khẩu mới không khớp.");
+<<<<<<< HEAD
             response.sendRedirect("homepage/ChangePassword.jsp");
+=======
+            response.sendRedirect("homepage/changepass.jsp");
+>>>>>>> test
             return;
         }
         if (!newpassword.matches("^[A-Z][a-zA-Z0-9!@#$%^&*()_+\\-=]{7,}$") || !newpassword.matches(".*[!@#$%^&*()_+\\-=].*")) {
             session.setAttribute("error", "Mật khẩu phải có ít nhất 8 ký tự, bắt đầu bằng chữ in hoa và chứa ít nhất một ký tự đặc biệt.");
+<<<<<<< HEAD
             response.sendRedirect("homepage/ChangePassword.jsp");
+=======
+            response.sendRedirect("homepage/changepass.jsp");
+>>>>>>> test
             return;
         }
 
