@@ -32,7 +32,7 @@
                                                     <input type="hidden" name="action" value="login">
                                                     <div class="col-12">
                                                         <label for="inputEmailAddress" class="form-label">Email Address</label>
-                                                        <input type="email" name="email" class="form-control" id="email" value="${sessionScope.email}" placeholder="Email Address" required>
+                                                        <input type="text" name="email" class="form-control" id="email" value="${sessionScope.email}" placeholder="Email Address" required>
                                                         <div name = "email-error" id="email-error" ></div>
                                                     </div>
                                                     <div class="col-12">
@@ -58,17 +58,7 @@
                                     <img src="assets/images/login-images/login-frent-img.jpg" class="img-fluid" alt="...">
                                 </div>
                             </div>
-                            <%
-                                                      String succesMessage = (String) session.getAttribute("error");
-                                                      if(succesMessage != null) {
-                            %>
-                            <script>
-                                                        alert("<%= succesMessage %> ");
-                            </script>
-                            <%
-                                                        session.removeAttribute("error");
-                                                                                }
-                            %>
+                           
                             <!--end row-->
                         </div>
                     </div>
@@ -78,6 +68,8 @@
         <!-- end wrapper -->
     </body>
 
+    <jsp:include page="Common/Message.jsp"/>
+    
     <!--plugins-->
     <script src="assets/js/jquery.min.js"></script>
     <!--Password show & hide js -->

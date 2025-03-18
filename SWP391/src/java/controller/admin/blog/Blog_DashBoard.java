@@ -45,7 +45,13 @@ public class Blog_DashBoard extends HttpServlet {
         int numberPage = calculatePage(blog.calculateTotalBlog(info));
         System.out.println(blog.calculateTotalBlog(info));
         System.out.println(numberPage);
-
+        int currentNumber = Integer.parseInt(info[2]);
+        int nextNumber = currentNumber +5;
+        if(nextNumber >= numberPage){
+            nextNumber = numberPage;
+        }
+        request.setAttribute("nextNumber", nextNumber);
+        request.setAttribute("currentPage", currentNumber);
         request.setAttribute("numberPage", numberPage);
         request.setAttribute("list", list);
         request.setAttribute("sizeDraft", sizeDraft);
@@ -56,7 +62,7 @@ public class Blog_DashBoard extends HttpServlet {
     }
 
     private int calculatePage(int size) {
-        int batch = 2;
+        int batch = 10;
         return (int) Math.ceil((double) size / batch);
     }
 

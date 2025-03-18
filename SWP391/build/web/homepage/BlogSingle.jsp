@@ -77,6 +77,13 @@
             }
             .main-content h2 {
                 line-height: 1.6;
+                margin: 20px 0px;
+            }
+            
+            .main-content li{
+                font-size: 20px;
+                line-height: 1.6;
+                padding: 10px;
             }
             .content-left img {
                 max-width: 100%;
@@ -93,6 +100,7 @@
             }
             .content-right li {
                 margin-bottom: 10px;
+                
             }
             .blog-meta {
                 margin-bottom: 20px;
@@ -141,6 +149,10 @@
                 font-weight: bold !important;
                 margin-bottom: 8px !important;
             }
+            #content h3 {
+                
+                margin-bottom: 8px !important;
+            }
             #content p {
                 font-size: 20px !important;
                 line-height: 1.6 !important;
@@ -161,6 +173,9 @@
             #content figcaption{
                 text-align: center;
                 margin: 5px 0px;
+            }
+            #content img{
+                margin: 30px 0;
             }
             /* Style mới cho nút Play và Stop */
             .control-buttons {

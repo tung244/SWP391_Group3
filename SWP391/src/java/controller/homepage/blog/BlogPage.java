@@ -5,6 +5,7 @@
 
 package controller.homepage.blog;
 
+import bo.blog.CutJavaScriptBlog;
 import dal.BlogDAO;
 import dal.StaffDAO;
 import model.Blog;
@@ -47,6 +48,7 @@ public class BlogPage extends HttpServlet {
         try {
             int blogId  = Integer.parseInt(blog_id);
             Blog blog = bdao.loadBlog(blogId);
+            blog.setBlog_content(CutJavaScriptBlog.cutJavaScript(blog.getBlog_content()));
             
             String[] authorInfo = sdao.loadStaffBlog(blog.getAuthor_id());
             

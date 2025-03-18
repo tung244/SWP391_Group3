@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.admin.doctor;
+package controller.admin.auth;
 
+import bo.EncryptPassword;
 import dal.AccountDAO;
 import dal.DoctorsDAO;
 import dal.PassWordDAO;
@@ -15,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Account;
 
 /**
  *
@@ -77,18 +79,24 @@ public class LoginAdmin extends HttpServlet {
 
         response.getWriter().write(respsonse);
         PassWordDAO pdao = new PassWordDAO();
+        
         if (action.equals("login")) {
             String email = request.getParameter("email").trim();
             String pass = request.getParameter("pass");
-            String encryptPass = pdao.hashPasswordMD5(pass);
-
+            String encryptPass = EncryptPassword.hashPassword(pass);
             boolean success = accdao.LoginByEmail(email, encryptPass);
             if (success) {
                 int role_id = accdao.getRoleID(email);
+                
+                Account a = accdao.getAccountAdmin(email);
+                
+                request.getSession().setAttribute("account", a);
                 switch (role_id) {
                     case 1:
+                        response.sendRedirect("dashboard");
                         break;
                     case 2:
+                        response.sendRedirect("dashboard");
                         break;
                     case 3:
                         if (dao.getFirstConfirm(email)) {
@@ -96,14 +104,16 @@ public class LoginAdmin extends HttpServlet {
                             response.sendRedirect("changePass");
                         } else {
                             int accId = accdao.getAccountIdByEmail(email);
-                            System.out.println(accId);
-                            response.sendRedirect("doctorProfile?accId=" + accId);
+                            
+                            response.sendRedirect("dashboard");
                         }
-
+                        
                         break;
                     case 4:
+                        response.sendRedirect("dashboard");
                         break;
                     case 5:
+                        response.sendRedirect("loginAdmin");
                         break;
                     default:
                         throw new AssertionError();
