@@ -11,8 +11,8 @@ import java.time.LocalTime;
  */
 public class Slots {
     private int slot_id;
-    private LocalTime start_time;
-    private LocalTime end_time;
+    private String start_time;
+    private String end_time;
     ServiceTypes serviceType;
 
     public Slots() {
@@ -21,8 +21,14 @@ public class Slots {
     public Slots(int slot_id) {
         this.slot_id = slot_id;
     }
+
+    public Slots(int slot_id, String start_time, String end_time) {
+        this.slot_id = slot_id;
+        this.start_time = start_time;
+        this.end_time = end_time;
+    }
     
-    public Slots(int slot_id, LocalTime start_time, LocalTime end_time, ServiceTypes serviceType) {
+    public Slots(int slot_id, String start_time, String end_time, ServiceTypes serviceType) {
         this.slot_id = slot_id;
         this.start_time = start_time;
         this.end_time = end_time;
@@ -37,19 +43,19 @@ public class Slots {
         this.slot_id = slot_id;
     }
 
-    public LocalTime getStart_time() {
+    public String getStart_time() {
         return start_time;
     }
 
-    public void setStart_time(LocalTime start_time) {
+    public void setStart_time(String start_time) {
         this.start_time = start_time;
     }
 
-    public LocalTime getEnd_time() {
+    public String getEnd_time() {
         return end_time;
     }
 
-    public void setEnd_time(LocalTime end_time) {
+    public void setEnd_time(String end_time) {
         this.end_time = end_time;
     }
 

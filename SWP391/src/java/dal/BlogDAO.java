@@ -4,6 +4,7 @@
  */
 package dal;
 
+import bo.GetFormatDate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -22,12 +23,14 @@ public class BlogDAO extends DBContext {
                 + "( ?, ?, ?,?,?,?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
+            
             st.setString(1, blog.getBlog_content());
             st.setInt(2, blog.getAuthor_id());
             st.setString(3, blog.getCreated_date_blog());
             st.setString(4, blog.getTitle_meta());
             st.setString(5, blog.getTitle_image_blog());
             st.setString(6, blog.getStatus_blog());
+            System.out.println(sql);
             int affect_row = st.executeUpdate();
             if (affect_row == 1) {
                 return true;
@@ -38,6 +41,8 @@ public class BlogDAO extends DBContext {
 
         return false;
     }
+    
+    
 
     public int loadSizeBlog(String author_id, String status_blog) {
         String sql = "Select count(*) from Blog where author_id = ? and status_blog = ?";

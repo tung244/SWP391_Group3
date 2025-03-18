@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.homepage;
 
 import dal.UserProfileDAO;
@@ -18,53 +17,52 @@ import java.util.List;
 import model.Appointment;
 import model.UserProfile;
 
-
-@WebServlet(name="UserProfile", urlPatterns={"/userprofile"})
+@WebServlet(name = "UserProfile", urlPatterns = {"/userprofile"})
 public class UsersProfile extends HttpServlet {
-   
-   
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserProfile</title>");  
+            out.println("<title>Servlet UserProfile</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserProfile at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UserProfile at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
-    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        String username =  (String) session.getAttribute("username");
-        int account_id = (int) session.getAttribute("account_id");
-        UserProfileDAO  dao = new UserProfileDAO();
+        String username = (String) session.getAttribute("username");
+        Integer account_id = (Integer) session.getAttribute("account_id");
+        if (username == null || account_id == null) {
+            response.sendRedirect("login");
+            return; 
+        }
+        UserProfileDAO dao = new UserProfileDAO();
         UserProfile user = dao.GetAccount(username);
         session.setAttribute("userProfile", user);
-        
+
         List<Appointment> listA = dao.getAppointmentByPatientID(account_id);
         request.setAttribute("appointment", listA);
         request.getRequestDispatcher("homepage/userprofile.jsp").forward(request, response);
-    } 
+    }
 
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    
     @Override
     public String getServletInfo() {
         return "Short description";

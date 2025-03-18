@@ -60,9 +60,13 @@ public class TransactionDetail extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         String appointment_idStr = request.getParameter("appointment_id");
+        if(appointment_idStr==null){
+            response.sendRedirect("login");
+            return; 
+        }
         int appointment_id = Integer.parseInt(appointment_idStr);
         UserProfileDAO  dao = new UserProfileDAO();
-        List<Appointment> listA = dao.getAppoinmentByAppointmentId(appointment_id);
+        List<Appointment> listA = dao.getAppointmentByAppointmentId(appointment_id);
         request.setAttribute("appointment", listA);
         request.getRequestDispatcher("homepage/detailtransaction.jsp").forward(request, response);
         

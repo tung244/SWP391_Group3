@@ -7,12 +7,17 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="Common/Css.jsp"/>
         <style>
+            html, body {
+                overflow: auto;
+                min-height: 100vh;
+            }
             .login-button {
                 background-color: #4CAF50;
                 color: white;
@@ -58,6 +63,10 @@
                 background-color: #45a049;
             }
 
+            .modal-dialog.modal-custom {
+                max-width: 90%; /* Chiều rộng modal là 90% của màn hình */
+                width: 90%;
+            }
 
         </style>  
     </head>
@@ -71,7 +80,7 @@
 
                     </div>
                     <ul class="userprofile-nav-list">
-                        <li class="userprofile-nav-item userprofile-nav-item--active" data-tab="profile">Lịch sử dịch vụ</li>
+                        <a href="transactionhistoryy"><li class="userprofile-nav-item userprofile-nav-item--active" data-tab="profile">Lịch sử dịch vụ</li></a>
                     </ul>
                 </div>
             </div>
@@ -84,27 +93,29 @@
                 <div class="userprofile-main-content">
                     <div class="userprofile-header" style="display: flex; justify-content: space-between; align-items: center;">
                         <h2>Lịch sử dịch vụ</h2>
-                        <form action="searchtransactionhistory" method="get" class="search-form">
+                        <form action="searchtransactionhistory" method="get" class="search-form" style="display: flex; gap: 10px; align-items: center;">
+
                             <input type="text" name="query" class="search-input" placeholder="Tìm kiếm giao dịch...">
-                            <button type="submit" class="search-button">
-                                🔍
-                            </button>
+
+
+                            <label for="startDate">Từ:</label>
+                            <input type="date" name="startDate" class="search-input">
+
+                            <label for="endDate">Đến:</label>
+                            <input type="date" name="endDate" class="search-input">
+
+
+                            <select name="queryType" class="search-input" style="width: 180px;">
+                                <option value="">Chọn loại dịch vụ</option>
+                                <option value="Cơ bản">Cơ bản</option>
+                                <option value="Nâng cao">Nâng cao</option>
+                            </select>
+
+
+                            <button type="submit" class="search-button">🔍</button>
                         </form>
-                        <form action="searchtransactionhistory" method="get" class="search-form">
-                            <input type="text" name="date" class="search-input" placeholder="Tìm kiếm theo ngày...">
-                            <button type="submit" class="search-button">
-                                🔍
-                            </button>
-                        </form>
-                        <form action="searchtransactionhistory" method="get" class="search-form" style="display: flex; align-items: center;">
-                            <div class="service-type-filter">
-                                <select name="query" class="search-input" style="width: 180px;">
-                                    <option value="Cơ bản">Cơ bản</option>
-                                    <option value="Nâng cao">Nâng cao</option>
-                                </select>
-                                <button type="submit" class="search-button" style="margin-left: 10px;">🔍</button>
-                            </div>
-                        </form>
+
+
                     </div>
 
                     <table class="userprofile-table">
@@ -116,6 +127,7 @@
                                 <th class="userprofile-table-cell userprofile-table-header">Gói dịch vụ</th>
                                 <th class="userprofile-table-cell userprofile-table-header">Ngày sử dụng</th>
                                 <th class="userprofile-table-cell userprofile-table-header">Thời gian sử dụng</th>
+                                <th class="userprofile-table-cell userprofile-table-header">Trạng thái</th>
                                 <th class="userprofile-table-cell userprofile-table-header"></th>
 
                             </tr>
@@ -125,19 +137,49 @@
                             <c:forEach items="${requestScope.appointment}" var="appointment">
                                 <tr>
                                     <td class="userprofile-table-cell"> ${appointment.appointment_id}</td>
-                                    <td class="userprofile-table-cell">${appointment.service_name}</td>
-                                    <td class="userprofile-table-cell">${appointment.cost}</td>
-                                    <td class="userprofile-table-cell">${appointment.service_type_name}</td>
-                                    <td class="userprofile-table-cell">${appointment.appointment_date}</td>
-                                    <td class="userprofile-table-cell">${appointment.duration_service}</td>
+                                    <td class="userprofile-table-cell">${appointment.service.service_name}</td>
                                     <td class="userprofile-table-cell">
-                                        <a href="transactiondetail?appointment_id=${appointment.appointment_id}" class="login-button">Chi tiết</a>
+                                        <fmt:formatNumber value="${appointment.service_detail.cost}" pattern="#,###"/>
+                                    </td>
+                                    <td class="userprofile-table-cell">${appointment.service_type.service_type_name}</td>
+                                    <td class="userprofile-table-cell">${appointment.appointment_date}</td>
+                                    <td class="userprofile-table-cell">${appointment.service_type.duration_service}</td>
+                                    <td class="userprofile-table-cell">${appointment.appointment_status}</td>
+                                    <td class="userprofile-table-cell">
+
+                                        <a href="transactiondetail?appointment_id=${appointment.appointment_id}"><i style="color: green" class="fas fa-eye icon"></i></a>
+                                            <c:if test="${appointment.appointment_status.equals('Scheduled')}">
+                                            <a href="payment?id=${appointment.appointment_id}&cost=5000"><i style="color: green" class="fas fa-wallet"></i></a>
+                                            </c:if>
+                                            <c:if test="${appointment.appointment_status.equals('Completed')}">
+                                            <a href="#" title="View" onclick="loadMedicalHistory(${appointment.appointment_id});" data-toggle="modal" data-target="#viewModal">
+                                                <i style="color: green" class="fas fa-file-alt icon"></i>
+                                            </a>
+                                        </c:if> 
+                                        <c:if test="${appointment.appointment_status.equals('Scheduled') ||appointment.appointment_status.equals('Completed') }">
+                                        <a href="Invoice?appointment=${appointment.appointment_id}" title="Bill"><i style="color: green" class="fas fa-file-invoice-dollar"></i></a>
+                                            </c:if>
                                     </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
 
                     </table>
+                    <div class="pagination">
+                        <c:if test="${page > 1}">
+                            <a href="${type == 'search' ? 'searchtransactionhistory' : 'transactionhistoryy'}?page=${page - 1}&query=${param.query}&startDate=${param.startDate}&endDate=${param.endDate}&queryType=${param.queryType}">«</a>
+                        </c:if>
+
+                        <c:forEach var="i" begin="1" end="${numpage}">
+                            <a href="${type == 'search' ? 'searchtransactionhistory' : 'transactionhistoryy'}?page=${i}&query=${param.query}&startDate=${param.startDate}&endDate=${param.endDate}&queryType=${param.queryType}"
+                               class="${i == page ? 'active' : ''}">${i}</a>
+                        </c:forEach>
+
+                        <c:if test="${page < numpage}">
+                            <a href="${type == 'search' ? 'searchtransactionhistory' : 'transactionhistoryy'}?page=${page + 1}&query=${param.query}&startDate=${param.startDate}&endDate=${param.endDate}&queryType=${param.queryType}">»</a>
+                        </c:if>
+                    </div>
+
 
 
 
@@ -146,6 +188,23 @@
 
 
         </div>
+        <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog modal-custom"> <!-- Thêm lớp modal-lg -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Medical Record</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modalContent">
+                        <!-- Nội dung chi tiết đơn hàng sẽ được cập nhật ở đây -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" style="background-color: green" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>    
         <jsp:include page="Common/Message.jsp"/>
         <jsp:include page="Common/Js.jsp"/>
         <script>
@@ -191,6 +250,28 @@
                 showSection('profile');
             });
 
+        </script>
+
+        <script>
+            function loadMedicalHistory(id) {
+                console.log("Loading medical history for ID:", id);
+                var modalContent = document.getElementById("modalContent");
+                modalContent.innerHTML = "Loading...";
+
+                // Send request to servlet
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "/SWP391/LoadMedicalReport?aId=" + id, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        console.log("Response from server:", xhr.responseText);
+                        modalContent.innerHTML = xhr.responseText;
+                        // Show the modal after content is loaded
+                        var modal = new bootstrap.Modal(document.getElementById('viewModal'));
+                        modal.show();
+                    }
+                };
+                xhr.send();
+            }
         </script>
     </body>
 </html>

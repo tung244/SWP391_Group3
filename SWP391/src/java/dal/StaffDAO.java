@@ -206,8 +206,8 @@ public class StaffDAO extends DBContext {
                     psUpdateStaff.close();
                 }
                 if (conn != null) {
-                    conn.setAutoCommit(true); // Reset auto commit về true
-                    conn.close(); // Đảm bảo đóng kết nối
+                    conn.setAutoCommit(true); // Reset auto commit về true  
+                    conn.close(); // Đảm bảo đóng kết nối  
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -234,9 +234,9 @@ public class StaffDAO extends DBContext {
             int roleId = 0;
             String roleName = staff.getAccount().getRole().getRole_name();
             if ("Sales".equals(roleName)) {
-                roleId = 1; // Giả sử role_id cho Sales là 1
+                roleId = 2; // Giả sử role_id cho Sales là 1
             } else if ("Customer Support".equals(roleName)) {
-                roleId = 2; // Giả sử role_id cho Customer Support là 2
+                roleId = 5; // Giả sử role_id cho Customer Support là 2
             } else {
                 throw new IllegalArgumentException("Role must be Sales or Customer Support");
             }
@@ -267,7 +267,7 @@ public class StaffDAO extends DBContext {
                     psInsertStaff.setDate(4, new java.sql.Date(staff.getAdmin_dob().getTime()));
                     psInsertStaff.setString(5, staff.getAdmin_gender());
                     psInsertStaff.setString(6, staff.getImage_profile_admin());
-                    psInsertStaff.setTimestamp(7, staff.getAdmin_hired_date());
+                    psInsertStaff.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
                     psInsertStaff.setBigDecimal(8, staff.getAdmin_salary());
 
                     int rowsInsertedStaff = psInsertStaff.executeUpdate();
@@ -305,7 +305,120 @@ public class StaffDAO extends DBContext {
         return success;
     }
     
-    public String[] loadStaffBlog(int account_id){
+     public boolean deleteStaff(int id) {
+        String deleteStaffSQL = "DELETE FROM Staff WHERE account_id = ?";
+        String deleteAccountSQL = "DELETE FROM Accounts WHERE account_id = ?";
+
+        try (PreparedStatement st1 = connection.prepareStatement(deleteStaffSQL); PreparedStatement st2 = connection.prepareStatement(deleteAccountSQL)) {
+
+            st1.setInt(1, id);
+            int rowsDeletedFromStaff = st1.executeUpdate();  
+
+            st2.setInt(1, id);
+            int rowsDeletedFromAccounts = st2.executeUpdate();  
+            
+            return rowsDeletedFromStaff > 0 || rowsDeletedFromAccounts > 0;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public List<Staffs> searchStaffs(String name, String address, String phone, String roleName) {
+        List<Staffs> staffList = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("""
+        SELECT s.account_id, a.username, a.email, a.phone_number, a.created_date, 
+               r.role_id, r.role_name, s.admin_fullname, s.admin_address, 
+               s.admin_dob, s.admin_gender, s.image_profile_admin, 
+               s.admin_hired_date, s.admin_salary
+        FROM Staff s
+        JOIN Accounts a ON s.account_id = a.account_id
+        JOIN Role r ON a.role_id = r.role_id
+        WHERE 1=1
+    """);
+
+        List<String> params = new ArrayList<>();
+
+        if (name != null && !name.isEmpty()) {
+            sql.append(" AND s.admin_fullname COLLATE SQL_Latin1_General_CP1_CI_AI LIKE ?");
+            System.out.println(name);
+            params.add("%" + name + "%");
+        }
+
+        if (address != null && !address.isEmpty()) {
+            sql.append(" AND s.admin_address LIKE ?");
+            params.add("%" + address + "%");
+        }
+
+        if (phone != null && !phone.isEmpty()) {
+            sql.append(" AND a.phone_number LIKE  ?");
+            params.add("%" + phone + "%");
+        }
+
+        if (roleName != null && !roleName.isEmpty()) {
+            sql.append(" AND r.role_name LIKE  ?");
+            params.add("%" + roleName + "%");
+        }
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                ps.setString(i + 1, params.get(i));
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int accountId = rs.getInt("account_id");
+                    String username = rs.getString("username");
+                    String email = rs.getString("email");
+                    String phoneNumber = rs.getString("phone_number");
+                    String createdDate = rs.getString("created_date");
+                    int roleId = rs.getInt("role_id");
+                    String role_name = rs.getString("role_name");
+                    String adminFullname = rs.getString("admin_fullname");
+                    String adminAddress = rs.getString("admin_address");
+                    Date adminDob = rs.getDate("admin_dob");
+                    String adminGender = rs.getString("admin_gender");
+                    String imageProfileAdmin = rs.getString("image_profile_admin");
+                    Timestamp adminHiredDate = rs.getTimestamp("admin_hired_date");
+                    BigDecimal adminSalary = rs.getBigDecimal("admin_salary");
+
+                    Role role = new Role(roleId, role_name);
+                    Account account = new Account(accountId, username, email, phoneNumber, createdDate, role);
+                    Staffs staff = new Staffs(account, adminFullname, adminAddress, adminDob, adminGender, imageProfileAdmin, adminHiredDate, adminSalary);
+
+                    staffList.add(staff);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return staffList;
+    }
+
+    public List<String> getAllAddresses() {
+        List<String> addressList = new ArrayList<>();
+        String sql = "SELECT DISTINCT admin_address FROM Staff";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                addressList.add(rs.getString("admin_address"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return addressList;
+    }
+    
+    public List<Staffs> getStaffByPage(ArrayList<Staffs> list, int start, int end) {
+        ArrayList<Staffs> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
+
+
+    public String[] loadStaffBlog(int account_id) {
         String sql = "SELECT admin_fullname,image_profile_admin FROM dbo.Staff WHERE account_id = ?";
         String[] s = new String[3];
         try {
@@ -325,8 +438,10 @@ public class StaffDAO extends DBContext {
 
     public static void main(String[] args) {
         StaffDAO dao = new StaffDAO();
-        String [] s = dao.loadStaffBlog(10);
-        System.out.println(s[0]+","+s[1]);
+        List<Staffs> list = dao.searchStaffs("", "", "", "Sales");
+        for (Staffs staffs : list) {
+            System.out.println(staffs);
+        }
 //        int id = 8;
 //        Staffs s = dao.getStaffById(id);
 //        System.out.println(s);

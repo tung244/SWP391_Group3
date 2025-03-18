@@ -10,7 +10,7 @@ public class Gmail {
     private String subject;
     private String date;
     private String context;
-    private String to;
+
     public Gmail(String id, String subject, String date, String context) {
         this.id = id;
         this.subject = subject;
@@ -22,22 +22,6 @@ public class Gmail {
         this.id = id;
         this.subject = subject;
         this.date = date;
-    }
-
-    public Gmail(String id, String subject, String date, String context, String to) {
-        this.id = id;
-        this.subject = subject;
-        this.date = date;
-        this.context = context;
-        this.to = to;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
     }
 
     public String getId() {

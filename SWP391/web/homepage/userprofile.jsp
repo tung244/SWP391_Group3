@@ -13,6 +13,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="Common/Css.jsp"/>
         <style>
+            html, body {
+                overflow: auto;
+                min-height: 100vh;
+            }
             .login-button {
                 background-color: #4CAF50;
                 color: white;
@@ -67,9 +71,13 @@
             <div class="col-md-2">
                 <div class="userprofile-sidebar">
                     <div class="userprofile-nav-header">
-                        <img src="${userProfile.image_profile_user}" alt="Avatar" class="userprofile-avatar">
-
+                        <img id="avatarPreview" src="${userProfile.image_profile_user}" alt="Avatar" class="userprofile-avatar">
+                        <form action="updateimageprofile" method="post" enctype="multipart/form-data">
+                            <input type="file" id="avatarInput" name="profileImage" accept="image/*" >
+                            <button type="submit" class="login-button">Tải lên</button>
+                        </form>
                     </div>
+
                     <ul class="userprofile-nav-list">
                         <li class="userprofile-nav-item userprofile-nav-item--active" data-tab="profile">Thông tin cá nhân</li>
                         <li class="userprofile-nav-item" data-tab="password">Chỉnh sửa thông tin</li>
@@ -90,10 +98,7 @@
                             <h2>Thông tin cá nhân</h2>
                         </div>
                         <div class="userprofile-form">
-                            <div class="userprofile-form-group">
-                                <label class="userprofile-form-label">ID Account</label>
-                                <input type="text" class="userprofile-form-input" value="${userProfile.account.account_id}" readonly>
-                            </div>
+
                             <div class="userprofile-form-group">
                                 <label class="userprofile-form-label">Họ và tên</label>
                                 <input type="text" class="userprofile-form-input" value="${userProfile.fullname}" readonly>
@@ -115,17 +120,18 @@
                                 <input type="text" class="userprofile-form-input" value="${userProfile.gender}" readonly>
                             </div>
                             <div class="userprofile-form-group">
+                                <label class="userprofile-form-label">Hạng Thành Viên</label>
+                                <input type="text" class="userprofile-form-input" value="${userProfile.rank.rankName}" readonly>
+                            </div>
+                            <div class="userprofile-form-group">
                                 <label class="userprofile-form-label">Ngày sinh</label>
                                 <input type="text" class="userprofile-form-input" value="${userProfile.dob}" readonly>
                             </div>
-                            <div class="userprofile-form-group">
-                                <label class="userprofile-form-label">Ảnh đại diện</label>
-                                <input type="text" class="userprofile-form-input" value="${userProfile.image_profile_user}" readonly>
-                            </div>
+
                         </div>
                     </div>
 
-                    
+
                     <form action="updateuserprofile" method="get">
 
                         <div class="userprofile-change-password-container userprofile-section" id="password-section">
@@ -133,10 +139,7 @@
                                 <h2>Chỉnh sửa thông tin</h2>
                             </div>
                             <div class="userprofile-form">
-                                <div class="userprofile-form-group">
-                                    <label class="userprofile-form-label">ID Account</label>
-                                    <input type="text" class="userprofile-form-input" name="account_id" value="${userProfile.account.account_id}" readonly>
-                                </div>
+
                                 <div class="userprofile-form-group">
                                     <label class="userprofile-form-label">Họ và tên</label>
                                     <input type="text" class="userprofile-form-input" name="fullname" value="${userProfile.fullname}">
@@ -201,18 +204,15 @@
                                     <label class="userprofile-form-label">Ngày sinh</label>
                                     <input type="date" type="text" class="userprofile-form-input" name="dob" value="${userProfile.dob}">
                                 </div>
-                                <div class="userprofile-form-group">
-                                    <label class="userprofile-form-label">Ảnh đại diện</label>
-                                    <input type="text"  class="userprofile-form-input" name="imageProfile" value="${userProfile.image_profile_user}">
-                                </div>
+
                             </div>
 
-                            <!-- Nút Submit -->
+
                             <div class="userprofile-form-group">
                                 <button type="submit" class="login-button">Lưu thay đổi</button>
                             </div>
                         </div>
-
+                    </form>
 
                 </div>
             </div>
@@ -261,7 +261,7 @@
                 // Show profile section by default
                 showSection('profile');
             });
-            
+
         </script>
     </body>
 </html>

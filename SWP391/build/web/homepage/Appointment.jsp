@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -117,36 +118,19 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
+                                                <!--                                                <div class="input-box">
+                                                                                                    <input type="date" name="date" placeholder="Date" id="datepicker">
+                                                                                                    <div class="icon-box">
+                                                                                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                                                                    </div>
+                                                                                                </div>-->
                                                 <div class="input-box">
-                                                    <input type="date" name="date" placeholder="Date" id="datepicker">
+                                                    <input type="date" name="date" id="datepicker">
                                                     <div class="icon-box">
                                                         <i class="fa fa-calendar" aria-hidden="true"></i>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="input-box">
-                                                    <select name="doctor" class="selectmenu">
-                                                        <option  selected="selected">Select Doctor</option>
-                                                        <c:forEach var="s" items="${listD}">
-                                                            <option value="${s.doctor_id}">${s.doctor_name}</option> 
-                                                        </c:forEach>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="input-box">
-                                                    <select name="slot" class="selectmenu">
-                                                        <option selected="selected">Select Time</option>
-                                                        <c:forEach var="s" items="${slots}">
-                                                            <option value="${s.slot_id}">${s.start_time} - ${s.end_time}</option> 
-                                                        </c:forEach>
-                                                    </select>
-                                                </div>
-                                            </div>
-
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4">
@@ -161,7 +145,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="input-box">
-                                                    <input type="text" name="cost" placeholder="Cost" value="${s.cost}">
+                                                    <input type="text" name="cost" placeholder="Cost" value="<fmt:formatNumber value="${s.cost}" pattern="#,###" />VNĐ">
                                                 </div>
                                             </div>
                                         </div>
@@ -172,6 +156,7 @@
                                         </div>
                                         <input type="hidden" name="service" value="${s.service_detail_id}">
                                         <input type="hidden" name="patient" value="${sessionScope.user.account.account_id}">
+                                        <input type="hidden" name="rank" value="${sessionScope.user.rank.rankId}">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <button class="thm-btn bg-1" type="submit">submit</button>   
@@ -486,6 +471,14 @@
         </div>
         <!--Scroll to top-->
         <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
+
+        <script>
+            // Lấy ngày hiện tại theo định dạng YYYY-MM-DD
+            let today = new Date().toISOString().split('T')[0];
+
+            // Đặt giá trị min cho input date
+            document.getElementById("datepicker").setAttribute("min", today);
+        </script>
         <!-- main jQuery -->
         <jsp:include page="Common/Message.jsp"/>
 
