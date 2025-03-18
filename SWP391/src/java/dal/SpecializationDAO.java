@@ -77,14 +77,121 @@ public class SpecializationDAO extends DBContext {
         return null;
     }
 
+    public List<Specialization> getSpecializationByFilter(String searchName, String option) {
+        List<Specialization> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM Specialization");
+        List<String> param = new ArrayList<>();
+
+        // Chuẩn hóa searchName (loại bỏ khoảng trắng dư thừa)
+        if (searchName != null && !searchName.trim().isEmpty()) {
+            searchName = searchName.trim().replaceAll("\\s+", " ");
+        }
+
+        if (searchName != null && !searchName.isEmpty()) {
+            sql.append(" WHERE REPLACE(specialization_name, ' ', '') LIKE REPLACE(?, ' ', '') ");
+            param.add("%" + searchName.replace(" ", "") + "%");
+        }
+
+        if ("asc".equalsIgnoreCase(option) || "desc".equalsIgnoreCase(option)) {
+            sql.append(" ORDER BY specialization_name ").append(option.equalsIgnoreCase("asc") ? "ASC" : "DESC");
+        }
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql.toString());
+
+            for (int i = 0; i < param.size(); i++) {
+                st.setString(i + 1, param.get(i));
+            }
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Specialization spe = new Specialization();
+                spe.setSpecialization_id(rs.getInt("specialization_id"));
+                spe.setSpecialization_name(rs.getString("specialization_name"));
+                spe.setSpecialization_status(rs.getString("specialization_status"));
+                list.add(spe);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public Specialization getSpecializationById(int id) {
+        Specialization spe = null;
+        String sql = "SELECT * FROM Specialization WHERE specialization_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                spe = new Specialization();
+                spe.setSpecialization_id(rs.getInt("specialization_id"));
+                spe.setSpecialization_name(rs.getString("specialization_name"));
+                spe.setSpecialization_status(rs.getString("specialization_status"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return spe;
+    }
+
+    // Kiểm tra xem specialization đã tồn tại chưa
+    public boolean getSpecializationByName(String name) {
+        try {
+            String query = "SELECT * FROM Specialization WHERE specialization_name = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Thêm specialization mới
+    public void addSpecialization(String name, String status) {
+        try {
+            String query = "INSERT INTO Specialization (specialization_name, specialization_status) VALUES (?, ?)";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, name);
+            ps.setString(2, status);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateSpecialization(int specializationId, String specializationName, String specializationStatus) {
+
+        PreparedStatement pstmt = null;
+        try {
+            String sql = "UPDATE Specialization SET specialization_name = ?, specialization_status = ? WHERE specialization_id = ?";
+            pstmt = connection.prepareStatement(sql);
+            pstmt.setString(1, specializationName);
+            pstmt.setString(2, specializationStatus);
+            pstmt.setInt(3, specializationId);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+    }
+
     public static void main(String[] args) {
         SpecializationDAO dao = new SpecializationDAO();
+
 //        String speid = dao.getSpecializationIdByDoctorId("1");
 //        System.out.println(speid);
-//        List<Specialization> sp = dao.getSpecializationByDoctorId("1");
+//        List<Specialization> sp = dao.getSpecializationByFilter("n     h     i", "");
 //        for (Specialization specialization : sp) {
 //            System.out.println(specialization);
-//            
-//        }
+////            
+////        }
+        Specialization sp = dao.getSpecializationById(1);
+        System.out.println(dao.getSpecializationByName("General Ophthalmology - Bệnh lý Mắt tổng quát"));
+
     }
 }

@@ -159,7 +159,7 @@
 
                                         <!-- Action Buttons -->
                                         <div class="doctor-actions text-center">
-                                            <a href="appointment?id=#" class="btn btn-success btn-lg mr-3">Book Appointment</a>
+                                            <a href="appointment" class="btn btn-success btn-lg mr-3">Book Appointment</a>
                                             <!--                                            <a href="consultation?id=#" class="btn btn-outline-success btn-lg">Free Consultation</a>-->
                                         </div>
                                     </div>

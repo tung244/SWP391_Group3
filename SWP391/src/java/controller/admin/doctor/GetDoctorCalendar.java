@@ -72,7 +72,7 @@ public class GetDoctorCalendar extends HttpServlet {
         String date = request.getParameter("date");
         List<Appointments> list = new ArrayList<>();
         if(date==null || date.isEmpty()){
-            list = dao.getFilterAppointment(null, doctor_id, formattedDate, null, null);
+            list = dao.getFilterAppointment(null, doctor_id, null, null, null);
         }else{
             list = dao.getFilterAppointment(null, doctor_id, date, null, null);
         }

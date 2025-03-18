@@ -20,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Account;
 import model.Appointments;
 import model.Checkout;
 import model.Rank;
@@ -126,27 +127,29 @@ public class Payment extends HttpServlet {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("{\"error\": \"Lỗi Thanh Toán\"}");
                 }
-                List<Rank> ranks = userDao.getAllRank();
-                double totalSpending = userDao.getAmountSpendingByCusId(Integer.parseInt(transactionId));
-                int rank = 0;
-                for (Rank rank1 : ranks) {
-                    if (totalSpending >= rank1.getMinAmount()) {
-                        rank = rank1.getRankId();
-                    }
-                }
-                boolean updateRank = userDao.updateRank(rank, Integer.parseInt(transactionId));
-                if (updateRank) {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.getWriter().write("{\"success\": true}");
-                } else {
-                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    response.getWriter().write("{\"error\": \"Lỗi update rank\"}");
-                }
-                response.sendRedirect("PaymentSuccess");
             } else {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"error\": \"Thông tin thanh toán không hợp lệ\"}");
             }
+            Account a = userDao.getAccountByAppointmentId(Integer.parseInt(transactionId));
+            int account_id = a.getAccount_id();
+            List<Rank> ranks = userDao.getAllRank();
+            double totalSpending = userDao.getAmountSpendingByCusId(account_id);
+            int rank = 0;
+            for (Rank rank1 : ranks) {
+                if (totalSpending >= rank1.getMinAmount()) {
+                    rank = rank1.getRankId();
+                }
+            }
+            boolean updateRank = userDao.updateRank(rank, account_id);
+            if (updateRank) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("{\"success\": true}");
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\": \"Lỗi update rank\"}");
+            }
+            request.getRequestDispatcher("homepage/PaymentSuccess.jsp").forward(request, response);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"error\": \"Invalid JSON format\"}");

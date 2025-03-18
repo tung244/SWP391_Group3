@@ -69,14 +69,7 @@
             </a>
         </li>
         <li>
-            <a href="invoice.html">
-                <div class="parent-icon icon-color-7"><i class="bx bx-file"></i>
-                </div>
-                <div class="menu-title">Invoice</div>
-            </a>
-        </li>
-        <li>
-            <a href="fullcalender.html">
+            <a href="/SWP391/admin/GetDoctorCalendar?doctor_id=2">
                 <div class="parent-icon icon-color-8"> <i class="bx bx-calendar-check"></i>
                 </div>
                 <div class="menu-title">Calendar</div>
@@ -94,6 +87,13 @@
                 <div class="parent-icon icon-color-10"> <i class="lni lni-slice"></i>
                 </div>
                 <div class="menu-title">Staffs</div>
+            </a>
+        </li>
+        <li>
+            <a href="/SWP391/admin/DoctorList">
+                <div class="parent-icon icon-color-12"> <i class="lni lni-docker"></i>
+                </div>
+                <div class="menu-title">Doctors</div>
             </a>
         </li>
         <li>

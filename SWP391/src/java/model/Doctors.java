@@ -10,6 +10,7 @@ package model;
  */
 public class Doctors {
     private int doctor_id;
+    private  Account acc;
     private String doctor_name;
     private int experience_years;
     private String profile_image;
@@ -35,6 +36,25 @@ public class Doctors {
         this.doctor_name = doctor_name;
     }
     
+
+    public Doctors(int doctor_id, Account acc, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, String doctor_status, Specialization specialization, Certificate certificate, Degree_Doctor degree_doctor) {
+        this.doctor_id = doctor_id;
+        this.acc = acc;
+        this.doctor_name = doctor_name;
+        this.experience_years = experience_years;
+        this.profile_image = profile_image;
+        this.rating = rating;
+        this.gender = gender;
+        this.dob = dob;
+        this.address = address;
+        this.doctor_status = doctor_status;
+        this.specialization = specialization;
+        this.certificate = certificate;
+        this.degree_doctor = degree_doctor;
+    }
+
+   
+    
     
     public Doctors(int doctor_id, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, Specialization specialization, Certificate certificate) {
         this.doctor_id = doctor_id;
@@ -51,6 +71,16 @@ public class Doctors {
         this.degree_doctor = degree_doctor;
     }
 
+    public Account getAcc() {
+        return acc;
+    }
+
+    public void setAcc(Account acc) {
+        this.acc = acc;
+    }
+
+
+   
     public Degree_Doctor getDegree_doctor() {
         return degree_doctor;
     }

@@ -1,6 +1,7 @@
 package dal;
 
 import bo.GetFormatDate;
+import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Timestamp;
 import model.UserProfile;
@@ -32,8 +33,8 @@ public class UserProfileDAO extends DBContext {
         String sqlAccount = "insert into Accounts( username, password,email,phone_number,created_date,role_id)\n"
                 + "values(?,?,?,?,?,?)";
         String sqlGetAccountId = "SELECT account_id FROM dbo.Accounts WHERE username = ?";
-        String sqlUserProfile = "insert into Customers(account_id,full_name,gender,image_profile_user)\n"
-                + "values(?,?,?,?)";
+        String sqlUserProfile = "insert into Customers(account_id,full_name,gender,image_profile_user,rankId)\n"
+                + "values(?,?,?,?,?)";
 
         try {
 
@@ -65,7 +66,7 @@ public class UserProfileDAO extends DBContext {
                 stUserProfile.setString(2, p.fullname);
                 stUserProfile.setString(3, p.getGender());
                 stUserProfile.setString(4, p.getImage_profile_user());
-
+                stUserProfile.setInt(5, p.getRank().getRankId());
                 stUserProfile.executeUpdate();
 
                 connection.commit();
@@ -100,6 +101,7 @@ public class UserProfileDAO extends DBContext {
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
+            System.out.println(sql);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 Role r = new Role(rs.getInt("role_id"),
@@ -161,6 +163,23 @@ public class UserProfileDAO extends DBContext {
             e.printStackTrace();
         }
         return total;
+    }
+
+    public Account getAccountByAppointmentId(int id) {
+        String sql = "select * from Accounts a \n"
+                + "join Appointment app on a.account_id = app.patient_id\n"
+                + "where app.appointment_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return new Account(rs.getInt("account_id"));
+            }
+        } catch (Exception e) {
+            
+        }
+        return null;
     }
 
     public boolean isertAccountGoogle(GoogleAccount gg) {
@@ -531,8 +550,8 @@ public class UserProfileDAO extends DBContext {
         }
         return false;
     }
-    
-    public List<Rank> getAllRank(){
+
+    public List<Rank> getAllRank() {
         List<Rank> list = new ArrayList<>();
         String query = "select * from CustomerRank";
         try {
@@ -546,30 +565,24 @@ public class UserProfileDAO extends DBContext {
         }
         return list;
     }
-    
-    public boolean updateRank(int rankId, int accountId){
+
+    public boolean updateRank(int rankId, int accountId) {
         String sql = "Update Customers set rankId = ? where account_id =?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, rankId);
             ps.setInt(2, accountId);
-            return ps.executeUpdate() >0;
+            return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
     
-    public static void main(String[] args) {
-        UserProfileDAO dao = new UserProfileDAO();
-//        for (UserProfile a : dao.GetAccount("guest1")) {
-//            System.out.println(a);
-//        }
-//        UserProfile u = dao.GetAccount("guest1");
-//        System.out.println(u);
-        double d = dao.getAmountSpendingByCusId(7);
-        DecimalFormat df = new DecimalFormat("#,###");
-        System.out.println(df.format(d));
-
+        public static void main(String[] args) {
+        UserProfileDAO udao = new UserProfileDAO();
+        Account a = udao.getAccountByAppointmentId(31);
+            System.out.println(a);
     }
+
 }

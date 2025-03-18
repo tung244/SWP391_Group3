@@ -11,12 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author APC
  */
-@WebServlet(name = "vnpay_pay", urlPatterns = {"/vnpay_pay"})
+@WebServlet(name = "vnpay_pay", urlPatterns = {"/vnpay"})
 public class vnpay_pay extends HttpServlet {
 
     /**
@@ -57,7 +58,11 @@ public class vnpay_pay extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/vnpay_pay.jsp").forward(request, response);
+        String appointment_id = request.getParameter("appointment_id");
+        String amount = request.getParameter("amount");
+        request.setAttribute("amount", amount);
+        request.setAttribute("appointment_id", appointment_id);
+        request.getRequestDispatcher("/vnpay/vnpay_pay.jsp").forward(request, response);
     }
 
     /**

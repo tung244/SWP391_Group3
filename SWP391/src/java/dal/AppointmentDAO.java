@@ -573,13 +573,10 @@ public class AppointmentDAO extends DBContext {
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //        String formattedDate = currentDate.format(formatter);
 
-//        List<Discount> list = dao.getDiscountByRankId(1);
-//        for (Discount appointments : list) {
-//            System.out.println(appointments);
-//        }
-        Discount d = dao.getDiscountByRankId(1);
-        System.out.println(d);
-
+        List<Appointments> list = dao.getFilterAppointment(null, "1", "2025-02-20", null, null);
+        for (Appointments appointments : list) {
+            System.out.println(appointments);
+        }
 //        String date = "03/27/2025";
 //        Date appointment_date = null;
 //

@@ -81,6 +81,8 @@ CREATE TABLE Accounts (
     role_id INT,
 	google_id nvarchar(255),
 	facebook_id NVARCHAR(255),
+	first_confirm NVARCHAR(30),
+	status_account nvarchar(10),
     FOREIGN KEY (role_id) REFERENCES Role(role_id)
 );
 
@@ -105,11 +107,17 @@ CREATE TABLE [Degree](
 );
 
 CREATE TABLE [Degree_Doctor](
+	degree_doctor_id INT PRIMARY KEY IDENTITY(1,1),
 	doctor_id INT,
 	degree_id INT,
-	PRIMARY KEY(doctor_id,degree_id),
+	degree_image NVARCHAR(255),
+	date_degree DATETIME,
+	date_change DATETIME,
+	[status] NVARCHAR(255),
+	issued_by NVARCHAR(255),
+	version INT DEFAULT 1,
 	FOREIGN KEY (doctor_id) REFERENCES dbo.Doctors(doctor_id),
-	FOREIGN KEY (degree_id) REFERENCES dbo.Degree(degree_id)
+	FOREIGN KEY (degree_id) REFERENCES dbo.Degree(degree_id),
 );
 
 CREATE TABLE [Certificate](
@@ -121,11 +129,15 @@ CREATE TABLE Certificate_Doctor(
 	certificate_id INT ,
 	doctor_id INT,
 	date_certificate DATETIME,
+	date_change DATETIME,
+	[status] NVARCHAR(255),
 	issued_by NVARCHAR(255),
+	certificate_image NVARCHAR(255),
 	PRIMARY KEY (doctor_id, certificate_id),
 	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ,
     FOREIGN KEY (certificate_id) REFERENCES Certificate(certificate_id) 
 );
+
 
 create table CustomerRank(
 	rankId INT IDENTITY(1,1) primary key,
@@ -204,6 +216,19 @@ CREATE TABLE Schedules (
     FOREIGN KEY (slot_id) REFERENCES Slots(slot_id)
 );
 
+CREATE TABLE Staff (
+	staff_id int primary key identity(1,1),
+    account_id INT unique,
+	admin_fullname NVARCHAR(255),
+	admin_address NVARCHAR(255),
+	admin_dob DATE,
+	admin_gender NVARCHAR(50),
+	image_profile_admin NVARCHAR(255),
+	admin_hired_date DATETIME,
+	admin_salary DECIMAL(18,2),
+	FOREIGN KEY(account_id) REFERENCES dbo.Accounts(account_id)
+);
+
 CREATE TABLE Appointment(
 	appointment_id INT PRIMARY KEY IDENTITY(1,1),
 	appointment_date DATETIME,
@@ -211,13 +236,15 @@ CREATE TABLE Appointment(
 	doctor_id INT,
 	slot_id int,
 	service_detail_id INT,
-	discountId int,
+	discountId int,	
 	actualCost DECIMAL(18,2),
 	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
 	FOREIGN KEY (slot_id) REFERENCES dbo.Slots(slot_id) ,
 	FOREIGN KEY (service_detail_id) REFERENCES dbo.Services_Detail(service_detail_id) ,
 	FOREIGN KEY (discountId) REFERENCES dbo.Discount(discountId) ,
 	patient_id int,
+	staff_id int,
+	FOREIGN KEY (staff_id) REFERENCES Staff(account_id),
 	FOREIGN KEY (patient_id) REFERENCES dbo.Customers(account_id) ,
 	unique(doctor_id, slot_id, appointment_date)
 );
@@ -246,18 +273,7 @@ CREATE TABLE Follow_Up (
 	FOREIGN KEY (appointment_id) REFERENCES Appointment(appointment_id) ,
 );
 
-CREATE TABLE Staff (
-	staff_id int primary key identity(1,1),
-    account_id INT unique,
-	admin_fullname NVARCHAR(255),
-	admin_address NVARCHAR(255),
-	admin_dob DATE,
-	admin_gender NVARCHAR(50),
-	image_profile_admin NVARCHAR(255),
-	admin_hired_date DATETIME,
-	admin_salary DECIMAL(18,2),
-	FOREIGN KEY(account_id) REFERENCES dbo.Accounts(account_id)
-);
+
 
 CREATE TABLE Feedback_Service(
     feedback_id INT IDENTITY(1,1) PRIMARY KEY,
@@ -307,14 +323,14 @@ create table CheckOut(
 
 
 CREATE TABLE Blog(
-blog_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-title NVARCHAR(255),
-title_content NVARCHAR(255),
+blog_id INT IDENTITY(1,1) PRIMARY KEY,
+blog_content NVARCHAR(MAX),
 author_id INT,
-blog_created_date DATETIME,
-FOREIGN KEY(author_id) REFERENCES dbo.Accounts(account_id)
-
-)
+created_date_blog DATETIME,
+title_meta NVARCHAR(MAX),
+title_image_blog NVARCHAR(255),
+FOREIGN KEY (author_id) REFERENCES dbo.Accounts(account_id)
+ )
 
 
 CREATE TABLE Images_Type(
@@ -339,23 +355,6 @@ image_type_id INT,
 FOREIGN KEY(image_type_id) REFERENCES dbo.Images_Type(image_type_id)
 )
 
-
-CREATE TABLE Blog_Content (
-blog_content_id INT IDENTITY(1,1) PRIMARY KEY,
-blog_id INT,
-content_type NVARCHAR(50),
-content NVARCHAR(Max),
-image_id INT,
-FOREIGN KEY(blog_id) REFERENCES dbo.Blog(blog_id),
-FOREIGN KEY(image_id) REFERENCES dbo.Images_Video(image_id)
-)
-CREATE TABLE Blog_Image(
-blog_id INT,
-image_id INT,
-PRIMARY KEY(blog_id,image_id),
-FOREIGN KEY(blog_id) REFERENCES dbo.Blog(blog_id),
-FOREIGN KEY(image_id) REFERENCES dbo.Images_Video(image_id)
-)
 CREATE TABLE Content_Stories(
 patient_name NVARCHAR(255),
 image_patient nvarchar(255),
@@ -387,5 +386,32 @@ account_id INT,
 otp NVARCHAR(20),
 created_otp_time NVARCHAR(255),
 otp_expiry_date NVARCHAR(255),
-
+Foreign key (account_id) references Accounts(account_id)
 )
+
+CREATE TABLE Token_Google(
+	token_id INT IDENTITY(1,1) PRIMARY KEY,
+	token NVARCHAR(255),
+	created_date DATETIME
+	)
+	
+
+	CREATE TABLE Token_User(
+	token_id INT IDENTITY(1,1) PRIMARY KEY,
+	token_user NVARCHAR(255),
+	account_id INT,
+	created_date_token DATETIME,
+	FOREIGN KEY(account_id) REFERENCES dbo.Accounts(account_id)
+	)
+
+	CREATE TABLE CommentBlog(
+	comment_blog_id INT IDENTITY(1,1) PRIMARY KEY,
+	comment NVARCHAR(255),
+	author_id INT ,
+	tuongtac INT,
+	parent_comment_id INT,
+	blog_id INT,
+	FOREIGN KEY(blog_id) REFERENCES dbo.Blog(blog_id),
+	FOREIGN KEY(author_id) REFERENCES dbo.Accounts(account_id)
+
+	)

@@ -24,7 +24,7 @@
         <servlet-name>TransactionHistory</servlet-name>
         <url-pattern>/transactionhistory</url-pattern>
     </servlet-mapping>
-        <servlet>
+    <servlet>
         <servlet-name>ajaxServlet</servlet-name>
         <servlet-class>com.vnpay.common.ajaxServlet</servlet-class>
     </servlet>
@@ -40,6 +40,14 @@
         <servlet-name>ajaxServlet</servlet-name>
         <url-pattern>/vnpayajax/*</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>vnpayReturn</servlet-name>
+        <servlet-class>com.vnpay.common.vnpayReturn</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>vnpayReturn</servlet-name>
+        <url-pattern>/vnpayReturn/*</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>vnpayQuery</servlet-name>
         <url-pattern>/vnpayquery/*</url-pattern>
@@ -48,5 +56,4 @@
         <servlet-name>vnpayRefund</servlet-name>
         <url-pattern>/vnpayrefund/*</url-pattern>
     </servlet-mapping>
-    
 </web-app>
