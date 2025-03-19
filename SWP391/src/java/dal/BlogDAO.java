@@ -42,23 +42,44 @@ public class BlogDAO extends DBContext {
         return false;
     }
 
-    public String loadStatusBlog(String blog_id){
-        String sql ="Select status_blog from Blog where blog_id = ?";
+    public int plus1View(int blog_id) {
+        String sql = "UPDATE dbo.Blog\n"
+                + "    SET blog_view = blog_view + 1\n"
+                + "    OUTPUT INSERTED.blog_view AS UpdatedViewCount\n"
+                + "    WHERE blog_id = ?";
+        int result = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, blog_id);
+            System.out.println(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                result = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return result;
+    }
+    
+   
+
+    public String loadStatusBlog(String blog_id) {
+        String sql = "Select status_blog from Blog where blog_id = ?";
         String result = "";
         try {
             int blogid = Integer.parseInt(blog_id);
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, blogid);
             ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 result = rs.getString(1);
             }
         } catch (Exception e) {
-            
+
         }
         return result;
     }
-    
+
     public boolean updateStatusBlog(String blog_id) {
         String sql = "UPDATE dbo.Blog\n"
                 + "SET \n"
@@ -66,10 +87,10 @@ public class BlogDAO extends DBContext {
                 + "WHERE blog_id = ?; ";
         String currentStatus = loadStatusBlog(blog_id);
         String status = "";
-        if(currentStatus.equals("Public")){
+        if (currentStatus.equals("Public")) {
             status = "Draft";
         }
-        if(currentStatus.equals("Draft")){
+        if (currentStatus.equals("Draft")) {
             status = "Public";
         }
         try {

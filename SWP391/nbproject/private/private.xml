@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>web/homepage/BlogSingle.jsp</url>
+            <bookmark id="1">
+                <name/>
+                <line>729</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/AccountDAO.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/filter/Authen.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/Permission.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/doctor/CreateAccDoctor.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/LoginAdmin.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/dashboard/DashBoard.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/Account.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/blog/Test.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/blog/BlogPage.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/Comment.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/doctor/DoctorProfile.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/doctor/AddDegree.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Login.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/BlogDAO.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/createAccDoctor.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/DoctorsDAO.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/GetFormatDate.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/EncryptPassword.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/BlogSingle.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/blog/CommentBlog.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/DoctorProfile.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/register.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/ListDoctor.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Register.java</file>
             <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/auth/LoginAdmin.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/Modules.java</file>
         </group>
     </open-files>
 </project-private>
