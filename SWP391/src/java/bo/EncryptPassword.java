@@ -23,7 +23,8 @@ public class EncryptPassword {
     }
     
     public static void main(String[] args) {
-        String password = "pass123"; 
+//        String password = "Luong@nguyenk2k4"; 
+         String password = "pass12345";
         String hashedPassword = hashPassword(password);
         System.out.println("Mật khẩu băm: " + hashedPassword);
     }

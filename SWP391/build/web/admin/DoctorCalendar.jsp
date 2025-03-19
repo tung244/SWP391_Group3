@@ -81,84 +81,90 @@
             <div class="container mt-6 mb-6" style="width: 80%; margin-left: 20%">
                 <h1 class="text-center mb-4">Lịch Trình Bác Sĩ</h1>
 
-<!--                <div class="row">-->
-                    <!-- Doctor Information (Left side) -->
-<!--                    <div class="col-md-3">
-                        <div class="doctor-info">
-                            <div class="text-center mb-3">
-                                <img src="${doctor.profile_image}" 
-                                     alt="Doctor's Photo" class="doctor-image">
-                            </div>
-                            <h3 style="text-align: center">${doctor.doctor_name}</h3>
-                            <p><strong>Chuyên khoa:</strong> ${doctor.specialization.specialization_name}</p>
-                            <p><strong>Giờ làm việc:</strong> 08:00 - 17:00 (Thứ 2 - Thứ 6)</p>
-                            <p><strong>Địa chỉ phòng khám:</strong> 123 Nguyễn Văn A, Quận 1, TP. HCM</p>
-                            <p><strong>Liên hệ:</strong> 0123 456 789</p>
-                        </div>
-                    </div>-->
+                <!--                <div class="row">-->
+                <!-- Doctor Information (Left side) -->
+                <!--                    <div class="col-md-3">
+                                        <div class="doctor-info">
+                                            <div class="text-center mb-3">
+                                                <img src="${doctor.profile_image}" 
+                                                     alt="Doctor's Photo" class="doctor-image">
+                                            </div>
+                                            <h3 style="text-align: center">${doctor.doctor_name}</h3>
+                                            <p><strong>Chuyên khoa:</strong> ${doctor.specialization.specialization_name}</p>
+                                            <p><strong>Giờ làm việc:</strong> 08:00 - 17:00 (Thứ 2 - Thứ 6)</p>
+                                            <p><strong>Địa chỉ phòng khám:</strong> 123 Nguyễn Văn A, Quận 1, TP. HCM</p>
+                                            <p><strong>Liên hệ:</strong> 0123 456 789</p>
+                                        </div>
+                                    </div>-->
 
-                    <!-- Calendar (Right side) -->
-                    <div class="col-md-12">
-                        <!-- Calendar Controls -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <button id="prev-month" class="btn btn-outline-primary">
-                                    <i class="bi bi-chevron-left"></i> Tháng trước
-                                </button>
-                                <button id="next-month" class="btn btn-outline-primary">
-                                    Tháng sau <i class="bi bi-chevron-right"></i>
-                                </button>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <h4 id="current-month-year">Tháng 6, 2023</h4>
-                            </div>
-                            <div class="col-md-4 text-end">
-                                <button id="today" class="btn btn-primary">Hôm nay</button>
-                            </div>
-                        </div>
+                <!-- Calendar (Right side) -->
+                <div class="col-md-12">
+                    <!-- Calendar Controls -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <button id="prev-month" class="btn btn-outline-primary">
+                                <i class="bi bi-chevron-left"></i> Tháng trước
+                            </button>
+                            <button id="next-month" class="btn btn-outline-primary">
+                                Tháng sau <i class="bi bi-chevron-right"></i>
+                            </button>
+                            <select id="doctor_select">
+                                <c:forEach var="d" items="${listD}">
+                                    <option value="${d.doctor_id}">${d.doctor_name}</option>
+                                </c:forEach>
+                            </select>
 
-                        <!-- Calendar -->
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">CN</th>
-                                        <th class="text-center">T2</th>
-                                        <th class="text-center">T3</th>
-                                        <th class="text-center">T4</th>
-                                        <th class="text-center">T5</th>
-                                        <th class="text-center">T6</th>
-                                        <th class="text-center">T7</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="calendar-body">
-                                    <!-- Calendar days will be generated here by JavaScript -->
-                                </tbody>
-                            </table>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <h4 id="current-month-year">Tháng 6, 2023</h4>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <button id="today" class="btn btn-primary">Hôm nay</button>
                         </div>
                     </div>
-                </div>
 
-                <!-- Appointment Details Modal -->
-                <div class="modal fade" id="appointmentModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Chi Tiết Lịch Hẹn</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" id="appointment-details">
-                                <!-- Appointment details will be loaded here -->
-                            </div>
-                            <div class="modal-footer">
-                                 <button id="recordMedicalNoteBtn" class="btn btn-primary">Medical Note</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                            </div>
+                    <!-- Calendar -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">CN</th>
+                                    <th class="text-center">T2</th>
+                                    <th class="text-center">T3</th>
+                                    <th class="text-center">T4</th>
+                                    <th class="text-center">T5</th>
+                                    <th class="text-center">T6</th>
+                                    <th class="text-center">T7</th>
+                                </tr>
+                            </thead>
+                            <tbody id="calendar-body">
+                                <!-- Calendar days will be generated here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointment Details Modal -->
+            <div class="modal fade" id="appointmentModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Chi Tiết Lịch Hẹn</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="appointment-details">
+                            <!-- Appointment details will be loaded here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button id="recordMedicalNoteBtn" class="btn btn-primary">Medical Note</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                         </div>
                     </div>
                 </div>
             </div>
-<!--        </div>-->
+        </div>
+        <!--        </div>-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             // Khởi tạo mảng appointments rỗng
@@ -449,6 +455,7 @@
                 });
             });
         </script>
+        <jsp:include page="Common/Message.jsp"/>
         <jsp:include page="Common/Js.jsp"/>
     </body>
 </html> 

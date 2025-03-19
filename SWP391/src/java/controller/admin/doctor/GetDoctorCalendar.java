@@ -72,12 +72,14 @@ public class GetDoctorCalendar extends HttpServlet {
         String date = request.getParameter("date");
         List<Appointments> list = new ArrayList<>();
         if(date==null || date.isEmpty()){
-            list = dao.getFilterAppointment(null, doctor_id, null, null, null);
+            list = dao.getFilterAppointment(null, null, null, null, null);
         }else{
-            list = dao.getFilterAppointment(null, doctor_id, date, null, null);
+            list = dao.getFilterAppointment(null, doctor_id, null, null, null);
         }
         Doctors doctor = dao1.getDoctorsById(doctor_id);
+        List<Doctors> listD = dao1.getAllDoctors();
         request.setAttribute("listA", list);
+        request.setAttribute("listD", listD);
         request.setAttribute("doctor", doctor);
         request.setAttribute("date", formattedDate);
         request.getRequestDispatcher("DoctorCalendar.jsp").forward(request, response);

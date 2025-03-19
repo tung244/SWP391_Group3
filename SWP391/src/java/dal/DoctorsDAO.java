@@ -21,6 +21,9 @@ import model.Specialization;
 
 public class DoctorsDAO extends DBContext {
 
+    
+    
+    
     //List doctor in dashboard
     public List<Doctors> getDoctorsDash() {
         List<Doctors> list = new ArrayList<>();

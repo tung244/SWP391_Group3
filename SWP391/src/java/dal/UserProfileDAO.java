@@ -27,19 +27,19 @@ import model.Services;
 import model.Slots;
 
 public class UserProfileDAO extends DBContext {
-
+    
     public boolean addAccount(UserProfile p) {
-
+        
         String sqlAccount = "insert into Accounts( username, password,email,phone_number,created_date,role_id)\n"
                 + "values(?,?,?,?,?,?)";
         String sqlGetAccountId = "SELECT account_id FROM dbo.Accounts WHERE username = ?";
         String sqlUserProfile = "insert into Customers(account_id,full_name,gender,image_profile_user,rankId)\n"
                 + "values(?,?,?,?,?)";
-
+        
         try {
-
+            
             connection.setAutoCommit(false);
-
+            
             PreparedStatement stAccount = connection.prepareStatement(sqlAccount);
             stAccount.setString(1, p.getAccount().getUsername());
             stAccount.setString(2, p.getAccount().getPassword());
@@ -47,20 +47,20 @@ public class UserProfileDAO extends DBContext {
             stAccount.setString(4, p.getAccount().getPhonenumber());
             stAccount.setString(5, p.getAccount().getCreated_date());
             stAccount.setInt(6, p.getAccount().getRole().getRole_id());
-
+            
             int affectedRows = stAccount.executeUpdate();
-
+            
             if (affectedRows == 0) {
                 System.out.println("Không thể thêm tài khoản, không có hàng nào bị ảnh hưởng.");
             }
-
+            
             PreparedStatement stGetId = connection.prepareStatement(sqlGetAccountId);
             stGetId.setString(1, p.getAccount().getUsername());
             ResultSet rs = stGetId.executeQuery();
-
+            
             if (rs.next()) {
                 int accountId = rs.getInt("account_id");
-
+                
                 PreparedStatement stUserProfile = connection.prepareStatement(sqlUserProfile);
                 stUserProfile.setInt(1, accountId);
                 stUserProfile.setString(2, p.fullname);
@@ -68,11 +68,11 @@ public class UserProfileDAO extends DBContext {
                 stUserProfile.setString(4, p.getImage_profile_user());
                 stUserProfile.setInt(5, p.getRank().getRankId());
                 stUserProfile.executeUpdate();
-
+                
                 connection.commit();
                 return true;
             }
-
+            
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             e.printStackTrace();
@@ -90,7 +90,7 @@ public class UserProfileDAO extends DBContext {
         }
         return false;
     }
-
+    
     public UserProfile GetAccount(String username) {
         String sql = "SELECT * \n"
                 + "FROM Accounts AS a \n"
@@ -117,18 +117,24 @@ public class UserProfileDAO extends DBContext {
                         rs.getString("gender"),
                         rs.getString("image_profile_user"), rank);
                 return u;
-
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
-
+    
+    public static void main(String[] args) {
+        UserProfileDAO udao = new UserProfileDAO();
+        UserProfile u = udao.GetAccount("kk");
+        System.out.println(u);
+    }
+    
     public String[] loadBasicInfoUser(String username) {
         String[] info = new String[3];
         String sql = "Select phone_number,email,account_id from Accounts where username = ?";
-
+        
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
@@ -137,7 +143,7 @@ public class UserProfileDAO extends DBContext {
                 info[0] = rs.getString("phone_number");
                 info[1] = rs.getString("email");
                 info[2] = String.valueOf(rs.getInt("account_id"));
-
+                
             }
             return info;
         } catch (SQLException e) {
@@ -145,7 +151,7 @@ public class UserProfileDAO extends DBContext {
         }
         return null;
     }
-
+    
     public double getAmountSpendingByCusId(int id) {
         String sql = "select SUM(sd.cost) from Appointment a\n"
                 + "join Customers c on a.patient_id = c.account_id\n"
@@ -164,8 +170,8 @@ public class UserProfileDAO extends DBContext {
         }
         return total;
     }
-
-    public Account getAccountByAppointmentId(int id) {
+    
+        public Account getAccountByAppointmentId(int id) {
         String sql = "select * from Accounts a \n"
                 + "join Appointment app on a.account_id = app.patient_id\n"
                 + "where app.appointment_id = ?";
@@ -181,7 +187,7 @@ public class UserProfileDAO extends DBContext {
         }
         return null;
     }
-
+    
     public boolean isertAccountGoogle(GoogleAccount gg) {
         String sqlAccount = "INSERT INTO dbo.Accounts\n"
                 + "(username,email,created_date,role_id,google_id)\n"
@@ -191,44 +197,44 @@ public class UserProfileDAO extends DBContext {
         String sqlUserProfile = "insert into Customers(account_id,full_name,image_profile_user)\n"
                 + "values(?,?,?)";
         try {
-
+            
             connection.setAutoCommit(false);
-
+            
             PreparedStatement stAccount = connection.prepareStatement(sqlAccount);
             stAccount.setString(1, gg.getEmail());
             stAccount.setString(2, gg.getEmail());
             stAccount.setString(3, GetFormatDate.getFormString());
             stAccount.setInt(4, 5);
             stAccount.setString(5, gg.getId());
-
+            
             int affectedRows = stAccount.executeUpdate();
-
+            
             if (affectedRows == 0) {
                 System.out.println("Không thể thêm tài khoản, không có hàng nào bị ảnh hưởng.");
             }
-
+            
             PreparedStatement stGetId = connection.prepareStatement(sqlGetAccountId);
-
+            
             stGetId.setString(1, gg.getEmail());
-
+            
             ResultSet rs = stGetId.executeQuery();
-
+            
             if (rs.next()) {
                 int accountId = rs.getInt("account_id");
-
+                
                 PreparedStatement stUserProfile = connection.prepareStatement(sqlUserProfile);
-
+                
                 stUserProfile.setInt(1, accountId);
                 stUserProfile.setString(2, gg.getName());
-
+                
                 stUserProfile.setString(3, gg.getPicture());
-
+                
                 stUserProfile.executeUpdate();
-
+                
                 connection.commit();
                 return true;
             }
-
+            
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             e.printStackTrace();
@@ -246,7 +252,7 @@ public class UserProfileDAO extends DBContext {
         }
         return false;
     }
-
+    
     public boolean isertAccountFB(FaceBookAccount gg) {
         String sqlAccount = "INSERT INTO dbo.Accounts\n"
                 + "(username,email,created_date,role_id,google_id)\n"
@@ -256,43 +262,43 @@ public class UserProfileDAO extends DBContext {
         String sqlUserProfile = "insert into Customers(account_id,full_name,image_profile_user)\n"
                 + "values(?,?,?)";
         try {
-
+            
             connection.setAutoCommit(false);
-
+            
             PreparedStatement stAccount = connection.prepareStatement(sqlAccount);
             stAccount.setString(1, gg.getEmail());
             stAccount.setString(2, gg.getEmail());
             stAccount.setString(3, GetFormatDate.getFormString());
             stAccount.setInt(4, 4);
             stAccount.setString(5, gg.getId());
-
+            
             int affectedRows = stAccount.executeUpdate();
-
+            
             if (affectedRows == 0) {
                 System.out.println("Không thể thêm tài khoản, không có hàng nào bị ảnh hưởng.");
             }
-
+            
             PreparedStatement stGetId = connection.prepareStatement(sqlGetAccountId);
-
+            
             stGetId.setString(1, gg.getEmail());
-
+            
             ResultSet rs = stGetId.executeQuery();
-
+            
             if (rs.next()) {
                 int accountId = rs.getInt("account_id");
-
+                
                 PreparedStatement stUserProfile = connection.prepareStatement(sqlUserProfile);
-
+                
                 stUserProfile.setInt(1, accountId);
                 stUserProfile.setString(2, gg.getName());
 
 //                stUserProfile.setString(3, gg.getPicture());
                 stUserProfile.executeUpdate();
-
+                
                 connection.commit();
                 return true;
             }
-
+            
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             e.printStackTrace();
@@ -310,11 +316,11 @@ public class UserProfileDAO extends DBContext {
         }
         return false;
     }
-
+    
     public void updateUserProfile(String fullname, String email, String phonenumber, String address, String dob, String gender, int account_id) {
         String sqlCustomers = "UPDATE Customers SET full_name = ?, address = ?, dob = ?, gender = ? WHERE account_id = ?";
         String sqlAccounts = "UPDATE Accounts SET email = ?, phone_number = ? WHERE account_id = ?";
-
+        
         try {
             // Cập nhật bảng Customers
             PreparedStatement preCustomers = connection.prepareStatement(sqlCustomers);
@@ -331,12 +337,12 @@ public class UserProfileDAO extends DBContext {
             preAccounts.setString(2, phonenumber);
             preAccounts.setInt(3, account_id);
             preAccounts.executeUpdate();
-
+            
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
-
+    
     public void updatePassword(String newPass, int account_id) {
         String sqlUpdatePass = "UPDATE Accounts\n"
                 + "SET password = ?\n"
@@ -350,7 +356,7 @@ public class UserProfileDAO extends DBContext {
             System.out.println(e);
         }
     }
-
+    
     public List<Appointment> getAppointmentByPatientID(int patientID) {
         List<Appointment> list = new ArrayList<>();
         String sql = """
@@ -361,12 +367,12 @@ public class UserProfileDAO extends DBContext {
                                      JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id
                                      JOIN dbo.Slots sl ON a.slot_id = sl.slot_id 
                                      where a.patient_id = ?                                                   """;
-
+        
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, patientID);
             ResultSet rs = st.executeQuery();
-
+            
             while (rs.next()) {
                 int appointment_id = rs.getInt("appointment_id");
                 Date appointment_date2 = rs.getDate("appointment_date");
@@ -399,7 +405,7 @@ public class UserProfileDAO extends DBContext {
         }
         return list;
     }
-
+    
     public List<Appointment> getAppointmentByAppointmentId(int appointment_id) {
         List<Appointment> list = new ArrayList<>();
         String sql = "SELECT a.appointment_id, a.appointment_status, \n"
@@ -411,7 +417,7 @@ public class UserProfileDAO extends DBContext {
                 + "            JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id\n"
                 + "            JOIN dbo.Slots sl ON a.slot_id = sl.slot_id \n"
                 + "            WHERE a.appointment_id = ?";
-
+        
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, appointment_id);
             try (ResultSet rs = st.executeQuery()) {
@@ -423,11 +429,11 @@ public class UserProfileDAO extends DBContext {
                     String end_time = rs.getString("end_time");
                     int slot_id = rs.getInt("slot_id");
                     String serviceDescription = rs.getString("service_description");
-
+                    
                     Slots slot = new Slots(slot_id, start_time, end_time);
                     Doctors doctor = new Doctors(id, doctorName);
                     Services service = new Services(doctorName, serviceDescription);
-
+                    
                     list.add(new Appointment(id, status, doctor, slot, service));
                 }
             }
@@ -436,7 +442,7 @@ public class UserProfileDAO extends DBContext {
         }
         return list;
     }
-
+    
     public List<Appointment> searchAppointments(String serviceName, String serviceTypeName, String startDate, String endDate) {
         List<Appointment> list = new ArrayList<>();
         StringBuilder sql = new StringBuilder("""
@@ -449,29 +455,29 @@ public class UserProfileDAO extends DBContext {
         JOIN dbo.Services_Type st ON st.service_type_id = sd.service_type_id
         WHERE 1=1
     """);
-
+        
         List<String> params = new ArrayList<>();
-
+        
         if (serviceName != null && !serviceName.isEmpty()) {
             sql.append(" AND s.service_name COLLATE SQL_Latin1_General_CP1_CI_AI LIKE  ? ");
             params.add("%" + serviceName + "%");
         }
-
+        
         if (serviceTypeName != null && !serviceTypeName.isEmpty()) {
             sql.append(" AND st.service_type_name LIKE ? ");
             params.add("%" + serviceTypeName + "%");
         }
-
+        
         if (startDate != null && !startDate.isEmpty()) {
             sql.append(" AND a.appointment_date >= ? ");
             params.add(startDate);
         }
-
+        
         if (endDate != null && !endDate.isEmpty()) {
             sql.append(" AND a.appointment_date <= ? ");
             params.add(endDate);
         }
-
+        
         try (PreparedStatement st = connection.prepareStatement(sql.toString())) {
             for (int i = 0; i < params.size(); i++) {
                 st.setString(i + 1, params.get(i));
@@ -484,11 +490,11 @@ public class UserProfileDAO extends DBContext {
                     int cost = rs.getInt("cost");
                     String serviceTypeNameResult = rs.getString("service_type_name");
                     String duration = rs.getString("duration_service");
-
+                    
                     Services service = new Services(serviceNameResult);
                     ServiceTypes serviceType = new ServiceTypes(serviceTypeNameResult, duration);
                     ServiceDetail serviceDetail = new ServiceDetail(cost);
-
+                    
                     list.add(new Appointment(id, date, service, serviceDetail, serviceType));
                 }
             }
@@ -497,7 +503,7 @@ public class UserProfileDAO extends DBContext {
         }
         return list;
     }
-
+    
     public List<Appointment> getAppointmentByPage(ArrayList<Appointment> list, int start, int end) {
         ArrayList<Appointment> arr = new ArrayList<>();
         for (int i = start; i < end; i++) {
@@ -505,7 +511,7 @@ public class UserProfileDAO extends DBContext {
         }
         return arr;
     }
-
+    
     public boolean CheckPhoneNumber(String phone_number, int account_id) {
         String sql = "SELECT * FROM Accounts WHERE phone_number = ? AND account_id <> ?";
         try {
@@ -519,7 +525,7 @@ public class UserProfileDAO extends DBContext {
         }
         return false;
     }
-
+    
     public boolean CheckEmail(String email, int account_id) {
         String sql = """
                  SELECT * FROM Accounts
@@ -536,7 +542,7 @@ public class UserProfileDAO extends DBContext {
         }
         return false;
     }
-
+    
     public boolean UpdateImageProfile(String imagePath, int account_id) {
         String sql = """
                       Update Customers 
@@ -550,7 +556,7 @@ public class UserProfileDAO extends DBContext {
         }
         return false;
     }
-
+    
     public List<Rank> getAllRank() {
         List<Rank> list = new ArrayList<>();
         String query = "select * from CustomerRank";
@@ -565,7 +571,7 @@ public class UserProfileDAO extends DBContext {
         }
         return list;
     }
-
+    
     public boolean updateRank(int rankId, int accountId) {
         String sql = "Update Customers set rankId = ? where account_id =?";
         try {
@@ -579,10 +585,5 @@ public class UserProfileDAO extends DBContext {
         return false;
     }
     
-        public static void main(String[] args) {
-        UserProfileDAO udao = new UserProfileDAO();
-        Account a = udao.getAccountByAppointmentId(31);
-            System.out.println(a);
-    }
-
+    
 }

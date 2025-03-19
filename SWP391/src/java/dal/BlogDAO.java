@@ -23,7 +23,7 @@ public class BlogDAO extends DBContext {
                 + "( ?, ?, ?,?,?,?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            
+
             st.setString(1, blog.getBlog_content());
             st.setInt(2, blog.getAuthor_id());
             st.setString(3, blog.getCreated_date_blog());
@@ -41,8 +41,99 @@ public class BlogDAO extends DBContext {
 
         return false;
     }
+
+    public int plus1View(int blog_id) {
+        String sql = "UPDATE dbo.Blog\n"
+                + "    SET blog_view = blog_view + 1\n"
+                + "    OUTPUT INSERTED.blog_view AS UpdatedViewCount\n"
+                + "    WHERE blog_id = ?";
+        int result = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, blog_id);
+            System.out.println(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                result = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return result;
+    }
     
-    
+   
+
+    public String loadStatusBlog(String blog_id) {
+        String sql = "Select status_blog from Blog where blog_id = ?";
+        String result = "";
+        try {
+            int blogid = Integer.parseInt(blog_id);
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, blogid);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                result = rs.getString(1);
+            }
+        } catch (Exception e) {
+
+        }
+        return result;
+    }
+
+    public boolean updateStatusBlog(String blog_id) {
+        String sql = "UPDATE dbo.Blog\n"
+                + "SET \n"
+                + "    status_blog = ?\n"
+                + "WHERE blog_id = ?; ";
+        String currentStatus = loadStatusBlog(blog_id);
+        String status = "";
+        if (currentStatus.equals("Public")) {
+            status = "Draft";
+        }
+        if (currentStatus.equals("Draft")) {
+            status = "Public";
+        }
+        try {
+            int blogId = Integer.parseInt(blog_id);
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, status);
+            st.setInt(2, blogId);
+            int row = st.executeUpdate();
+            if (row > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    public boolean updateBlog(Blog b) {
+        String sql = "UPDATE dbo.Blog\n"
+                + "SET \n"
+                + "    blog_content = ?,\n"
+                + "    author_id = ?,\n"
+                + "    created_date_blog = ?,\n"
+                + "    title_meta = ?,\n"
+                + "    title_image_blog = ?,\n"
+                + "    status_blog = ?\n"
+                + "WHERE blog_id = ?; ";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, b.getBlog_content());
+            st.setInt(2, b.getAuthor_id());
+            st.setString(3, b.getCreated_date_blog());
+            st.setString(4, b.getTitle_meta());
+            st.setString(5, b.getTitle_image_blog());
+            st.setString(6, b.getStatus_blog());
+            st.setInt(7, b.getBlog_id());
+            int row = st.executeUpdate();
+            if (row > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
 
     public int loadSizeBlog(String author_id, String status_blog) {
         String sql = "Select count(*) from Blog where author_id = ? and status_blog = ?";
@@ -73,7 +164,7 @@ public class BlogDAO extends DBContext {
         if (s[1] != null && !s[1].isEmpty()) {
             sql += "and b.title_meta like ?\n";
         }
- 
+
         if (s[3] != null && !s[3].isEmpty()) {
             sql += "and b.created_date_blog >= ?\n";
         }
@@ -103,7 +194,7 @@ public class BlogDAO extends DBContext {
             }
             System.out.println(sql);
             ResultSet rs = st.executeQuery();
-            
+
             while (rs.next()) {
                 result = rs.getInt(1);
 
@@ -133,7 +224,7 @@ public class BlogDAO extends DBContext {
     public List<Blog> filterBlog(String[] s) {
 
         List<Blog> list = new ArrayList<>();
-        int batch = 2;
+        int batch = 10;
         int limit = 0;
         try {
             if (s[2] != null && !s[2].isEmpty()) {
@@ -154,7 +245,7 @@ public class BlogDAO extends DBContext {
         if (s[1] != null && !s[1].isEmpty()) {
             sql += "and b.title_meta like ?\n";
         }
-        
+
         if (s[3] != null && !s[3].isEmpty()) {
             sql += "and b.created_date_blog >= ?\n";
         }
@@ -176,7 +267,7 @@ public class BlogDAO extends DBContext {
                 st.setString(param, "%" + s[1] + "%");
                 param++;
             }
-            
+
             if (s[3] != null && !s[3].isEmpty()) {
                 st.setString(param, s[3]);
                 param++;
@@ -272,14 +363,13 @@ public class BlogDAO extends DBContext {
                 b = new Blog(rs.getInt(1),
                         rs.getString(2),
                         rs.getInt(3),
-                        rs.getString(4),rs.getString(5),rs.getString(6));
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getString(7));
             }
 
         } catch (Exception e) {
         }
         return b;
     }
-
-    
 
 }

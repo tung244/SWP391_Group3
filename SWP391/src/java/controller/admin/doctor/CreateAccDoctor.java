@@ -4,6 +4,7 @@
  */
 package controller.admin.doctor;
 
+import bo.EncryptPassword;
 import bo.GetFormatDate;
 import dal.AccountDAO;
 import dal.DoctorsDAO;
@@ -131,7 +132,7 @@ public class CreateAccDoctor extends HttpServlet {
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
             String pass = passdao.randomPassword();
-            String passEncrypt = passdao.hashPasswordMD5(pass);
+            String passEncrypt = EncryptPassword.hashPassword(pass);
             String firstConfirm = "true";
             
             Account acc = new Account();

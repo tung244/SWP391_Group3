@@ -87,7 +87,7 @@
                                         </div>
                                         <div class="text-center mt-4">
                                             <button type="submit" class="btn btn-primary btn-update">Note</button>
-                                            <a href="GetDoctorCalendar?doctor_id=${docId}" class="btn btn-secondary ms-2">Cancel</a>
+                                            <a href="GetDoctorCalendar?doctor_id=${docId}&date=${date}" class="btn btn-secondary ms-2">Cancel</a>
                                         </div>
                                     </form>
                                 </div>
