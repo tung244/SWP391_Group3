@@ -75,7 +75,7 @@
             }
         </style>
     </head>
-    <body>
+    <body> 
         <jsp:include page="Common/Navbar.jsp"/>
         <div class="page-wrapper">
             <div class="container mt-6 mb-6" style="width: 80%; margin-left: 20%">

@@ -150,6 +150,7 @@ create table Discount(
 	discountName nvarchar(50),
 	[percent] int,
 	rankId int foreign key references CustomerRank(rankId),
+	startDate DATE,
 	endDate Date,
 	[status] bit DEFault 1,
 );
@@ -166,16 +167,12 @@ CREATE TABLE Customers (
     FOREIGN KEY (account_id) REFERENCES Accounts(account_id) 
 );
 
-
-
-
-
-
 CREATE TABLE Services_Type(
 service_type_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 service_type_name NVARCHAR(255),
 duration_service NVARCHAR(50),
 )
+
 CREATE TABLE [Services](
 service_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 service_name NVARCHAR(255),
