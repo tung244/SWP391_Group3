@@ -12,10 +12,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 public class ImageServices {
 
-   
+
     
     public static String uploadImage(Part part, String finalPath) throws ServletException {
 //  Thêm đoạn dưới đây vào servlet
