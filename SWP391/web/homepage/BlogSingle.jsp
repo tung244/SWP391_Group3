@@ -428,6 +428,62 @@
             #load-more-btn:hover {
                 background-color: #eee;
             }
+            .related-articles {
+                max-width: 350px;
+                
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .related-articles-title {
+                background-color: #228B22;
+                color: white;
+                padding: 10px 15px;
+                margin: 0;
+                font-size: 18px;
+            }
+
+            .article-list {
+                padding: 10px;
+            }
+
+            .article-item {
+                margin-bottom: 30px;
+                border-bottom: 1px solid #f0f0f0;
+                padding-bottom: 10px;
+            }
+
+            .article-item:last-child {
+                border-bottom: none;
+            }
+
+            .article-link {
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                color: #333;
+            }
+
+            .article-thumbnail {
+                width: 280px;
+                height: 80px;
+                margin-right: 10px;
+                overflow: hidden;
+                border-radius: 4px;
+            }
+
+            .article-thumbnail img {
+/*                width: 100%;
+                height: 100%;
+                object-fit: cover;*/
+            }
+
+            .article-title {
+                margin: 0;
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 1.5;
+            }
         </style>
     </head>
     <body>
@@ -605,14 +661,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="content-right">
-                        <h2 style="color: rgb(34,139,34)">Bài viết liên quan</h2>
-                        <ul>
-                            <li>Chuyện ở Ukraine 3/3: Kiev...</li>
-                            <li>Ông Zelensky gặp...</li>
-                            <li>Tổng Trump tuyên bố...</li>
-                        </ul>
-                    </div>
+<!--                    <div class="content-right">-->
+                        <div class="related-articles">
+                            <h2 class="related-articles-title">Bài viết liên quan</h2>
+                            <div class="article-list">
+                                <c:forEach var="item" items="${top5}">
+                                <article class="article-item">
+                                    <a href="blog?blog=${item.blog_id}" class="article-link">
+                                        <div class="article-thumbnail">
+                                            <img src="${item.title_image_blog}" alt="Chuyện ở Ukraine 3/3: Kiev" />
+                                        </div>
+                                        <h3 class="article-title">${item.title_meta}</h3>
+                                    </a>
+                                </article>
+                                </c:forEach>
+                            </div>
+                        </div>
+<!--                    </div>-->
 
 
 
@@ -728,7 +793,7 @@
         </script>
 
         <script>
-            
+
 
             const replyButtons = document.querySelectorAll('.reply-btn');
 

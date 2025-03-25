@@ -18,6 +18,7 @@ import java.util.Map;
 import model.Account;
 import model.Modules;
 import model.Permission;
+import model.Role;
 
 
 @WebServlet(name="DashBoard", urlPatterns={"/admin/dashboard"})
@@ -47,6 +48,7 @@ public class DashBoard extends HttpServlet {
     throws ServletException, IOException {
         Account a = (Account) request.getSession().getAttribute("account");
         Map<Modules, List<Permission>> map = adao.loadMenu(a.getRole().getRole_id());
+
         
         request.getSession().setAttribute("menu", map);
         request.getRequestDispatcher("index.jsp").forward(request, response);

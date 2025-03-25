@@ -320,6 +320,72 @@ public class AccountDAO extends DBContext {
         }
         return list;
     }
+    
+    public List<Modules> getAllModule(){
+        List<Modules> list = new ArrayList<>();
+        String sql = "SELECT * from dbo.Modules";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Modules m = new Modules(rs.getInt("module_id"),
+                        rs.getString("module_name"),
+                        rs.getString("module_img"));
+                list.add(m);
+            }
+
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public Map<Modules, List<Permission>> loadMCustomRole(int role_id) {
+        List<Modules> m = getAllModule();
+        Map<Modules, List<Permission>> map = new HashMap<>();
+        String sql = "SELECT p.*, rp.role_id FROM dbo.Permission p \n"
+                + "LEFT JOIN dbo.Permission_Role rp ON p.permission_id = rp.permission_id \n"
+                + "AND rp.role_id = ? WHERE p.module_id = ?";
+        for (Modules modules : m) {
+            List<Permission> per = new ArrayList<>();
+
+            try {
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.setInt(2, modules.getModule_id());
+                st.setInt(1, role_id);
+                
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    Permission p = new Permission(rs.getInt(1),
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getObject(5) != null ?true: false);
+                    per.add(p);
+                }
+            } catch (Exception e) {
+            }
+            map.put(modules, per);
+        }
+        return map;
+    }
+    
+    public void addPermissionToRole(int roleId, int permissionId) throws SQLException {
+        String sql = "INSERT INTO dbo.Permission_Role (role_id, permission_id) VALUES (?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, roleId);
+            ps.setInt(2, permissionId);
+            ps.executeUpdate();
+        }
+    }
+
+    public void removePermissionFromRole(int roleId, int permissionId) throws SQLException {
+        String sql = "DELETE FROM dbo.Permission_Role WHERE role_id = ? AND permission_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, roleId);
+            ps.setInt(2, permissionId);
+            ps.executeUpdate();
+        }
+    }
 
     public Map<Modules, List<Permission>> loadMenu(int role_id) {
         List<Modules> list = getModule(role_id);
@@ -330,14 +396,14 @@ public class AccountDAO extends DBContext {
                 + "WHERE m.module_id = ? AND pr.role_id = ?";
         for (Modules modules : list) {
             List<Permission> per = new ArrayList<>();
-            
+
             try {
                 PreparedStatement st = connection.prepareStatement(sql);
                 st.setInt(1, modules.getModule_id());
                 st.setInt(2, role_id);
                 System.out.println(sql);
                 ResultSet rs = st.executeQuery();
-                while (rs.next()) {                    
+                while (rs.next()) {
                     Permission p = new Permission(rs.getInt(1),
                             rs.getString(2),
                             rs.getString(3));
@@ -346,20 +412,20 @@ public class AccountDAO extends DBContext {
             } catch (Exception e) {
             }
             map.put(modules, per);
-            
+
         }
         return map;
     }
-    
+
     public static void main(String[] args) {
         AccountDAO adao = new AccountDAO();
-        Map<Modules, List<Permission>> map = adao.loadMenu(2);
+        Map<Modules, List<Permission>> map = adao.loadMCustomRole(1);
         for (Map.Entry<Modules, List<Permission>> entry : map.entrySet()) {
             Modules key = entry.getKey();
             List<Permission> val = entry.getValue();
-            System.out.println(key.getModule_name());
+            System.err.println(key.getModule_name());
             for (Permission per : val) {
-                System.out.println(per.getPermission_name());
+                System.out.println(per.isIsUsed());
             }
         }
     }

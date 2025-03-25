@@ -22,6 +22,12 @@ public class Blog {
         this.status_blog = status_blog;
         this.author_name = author_name;
     }
+
+    public Blog(int blog_id, String title_meta, String title_image_blog) {
+        this.blog_id = blog_id;
+        this.title_meta = title_meta;
+        this.title_image_blog = title_image_blog;
+    }
     
 
     public Blog(String blog_content, int author_id, String created_date_blog, String title_meta, String title_image_blog, String status_blog) {

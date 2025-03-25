@@ -10,6 +10,15 @@ public class Permission {
     private String permission_name;
     private String permission_path;
     private Module module;
+    private boolean isUsed;
+
+    public Permission(int permission_id, String permission_name, String permission_path, Module module, boolean isUsed) {
+        this.permission_id = permission_id;
+        this.permission_name = permission_name;
+        this.permission_path = permission_path;
+        this.module = module;
+        this.isUsed = isUsed;
+    }
 
     public Permission(int permission_id, String permission_name, String permission_path, Module module) {
         this.permission_id = permission_id;
@@ -22,6 +31,21 @@ public class Permission {
         this.permission_id = permission_id;
         this.permission_name = permission_name;
         this.permission_path = permission_path;
+    }
+
+    public Permission(int permission_id, String permission_name, String permission_path, boolean isUsed) {
+        this.permission_id = permission_id;
+        this.permission_name = permission_name;
+        this.permission_path = permission_path;
+        this.isUsed = isUsed;
+    }
+
+    public boolean isIsUsed() {
+        return isUsed;
+    }
+
+    public void setIsUsed(boolean isUsed) {
+        this.isUsed = isUsed;
     }
 
     public int getPermission_id() {

@@ -5,6 +5,7 @@
 
 package controller.admin.auth;
 
+import dal.AccountDAO;
 import dal.RoleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,14 +15,17 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 import model.Account;
+import model.Modules;
+import model.Permission;
 import model.Role;
 
 
 @WebServlet(name="RoleManagement", urlPatterns={"/admin/role_management"})
 public class RoleManagement extends HttpServlet {
     RoleDAO rdao = new RoleDAO();
-    
+    AccountDAO adao = new AccountDAO();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -45,6 +49,10 @@ public class RoleManagement extends HttpServlet {
     throws ServletException, IOException {
         String roleId = request.getParameter("role_id");
         Account a = (Account) request.getSession().getAttribute("account");
+        
+        
+        List<Role> r = rdao.getAllRole();
+        
         if (a.getRole().role_id == 1) {
             List<Role> role = rdao.getAllRole();
             request.setAttribute("role", role);
@@ -53,12 +61,14 @@ public class RoleManagement extends HttpServlet {
             }
             try {
                 int roleid = Integer.parseInt(roleId);
-                
+                Map<Modules,List<Permission>> map = adao.loadMCustomRole(roleid);
+                request.setAttribute("roleId", roleId);
+                request.setAttribute("module", map);
             } catch (Exception e) {
             }
             
         }
-
+        request.setAttribute("role", r);
         request.getRequestDispatcher("RoleManagement.jsp").forward(request, response);
     } 
 
@@ -66,7 +76,24 @@ public class RoleManagement extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
+        int roleId = Integer.parseInt(request.getParameter("roleId"));
+        int permissionId = Integer.parseInt(request.getParameter("permissionId"));
+        boolean isChecked = Boolean.parseBoolean(request.getParameter("isChecked"));
+
+        try {
+            if (isChecked) {
+                adao.addPermissionToRole(roleId, permissionId);
+            } else {
+                adao.removePermissionFromRole(roleId, permissionId);
+            }
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().write("Permission updated successfully");
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("Error updating permission");
+            e.printStackTrace();
+        }
     }
 
     

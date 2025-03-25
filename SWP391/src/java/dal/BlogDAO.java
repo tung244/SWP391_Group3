@@ -42,6 +42,42 @@ public class BlogDAO extends DBContext {
         return false;
     }
 
+    public List<String> loadAllTitle() {
+        String sql = "SELECT  title_meta FROM dbo.Blog";
+        List<String> list = new ArrayList<>();
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            System.out.println(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public List<Blog> loadBlogFromTitle(List<String> title) {
+        String sql = "SELECT blog_id, title_meta, title_image_blog FROM dbo.Blog where title_meta = ?";
+        List<Blog> list = new ArrayList<>();
+        for (String string : title) {
+            try {
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.setString(1, string);
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    list.add(new Blog(rs.getInt(1),
+                            rs.getString(2),
+                            rs.getString(3)));
+                }
+            } catch (Exception e) {
+            }
+        }
+
+        return list;
+    }
+
     public int plus1View(int blog_id) {
         String sql = "UPDATE dbo.Blog\n"
                 + "    SET blog_view = blog_view + 1\n"
@@ -60,8 +96,6 @@ public class BlogDAO extends DBContext {
         }
         return result;
     }
-    
-   
 
     public String loadStatusBlog(String blog_id) {
         String sql = "Select status_blog from Blog where blog_id = ?";
