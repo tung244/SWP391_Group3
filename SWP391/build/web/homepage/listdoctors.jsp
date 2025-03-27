@@ -25,42 +25,7 @@
             <!--End mainmenu area-->     
 
             <!--Start header area-->
-            <header class="mainmenu-bottom-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header-contact-info">
-                                <ul>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-signs"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>45 West Dental Street, Newyork 1003</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-interface"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Supportuteam@Dentalcare.com</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-clock"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Weekdays: 09.00am to 18.00pm</h3>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>  
+              
             <!--End header area-->    
 
             <!-- Start breadcrumb area-->                        
@@ -141,50 +106,7 @@
                     <div class="col-lg-3 col-md-4 col-sm-7 col-xs-12 pull-left">
                         <div class="service-sidebar">
                             <!-- First section: Find Doctor -->
-                            <div class="single-sidebar find-doctor">
-                                <a href="#" class="sidebar-link">
-                                    <span class="icon-holder">
-                                        <i class="flaticon-doctor"></i>
-                                    </span>
-                                    <span  class="text-holder">
-                                        <h3>FIND DOCTOR</h3>
-                                    </span>
-                                    <span class="arrow">
-                                        <i class="flaticon-right-arrow"></i>
-                                    </span>
-                                </a>
-                            </div>
-
-                            <!-- Second section: Special Offers -->
-                            <div class="single-sidebar special-offer">
-                                <a href="#" class="sidebar-link">
-                                    <span class="icon-holder">
-                                        <i class="flaticon-gift"></i>
-                                    </span>
-                                    <span class="text-holder">
-                                        <h3>GET DISCOUNT</h3>
-                                    </span>
-                                    <span class="arrow">
-                                        <i class="flaticon-right-arrow"></i>
-                                    </span>
-                                </a>
-                            </div>
-
-                            <!-- Third section: Contact -->
-                            <div class="single-sidebar special-offer">
-                                <a href="#" class="sidebar-link">
-                                    <span class="icon-holder">
-                                        <i class="flaticon-gift"></i>
-                                    </span>
-                                    <span class="text-holder">
-                                        <h3>HOTLINE</h3>
-                                        <h4>1900 277 227</h4>
-                                    </span>
-                                    <span class="arrow">
-                                        <i class="flaticon-right-arrow"></i>
-                                    </span>
-                                </a>
-                            </div>
+                            
 
                             <!--Start single sidebar-->
                             <div class="single-sidebar">
@@ -211,19 +133,18 @@
                             </div> 
                             <!--Ens single sidebar--> 
                             <!--Start single sidebar-->
-                            <div class="single-sidebar">
+                            <div style="padding: 15px" class="single-sidebar">
                                 <div class="title">
                                     <h3>Working Hours</h3>
                                 </div>
                                 <ul class="opening-time">
-                                    <li>Mon to Friday: <span>06.00 to 18.00</span></li>
-                                    <li>Saturday: <span>10.00 to 16.00</span></li>
-                                    <li>Sunday: <span>10.00 to 14.00</span></li>
+                                    <li>Giờ mở cửa: <span>06.00 to 18.00</span></li>
+                                    
                                 </ul>
                             </div> 
                             <!--Ens single sidebar--> 
                             <!--Start single sidebar-->
-                            <div class="single-sidebar">
+                            <div style="padding: 15px" class="single-sidebar">
                                 <div class="title">
                                     <h3>Quick Contact</h3>
                                 </div>
@@ -234,7 +155,7 @@
                                                 <span class="flaticon-pin"></span>
                                             </div>
                                             <div class="text-holder">
-                                                <h5>Park Drive, Varick 2nd Str <br>NY 10012, USA</h5>
+                                                <h5>KM29 Láng Hòa Lạc</h5>
                                             </div>
                                         </li>
                                         <li>
@@ -242,7 +163,7 @@
                                                 <span class="flaticon-interface"></span>
                                             </div>
                                             <div class="text-holder">
-                                                <h5>Support@Eyecare.com</h5>
+                                                <h5>supporeyecare@gmail.com</h5>
                                             </div>
                                         </li>
                                         <li>
@@ -250,7 +171,7 @@
                                                 <span class="flaticon-technology-1"></span>
                                             </div>
                                             <div class="text-holder">
-                                                <h5>(123) 0200 12345 & 7890</h5>
+                                                <h5>0936971273</h5>
                                             </div>
                                         </li>
                                     </ul>

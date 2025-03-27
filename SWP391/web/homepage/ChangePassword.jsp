@@ -1,8 +1,3 @@
-<%-- 
-    Document   : ChangPassword
-    Created on : Feb 11, 2025, 2:19:21 PM
-    Author     : fptshop
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

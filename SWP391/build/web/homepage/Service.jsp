@@ -15,42 +15,7 @@
             <!--End mainmenu area-->
 
             <!--Start header area-->
-            <header class="mainmenu-bottom-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header-contact-info">
-                                <ul>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-signs"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>45 West Dental Street, Newyork 1003</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-interface"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Supportuteam@Dentalcare.com</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-clock"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Weekdays: 09.00am to 18.00pm</h3>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>  
+              
             <!--End header area-->    
 
             <!--Start breadcrumb area-->     
@@ -114,89 +79,7 @@
             <!--End services page area-->
 
             <!--Start testimonial area-->
-            <section class="testimonial-area service-page">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="left-content">
-                                <div class="sec-title">
-                                    <h1>Words From<br> Our Happy Clients</h1>
-                                    <span class="border"></span>
-                                </div>
-                                <div class="text-holder">
-                                    <p>How all this mistaken idea of denouncing pleasure and praising pain was bornd and I will give you a completed account of the system, and expound.</p>
-                                    <a class="thm-btn bg-1" href="#">More Reviews</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="testimonial-carousel">
-                                <!--Start single item-->
-                                <div class="single-item">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <div class="img-holder">
-                                                <img src="images/testimonial/large-testimonial.jpg" alt="Awesome Image">
-                                                <div class="client-name text-center"> <h3>Stephan Vanel</h3> <p>Newyork</p> </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7 col-sm-7 col-xs-12">
-                                            <div class="text-holder">
-                                                <div class="quote-icon">
-                                                    <i class="fa fa-quote-right" aria-hidden="true"></i>
-                                                </div>
-                                                <h3>Surprised at the excellent facilities</h3>
-                                                <p>I was pleasantly surprised at the excellent facilities at Dentalcare and the wonderful job they do. They have an answer for all your Dental Care Needs which is very gratifying.</p>
-                                                <div class="review-box">
-                                                    <ul>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End single item-->
-                                <!--Start single item-->
-                                <div class="single-item">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-5 col-xs-12">
-                                            <div class="img-holder">
-                                                <img src="images/testimonial/large-testimonial.jpg" alt="Awesome Image">
-                                                <div class="client-name text-center"> <h3>Stephan Vanel</h3> <p>Newyork</p> </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7 col-sm-7 col-xs-12">
-                                            <div class="text-holder">
-                                                <div class="quote-icon">
-                                                    <i class="fa fa-quote-right" aria-hidden="true"></i>
-                                                </div>
-                                                <h3>Surprised at the excellent facilities</h3>
-                                                <p>I was pleasantly surprised at the excellent facilities at Dentalcare and the wonderful job they do. They have an answer for all your Dental Care Needs which is very gratifying.</p>
-                                                <div class="review-box">
-                                                    <ul>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End single item-->
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
+            
             <!--End testimonial area-->
 
             <!--Start footer area-->  

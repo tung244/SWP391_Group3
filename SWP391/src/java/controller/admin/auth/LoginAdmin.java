@@ -8,6 +8,7 @@ import bo.EncryptPassword;
 import dal.AccountDAO;
 import dal.DoctorsDAO;
 import dal.PassWordDAO;
+import dal.StaffDAO;
 import jakarta.mail.Transport;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,6 +18,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Account;
+import model.Doctors;
+import model.Staffs;
 
 /**
  *
@@ -41,6 +44,7 @@ public class LoginAdmin extends HttpServlet {
             throws ServletException, IOException {
         AccountDAO accdao = new AccountDAO();
         DoctorsDAO dao = new DoctorsDAO();
+        StaffDAO sdao = new StaffDAO();
         String action = request.getParameter("action");
         String respsonse = "";
         response.setContentType("application/json");
@@ -87,15 +91,19 @@ public class LoginAdmin extends HttpServlet {
             boolean success = accdao.LoginByEmail(email, encryptPass);
             if (success) {
                 int role_id = accdao.getRoleID(email);
-                
+                Staffs s = null;
                 Account a = accdao.getAccountAdmin(email);
                 
                 request.getSession().setAttribute("account", a);
                 switch (role_id) {
                     case 1:
+                         s = sdao.getStaffById(a.getAccount_id());
+                         request.getSession().setAttribute("profile", s);
                         response.sendRedirect("dashboard");
                         break;
                     case 2:
+                         s = sdao.getStaffById(a.getAccount_id());
+                         request.getSession().setAttribute("profile", s);
                         response.sendRedirect("dashboard");
                         break;
                     case 3:
@@ -104,21 +112,26 @@ public class LoginAdmin extends HttpServlet {
                             response.sendRedirect("changePass");
                         } else {
                             int accId = accdao.getAccountIdByEmail(email);
-                            
+                            Doctors dos = dao.getDoctorsByAccId(a.getAccount_id());
+                            request.getSession().setAttribute("profile", dos);
                             response.sendRedirect("dashboard");
                         }
                         
                         break;
                     case 4:
+                        s = sdao.getStaffById(a.getAccount_id());
+                        request.getSession().setAttribute("profile", s);
                         response.sendRedirect("dashboard");
                         break;
                     case 5:
+                        
                         response.sendRedirect("loginAdmin");
                         break;
                     default:
                         throw new AssertionError();
                 }
-
+                
+                
             } else {
                 request.getSession().setAttribute("error", "Password is incorect. Please try again!");
                 response.sendRedirect("loginAdmin");

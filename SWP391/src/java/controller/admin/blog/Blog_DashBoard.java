@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import model.Account;
 import model.Blog;
 import org.json.JSONObject;
 
@@ -36,20 +37,41 @@ public class Blog_DashBoard extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        int sizeDraft = blog.loadSizeBlog("10", ConfigWeb.STATUS_DRAFT_BLOG);
-        int sizePublic = blog.loadSizeBlog("10", ConfigWeb.STATUS_PUBLIC_BLOG);
+        Account a = (Account) request.getSession().getAttribute("account");
+        int sizeDraft = 0; int sizePublic = 0; int view = 0;
+        if (a.getRole().getRole_id() != 1) {
+            sizeDraft = blog.loadSizeBlog(a.getAccount_id(), ConfigWeb.STATUS_DRAFT_BLOG);
+            sizePublic = blog.loadSizeBlog(a.getAccount_id(), ConfigWeb.STATUS_PUBLIC_BLOG);
+            view = blog.loadViewBlog(a.getAccount_id());
+        }
+        
+        if (a.getRole().getRole_id() == 1) {
+            sizeDraft = blog.loadSizeBlog(0, ConfigWeb.STATUS_DRAFT_BLOG);
+            sizePublic = blog.loadSizeBlog(0, ConfigWeb.STATUS_PUBLIC_BLOG);
+            view = blog.loadViewBlog(0);
+        }
+        
+        
 
         String[] info = getInfo(request);
 
-        List<Blog> list = blog.filterBlog(info);
+        List<Blog> list = new ArrayList<>();
+        if (a.getRole().getRole_id() != 1) {
+            list = blog.filterBlog(info, a.getAccount_id());
+        }
+        if (a.getRole().getRole_id() == 1) {
+            list = blog.filterBlog(info, 0);
+        }
+        
         int numberPage = calculatePage(blog.calculateTotalBlog(info));
         System.out.println(blog.calculateTotalBlog(info));
         System.out.println(numberPage);
         int currentNumber = Integer.parseInt(info[2]);
-        int nextNumber = currentNumber +5;
-        if(nextNumber >= numberPage){
+        int nextNumber = currentNumber + 5;
+        if (nextNumber >= numberPage) {
             nextNumber = numberPage;
         }
+        request.setAttribute("totalView", view);
         request.setAttribute("nextNumber", nextNumber);
         request.setAttribute("currentPage", currentNumber);
         request.setAttribute("numberPage", numberPage);

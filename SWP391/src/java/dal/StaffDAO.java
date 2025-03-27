@@ -95,6 +95,9 @@ public class StaffDAO extends DBContext {
         return list;
     }
 
+    
+    
+    
     public Staffs getStaffById(int id) {
         List<Staffs> list = new ArrayList<>();
         String query = "SELECT \n"
@@ -323,14 +326,5 @@ public class StaffDAO extends DBContext {
         return s;
     }
 
-    public static void main(String[] args) {
-        StaffDAO dao = new StaffDAO();
-        List<Staffs> list = dao.getAllStaff();
-        for (Staffs staffs : list) {
-            System.out.println(staffs);
-        }
-//        int id = 8;
-//        Staffs s = dao.getStaffById(id);
-//        System.out.println(s);
-    }
+    
 }

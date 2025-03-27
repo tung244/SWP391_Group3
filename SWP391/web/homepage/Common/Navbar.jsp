@@ -12,23 +12,23 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <div class="language-switcher">
-                    <div id="polyglotLanguageSwitcher">
-                        <form action="#">
-                            <select id="polyglot-language-options">
-                                <option id="en" value="en" selected>English</option>
-                                <option id="fr" value="fr">French</option>
-                                <option id="de" value="de">German</option>
-                                <option id="it" value="it">Italian</option>
-                                <option id="es" value="es">Spanish</option>
-                            </select>
-                        </form>
-                    </div>
-                </div> 
+                <!--                <div class="language-switcher">
+                                    <div id="polyglotLanguageSwitcher">
+                                        <form action="#">
+                                            <select id="polyglot-language-options">
+                                                <option id="en" value="en" selected>English</option>
+                                                <option id="fr" value="fr">French</option>
+                                                <option id="de" value="de">German</option>
+                                                <option id="it" value="it">Italian</option>
+                                                <option id="es" value="es">Spanish</option>
+                                            </select>
+                                        </form>
+                                    </div>
+                                </div> -->
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 <div class="logo text-center">
-                    <a href="index.html">
+                    <a href="trangchu">
                         <img src="homepage/images/resources/logo.png" alt="Awesome Logo">
                     </a>
                 </div>   
@@ -107,15 +107,16 @@
                                                             </div>
                                                             <div class="navbar-collapse collapse clearfix">
                                                                 <ul class="navigation clearfix">
-                                                                    <li class="current"><a href="index.html">Home</a></li>
+                                                                    <li class="current"><a href="trangchu">Home</a></li>
                                                                     <li class="dropdown"><a href="about.html">About Us</a>
                                                                         <ul>
                                                                             <li><a href="about.html">About Dentalcare</a></li>
 
                                                                             <li><a href="listDoctors">Meet Our Dentist</a></li>
-                                                                            <li><a href="special-offers.html">Special Offers</a></li>
-                                                                            <li><a href="faq.html">FAQâs</a></li>
-                                                                            <li><a href="testimonials.html">Testimonials</a></li>
+                                                                            <li><a href="list_machine">Machine</a></li>
+                                                                            <!--                                                                            <li><a href="special-offers.html">Special Offers</a></li>
+                                                                                                                                                        <li><a href="faq.html">FAQâs</a></li>
+                                                                                                                                                        <li><a href="testimonials.html">Testimonials</a></li>-->
                                                                         </ul>
                                                                     </li>
 
@@ -174,18 +175,14 @@
 
 
                                                                     <li><a href="appointment">Appointment</a></li>
-                                                                    <li class="dropdown"><a href="gallery.html">Gallery</a>
-                                                                        <ul>
-                                                                            <li><a href="gallery.html">Gallery Before After</a></li>
-                                                                            <li><a href="gallery-grid.html">Gallery Grid View</a></li>
-                                                                        </ul>
-                                                                    </li>
-                                                                    <li class="dropdown"><a href="blog.html">Blog</a>
-                                                                        <ul>
-                                                                            <li><a href="blog.html">Blog Default</a></li>
-                                                                            <li><a href="blog-with-sidebar.html">Blog With Sidebar</a></li>
-                                                                            <li><a href="blog-single.html">Blog Single Post</a></li>
-                                                                        </ul>
+                                                                    <!--                                                                    <li class="dropdown"><a href="gallery.html">Gallery</a>
+                                                                                                                                            <ul>
+                                                                                                                                                <li><a href="gallery.html">Gallery Before After</a></li>
+                                                                                                                                                <li><a href="gallery-grid.html">Gallery Grid View</a></li>
+                                                                                                                                            </ul>
+                                                                                                                                        </li>-->
+                                                                    <li class="dropdown"><a href="bloghome">Blog</a>
+
                                                                     </li>
                                                                     <li><a href="contact.html">Contact Us</a></li>
                                                                 </ul>
@@ -193,19 +190,19 @@
                                                         </nav>
                                                         <!--End mainmenu-->
                                                         <!--Start outer serach box-->
-                                                        <div class="outer-search-box">
-                                                            <div class="seach-toggle"><i class="fa fa-search"></i></div>
-                                                            <ul class="search-box">
-                                                                <li>
-                                                                    <form method="post" action="index.html">
-                                                                        <div class="form-group">
-                                                                            <input type="search" name="search" placeholder="Search Here" required>
-                                                                            <button type="submit"><i class="fa fa-search"></i></button>
-                                                                        </div>
-                                                                    </form>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
+                                                        <!--                                                        <div class="outer-search-box">
+                                                                                                                    <div class="seach-toggle"><i class="fa fa-search"></i></div>
+                                                                                                                    <ul class="search-box">
+                                                                                                                        <li>
+                                                                                                                            <form method="post" action="index.html">
+                                                                                                                                <div class="form-group">
+                                                                                                                                    <input type="search" name="search" placeholder="Search Here" required>
+                                                                                                                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                                                                                                                </div>
+                                                                                                                            </form>
+                                                                                                                        </li>
+                                                                                                                    </ul>
+                                                                                                                </div>-->
                                                         <!--End outer serach box-->
                                                     </div>
                                                     <div class="right pull-right">
@@ -221,6 +218,42 @@
                                         </div>
                                     </section>
 
+                                    <header class="mainmenu-bottom-area">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="header-contact-info">
+                                                        <ul>
+                                                            <li>
+                                                                <div class="iocn-holder">
+                                                                    <span class="flaticon-signs"></span>
+                                                                </div>
+                                                                <div class="text-holder">
+                                                                    <h3>KM29 Láng Hòa Lạc</h3>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="iocn-holder">
+                                                                    <span class="flaticon-interface"></span>
+                                                                </div>
+                                                                <div class="text-holder">
+                                                                    <h3>supporeyecare@gmail.com</h3>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="iocn-holder">
+                                                                    <span class="flaticon-clock"></span>
+                                                                </div>
+                                                                <div class="text-holder">
+                                                                    <h3>Giờ mở cửa: 07.00am đến 18.00pm</h3>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </header>  
                                     <script>
                                         const dropdownTitle = document.getElementById('dropdown-title');
                                         const dropdownMenu = document.getElementById('dropdown-menu');

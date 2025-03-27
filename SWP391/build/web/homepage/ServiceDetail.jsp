@@ -32,42 +32,7 @@
             <!--End mainmenu area-->
 
             <!--Start header area-->
-            <header class="mainmenu-bottom-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header-contact-info">
-                                <ul>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-signs"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>45 West Dental Street, Newyork 1003</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-interface"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Supportuteam@Dentalcare.com</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-clock"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Weekdays: 09.00am to 18.00pm</h3>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>  
+            
             <!--End header area-->    
 
             <!--Start breadcrumb area-->     
@@ -151,83 +116,6 @@
                                 </div> 
                             </div>
 
-                            <div class="service-plan">
-                                <div class="sec-title">
-                                    <h1 style="color: green">Types of Procedures</h1>
-                                    <span class="border"></span>
-                                </div>
-                                <div class="row">
-                                    <!--Start single box-->
-                                    <div class="col-md-6">
-                                        <div class="single-box">
-                                            <div class="icon-holder">
-                                                <span class="flaticon-medical-6"></span>
-                                            </div>
-                                            <div class="text-box">
-                                                <h3>Professional</h3>
-                                                <p>How all this mistaken idea denoucing pleasure and praisings pain was born complete account expound.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End single box-->
-                                    <!--Start single box-->
-                                    <div class="col-md-6">
-                                        <div class="single-box">
-                                            <div class="icon-holder">
-                                                <span class="flaticon-church"></span>
-                                            </div>
-                                            <div class="text-box">
-                                                <h3>Laser Procedure</h3>
-                                                <p>There anyone who loves or pursues or to obtain pain of itself, because it is but because occasionally.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End single box-->
-                                    <!--Start single box-->
-                                    <div class="col-md-6">
-                                        <div class="single-box">
-                                            <div class="icon-holder">
-                                                <span class="flaticon-avatar"></span>
-                                            </div>
-                                            <div class="text-box">
-                                                <h3>At Home Procedure</h3>
-                                                <p>Undertakes laborious physical exercise, except to obtain some advantage from it but who has any right.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End single box-->
-                                    <!--Start single box-->
-                                    <div class="col-md-6">
-                                        <div class="single-box">
-                                            <div class="icon-holder">
-                                                <span class="flaticon-medical-7"></span>
-                                            </div>
-                                            <div class="text-box">
-                                                <h3>General Procedure</h3>
-                                                <p>Pursues or desires to obtain pain itself, because is pain, because occasionally circumstances occur procure.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End single box-->
-                                </div>
-                            </div>
-
-                            <div class="pricing-box">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="single-box">
-                                            <h3>Pricing & Plans for Teeth Whitening</h3>
-                                            <ul>
-                                                <li>Oral Consultation(Includes Full Mouth X-Ray & Treatment Plan) <span>Free</span></li>
-                                                <li>Exam & Cleaning (Includes Full Mouth Cleaning) <span>$120</span></li>
-                                                <li>White Filling(Includes One Composite Filling) <span>$175</span></li>
-                                                <li>Laser Teeth Whitening (Minimally Invasive Technology) <span>$340</span></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> 
-
                             <div class="pricing-box">
                                 <h3 style="text-align: center; background-color: #e8ffe8; padding: 18px ">Pricing & Plans for Teeth Whitening</h3>
                                 <table class="table table-bordered">
@@ -307,9 +195,8 @@
                                         <h3>Opening Hours</h3>
                                     </div>
                                     <ul class="opening-time">
-                                        <li>Mon to Friday: <span>09.00 to 18.00</span></li>
-                                        <li>Saturday: <span>10.00 to 16.00</span></li>
-                                        <li>Sunday: <span>10.00 to 14.00</span></li>
+                                        <li>Giờ mở cửa: <span>7.00 to 18.00</span></li>
+                                        
                                     </ul>
                                 </div> 
                                 <!--Ens single sidebar--> 
@@ -325,7 +212,7 @@
                                                     <span class="flaticon-pin"></span>
                                                 </div>
                                                 <div class="text-holder">
-                                                    <h5>Park Drive, Varick 2nd Str <br>NY 10012, USA</h5>
+                                                    <h5>Km29 Láng Hòa Lạc</h5>
                                                 </div>
                                             </li>
                                             <li>
@@ -333,7 +220,7 @@
                                                     <span class="flaticon-interface"></span>
                                                 </div>
                                                 <div class="text-holder">
-                                                    <h5>Support@Dentalcare.com</h5>
+                                                    <h5>supporeyecare@gmail.com</h5>
                                                 </div>
                                             </li>
                                             <li>
@@ -341,7 +228,7 @@
                                                     <span class="flaticon-technology-1"></span>
                                                 </div>
                                                 <div class="text-holder">
-                                                    <h5>(123) 0200 12345 & 7890</h5>
+                                                    <h5>0936971273</h5>
                                                 </div>
                                             </li>
                                         </ul>

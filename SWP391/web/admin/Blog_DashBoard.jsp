@@ -178,7 +178,7 @@
                                 </div>
                                 <div class="stat-card">
                                     <h4>Tổng lượt xem</h4>
-                                    <div style="font-size: 25px">42,591</div>
+                                    <div style="font-size: 25px">${totalView}</div>
                                 </div>
                             </div>
 
@@ -241,7 +241,7 @@
                                                                        <span class="xai-toggle-slider"></span>
                                                                 </label>
                                                             </td>
-                                                            <td>320,800</td>
+                                                            <td>${list.blog_view}</td>
                                                             <td>
                                                                 <div class="btn-group">
                                                                     <button type="button" class="btn btn-success dropdown-toggle" 

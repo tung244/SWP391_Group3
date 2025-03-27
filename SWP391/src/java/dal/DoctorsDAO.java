@@ -58,6 +58,40 @@ public class DoctorsDAO extends DBContext {
         }
         return list;
     }
+    
+    public Doctors getDoctorsWithAccId(int account_id){
+        String sql = "SELECT  * FROM [dbo].[Doctors] d\n"
+                + "Where account_id = ?";
+        Doctors doctor = new Doctors();
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, account_id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                
+                doctor.setDoctor_id(rs.getInt("doctor_id"));
+                doctor.setDoctor_name(rs.getString("doctor_name"));
+                doctor.setExperience_years(rs.getInt("experience_years"));
+                doctor.setProfile_image(rs.getString("profile_image"));
+                doctor.setRating(rs.getDouble("rating"));
+                doctor.setGender(rs.getString("gender"));
+                doctor.setDob(rs.getString("dob"));
+                doctor.setAddress(rs.getString("address"));
+                doctor.setDoctor_status(rs.getString("doctor_status"));
+
+                Specialization specialization = new Specialization();
+                specialization.setSpecialization_id(rs.getInt("specialization_id"));
+                specialization.setSpecialization_name(rs.getString("specialization_name"));
+                specialization.setSpecialization_status(rs.getString("specialization_status"));
+                doctor.setSpecialization(specialization);
+
+                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return doctor;
+    }
 
     // List all doctor
     public List<Doctors> getAllDoctors() {
@@ -548,10 +582,12 @@ public class DoctorsDAO extends DBContext {
 
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
-        List<Doctors> l = dao.getDoctorsDash();
-        for (Doctors doctors : l) {
-            System.out.println(doctors);
-        }
+        Doctors d = dao.getDoctorsByAccId(24);
+        System.out.println(d.toString());
+//        List<Doctors> l = dao.getDoctorsDash();
+//        for (Doctors doctors : l) {
+//            System.out.println(doctors);
+//        }
 //        System.out.println(dao.getDoctorIdByAccId(2));
 
 //        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");
