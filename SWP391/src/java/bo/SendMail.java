@@ -22,18 +22,34 @@ import jakarta.mail.internet.MimeMessage;
 import java.util.Map;
 import java.util.Properties;
 import consts.Mail;
+import jakarta.activation.DataHandler;
+import jakarta.activation.FileDataSource;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Multipart;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.internet.MimeUtility;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import model.Appointments;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import model.Gmail;
 
 public class SendMail {
+
+    private static final long MAX_ATTACHMENT_SIZE = 25 * 1024 * 1024;
 
     public static boolean guiMail(String email, String noidung, String nameUser) throws UnsupportedEncodingException {
         Properties props = new Properties();
@@ -93,8 +109,8 @@ public class SendMail {
         }
 
     }
-    
-    public static boolean guiMailXacMinh(String email,String token, String tieude, String nameUser) throws UnsupportedEncodingException {
+
+    public static boolean guiMailXacMinh(String email, String token, String tieude, String nameUser) throws UnsupportedEncodingException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.host", Mail.HOST_NAME);
@@ -114,13 +130,13 @@ public class SendMail {
             message.setSubject(tieude);
 
             // Tạo link xác nhận với token
-            String confirmationLink = "http://localhost:8080/SWP391/xacminh?token="+token;
-            String emailContent = "Xin chào,<br>"+nameUser+" 😉<br>"
-                    +"Cảm ơn bạn đã tin tưởng Eyecare. Đây là link xác minh tài khoản của bạn.<br>"
+            String confirmationLink = "http://localhost:8080/SWP391/xacminh?token=" + token;
+            String emailContent = "Xin chào,<br>" + nameUser + " 😉<br>"
+                    + "Cảm ơn bạn đã tin tưởng Eyecare. Đây là link xác minh tài khoản của bạn.<br>"
                     + "Vui lòng nhấp vào liên kết dưới đây để xác nhận tài khoản của bạn:<br>"
                     + "<a href='" + confirmationLink + "'>Xác nhận tài khoản</a><br><br>"
                     + "Nếu bạn không yêu cầu điều này, vui lòng bỏ qua email này.";
-            
+
             // Đặt tiêu đề với UTF-8
             message.setSubject(MimeUtility.encodeText(tieude, "UTF-8", "B"));
 
@@ -418,55 +434,50 @@ public class SendMail {
         }
     }
 
-    public static boolean guiEmailTuDong(List<String> email, String noidung, String tieude) throws UnsupportedEncodingException, InterruptedException {
-        int size = 10;
-        int total = email.size();
-        int emailsent = 0;
-
+    public static boolean guiEmailTuDong(List<String> recipients, String content, String subject, List<File> savedFiles) throws UnsupportedEncodingException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.host", Mail.HOST_NAME);
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.port", Mail.TSL_PORT);
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
 
-        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                System.out.println("Xác minh gg thành công" + System.currentTimeMillis());
                 return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
             }
         });
 
         try {
-            for (int i = 0; i < email.size(); i += size) {
-
-                List<String> batch = email.subList(i, Math.min(i + size, email.size())); // phòng khi số lượng list k chia hết cho 10
+            for (String to : recipients) {
                 MimeMessage message = new MimeMessage(session);
-                String subject = tieude;
-                message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
-                for (String string : batch) {
+                message.setFrom(new InternetAddress(Mail.APP_EMAIL));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 
-                    message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(string));
+                message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+
+                // Nội dung plain text
+                MimeBodyPart textPart = new MimeBodyPart();
+                textPart.setContent(content,"text/html; charset=UTF-8");
+
+                Multipart multipart = new MimeMultipart();
+                multipart.addBodyPart(textPart);
+                
+                for (File savedFile : savedFiles) {
+                    MimeBodyPart filePart = new MimeBodyPart();
+                    filePart.setFileName(savedFile.getName());
+                    filePart.setDataHandler(new DataHandler(new FileDataSource(savedFile)));
+                    multipart.addBodyPart(filePart);
                 }
-                // Tạo một phần MultiPart
-                MimeMultipart multipart = new MimeMultipart();
-                MimeBodyPart messageBodyPart = new MimeBodyPart();
-                messageBodyPart.setContent(noidung, "text/html; charset=UTF-8");
-                multipart.addBodyPart(messageBodyPart);
+                
                 message.setContent(multipart);
                 Transport.send(message);
-
-                emailsent += batch.size();
-                System.out.println("Gửi xong: " + emailsent + "/" + total);
-
-                Thread.sleep(3000);  // chờ 3s 
-                return true;
             }
+            return true;
         } catch (MessagingException e) {
             e.printStackTrace();
-
+            return false;
         }
-        System.out.println("Gửi hoàn tất!");
-        return false;
     }
 
     public static boolean guiMailDoctor(String email, String password, String nameUser) throws UnsupportedEncodingException {
