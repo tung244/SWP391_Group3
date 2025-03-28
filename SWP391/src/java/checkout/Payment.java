@@ -122,6 +122,16 @@ public class Payment extends HttpServlet {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write("{\"error\": \"Lỗi gửi mail\"}");
                     }
+                    List<Rank> ranks = userDao.getAllRank();
+                    double totalSpending = userDao.getAmountSpendingByCusId(Integer.parseInt(transactionId));
+                    int rank = 0;
+                    for (Rank rank1 : ranks) {
+                        if (totalSpending >= rank1.getMinAmount()) {
+                            rank = rank1.getRankId();
+                        }
+                    }
+                    boolean updateRank = userDao.updateRank(rank, Integer.parseInt(transactionId));
+                    response.sendRedirect("PaymentSuccess");
                 } else {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("{\"error\": \"Lỗi Thanh Toán\"}");
@@ -131,23 +141,7 @@ public class Payment extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"error\": \"Thông tin thanh toán không hợp lệ\"}");
             }
-            List<Rank> ranks = userDao.getAllRank();
-            double totalSpending = userDao.getAmountSpendingByCusId(Integer.parseInt(transactionId));
-            int rank = 0;
-            for (Rank rank1 : ranks) {
-                if (totalSpending >= rank1.getMinAmount()) {
-                    rank = rank1.getRankId();
-                }
-            }
-            boolean updateRank = userDao.updateRank(rank, Integer.parseInt(transactionId));
-            if (updateRank) {
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().write("{\"success\": true}");
-            } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("{\"error\": \"Lỗi update rank\"}");
-            }
-            response.sendRedirect("PaymentSuccess");
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"error\": \"Invalid JSON format\"}");

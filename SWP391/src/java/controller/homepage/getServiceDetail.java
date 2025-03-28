@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.admin.doctor;
+package controller.homepage;
 
-import dal.AppointmentDAO;
-import dal.DoctorsDAO;
+import dal.ServiceDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,19 +12,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import model.Appointments;
-import model.Doctors;
+import model.ServiceDetail;
 
 /**
  *
  * @author APC
  */
-@WebServlet(name = "demo", urlPatterns = {"/admin/demo"})
-public class demo extends HttpServlet {
+@WebServlet(name = "getServiceDetail", urlPatterns = {"/getServiceDetail"})
+public class getServiceDetail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +38,10 @@ public class demo extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet demo</title>");            
+            out.println("<title>Servlet getServiceDetail</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet demo at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet getServiceDetail at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,25 +59,27 @@ public class demo extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        AppointmentDAO dao = new AppointmentDAO();
-        DoctorsDAO dao1 = new DoctorsDAO();
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDate = currentDate.format(formatter);
-        String doctor_id = request.getParameter("doctor_id");
-        String date = request.getParameter("date");
-        List<Appointments> list = new ArrayList<>();
-        if(date==null || date.isEmpty()){
-            list = dao.getFilterAppointment(null, doctor_id, null, null, null);
-        }else{
-            list = dao.getFilterAppointment(null, doctor_id, date, null, null);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        int serviceId = Integer.parseInt(request.getParameter("serviceId"));
+        int serviceTypeId = Integer.parseInt(request.getParameter("serviceTypeId"));
+
+        ServiceDao dao = new ServiceDao();
+        ServiceDetail serviceDetail = dao.getServiceDetailByServiceAndType(serviceId, serviceTypeId);
+
+        PrintWriter out = response.getWriter();
+        if (serviceDetail != null) {
+            String json = "{"
+                    + "\"serviceDetailId\": " + serviceDetail.getService_detail_id() + ","
+                    + "\"cost\": " + serviceDetail.getCost()
+                    + "}";
+            out.print(json);
+        } else {
+            out.print("{}"); // Trả về object rỗng nếu không tìm thấy
         }
-        Doctors doctor = dao1.getDoctorsById(doctor_id);
-        request.setAttribute("listA", list);
-        request.setAttribute("doctor", doctor);
-        request.setAttribute("date", formattedDate);
-        request.getRequestDispatcher("DoctorCalendar_demo.jsp").forward(request, response);
-    } 
+        out.flush();
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -96,7 +92,11 @@ public class demo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int serviceId = Integer.parseInt(request.getParameter("serviceId"));
+        int serviceTypeId = Integer.parseInt(request.getParameter("serviceTypeId"));
+        ServiceDao dao = new ServiceDao();
+        ServiceDetail serviceDetail = dao.getServiceDetailByServiceAndType(serviceId, serviceTypeId);
+
     }
 
     /**

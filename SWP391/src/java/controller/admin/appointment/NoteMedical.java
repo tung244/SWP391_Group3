@@ -112,14 +112,14 @@ public class NoteMedical extends HttpServlet {
         } catch (NumberFormatException e) {
             e.printStackTrace(); // Xử lý lỗi khi nhập không đúng định dạng số
         }
-
+        List<Appointments> apps = dao.getAppointment(appointmentId +"");
+        Appointments app = apps.get(0);
         String additionalTests = request.getParameter("addition_test");
         String note = request.getParameter("note");
-        String docId = request.getParameter("docId");
-        String date = request.getParameter("date");
+        int docId = app.getDoctor().getDoctor_id();
         boolean success = dao.insertMedicalHistory(appointmentId, diagnosis, symptoms, treatment, prescription, visionLeft, visionRight, additionalTests, note);
         if(success){
-            response.sendRedirect("GetDoctorCalendar?doctor_id="+docId+"&date="+date);
+            response.sendRedirect("GetDoctorCalendar?doctor_id="+docId);
         }else{
             request.setAttribute("msg", "Update Error");
             request.getRequestDispatcher("NoteMedical?id="+appointmentId).forward(request, response);

@@ -144,15 +144,34 @@ create table CustomerRank(
 	rankName NVARCHAR(50),
 	minAmount float,
 );
-
+/*
 create table Discount(
 	discountId int IDENTITY(1,1) primary key,
 	discountName nvarchar(50),
 	[percent] int,
 	rankId int foreign key references CustomerRank(rankId),
+	startDate Date,
 	endDate Date,
 	[status] bit DEFault 1,
 );
+*/
+
+create table Discount(
+	discountId int IDENTITY(1,1) primary key,
+	discountName nvarchar(50),
+	startDate Date,
+	endDate Date,
+	[status] bit DEFault 1,
+);
+
+create table DiscountDetail(
+	discountDetailId int IDENTITY(1,1) primary key,
+	discountId int ,
+	[percent] int,
+	rankId int foreign key references CustomerRank(rankId),
+	foreign key (discountId) references Discount(discountId),
+);
+
 
 CREATE TABLE Customers (
 	account_id INT PRIMARY KEY,
@@ -223,12 +242,14 @@ CREATE TABLE Appointment(
 	doctor_id INT,
 	slot_id int,
 	service_detail_id INT,
-	discountId int,
+	discountDetailId int,
 	actualCost DECIMAL(18,2),
+	staff_id int,
 	FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
 	FOREIGN KEY (slot_id) REFERENCES dbo.Slots(slot_id) ,
 	FOREIGN KEY (service_detail_id) REFERENCES dbo.Services_Detail(service_detail_id) ,
-	FOREIGN KEY (discountId) REFERENCES dbo.Discount(discountId) ,
+	FOREIGN KEY (discountDetailId) REFERENCES dbo.DiscountDetail(discountDetailId) ,
+	foreign key (staff_id) references Staffs(staff_id),
 	patient_id int,
 	FOREIGN KEY (patient_id) REFERENCES dbo.Customers(account_id) ,
 	unique(doctor_id, slot_id, appointment_date)

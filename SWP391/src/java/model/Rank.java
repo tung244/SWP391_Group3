@@ -9,6 +9,7 @@ package model;
  * @author APC
  */
 public class Rank {
+
     private int rankId;
     private String rankName;
     private double minAmount;
@@ -18,6 +19,10 @@ public class Rank {
 
     public Rank(int rankId, String rankName) {
         this.rankName = rankName;
+        this.rankId = rankId;
+    }
+
+    public Rank(int rankId) {
         this.rankId = rankId;
     }
 
@@ -55,6 +60,5 @@ public class Rank {
     public String toString() {
         return "Rank{" + "rankId=" + rankId + ", rankName=" + rankName + ", minAmount=" + minAmount + '}';
     }
-    
-    
+
 }

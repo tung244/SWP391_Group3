@@ -61,18 +61,18 @@
     </head>
     <body>
         <div class="container">
-        <h3>Kết Quả Thanh Toán</h3>
-        <div class="table-responsive">
-            <div class="form-group"><label>Mã giao dịch thanh toán:</label> <span>${vnp_TxnRef}</span></div>
-            <div class="form-group"><label>Số tiền:</label> <span>${vnp_Amount}</span></div>
-            <div class="form-group"><label>Mô tả giao dịch:</label> <span>${vnp_OrderInfo}</span></div>
-            <div class="form-group"><label>Mã lỗi thanh toán:</label> <span>${vnp_ResponseCode}</span></div>
-            <div class="form-group"><label>Mã giao dịch tại VNPAY:</label> <span>${vnp_TransactionNo}</span></div>
-            <div class="form-group"><label>Mã ngân hàng:</label> <span>${vnp_BankCode}</span></div>
-            <div class="form-group"><label>Thời gian thanh toán:</label> <span>${vnp_PayDate}</span></div>
-            <div class="form-group"><label>Tình trạng giao dịch:</label> <span>${status}</span></div>
+            <h3>Kết Quả Thanh Toán</h3>
+            <div class="table-responsive">
+                <div class="form-group"><label>Mã giao dịch thanh toán:</label> <span><%= request.getParameter("vnp_TxnRef") %></span></div>
+                <div class="form-group"><label>Số tiền:</label> <span><%= request.getParameter("vnp_Amount") %></span></div>
+                <div class="form-group"><label>Mô tả giao dịch:</label> <span><%= request.getParameter("vnp_OrderInfo") %></span></div>
+                <div class="form-group"><label>Mã lỗi thanh toán:</label> <span><%= request.getParameter("vnp_ResponseCode") %></span></div>
+                <div class="form-group"><label>Mã giao dịch tại VNPAY:</label> <span><%= request.getParameter("vnp_TransactionNo") %></span></div>
+                <div class="form-group"><label>Mã ngân hàng:</label> <span><%= request.getParameter("vnp_BankCode") %></span></div>
+                <div class="form-group"><label>Thời gian thanh toán:</label> <span><%= request.getParameter("vnp_PayDate") %></span></div>
+                <div class="form-group"><label>Tình trạng giao dịch:</label> <span><%= request.getParameter("status") %></span></div>
+            </div>
+            <footer class="footer">&copy; VNPAY 2025</footer>
         </div>
-        <footer class="footer">&copy; VNPAY 2025</footer>
-    </div>
     </body>
 </html>

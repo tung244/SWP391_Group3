@@ -100,14 +100,15 @@ public class ServiceDao extends DBContext {
         }
         return list;
     }
-    
-    public List<ServiceDetail> getPaginationService(List<ServiceDetail> list, int start, int end){
+
+    public List<ServiceDetail> getPaginationService(List<ServiceDetail> list, int start, int end) {
         List<ServiceDetail> list1 = new ArrayList<>();
         for (int i = start; i < end; i++) {
             list1.add(list.get(i));
         }
         return list1;
     }
+
     public ServiceDetail getServiceDetailById(int id) {
         String query = "SELECT \n"
                 + "    sd.service_detail_id, \n"
@@ -163,6 +164,48 @@ public class ServiceDao extends DBContext {
 
                 // Tạo đối tượng ServiceDetail và thêm vào danh sách
                 ServiceDetail serviceDetail = new ServiceDetail(serviceDetailId, service, serviceType, cost);
+                return serviceDetail;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng tài nguyên
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public ServiceDetail getServiceDetailByServiceAndType(int sId, int tId) {
+        String query = "select * from Services_Detail\n"
+                + "where service_id = ? and service_type_id = ?";
+
+        try {
+
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, sId);
+            ps.setInt(2, tId);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                // Lấy dữ liệu từ ResultSet
+                ServiceDetail serviceDetail = new ServiceDetail();
+                serviceDetail.setService_detail_id(rs.getInt(1));
+                Services service = new Services();
+                service.setService_id(rs.getInt(3));
+                serviceDetail.setServices(service);
+                ServiceTypes type = new ServiceTypes();
+                type.setService_type_id(rs.getInt(2));
+                serviceDetail.setServiceType(type);
+                serviceDetail.setCost(rs.getDouble(4));
                 return serviceDetail;
             }
         } catch (Exception e) {
@@ -545,7 +588,7 @@ public class ServiceDao extends DBContext {
         }
         return list;
     }
-    
+
     public ImagesService getServiceWithImageById(int id) {
         String query = "select * from Images_Service i join [Services] s on i.service_id = s.service_id where s.service_id =?";
         try {
@@ -848,12 +891,11 @@ public class ServiceDao extends DBContext {
     public static void main(String[] args) {
         ServiceDao dao = new ServiceDao();
         String name = "Khám mắt tổng quát";
-        List<ImagesService> list = dao.getAllServiceWithImage();
-        for (ImagesService serviceDetail : list) {
-            System.out.println(serviceDetail);
-        }
-
-//        ServiceDetail s = dao.getServiceDetailById(1);
-//        System.out.println(s);
+//        List<ImagesService> list = dao.getAllServiceWithImage();
+//        for (ImagesService serviceDetail : list) {
+//            System.out.println(serviceDetail);
+//        }
+        ServiceDetail s = dao.getServiceDetailByServiceAndType(12, 1);
+        System.out.println(s);
     }
 }

@@ -13,37 +13,27 @@ import java.util.Date;
 public class Discount {
     private int discountId;
     private String discountName;
-    private int percent;
-    private Rank rank;
+    private Date startDate;
     private Date endDate;
     private boolean status;
 
-    public Discount() {
-    }
-
-    public Discount(int discountId, int percent) {
-        this.discountId = discountId;
-        this.percent = percent;
-    }
-    
-    public Discount(int discountId, int percent, Rank rank) {
-        this.discountId = discountId;
-        this.percent = percent;
-        this.rank = rank;
-    }
-    
-    
-    
-    
-    public Discount(int discountId, String discountName, int percent, Rank rank, Date endDate, boolean status) {
+    public Discount(int discountId, String discountName, Date startDate, Date endDate, boolean status) {
         this.discountId = discountId;
         this.discountName = discountName;
-        this.percent = percent;
-        this.rank = rank;
+        this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
     }
+    
+    
+    public Discount() {
+    }
 
+    public Discount(String discountName) {
+        this.discountName = discountName;
+    }
+
+    
     public int getDiscountId() {
         return discountId;
     }
@@ -60,20 +50,12 @@ public class Discount {
         this.discountName = discountName;
     }
 
-    public int getPercent() {
-        return percent;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setPercent(int percent) {
-        this.percent = percent;
-    }
-
-    public Rank getRank() {
-        return rank;
-    }
-
-    public void setRank(Rank rank) {
-        this.rank = rank;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Date getEndDate() {
@@ -94,8 +76,9 @@ public class Discount {
 
     @Override
     public String toString() {
-        return "Discount{" + "discountId=" + discountId + ", discountName=" + discountName + ", percent=" + percent + ", rank=" + rank + ", endDate=" + endDate + ", status=" + status + '}';
+        return "Discount{" + "discountId=" + discountId + ", discountName=" + discountName + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + '}';
     }
+    
     
     
 }

@@ -73,6 +73,25 @@
                 border-radius: 50%;
                 object-fit: cover;
             }
+            #doctor_select {
+                border: 1px solid #6f42c1; /* Màu viền giống nút */
+                color: #6f42c1; /* Màu chữ */
+                background-color: white; /* Màu nền */
+                padding: 5px 15px; /* Điều chỉnh padding */
+                border-radius: 5px; /* Bo tròn góc */
+                cursor: pointer;
+                appearance: none; /* Ẩn kiểu mặc định */
+                width: auto;
+                font-size: 17px;
+                height: 45px;
+            }
+
+            #doctor_select:focus {
+                outline: none;
+                box-shadow: 0 0 5px rgba(111, 66, 193, 0.5); /* Hiệu ứng focus */
+            }
+
+
         </style>
     </head>
     <body> 
@@ -100,7 +119,7 @@
                 <!-- Calendar (Right side) -->
                 <div class="col-md-12">
                     <!-- Calendar Controls -->
-                    <div class="row mb-4">
+                    <div class="row mb-6">
                         <div class="col-md-4">
                             <button id="prev-month" class="btn btn-outline-primary">
                                 <i class="bi bi-chevron-left"></i> Tháng trước
@@ -108,19 +127,27 @@
                             <button id="next-month" class="btn btn-outline-primary">
                                 Tháng sau <i class="bi bi-chevron-right"></i>
                             </button>
-                            <select id="doctor_select">
-                                <c:forEach var="d" items="${listD}">
-                                    <option value="${d.doctor_id}">${d.doctor_name}</option>
-                                </c:forEach>
-                            </select>
-
                         </div>
+
                         <div class="col-md-4 text-center">
                             <h4 id="current-month-year">Tháng 6, 2023</h4>
                         </div>
                         <div class="col-md-4 text-end">
                             <button id="today" class="btn btn-primary">Hôm nay</button>
                         </div>
+                    </div>
+                    <div class="row mb-6" style="margin-top: 2%">
+                        <form action="GetDoctorCalendar">
+                            <select id="doctor_select" name="doctor_id">
+                                <option value="">All Doctors</option>
+                                <c:forEach var="d" items="${listD}">
+                                    <option value="${d.doctor_id}" ${doctor != null && d.doctor_id == doctor.doctor_id ? 'selected' : ''}>${d.doctor_name}</option>
+                                </c:forEach>  
+                            </select>
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="bi bi-chevron-left"></i> Tìm
+                            </button>
+                        </form>
                     </div>
 
                     <!-- Calendar -->
@@ -143,6 +170,24 @@
                         </table>
                     </div>
                 </div>
+                <div class="modal fade" id="appointmentModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Chi Tiết Lịch Hẹn</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="appointment-details">
+                                <!-- Appointment details will be loaded here -->
+                            </div>
+                            <div class="modal-footer">
+                                <button id="loadMedicalNoteBtn" class="btn btn-primary">View Medical</button>
+                                <button id="recordMedicalNoteBtn" class="btn btn-primary">Medical Note</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
             </div>
 
             <!-- Appointment Details Modal -->
@@ -157,15 +202,41 @@
                             <!-- Appointment details will be loaded here -->
                         </div>
                         <div class="modal-footer">
+                            <button id="loadMedicalNoteBtn" class="btn btn-primary">View Medical</button>
                             <button id="recordMedicalNoteBtn" class="btn btn-primary">Medical Note</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="medicalModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+
+                <div class="modal-dialog modal-xl"> <!-- Thêm lớp modal-lg -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Medical Record</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="modalContent">
+                            <!-- Nội dung chi tiết đơn hàng sẽ được cập nhật ở đây -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" style="background-color: green" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
         </div>
+
+
         <!--        </div>-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!--        <script>
+                    document.getElementById("doctor_select").addEventListener("change", function () {
+                        const doctorId = this.value;
+                        window.location.href = "DoctorCalendar?doctor_id=" + doctorId;
+                    });
+                </script>-->
         <script>
             // Khởi tạo mảng appointments rỗng
             var appointments = [];
@@ -209,7 +280,27 @@
             // In ra console để debug
             console.log("Database appointments:", appointments);
         </script>
+        <script>
+            function loadMedicalRecord(id) {
+                console.log("Loading medical history for ID:", id);
+                var modalContent = document.getElementById("modalContent");
+                modalContent.innerHTML = "Loading...";
 
+                // Send request to servlet
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "/SWP391/admin/LoadMedicalHistory?aId=" + id, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        console.log("Response from server:", xhr.responseText);
+                        modalContent.innerHTML = xhr.responseText;
+                        // Show the modal after content is loaded
+                        var modal = new bootstrap.Modal(document.getElementById('medicalModal'));
+                        modal.show();
+                    }
+                };
+                xhr.send();
+            }
+        </script>
         <%-- Script chính --%>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -384,6 +475,21 @@
                     document.getElementById('recordMedicalNoteBtn').addEventListener('click', function () {
                         const id = appointment.id; // Giả sử bạn có thuộc tính id trong appointment
                         window.location.href = '/SWP391/admin/NoteMedical?id=' + id; // Gọi đến servlet NoteMedical với id
+                    });
+
+//                    document.getElementById("loadMedicalNoteBtn").addEventListener("click", function () {
+//                        const id = appointment.id;
+//                        loadMedicalRecord(id);
+//                    });
+                    document.getElementById("loadMedicalNoteBtn").addEventListener("click", function () {
+                        const appointmentModal = bootstrap.Modal.getInstance(document.getElementById('appointmentModal'));
+                        if (appointmentModal) {
+                            appointmentModal.hide(); // Đóng modal hiện tại trước
+                        }
+
+                        setTimeout(() => {
+                            loadMedicalRecord(appointment.id); // Gọi hàm load modal mới
+                        }, 300); // Delay 1 chút để modal hiện tại đóng hoàn toàn
                     });
                     const modal = new bootstrap.Modal(document.getElementById('appointmentModal'));
                     modal.show();

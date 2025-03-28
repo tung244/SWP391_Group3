@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Account;
 import model.Appointments;
 import model.Checkout;
@@ -88,9 +90,14 @@ public class vnpayReturn extends HttpServlet {
             double totalBill = a.getActualCost();
             Checkout Checkout = new Checkout(Integer.parseInt(appointment_id), "VNPay", "Completed", totalBill, vnp_TxnRef);
             boolean isInsert = dao.insertCheckout(Checkout);
-//            if (isInsert) {
-//                boolean isSendMail = SendMail.MailConfirmPaymentAppointment(a);
-//            }
+            if (isInsert) {
+                sendMail(a);
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(vnpayReturn.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             acc = userDao.getAccountByAppointmentId(Integer.parseInt(appointment_id));
             int account_id = acc.getAccount_id();
             List<Rank> ranks = userDao.getAllRank();
@@ -114,7 +121,20 @@ public class vnpayReturn extends HttpServlet {
         request.setAttribute("vnp_OrderInfo", vnp_OrderInfo);
         request.setAttribute("appointment_id", appointment_id);
         request.setAttribute("status", status);
-        request.getRequestDispatcher("/vnpay/vnpay_return.jsp").forward(request, response);
+        request.getRequestDispatcher("/vnpay/test.jsp").forward(request, response);
+    }
+
+    private static void sendMail(Appointments a) {
+        Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
+            try {
+                System.out.println("đến 3");
+                SendMail.MailConfirmPaymentAppointment(a);
+
+            } catch (Exception e) {
+                e.printStackTrace();  // Log lỗi nếu có
+            }
+        });
+        emailThread.start();
     }
 
     /**
