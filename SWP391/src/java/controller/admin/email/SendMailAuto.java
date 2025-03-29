@@ -77,6 +77,8 @@ public class SendMailAuto extends HttpServlet {
             }
         }
 
+        
+        
         CamPaign c = new CamPaign(name_company,
                 group_patient,
                 subject_mail, content_mail, email.size(), 0, GetFormatDate.getFormString(),"pending");

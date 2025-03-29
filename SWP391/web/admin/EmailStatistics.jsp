@@ -131,12 +131,13 @@
 
                         <!--end row-->
                         <div class="email-campaign-card">
-                            <h2 class="email-campaign-title">📧 Chiến Dịch Đang Chạy</h2>
-                            <p class="email-campaign-info"><span class="email-campaign-label">📌 Tên:</span> Khuyến mãi hè</p>
-                            <p class="email-campaign-info"><span class="email-campaign-label">👤 Người tạo:</span> Nguyễn Văn A</p>
-                            <p class="email-campaign-info"><span class="email-campaign-label">📤 Số email gửi:</span> 1000</p>
-                            <p class="email-campaign-info"><span class="email-campaign-label">✅ Đã gửi:</span> <span id="sentEmails">250</span></p>
-                            <p class="email-campaign-info"><span class="email-campaign-label">📅 Ngày tạo:</span> 2024-03-28</p>
+                            <h2 class="email-campaign-title">📧 Chiến Dịch Gần Đây</h2>
+                            <p class="email-campaign-info"><span class="email-campaign-label">📌 Tên:</span> ${campaign.name_company} - Trạng thái ${campaign.status}</p>
+                            <p class="email-campaign-info"><span class="email-campaign-label">👤 Tiêu đề:</span> ${campaign.subject_mail}</p>
+                            <p class="email-campaign-info"><span class="email-campaign-label">👤 Trạn thái:</span> ${campaign.subject_mail}</p>
+                            <p class="email-campaign-info"><span class="email-campaign-label">📤 Số email gửi:</span> ${campaign.total_emails}</p>
+                            <p class="email-campaign-info"><span class="email-campaign-label">✅ Đã gửi:</span> <span id="sentEmails">${campaign.sent_emails}</span></p>
+                            <p class="email-campaign-info"><span class="email-campaign-label">📅 Ngày tạo:</span> ${campaign.created_at}</p>
                         </div>
                     </div>
                 </div>

@@ -22,6 +22,18 @@ public class CamPaign {
     private String created_at;
     private String status;
 
+    public CamPaign(int campaign_id, String name_company, String group_patient, String subject_mail, String content_mail, int total_emails, int sent_emails, String created_at, String status) {
+        this.campaign_id = campaign_id;
+        this.name_company = name_company;
+        this.group_patient = group_patient;
+        this.subject_mail = subject_mail;
+        this.content_mail = content_mail;
+        this.total_emails = total_emails;
+        this.sent_emails = sent_emails;
+        this.created_at = created_at;
+        this.status = status;
+    }
+
     public CamPaign(String name_company, String group_patient, String subject_mail, String content_mail, int total_emails, int sent_emails, String created_at, String status) {
         this.name_company = name_company;
         this.group_patient = group_patient;

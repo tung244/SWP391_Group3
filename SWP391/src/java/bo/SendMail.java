@@ -478,10 +478,7 @@ public class SendMail {
                 // Gửi thành công, cập nhật số lượng email đã gửi
                 int result = cdao.UpdateSendEmails(campaignId); // Hàm updateEmail trả về int
 
-                // Nếu updateEmail trả về 0, tức là đã gửi hết -> cập nhật trạng thái campaign
-                if (result == 0) {
-                    cdao.UpdateStatus(campaignId);
-                }
+                
             }
             return true;
         } catch (MessagingException e) {

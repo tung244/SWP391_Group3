@@ -12,28 +12,12 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/AppointmentList.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/staff/SearchStaff.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/appointment/AppointmentList.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/doctor/GetDoctorCalendar.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/vnpay/vnpay_refund.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/appointment/LoadMedicalHistory.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/transactionhistory.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/dashboard/DashBoard.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/ImageServices.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/vnpay/vnpay_ipn.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/doctor/AddDegree.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/vnpay/vnpay_return.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/user/TransactionDetail.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/StaffList.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/DoctorCalendar.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/homepage/detailtransaction.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/staff/LoadStaffDetail.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/AppointmentDAO.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/Staffs.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/auth/LoginAdmin.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/com/vnpay/common/Config.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/consts/ConfigWeb.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/CamPaignDAO.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/EmailStatistics.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/email/ThongkeEmail.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/CamPaign.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/SendMail.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/email/SendMailAuto.java</file>
         </group>
     </open-files>
 </project-private>

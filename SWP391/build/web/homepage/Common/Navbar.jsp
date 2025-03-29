@@ -64,7 +64,7 @@
                              style="background-color: white; border: white; padding: 8px;
                              border-radius: 6px; display: flex; align-items: center;
                              gap: 10px; cursor: pointer; box-shadow: none;">
-                            <img src="${userProfile.image_profile_user}" alt="Icon" style="width: 35px; height: 35px; border-radius: 40px">
+                            <img src="${user.image_profile_user}" alt="Icon" style="width: 35px; height: 35px; border-radius: 40px">
                             <span style="color: black;">Hello ${sessionScope.user.fullname}<i class='bx bx-chevron-down'></i></span>
                         </div>
 
@@ -210,7 +210,7 @@
                                                             <span class="flaticon-technology-1"></span>
                                                         </div>
                                                         <div class="title-box">
-                                                            <h3>Call Us: 1-800-901-234</h3>
+                                                            <h3>093-697-1273</h3>
                                                         </div>    
                                                     </div>
                                                 </div>

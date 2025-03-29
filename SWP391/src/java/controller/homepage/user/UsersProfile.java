@@ -60,7 +60,53 @@ public class UsersProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        String fullname = request.getParameter("fullname").trim();
+        String email = request.getParameter("email").trim();
+        String phonenumber = request.getParameter("phonenumber").trim();
+        String address = request.getParameter("address").trim();
+        String gender = request.getParameter("gender").trim();
+        String dob = request.getParameter("dob").trim();
+        int account_id = (int) session.getAttribute("account_id");
+        
+        UserProfileDAO dao = new UserProfileDAO();
+        if (dao.CheckEmail(email, account_id)) {
+            session.setAttribute("error", "Email đã tồn tại.");
+            response.sendRedirect("userprofile");
+            return;
+        }
+
+        if (dao.CheckPhoneNumber(phonenumber, account_id)) {
+            session.setAttribute("error", "Số điện thoại đã tồn tại.");
+            response.sendRedirect("userprofile");
+            return;
+        }
+        if (fullname.isEmpty() || !fullname.matches("\\p{L}+[\\s\\p{L}]*")) {
+            session.setAttribute("error", "Họ và tên không hợp lệ! Vui lòng nhập tên hợp lệ (chỉ chứa chữ và khoảng trắng).");
+            response.sendRedirect("userprofile");
+            return;
+        }
+
+        if (!phonenumber.matches("\\d{10,11}")) {
+            session.setAttribute("error", "Số điện thoại không hợp lệ! Vui lòng nhập số có 10-11 chữ số.");
+            response.sendRedirect("userprofile");
+            return;
+        }
+        if (!email.matches("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+            session.setAttribute("error", "Email không hợp lệ! Vui lòng nhập đúng định dạng (ví dụ: example@gmail.com).");
+            response.sendRedirect("userprofile");
+            return;
+        }
+
+        if (address.isEmpty() || !address.matches("^[\\p{L}\\p{N}\\s.,\\/-]+$")) {
+            session.setAttribute("error", "Địa chỉ không hợp lệ! Vui lòng nhập địa chỉ hợp lệ (chỉ chứa chữ, số, khoảng trắng và các ký tự .,\\/-).");
+            response.sendRedirect("userprofile");
+            return;
+        }
+
+        dao.updateUserProfile(fullname, email, phonenumber, address, dob, gender, account_id);
+        response.sendRedirect("userprofile");
     }
 
     @Override

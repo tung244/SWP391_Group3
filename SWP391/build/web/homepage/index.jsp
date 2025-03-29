@@ -620,7 +620,7 @@
                                         <div class="row">
                                             <div class="col-md-5 col-sm-5 col-xs-12">
                                                 <div class="img-holder">
-                                                    <img src="${content.image_patient}" alt="Awesome Image">
+                                                    <img src="${content.image_patient}" style="width: 250px!important" alt="Awesome Image">
                                                     <div class="client-name text-center"> <h3>${content.patient_name}</h3> </div>
                                                 </div>
                                             </div>

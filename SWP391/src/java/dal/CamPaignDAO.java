@@ -43,9 +43,10 @@ public class CamPaignDAO extends DBContext {
 
     public int UpdateSendEmails(int campId) {
         int result = 0;
-        String sql = "UPDATE dbo.email_campaigns\n"
-                + "SET sent_emails = sent_emails + 1\n"
-                + "WHERE campaign_id = ? AND sent_emails < total_emails;";
+        String sql = "UPDATE email_campaigns "
+                + "SET sent_emails = sent_emails + 1, "
+                + "status = CASE WHEN sent_emails + 1 >= total_emails THEN 'complete' ELSE status END "
+                + "WHERE campaign_id = ? AND sent_emails < total_emails";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -92,15 +93,40 @@ public class CamPaignDAO extends DBContext {
         }
         return reuslt;
     }
+    public CamPaign LoadCapainNewestt() {
+        CamPaign c = null;
+        String sql = "SELECT TOP 1 * \n"
+                + "FROM dbo.email_campaigns \n"
+                + "ORDER BY CONVERT(DATETIME, created_at, 120) DESC;";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                 c = new CamPaign(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getString(8),rs.getString(9));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return c;
+    }
 
     public static void main(String[] args) {
         CamPaignDAO c = new CamPaignDAO();
-        CamPaign ca = new CamPaign("Luong",
-                "nguyenluongk2k4@gmail.com;luongndhe181876@fpt.edu.vn",
-                "EYECAREEE",
-                "Cảm ơn bạn đã quan tâm",
-                2,
-                0, GetFormatDate.getFormString(), "pending");
-
+//        CamPaign ca = new CamPaign("Luong",
+//                "nguyenluongk2k4@gmail.com;luongndhe181876@fpt.edu.vn",
+//                "EYECAREEE",
+//                "Cảm ơn bạn đã quan tâm",
+//                2,
+//                0, GetFormatDate.getFormString(), "pending");
+        System.out.println(c.LoadCapainNewestt().getCreated_at());
     }
 }
