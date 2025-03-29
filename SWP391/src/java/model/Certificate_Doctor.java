@@ -7,7 +7,7 @@ package model;
 /*
  */
 public class Certificate_Doctor {
-
+    private int certificate_doctor_id;
     private int certificate_id;
     private int doctor_id;
     private String date_certificate;
@@ -17,9 +17,26 @@ public class Certificate_Doctor {
     private String certificate_image;
     private Certificate certificate;
     private Doctors doctor;
+    private int version;
 
     public Certificate_Doctor() {
     }
+
+    public Certificate_Doctor(int certificate_doctor_id, int certificate_id, int doctor_id, String date_certificate, String date_change, String status, String issued_by, String certificate_image, Certificate certificate, Doctors doctor, int version) {
+        this.certificate_doctor_id = certificate_doctor_id;
+        this.certificate_id = certificate_id;
+        this.doctor_id = doctor_id;
+        this.date_certificate = date_certificate;
+        this.date_change = date_change;
+        this.status = status;
+        this.issued_by = issued_by;
+        this.certificate_image = certificate_image;
+        this.certificate = certificate;
+        this.doctor = doctor;
+        this.version = version;
+    }
+    
+    
 
     public Certificate_Doctor(int certificate_id, int doctor_id, String date_certificate, String date_change, String status, String issued_by, String certificate_image, Certificate certificate, Doctors doctor) {
         this.certificate_id = certificate_id;
@@ -129,10 +146,29 @@ public class Certificate_Doctor {
         this.issued_by = issued_by;
     }
 
-    @Override
-    public String toString() {
-        return "Certificate_Doctor{" + "certificate_id=" + certificate_id + ", doctor_id=" + doctor_id + ", date_certificate=" + date_certificate + ", date_change=" + date_change + ", status=" + status + ", issued_by=" + issued_by + ", certificate_image=" + certificate_image + ", certificate=" + certificate + ", doctor=" + doctor + '}';
+    public int getCertificate_doctor_id() {
+        return certificate_doctor_id;
     }
 
+    public void setCertificate_doctor_id(int certificate_doctor_id) {
+        this.certificate_doctor_id = certificate_doctor_id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    @Override
+    public String toString() {
+        return "Certificate_Doctor{" + "certificate_doctor_id=" + certificate_doctor_id + ", certificate_id=" + certificate_id + ", doctor_id=" + doctor_id + ", date_certificate=" + date_certificate + ", date_change=" + date_change + ", status=" + status + ", issued_by=" + issued_by + ", certificate_image=" + certificate_image + ", certificate=" + certificate + ", doctor=" + doctor + ", version=" + version + '}';
+    }
+    
+    
+
+    
    
 }

@@ -85,7 +85,7 @@
                                                                             </a>
                                                                         </h6>
                                                                     </c:if>
-                                                                    <img src=".${lde.degree_image}" class="img-thumbnail" alt="Degree Image">
+                                                                    <img src="${lde.degree_image}" class="img-thumbnail" alt="Degree Image">
                                                                 </div> 
 
                                                             </c:forEach>
@@ -214,7 +214,7 @@
                                     // Gán giá trị vào modal
                                     document.getElementById("degreeId").value = degreeId;
                                     document.getElementById("doctorId").value = doctorId;
-                                    document.getElementById("degreePhoto").src = "." + degreeImage;
+                                    document.getElementById("degreePhoto").src =degreeImage;
                                     document.getElementById("updateDegreeIssuedBy").value = issuedBy;
                                     document.getElementById("dateDegree").value = dateDegree;
                                     document.getElementById("version").value = dataVersion;

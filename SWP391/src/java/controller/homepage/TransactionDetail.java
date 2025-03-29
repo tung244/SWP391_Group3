@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.homepage;
 
+import bo.GetFormatDate;
+import dal.DoctorsDAO;
 import dal.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,81 +15,81 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import model.Appointment;
+import model.Feedback_Doctor;
 
 /**
  *
  * @author -ASUS-
  */
-@WebServlet(name="TransactionDetail", urlPatterns={"/transactiondetail"})
+@WebServlet(name = "TransactionDetail", urlPatterns = {"/transactiondetail"})
 public class TransactionDetail extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
+    GetFormatDate getdate = new GetFormatDate();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet TransactionDetail</title>");  
+            out.println("<title>Servlet TransactionDetail</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet TransactionDetail at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet TransactionDetail at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        String appointment_idStr = request.getParameter("appointment_id");
-        if(appointment_idStr==null){
-            response.sendRedirect("login");
-            return; 
-        }
-        int appointment_id = Integer.parseInt(appointment_idStr);
-        UserProfileDAO  dao = new UserProfileDAO();
-        List<Appointment> listA = dao.getAppointmentByAppointmentId(appointment_id);
-        request.setAttribute("appointment", listA);
-        request.getRequestDispatcher("homepage/detailtransaction.jsp").forward(request, response);
-        
-    } 
-
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
     }
 
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String appointment_idStr = request.getParameter("appointment_id");
+        if (appointment_idStr == null) {
+            response.sendRedirect("login");
+            return;
+        }
+        int appointment_id = Integer.parseInt(appointment_idStr);
+        UserProfileDAO dao = new UserProfileDAO();
+        List<Appointment> listA = dao.getAppointmentByAppointmentId(appointment_id);
+
+        DoctorsDAO ddao = new DoctorsDAO();
+        Feedback_Doctor feedback = ddao.getFeedBackDoctor(appointment_idStr);
+
+        request.setAttribute("feedback", feedback);
+        request.setAttribute("appointment", listA);
+        request.getRequestDispatcher("homepage/detailtransaction.jsp").forward(request, response);
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        DoctorsDAO dao = new DoctorsDAO();
+        String appointmentId = request.getParameter("appointment_id");
+        int did = dao.getDoctorIdByAppointmentId(Integer.parseInt(appointmentId));
+        
+        String feedback_rating = request.getParameter("feedback_rating");
+        String feedback_text = request.getParameter("feedback_text");
+        String feedback_date = getdate.getFormString();
+
+        boolean success = dao.insertDoctorFeedback(Integer.parseInt(appointmentId), feedback_text, Integer.parseInt(feedback_rating), feedback_date);
+        if (success) {
+            boolean ok = dao.updateDoctorRating(did);
+            request.getSession().setAttribute("success", "Rating doctor successfully!");
+            response.sendRedirect("transactiondetail?appointment_id=" + appointmentId);
+        } else {
+            request.getSession().setAttribute("success", "Rating doctor unsuccessfully!");
+            response.sendRedirect("transactiondetail?appointment_id=" + appointmentId);
+        }
+
+    }
+
     @Override
     public String getServletInfo() {
         return "Short description";

@@ -95,6 +95,7 @@ public class LoginAdmin extends HttpServlet {
                 Account a = accdao.getAccountAdmin(email);
                 
                 request.getSession().setAttribute("account", a);
+                request.getSession().setMaxInactiveInterval(3600);
                 switch (role_id) {
                     case 1:
                          s = sdao.getStaffById(a.getAccount_id());

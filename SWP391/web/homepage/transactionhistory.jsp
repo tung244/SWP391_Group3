@@ -67,6 +67,63 @@
                 max-width: 90%; /* Chiều rộng modal là 90% của màn hình */
                 width: 90%;
             }
+            
+            .simple-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .simple-modal-content {
+                background-color: white;
+                padding: 25px;
+                border-radius: 8px;
+                width: 300px;
+                text-align: center;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            .simple-modal-content h3 {
+                margin-top: 0;
+                color: #333;
+                margin-bottom: 20px;
+            }
+
+            .payment-buttons {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .payment-buttons button {
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+                width: 48%;
+                transition: all 0.2s;
+            }
+
+            .payment-buttons button:hover {
+                transform: translateY(-2px);
+            }
+
+            .btn-real-money {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .btn-vnpay {
+                background-color: #f44336;
+                color: white;
+            }
 
         </style>  
     </head>
@@ -148,16 +205,19 @@
                                     <td class="userprofile-table-cell">
 
                                         <a href="transactiondetail?appointment_id=${appointment.appointment_id}"><i style="color: green" class="fas fa-eye icon"></i></a>
-                                            <c:if test="${appointment.appointment_status.equals('Scheduled')}">
-                                            <a href="payment?id=${appointment.appointment_id}&cost=5000"><i style="color: green" class="fas fa-wallet"></i></a>
-                                            </c:if>
-                                            <c:if test="${appointment.appointment_status.equals('Completed')}">
+                                          <c:if test="${appointment.appointment_status.equals('Scheduled')}">
+                                            <a href="javascript:void(0)" onclick="showPaymentModal(${appointment.appointment_id}, 5000, ${appointment.service_detail.cost})">
+                                                <i style="color: green" class="fas fa-wallet"></i>
+                                            </a>
+                                        </c:if>
+
+                                        <c:if test="${appointment.appointment_status.equals('Completed')}">
                                             <a href="#" title="View" onclick="loadMedicalHistory(${appointment.appointment_id});" data-toggle="modal" data-target="#viewModal">
                                                 <i style="color: green" class="fas fa-file-alt icon"></i>
                                             </a>
                                         </c:if> 
                                         <c:if test="${appointment.appointment_status.equals('Scheduled') ||appointment.appointment_status.equals('Completed') }">
-                                        <a href="Invoice?appointment=${appointment.appointment_id}" title="Bill"><i style="color: green" class="fas fa-file-invoice-dollar"></i></a>
+                                            <a href="Invoice?appointment=${appointment.appointment_id}" title="Bill"><i style="color: green" class="fas fa-file-invoice-dollar"></i></a>
                                             </c:if>
                                     </td>
                                 </tr>
@@ -252,6 +312,48 @@
 
         </script>
 
+
+        <!-- Modal thanh toán đơn giản -->
+        <div id="simplePaymentModal" class="simple-modal">
+            <div class="simple-modal-content">
+                <h3>Chọn phương thức thanh toán</h3>
+                <div class="payment-buttons">
+                    <button class="btn-real-money" onclick="choosePayment('real')">Real Money</button>
+                    <button class="btn-vnpay" onclick="choosePayment('vnpay')">VNPAY</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let currentAppointmentId = 0;
+            let realCost = 0;
+            let fakeCost = 0;
+            function showPaymentModal(appointmentId, fakecost, realcost) {
+                currentAppointmentId = appointmentId;
+                fakeCost = fakecost;
+                realCost = realcost;
+                const modal = document.getElementById('simplePaymentModal');
+                modal.style.display = 'flex';
+
+                // Đóng modal khi nhấp vào bên ngoài
+                modal.addEventListener('click', function (event) {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+
+            function choosePayment(type) {
+                const modal = document.getElementById('simplePaymentModal');
+                modal.style.display = 'none';
+
+                if (type === 'real') {
+                    window.location.href = "payment?id=" + currentAppointmentId + "&cost=" + fakeCost;
+                } else if (type === 'vnpay') {
+                    window.location.href = "vnpay?appointment_id=" + currentAppointmentId + "&amount=" + realCost;
+                }
+            }
+        </script>
         <script>
             function loadMedicalHistory(id) {
                 console.log("Loading medical history for ID:", id);

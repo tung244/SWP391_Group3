@@ -32,7 +32,6 @@
             font-weight: bold;
             color: #222;
         }
-
         </style>
         <jsp:include page="Common/Css.jsp"/>
     </head>

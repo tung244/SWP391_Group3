@@ -71,7 +71,7 @@
                                                     </div>
                                                     <div>
                                                         <label class="form-label">Degree Image</label>
-                                                        <input type="file" name="degreeImage[]" class="form-control" required>
+                                                        <input accept=".jpg, .jpeg, .webp, .png" type="file" name="degreeImage[]" class="form-control" required>
                                                     </div>
 
                                                     <div class="mt-2">

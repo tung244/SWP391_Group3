@@ -6,6 +6,9 @@
 package controller.admin.dashboard;
 
 import dal.AccountDAO;
+import dal.AdminDAO;
+import dal.DoctorsDAO;
+import dal.ServiceDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,9 +19,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 import model.Account;
+import model.Doctors;
 import model.Modules;
 import model.Permission;
 import model.Role;
+import model.Services;
 
 
 @WebServlet(name="DashBoard", urlPatterns={"/admin/dashboard"})
@@ -48,10 +53,25 @@ public class DashBoard extends HttpServlet {
     throws ServletException, IOException {
         Account a = (Account) request.getSession().getAttribute("account");
         Map<Modules, List<Permission>> map = adao.loadMenu(a.getRole().getRole_id());
-
         
+       
         request.getSession().setAttribute("menu", map);
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        AdminDAO aDao = new AdminDAO();
+        DoctorsDAO dDao = new DoctorsDAO();
+        ServiceDao sDao = new ServiceDao();
+        AccountDAO accDao = new AccountDAO();
+        List<Services> sList = sDao.getAllServicesOnly();
+        List<Doctors> dList = dDao.getAllDoctors();
+        int cusCount = aDao.getCountCustomer();
+        int saleCount = aDao.getCountSale();
+        int supportCount = aDao.getCountCustomerSupport();
+        request.setAttribute("cusCount", cusCount);
+        request.setAttribute("saleCount", saleCount);
+        request.setAttribute("supportCount", supportCount);
+        request.setAttribute("serviceCount", sList.size());
+        request.setAttribute("doctorCount", dList.size());
+        request.getRequestDispatcher("/admin/AdminDashBoard.jsp").forward(request, response);
+        
     } 
 
     

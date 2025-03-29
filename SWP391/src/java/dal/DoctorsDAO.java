@@ -4,6 +4,7 @@
  */
 package dal;
 
+import java.sql.CallableStatement;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,12 +17,124 @@ import model.Certificate_Doctor;
 import model.Degree;
 import model.Degree_Doctor;
 import model.Doctors;
+import model.Feedback_Doctor;
 import model.Role;
 import model.Specialization;
 
 public class DoctorsDAO extends DBContext {
 
+    public Feedback_Doctor getFeedBackDoctor(String appointmentId) {
+        String sql = "SELECT feedback_text, feedback_rating, feedback_id, appointment_id FROM Feedback_Doctor WHERE appointment_id = ?";
+        Feedback_Doctor feedback = new Feedback_Doctor();
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, appointmentId);
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+
+                feedback.setFeedback_id(rs.getInt("feedback_id"));
+                feedback.setAppointment_id(rs.getInt("appointment_id"));
+                feedback.setFeedback_text(rs.getString("feedback_text"));
+                feedback.setFeedback_rating(rs.getInt("feedback_rating"));
+                return feedback;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    public int getDoctorIdByAppointmentId(int appointmentId) {
+        String sql = "SELECT a.doctor_id "
+                + "FROM dbo.Appointment a "
+                + "JOIN dbo.Feedback_Doctor fd "
+                + "ON fd.appointment_id = a.appointment_id "
+                + "WHERE a.appointment_id = ?";
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, appointmentId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("doctor_id");
+            }
+
+            return -1; // Return -1 if no doctor found
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1; // Return -1 if an error occurs
+        }
+    }
     
+    public boolean insertDoctorFeedback(int appointmentId, String feedbackText, int feedbackRating, String feedback_date) {
+        try {
+            // Trước tiên, kiểm tra xem đã tồn tại feedback cho appointment này chưa
+            String checkSql = "SELECT COUNT(*) FROM Feedback_Doctor WHERE appointment_id = ?";
+            PreparedStatement checkStmt = connection.prepareStatement(checkSql);
+            checkStmt.setInt(1, appointmentId);
+            ResultSet rs = checkStmt.executeQuery();
+
+            boolean exists = false;
+            if (rs.next()) {
+                exists = rs.getInt(1) > 0;
+            }
+
+            // Nếu đã tồn tại, xóa bản ghi cũ
+            if (exists) {
+                String deleteSql = "DELETE FROM Feedback_Doctor WHERE appointment_id = ?";
+                PreparedStatement deleteStmt = connection.prepareStatement(deleteSql);
+                deleteStmt.setInt(1, appointmentId);
+                deleteStmt.executeUpdate();
+            }
+
+            // Chèn bản ghi mới
+            String insertSql = "INSERT INTO Feedback_Doctor "
+                    + "(appointment_id, feedback_text, feedback_date, feedback_rating) "
+                    + "VALUES (?, ?, ?, ?)";
+            PreparedStatement pstmt = connection.prepareStatement(insertSql);
+            pstmt.setInt(1, appointmentId);
+            pstmt.setString(2, feedbackText);
+            pstmt.setString(3, feedback_date);
+            pstmt.setInt(4, feedbackRating);
+
+            // Thực thi insert
+            int rowsAffected = pstmt.executeUpdate();
+
+            // Đóng các statement
+            if (rs != null) {
+                rs.close();
+            }
+            checkStmt.close();
+            pstmt.close();
+
+            // Trả về true nếu insert thành công
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean updateDoctorRating(int doctorId) {
+        String sql = "{CALL UpdateDoctorRating(?)}";
+        boolean success = false;
+
+        try {
+            CallableStatement cstmt = connection.prepareCall(sql);
+            cstmt.setInt(1, doctorId);
+            success = cstmt.executeUpdate() > 0; // Returns true if rows were affected
+            return success;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; 
+        }
+    }
     
     
     //List doctor in dashboard

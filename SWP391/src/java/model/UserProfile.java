@@ -9,6 +9,18 @@ public class UserProfile {
     public String gender;
     public Rank rank;
     public String image_profile_user;
+    public Checkout checkout;
+    
+    public UserProfile() {
+    }
+
+    public Checkout getCheckout() {
+        return checkout;
+    }
+
+    public void setCheckout(Checkout checkout) {
+        this.checkout = checkout;
+    }
 
     public UserProfile(Account account, String fullname, String address, String dob, String gender, Rank rank, String image_profile_user) {
         this.account = account;

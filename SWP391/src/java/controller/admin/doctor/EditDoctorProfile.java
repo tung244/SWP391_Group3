@@ -133,7 +133,7 @@ public class EditDoctorProfile extends HttpServlet {
             request.getSession().setAttribute("success", "Edit doctor profile successfully!");
             response.sendRedirect("doctorProfile?accId=" + accId);          
         } else {
-            request.setAttribute("error", "Update failed. Please try again.");
+            request.setAttribute("errorr", "Update failed. Please try again.");
             request.getRequestDispatcher("editDoctorProfile?did=" + did).forward(request, response);
         }
     }

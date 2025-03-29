@@ -26,9 +26,151 @@
             .login-button:hover {
                 background-color: #45a049;
             }
-            
+
+            .star-rating {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .star-rating .fa-star {
+                color: #ddd; /* Default unselected star color */
+                font-size: 24px;
+                cursor: pointer;
+                margin: 0 5px;
+                transition: color 0.2s ease;
+            }
+
+            .star-rating .fa-star.selected {
+                color: #ffc107; /* Highlighted star color */
+            }
+
+            .star-rating .fa-star:hover {
+                color: #ffc107; /* Hover effect */
+            }
+            /* Nút chính */
+            .primary-button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                width: 48%;
+            }
+            .primary-button:hover {
+                background-color: #45a049;
+            }
+
+            /* Nút quay lại */
+            .back-action-btn {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 14px;
+                width: auto;
+                min-width: 80px;
+                height: 30px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* Nút đánh giá */
+            .review-action-btn {
+                background-color: #FFA500;
+                color: white;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 14px;
+                width: auto;
+                min-width: 80px;
+                height: 30px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 10px;
+            }
+            .review-action-btn:hover {
+                background-color: #FF8C00;
+            }
+
+            /* Hộp thoại đánh giá */
+            .feedback-modal {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                align-items: center;
+                justify-content: center;
+            }
+            .feedback-modal-content {
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                width: 400px;
+                text-align: center;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Nút đóng */
+            .modal-close-btn {
+                float: right;
+                font-size: 24px;
+                cursor: pointer;
+            }
+
+            /* Đánh giá sao */
+            .star-rating-container {
+                font-size: 30px;
+                color: #ddd;
+                cursor: pointer;
+            }
+            .star-icon {
+                display: inline-block;
+                transition: color 0.3s;
+            }
+            .star-icon:hover, .star-icon.active {
+                color: #FFD700;
+            }
+
+            /* Ô nhập đánh giá */
+            .feedback-textarea {
+                width: 100%;
+                margin-top: 10px;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            /* Nút gửi đánh giá */
+            .submit-feedback-btn {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 4px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+            .submit-feedback-btn:hover {
+                background-color: #45a049;
+            }
+
 
         </style>  
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
     <body>
         <div class="row" style="background-color: #4EB09B">
@@ -70,7 +212,7 @@
                                     <th class="userprofile-table-cell userprofile-table-header">Giờ bắt đầu</th>
                                     <th class="userprofile-table-cell userprofile-table-header">Giờ kết thúc</th>
                                     <th class="userprofile-table-cell userprofile-table-header">Bác sĩ phụ trách</th>
-
+                                    <th class="userprofile-table-cell userprofile-table-header">Customer Support</th>    
 
                                 </tr>
                             </thead>
@@ -83,24 +225,117 @@
                                         <td class="userprofile-table-cell">${appointment.appointment_status}</td>
                                         <td class="userprofile-table-cell">${appointment.slot.start_time}</td>
                                         <td class="userprofile-table-cell">${appointment.slot.end_time}</td>
-                                        <td class="userprofile-table-cell">${appointment.doctor.doctor_name}</td>
+                                        <td class="userprofile-table-cell">${appointment.doctor.doctor_name}
+                                            <c:if test="${appointment.appointment_status == 'Completed'}">
+                                                <span style="margin-left: 10px; color: green" class="rating-icon">
+                                                    <a href="#" 
+                                                       class="rating-trigger" 
+                                                       data-appointment-id="${appointment.appointment_id}"
+                                                       data-doctor-name="${appointment.doctor.doctor_name}"
+                                                       data-doctor-id="${appointment.doctor.doctor_id}"
+                                                       >
+                                                        <i class="fas fa-star"></i>
+                                                    </a>
+                                                </span>
+                                            </c:if>
+                                        </td>
+                                        <td class="userprofile-table-cell">
+                                            ${appointment.staffs.admin_fullname}
+                                            <button class="review-button" onclick="openReviewModal('${appointment.appointment_id}')">★</button>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
 
                         </table>
 
-                    <button class="login-button" onclick="goBack()">⬅ Quay lại</button>
+                        <a href="transactionhistoryy"><button class="login-button" >⬅ Quay lại</button></a>
+                    </div>
+                    <!-- Rating Modal -->
+                    <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="ratingModalLabel">Đánh giá bác sĩ</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="ratingForm" action="transactiondetail" method="POST">
+                                        <input type="hidden" id="appointmentId" name="appointment_id" value="${feedback.appointment_id}">
+                                        <input type="hidden" id="doctorId" name="doctorId">
+                                        <div class="form-group">
+                                            <label for="doctorName">Bác sĩ phụ trách:</label>
+                                            <input type="text" class="form-control" id="doctorName" name="doctorName" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="rating">Xếp hạng (1-5 sao):</label>
+                                            <div id="starRating" class="star-rating">
+                                                <i class="fas fa-star" data-value="1"></i>
+                                                <i class="fas fa-star" data-value="2"></i>
+                                                <i class="fas fa-star" data-value="3"></i>
+                                                <i class="fas fa-star" data-value="4"></i>
+                                                <i class="fas fa-star" data-value="5"></i>
+                                            </div>
+                                            <input type="hidden" id="feedbackRating" name="feedback_rating" value="0">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="feedbackText">Nhận xét:</label>
+                                            <textarea class="form-control" id="feedbackText" name="feedback_text"  rows="3" placeholder="Nhập nhận xét của bạn..." required>
+                                                ${requestScope.feedback.feedback_text}
+                                            </textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-primary" id="submitRating">Gửi đánh giá</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal đánh giá -->
+                    <div class="feedback-modal" id="customerFeedbackModal">
+                        <div class="feedback-modal-content">
+                            <span class="modal-close-btn" onclick="closeFeedbackModal()">&times;</span>
+                            <h2>Đánh giá Dịch vụ CSKH</h2>
+                            <form action="addfeedback" method="get">
+                                <input type="hidden" id="appointmentRefId" name="appointment_id" />
+                                <div class="star-rating-container">
+                                    <span class="star-icon" data-value="1">★</span>
+                                    <span class="star-icon" data-value="2">★</span>
+                                    <span class="star-icon" data-value="3">★</span>
+                                    <span class="star-icon" data-value="4">★</span>
+                                    <span class="star-icon" data-value="5">★</span>
+                                </div>
+                                <textarea class="feedback-textarea" name="feedback" placeholder="Ghi đánh giá của bạn ở đây..."></textarea>
+                                <input type="hidden" name="rating" id="feedbackRating" />
+                                <button type="submit" class="submit-feedback-btn">Gửi đánh giá</button>
+                            </form>
+                        </div>
                     </div>
 
 
-
+                    <%
+                                                   String succesMessage = (String) session.getAttribute("success");
+                                                   if(succesMessage != null) {
+                    %>
+                    <script>
+                        alert("<%= succesMessage %> ");
+                    </script>
+                    <%
+                     session.removeAttribute("success");
+                        }
+                    %>
 
 
                 </div>
             </div>
         </div>
         <jsp:include page="Common/Message.jsp"/>
+        
         <jsp:include page="Common/Js.jsp"/>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -144,10 +379,162 @@
                 // Show profile section by default
                 showSection('profile');
             });
+//            function goBack() {
+//                window.history.back(); // Quay lại trang trước đó
+//            }
+        </script>
+        <script>
+            let selectedRating = 0;
+
+            document.querySelectorAll('.star').forEach(star => {
+                star.addEventListener('click', function () {
+                    selectedRating = this.getAttribute('data-value');
+                    document.getElementById('rating').value = selectedRating;
+                    document.querySelectorAll('.star').forEach(s => {
+                        s.classList.remove('active');
+                    });
+                    for (let i = 0; i < selectedRating; i++) {
+                        document.querySelectorAll('.star')[i].classList.add('active');
+                    }
+                });
+            });
+
+            function openReviewModal(appointmentId) {
+                document.getElementById('appointmentId').value = appointmentId;
+                document.getElementById('customerFeedbackModal').style.display = 'flex';
+            }
+
+            function closeFeedbackModal() {
+                document.getElementById('customerFeedbackModal').style.display = 'none';
+                selectedRating = 0;
+                document.querySelectorAll('.star').forEach(s => {
+                    s.classList.remove('active');
+                });
+                document.getElementById('rating').value = '';
+            }
+
             function goBack() {
-                window.history.back(); // Quay lại trang trước đó
+                window.history.back();
             }
         </script>
-        
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const starRatingContainer = document.getElementById('starRating');
+                const feedbackRatingInput = document.getElementById('feedbackRating');
+                const stars = starRatingContainer.querySelectorAll('.fa-star');
+
+                // Hàm cập nhật trạng thái sao
+                function updateStarRating(rating) {
+                    stars.forEach(star => {
+                        const starValue = parseInt(star.getAttribute('data-value'));
+                        if (starValue <= rating) {
+                            star.classList.add('selected');
+                        } else {
+                            star.classList.remove('selected');
+                        }
+                    });
+                    feedbackRatingInput.value = rating;
+                }
+
+                // Điền thông tin modal với dữ liệu sẵn có
+                function prefillModal(appointmentId, doctorName, doctorId, feedbackRating, feedbackText) {
+                    document.getElementById('appointmentId').value = appointmentId;
+                    document.getElementById('doctorName').value = doctorName;
+                    document.getElementById('doctorId').value = doctorId;
+                    document.getElementById('feedbackText').value = feedbackText || '';
+                    console.log(doctorId);
+                    // Cập nhật sao nếu có đánh giá
+                    if (feedbackRating && feedbackRating > 0) {
+                        updateStarRating(feedbackRating);
+                    } else {
+                        // Đặt lại sao nếu chưa có đánh giá
+                        stars.forEach(s => s.classList.remove('selected'));
+                        feedbackRatingInput.value = 0;
+                    }
+                }
+
+                // Sự kiện click vào các ngôi sao
+                stars.forEach(star => {
+                    star.addEventListener('click', function () {
+                        const rating = this.getAttribute('data-value');
+                        updateStarRating(rating);
+                    });
+
+                    // Hiệu ứng hover
+                    star.addEventListener('mouseover', function () {
+                        const rating = this.getAttribute('data-value');
+                        stars.forEach(s => {
+                            const starValue = parseInt(s.getAttribute('data-value'));
+                            if (starValue <= rating) {
+                                s.classList.add('hovered');
+                            } else {
+                                s.classList.remove('hovered');
+                            }
+                        });
+                    });
+
+                    // Trả lại trạng thái ban đầu khi rời chuột
+                    star.addEventListener('mouseout', function () {
+                        const currentRating = feedbackRatingInput.value;
+                        updateStarRating(currentRating);
+
+                        // Xóa lớp hover
+                        stars.forEach(s => s.classList.remove('hovered'));
+                    });
+                });
+
+                // Khởi tạo modal đánh giá
+                document.querySelectorAll('.rating-trigger').forEach(trigger => {
+                    trigger.addEventListener('click', function (e) {
+                        e.preventDefault();
+
+                        // Lấy dữ liệu từ thuộc tính data
+                        const appointmentId = this.getAttribute('data-appointment-id');
+                        const doctorName = this.getAttribute('data-doctor-name');
+                        const doctorId = this.getAttribute('data-doctor-id');
+                        console.log(doctorId);
+                        // Lấy dữ liệu feedback sẵn có từ server (sử dụng EL)
+                        const existingFeedbackRating = "${requestScope.feedback != null ? requestScope.feedback.feedback_rating : 0}";
+                        const existingFeedbackText = "${requestScope.feedback != null ? requestScope.feedback.feedback_text : ''}";
+
+                        // Điền thông tin vào modal
+                        prefillModal(
+                                appointmentId,
+                                doctorName,
+                                doctorId,
+                                parseInt(existingFeedbackRating),
+                                existingFeedbackText
+                                );
+
+                        // Hiển thị modal
+                        $('#ratingModal').modal('show');
+                    });
+                });
+
+                // Xử lý submit đánh giá
+                document.getElementById('submitRating').addEventListener('click', function () {
+                    const appointmentId = document.getElementById('appointmentId').value;
+                    const feedbackRating = document.getElementById('feedbackRating').value;
+                    const feedbackText = document.getElementById('feedbackText').value;
+                    const doctorId = document.getElementById('doctorId').value;
+
+                    // Kiểm tra đầu vào
+                    if (feedbackRating == 0) {
+                        alert('Vui lòng chọn số sao đánh giá!');
+                        return;
+                    }
+
+                    if (!feedbackText.trim()) {
+                        alert('Vui lòng nhập nhận xét!');
+                        return;
+                    }
+
+                    // Submit form
+                    document.getElementById('ratingForm').submit();
+                });
+            });
+        </script>
+
     </body>
 </html>

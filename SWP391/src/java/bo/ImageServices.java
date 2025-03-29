@@ -42,7 +42,7 @@ public class ImageServices {
             File filePath = new File(uploadPath + File.separator + fileName);
             try {
                 Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "./images" + "/" + fileName;
+                linkFile = ConfigWeb.URL_IMAGE_IMAGE + "/" + fileName;
             } catch (IOException e) {
                 throw new ServletException("File upload failed: " + e.getMessage());
             }

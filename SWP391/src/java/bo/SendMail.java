@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -480,6 +481,52 @@ public class SendMail {
         }
     }
 
+    public static boolean guiMailTaiKham(String email, String token, String tieude, String nameUser, String followUpDate, String description) throws UnsupportedEncodingException {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", Mail.HOST_NAME);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", Mail.TSL_PORT);
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+
+            message.setSubject(tieude);
+
+            // Tạo link xác nhận chuyển đến servlet xử lý
+            String confirmationLink = "http://localhost:8080/SWP391/xacminh?token=" + token
+                    + "&email=" + email
+                    + "&date=" + followUpDate
+                    + "&desc=" + URLEncoder.encode(description, "UTF-8");
+
+            String emailContent = "Xin chào,<br>" + nameUser + " 😉<br>"
+                    + "Bạn có một lịch tái khám vào ngày: <b>" + followUpDate + "</b><br>"
+                    + "Mô tả: " + description + "<br>"
+                    + "Vui lòng nhấp vào liên kết dưới đây để xác nhận lịch tái khám của bạn:<br>"
+                    + "<a href='" + confirmationLink + "'>Xác nhận lịch tái khám</a><br><br>"
+                    + "Nếu bạn không yêu cầu điều này, vui lòng bỏ qua email này.";
+
+            MimeMultipart multipart = new MimeMultipart();
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(emailContent, "text/html; charset=UTF-8");
+            multipart.addBodyPart(messageBodyPart);
+            message.setContent(multipart);
+            Transport.send(message);
+            System.out.println("✅ Mail lịch tái khám đã gửi đến: " + email);
+
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     public static boolean guiMailDoctor(String email, String password, String nameUser) throws UnsupportedEncodingException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -528,6 +575,64 @@ public class SendMail {
             message.setContent(multipart);
             Transport.send(message);
             System.out.println("mail được gửi" + System.currentTimeMillis());
+
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+    public static boolean guiMailCancelled(String email, String noidung, String nameUser) throws UnsupportedEncodingException {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", Mail.HOST_NAME);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", Mail.TSL_PORT);
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Mail.APP_EMAIL, Mail.APP_PASSWORD);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+
+            String subject = "Thông báo hủy !";
+            String emailContent = "<html><head>"
+                    + "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>"
+                    + "<style>"
+                    + "  body { font-family: Arial, sans-serif; }"
+                    + "  .email-container { width: 100%; padding: 20px; background-color: #f4f4f4; text-align: center; }"
+                    + "  .email-content { background-color: #fff; padding: 20px; border-radius: 10px; width: 100%; max-width: 600px; margin: 0 auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }"
+                    + "  h2 { color: #333; }"
+                    + "  .otp { font-size: 20px; color: #3498db; font-weight: bold; }"
+                    + "</style>"
+                    + "</head><body>"
+                    + "<div class='email-container'>"
+                    + "<div class='email-content'>"
+                    + "<h2>Chào " + nameUser + "!</h2>"
+                    + "<p>Tôi đã nhận được thông báo hủy cuộc hẹn <span class='otp'>" + noidung + "</span></p>"
+                    + "<p>Cảm ơn bạn đã quan tâm!!</p>"
+                    + "</div></div>"
+                    + "</body></html>";
+
+            // Đặt tiêu đề với UTF-8
+            message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+
+            // Đặt nội dung email với UTF-8
+            MimeMultipart multipart = new MimeMultipart();
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent(emailContent, "text/html; charset=UTF-8");
+            multipart.addBodyPart(messageBodyPart);
+            message.setContent(multipart);
+            Transport.send(message);
+            System.out.println("mail được gửi" + System.currentTimeMillis());
+
+            Transport.send(message);
+            System.out.println("Mail đã được gửi thành công!");
 
             return true;
         } catch (MessagingException e) {
