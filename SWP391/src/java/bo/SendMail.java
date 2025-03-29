@@ -22,6 +22,7 @@ import jakarta.mail.internet.MimeMessage;
 import java.util.Map;
 import java.util.Properties;
 import consts.Mail;
+import dal.CamPaignDAO;
 import jakarta.activation.DataHandler;
 import jakarta.activation.FileDataSource;
 import jakarta.mail.Authenticator;
@@ -51,6 +52,7 @@ import model.Gmail;
 public class SendMail {
 
     private static final long MAX_ATTACHMENT_SIZE = 25 * 1024 * 1024;
+    private CamPaignDAO cdao = new CamPaignDAO();
 
     public static boolean guiMail(String email, String noidung, String nameUser) throws UnsupportedEncodingException {
         Properties props = new Properties();
@@ -435,7 +437,7 @@ public class SendMail {
         }
     }
 
-    public static boolean guiEmailTuDong(List<String> recipients, String content, String subject, List<File> savedFiles) throws UnsupportedEncodingException {
+    public boolean guiEmailTuDong(List<String> recipients, String content, String subject, List<File> savedFiles, int campaignId) throws UnsupportedEncodingException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -454,25 +456,32 @@ public class SendMail {
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(Mail.APP_EMAIL));
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-
                 message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
 
-                // Nội dung plain text
+                // Nội dung email
                 MimeBodyPart textPart = new MimeBodyPart();
-                textPart.setContent(content,"text/html; charset=UTF-8");
+                textPart.setContent(content, "text/html; charset=UTF-8");
 
                 Multipart multipart = new MimeMultipart();
                 multipart.addBodyPart(textPart);
-                
+
                 for (File savedFile : savedFiles) {
                     MimeBodyPart filePart = new MimeBodyPart();
                     filePart.setFileName(savedFile.getName());
                     filePart.setDataHandler(new DataHandler(new FileDataSource(savedFile)));
                     multipart.addBodyPart(filePart);
                 }
-                
+
                 message.setContent(multipart);
                 Transport.send(message);
+
+                // Gửi thành công, cập nhật số lượng email đã gửi
+                int result = cdao.UpdateSendEmails(campaignId); // Hàm updateEmail trả về int
+
+                // Nếu updateEmail trả về 0, tức là đã gửi hết -> cập nhật trạng thái campaign
+                if (result == 0) {
+                    cdao.UpdateStatus(campaignId);
+                }
             }
             return true;
         } catch (MessagingException e) {
@@ -527,6 +536,7 @@ public class SendMail {
             return false;
         }
     }
+
     public static boolean guiMailDoctor(String email, String password, String nameUser) throws UnsupportedEncodingException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -583,6 +593,7 @@ public class SendMail {
         }
 
     }
+
     public static boolean guiMailCancelled(String email, String noidung, String nameUser) throws UnsupportedEncodingException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");

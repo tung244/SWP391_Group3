@@ -10,7 +10,7 @@
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            width: 400px;
+            width: 1230px;
             text-align: center;
         }
         .email-campaign-title {
@@ -131,7 +131,7 @@
 
                         <!--end row-->
                         <div class="email-campaign-card">
-                            <h2 class="email-campaign-title">📧 Chiến Dịch Email</h2>
+                            <h2 class="email-campaign-title">📧 Chiến Dịch Đang Chạy</h2>
                             <p class="email-campaign-info"><span class="email-campaign-label">📌 Tên:</span> Khuyến mãi hè</p>
                             <p class="email-campaign-info"><span class="email-campaign-label">👤 Người tạo:</span> Nguyễn Văn A</p>
                             <p class="email-campaign-info"><span class="email-campaign-label">📤 Số email gửi:</span> 1000</p>
