@@ -63,7 +63,7 @@ public class Certificate_DoctorDAO extends DBContext {
     public boolean addNewCertificate(String cername, String did, String img, String cerdate, String status, String issued) {
         String CertificateSql = "INSERT INTO dbo.Certificate(certificate_name) VALUES (?) ";
         String getcertificateIdSql = "SELECT certificate_id FROM dbo.Certificate WHERE certificate_name = ?";
-        String Certificate_DoctorSql = "INSERT INTO dbo.Certificate_Doctor(certificate_id, doctor_id, date_certificate, status, issued_by, certificate_image) VALUES (?,?,?,?,?,?)";
+        String Certificate_DoctorSql = "INSERT INTO dbo.Certificate_Doctor(certificate_id, doctor_id, date_certificate, status, issued_by, certificate_image,version) VALUES (?,?,?,?,?,?,1)";
 
         try {
             connection.setAutoCommit(false); // Bắt đầu transaction
@@ -128,7 +128,7 @@ public class Certificate_DoctorDAO extends DBContext {
     }
 
     public boolean addCertificate(String cerid, String did, String img, String date, String status, String issued) {
-        String sql = "INSERT INTO dbo.Certificate_Doctor(certificate_id, doctor_id, date_certificate, status, issued_by, certificate_image) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO dbo.Certificate_Doctor(certificate_id, doctor_id, date_certificate, status, issued_by, certificate_image,version) VALUES (?,?,?,?,?,?,1)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cerid);
             stmt.setString(2, did);
@@ -497,13 +497,13 @@ public class Certificate_DoctorDAO extends DBContext {
 
     public static void main(String[] args) {
         Certificate_DoctorDAO dao = new Certificate_DoctorDAO();
-        List<Certificate_Doctor> list = dao.getCensorUpdateDoctorCertificate();
-        for (Certificate_Doctor certificate_Doctor : list) {
-            System.out.println(certificate_Doctor);
+//        List<Certificate_Doctor> list = dao.getCensorUpdateDoctorCertificate();
+//        for (Certificate_Doctor certificate_Doctor : list) {
+//            System.out.println(certificate_Doctor);
+//
+//        }
 
-        }
-
-//        System.out.println(dao.addNewCertificate("A", "1", "abc.jpg", "2025/01/16", "InProgress", "FPTU"));
+        System.out.println(dao.addNewCertificate("A", "1", "abc.jpg", "2025/01/16", "InProgress", "FPTU"));
 //        System.out.println(dao.addCertificate("1", "2", "abc.jpg", "2025/01/16", "InProgress", "FPTU"));
     }
 }

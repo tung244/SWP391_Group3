@@ -84,7 +84,7 @@
                                             <div class="col-12">
                                                 <button   type="button" class="btn btn-secondary px-5 me-2" onclick="addDegreeField()">Add More</button>
                                                 <button  type="submit" class="btn btn-success px-5">CREATE</button>
-                                                <a style="margin-left: 26%" href="doctorProfile?accId=${accId}" class="btn btn-danger px-5 me-2">CANCEL</a>
+                                                <a href="doctorProfile?accId=${accId}" class="btn btn-danger px-5 me-2">CANCEL</a>
                                             </div>
                                         </form>
                                     </div>

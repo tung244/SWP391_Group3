@@ -9,6 +9,7 @@ import dal.UserProfileDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author -ASUS-
  */
+@WebServlet(name = "ChangePassword", urlPatterns = {"/changeNewpassword"})
 public class ChangePassword extends HttpServlet {
 
     /**
@@ -59,44 +61,7 @@ public class ChangePassword extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
-        String usernameTest = request.getParameter("usernameTest")  ;
-        String password = (String) session.getAttribute("password");
-        String current_password = request.getParameter("current_password").replaceAll("^\\s+", "").trim(); // Loại bỏ khoảng trắng ở đầu
-        current_password = EncryptPassword.hashPassword(current_password);
-        String newpassword = request.getParameter("newpassword").replaceAll("^\\s+", "").trim(); // Loại bỏ khoảng trắng ở đầu
-        String newpassword2 = request.getParameter("newpassword2").replaceAll("^\\s+", "").trim(); // Loại bỏ khoảng trắng ở đầu
-        int account_id = (int) session.getAttribute("account_id");
-        UserProfileDAO udao = new UserProfileDAO();
-        
-        if(usernameTest.equals("") || !usernameTest.equals(username)){
-            session.setAttribute("error", "Tên đăng nhập không đúng.");
-            response.sendRedirect("homepage/ChangePassword.jsp");
-            return;
-        }
-
-        if (current_password.equals("") || !current_password.equals(password)) {
-            session.setAttribute("error", "Mật khẩu hiện tại không đúng.");
-            response.sendRedirect("homepage/ChangePassword.jsp");
-            return;
-        }
-
-        if (!newpassword.equals(newpassword2)) {
-            session.setAttribute("error", "Mật khẩu mới không khớp.");
-            response.sendRedirect("homepage/ChangePassword.jsp");
-            return;
-        }
-        if (!newpassword.matches("^[A-Z][a-zA-Z0-9!@#$%^&*()_+\\-=]{7,}$") || !newpassword.matches(".*[!@#$%^&*()_+\\-=].*")) {
-            session.setAttribute("error", "Mật khẩu phải có ít nhất 8 ký tự, bắt đầu bằng chữ in hoa và chứa ít nhất một ký tự đặc biệt.");
-            response.sendRedirect("homepage/ChangePassword.jsp");
-            return;
-        }
-        newpassword = EncryptPassword.hashPassword(newpassword);
-        udao.updatePassword(newpassword, account_id);
-        session.setAttribute("ms", "Đổi mật khẩu thành công. Xin vui lòng đăng nhập lại");
-        response.sendRedirect("login");
+        request.getRequestDispatcher("homepage/ChangeNewPassword.jsp").forward(request, response);
 
     }
 
@@ -111,7 +76,45 @@ public class ChangePassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+        String usernameTest = request.getParameter("usernameTest")  ;
+        String password = (String) session.getAttribute("password");
+        String current_password = request.getParameter("current_password").replaceAll("^\\s+", "").trim(); // Loáº¡i bá»� khoáº£ng tráº¯ng á»Ÿ Ä‘áº§u
+        current_password = EncryptPassword.hashPassword(current_password);
+        String newpassword = request.getParameter("newpassword").replaceAll("^\\s+", "").trim(); // Loáº¡i bá»� khoáº£ng tráº¯ng á»Ÿ Ä‘áº§u
+        String newpassword2 = request.getParameter("newpassword2").replaceAll("^\\s+", "").trim(); // Loáº¡i bá»� khoáº£ng tráº¯ng á»Ÿ Ä‘áº§u
+        int accountId = (int) session.getAttribute("account_id");
+        UserProfileDAO udao = new UserProfileDAO();
+        
+        if(usernameTest.equals("") || !usernameTest.equals(username)){
+            session.setAttribute("error", "Tên đăng nhập không đúng.");
+            response.sendRedirect("changeNewpassword");
+            return;
+        }
+
+        if (current_password.equals("") || !current_password.equals(password)) {
+            session.setAttribute("error", "Mật khẩu hiện tại không đúng");
+            response.sendRedirect("changeNewpassword");
+            return;
+        }
+
+        if (!newpassword.equals(newpassword2)) {
+            session.setAttribute("error", "Mật khẩu mới không khớp.");
+            response.sendRedirect("changeNewpassword");
+            return;
+        }
+        if (!newpassword.matches("^[A-Z][a-zA-Z0-9!@#$%^&*()_+\\-=]{7,}$") || !newpassword.matches(".*[!@#$%^&*()_+\\-=].*")) {
+            session.setAttribute("error", "Mật khẩu phải có ít nhất 8 ký tự, bắt đầu bằng chữ in hoa và chứa ít nhất một ký tự đặc biệt.");
+            response.sendRedirect("changeNewpassword");
+            return;
+        }
+        newpassword = EncryptPassword.hashPassword(newpassword);
+        udao.updatePassword(newpassword, accountId);
+        session.setAttribute("ms", "Đổi mật khẩu thành công. Xin vui lòng đăng nhập lại");
+        response.sendRedirect("login");
+
     }
 
     /**

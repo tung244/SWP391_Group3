@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"  %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -25,7 +26,7 @@
             <!--End mainmenu area-->     
 
             <!--Start header area-->
-              
+
             <!--End header area-->    
 
             <!-- Start breadcrumb area-->                        
@@ -106,7 +107,7 @@
                     <div class="col-lg-3 col-md-4 col-sm-7 col-xs-12 pull-left">
                         <div class="service-sidebar">
                             <!-- First section: Find Doctor -->
-                            
+
 
                             <!--Start single sidebar-->
                             <div class="single-sidebar">
@@ -114,21 +115,11 @@
                                     <li class="active">
                                         <a href="#">OTHER SERVICES</a>
                                     </li>
-                                    <li>
-                                        <a href="clips-braces.html">Clips & Braces</a>
-                                    </li>
-                                    <li>
-                                        <a href="dental-implant.html">Dental Implant</a>
-                                    </li>
-                                    <li>
-                                        <a href="teeth-whitening.html">Teeth Whitening</a>
-                                    </li>
-                                    <li>
-                                        <a href="tooth-jewellery.html">Tooth Jewellery</a>
-                                    </li>
-                                    <li>
-                                        <a href="teeth-filling.html">Teeth Filling</a>
-                                    </li>
+                                    <c:forEach items="${listS}" var="s">
+                                        <li><a href="loadServiceDetailHomepage?id=${s.service_id}">${s.service_name}</a></li>
+                                        </c:forEach>
+
+
                                 </ul> 
                             </div> 
                             <!--Ens single sidebar--> 
@@ -139,7 +130,7 @@
                                 </div>
                                 <ul class="opening-time">
                                     <li>Giờ mở cửa: <span>06.00 to 18.00</span></li>
-                                    
+
                                 </ul>
                             </div> 
                             <!--Ens single sidebar--> 
@@ -190,8 +181,7 @@
                                 <div class="pagination-container" style="margin-left: auto;">
                                     <label for="pageSize">Show:</label>
                                     <select name="pageSize" id="pageSize" style="width: 55px; height: 30px">
-                                        <option value="3" selected >3</option>
-                                        <option value="6">6</option>
+                                        <option value="6" selected>6</option>
                                         <option value="9">9</option>
                                         <option value="12">12</option>
                                     </select>
@@ -216,7 +206,8 @@
                                             <div class="text-holder text-center">
                                                 <h3>${d.doctor_name}</h3>
                                                 <span>${d.specialization.specialization_name}</span>
-                                                <p>Rating: ${d.rating}</p>
+                                                <fmt:setLocale value="en" />
+                                                <p>Rating: <fmt:formatNumber value="${d.rating}" type="number" maxFractionDigits="1" minFractionDigits="1" /></p>
                                                 <p>Gender: ${d.gender}</p>
                                                 <p>Experience years: ${d.experience_years} years</p>
 

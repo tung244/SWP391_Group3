@@ -190,9 +190,60 @@ public class DiscountDAO extends DBContext {
     } catch (Exception e) {
         e.printStackTrace();
     }
-}
+    }
+    
+    public void addDiscount(Discount discount) {
+        String sql = "INSERT INTO Discount (discountName, startDate, endDate, status) VALUES (?, ?, ?, ?)";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, discount.getDiscountName());
+            ps.setDate(2, (Date) discount.getStartDate());
+            ps.setDate(3, (Date) discount.getEndDate());
+            ps.setBoolean(4, discount.isStatus());
+            ps.executeUpdate();
 
+            // Lấy ID tự sinh sau khi INSERT
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                discount.setDiscountId(rs.getInt(1)); // Cập nhật ID cho đối tượng Discount
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public Discount getNewDiscount() {
+        String sql = "Select top 1 * from Discount order by discountId desc";
+        try {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Discount discount = new Discount();
+                discount.setDiscountId(rs.getInt("discountId"));
+                discount.setDiscountName(rs.getString("discountName"));
+                discount.setStartDate(rs.getDate("startDate"));
+                discount.setEndDate(rs.getDate("endDate"));
+                discount.setStatus(rs.getBoolean("status"));
+                return discount;
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public void addDiscountDetail(int discountId, int rankId, int percent) {
+        String sql = "INSERT INTO DiscountDetail (discountId, rankId, [percent]) VALUES (?, ?, ?)";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, discountId);
+            ps.setInt(2, rankId);
+            ps.setInt(3, percent);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public static void main(String[] args) {
         DiscountDAO dao = new DiscountDAO();
 //        Date selectedDate = Date.valueOf("2025-03-08");

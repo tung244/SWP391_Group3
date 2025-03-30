@@ -49,7 +49,7 @@
             .star-rating .fa-star:hover {
                 color: #ffc107; /* Hover effect */
             }
-            /* Nút chính */
+
             .primary-button {
                 background-color: #4CAF50;
                 color: white;
@@ -64,7 +64,6 @@
                 background-color: #45a049;
             }
 
-            /* Nút quay lại */
             .back-action-btn {
                 background-color: #4CAF50;
                 color: white;
@@ -81,8 +80,7 @@
                 justify-content: center;
             }
 
-            /* Nút đánh giá */
-            .review-action-btn {
+            .review-action-btn, .review-button {
                 background-color: #FFA500;
                 color: white;
                 padding: 10px 15px;
@@ -98,11 +96,10 @@
                 justify-content: center;
                 margin-left: 10px;
             }
-            .review-action-btn:hover {
+            .review-action-btn:hover, .review-button:hover {
                 background-color: #FF8C00;
             }
 
-            /* Hộp thoại đánh giá */
             .feedback-modal {
                 display: none;
                 position: fixed;
@@ -124,28 +121,26 @@
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             }
 
-            /* Nút đóng */
             .modal-close-btn {
                 float: right;
                 font-size: 24px;
                 cursor: pointer;
             }
 
-            /* Đánh giá sao */
             .star-rating-container {
                 font-size: 30px;
                 color: #ddd;
                 cursor: pointer;
             }
-            .star-icon {
+            .star-icon, .star {
                 display: inline-block;
                 transition: color 0.3s;
             }
-            .star-icon:hover, .star-icon.active {
+            .star-icon:hover, .star-icon.active,
+            .star:hover, .star.active {
                 color: #FFD700;
             }
 
-            /* Ô nhập đánh giá */
             .feedback-textarea {
                 width: 100%;
                 margin-top: 10px;
@@ -154,7 +149,6 @@
                 border-radius: 4px;
             }
 
-            /* Nút gửi đánh giá */
             .submit-feedback-btn {
                 background-color: #4CAF50;
                 color: white;
@@ -168,6 +162,18 @@
                 background-color: #45a049;
             }
 
+            #customerFeedbackModal .star-icon {
+                cursor: pointer;
+                transition: color 0.3s;
+            }
+
+            #customerFeedbackModal .star-icon.active {
+                color: #FFD700;
+            }
+
+            #customerFeedbackModal .star-icon.hover {
+                color: #FFD700;
+            }
 
         </style>  
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -179,29 +185,27 @@
                 <div class="userprofile-sidebar">
                     <div class="userprofile-nav-header">
                         <img src="${userProfile.image_profile_user}" alt="Avatar" class="userprofile-avatar">
-
                     </div>
                     <ul class="userprofile-nav-list">
                         <li class="userprofile-nav-item userprofile-nav-item--active" data-tab="profile">Chi tiết lịch sử dịch vụ</li>
-
-
                     </ul>
                 </div>
             </div>
+
+            <%-- Hiển thị thông báo lỗi --%>
             <% String error = (String) request.getAttribute("error"); %>
             <% if (error != null) { %>
-            <p style="color: red;"><%= error %></p>
+            <div class="alert alert-danger" style="margin: 20px;">
+                <%= error %>
+            </div>
             <% } %>
 
             <div class="col-md-10">
                 <div class="userprofile-main-content">
-                    <!-- Thông tin cá nhân -->
-                    <div class=" userprofile-section" id="profile-section">
+                    <div class="userprofile-section" id="profile-section">
                         <div class="userprofile-header">
                             <h2>Chi tiết lịch sử dịch vụ</h2>
                         </div>
-
-
 
                         <table class="userprofile-table">
                             <thead>
@@ -213,7 +217,6 @@
                                     <th class="userprofile-table-cell userprofile-table-header">Giờ kết thúc</th>
                                     <th class="userprofile-table-cell userprofile-table-header">Bác sĩ phụ trách</th>
                                     <th class="userprofile-table-cell userprofile-table-header">Customer Support</th>    
-
                                 </tr>
                             </thead>
 
@@ -232,8 +235,7 @@
                                                        class="rating-trigger" 
                                                        data-appointment-id="${appointment.appointment_id}"
                                                        data-doctor-name="${appointment.doctor.doctor_name}"
-                                                       data-doctor-id="${appointment.doctor.doctor_id}"
-                                                       >
+                                                       data-doctor-id="${appointment.doctor.doctor_id}">
                                                         <i class="fas fa-star"></i>
                                                     </a>
                                                 </span>
@@ -241,17 +243,19 @@
                                         </td>
                                         <td class="userprofile-table-cell">
                                             ${appointment.staffs.admin_fullname}
-                                            <button class="review-button" onclick="openReviewModal('${appointment.appointment_id}')">★</button>
+                                            <c:if test="${appointment.appointment_status == 'Completed'}">
+                                                <button class="review-button" onclick="openReviewModal('${appointment.appointment_id}')">★</button>
+                                            </c:if>
                                         </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
-
                         </table>
 
-                        <a href="transactionhistoryy"><button class="login-button" >⬅ Quay lại</button></a>
+                        <a href="transactionhistoryy"><button class="login-button">⬅ Quay lại</button></a>
                     </div>
-                    <!-- Rating Modal -->
+
+                    <!-- Modal đánh giá bác sĩ -->
                     <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -282,9 +286,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="feedbackText">Nhận xét:</label>
-                                            <textarea class="form-control" id="feedbackText" name="feedback_text"  rows="3" placeholder="Nhập nhận xét của bạn..." required>
-                                                ${requestScope.feedback.feedback_text}
-                                            </textarea>
+                                            <textarea class="form-control" id="feedbackText" name="feedback_text" rows="3" placeholder="Nhập nhận xét của bạn..." required>${requestScope.feedback.feedback_text}</textarea>
                                         </div>
                                     </form>
                                 </div>
@@ -296,12 +298,12 @@
                         </div>
                     </div>
 
-                    <!-- Modal đánh giá -->
+                    <!-- Modal đánh giá Customer Support -->
                     <div class="feedback-modal" id="customerFeedbackModal">
                         <div class="feedback-modal-content">
                             <span class="modal-close-btn" onclick="closeFeedbackModal()">&times;</span>
                             <h2>Đánh giá Dịch vụ CSKH</h2>
-                            <form action="addfeedback" method="get">
+                            <form action="addfeedback" method="post">
                                 <input type="hidden" id="appointmentRefId" name="appointment_id" />
                                 <div class="star-rating-container">
                                     <span class="star-icon" data-value="1">★</span>
@@ -317,27 +319,88 @@
                         </div>
                     </div>
 
-
-                    <%
-                                                   String succesMessage = (String) session.getAttribute("success");
-                                                   if(succesMessage != null) {
-                    %>
+                    <%-- Hiển thị thông báo thành công --%>
+                    <% String successMessage = (String) session.getAttribute("success"); %>
+                    <% if(successMessage != null) { %>
                     <script>
-                        alert("<%= succesMessage %> ");
+                        $(document).ready(function () {
+                            alert("<%= successMessage %>");
+                        });
                     </script>
                     <%
-                     session.removeAttribute("success");
-                        }
+                        session.removeAttribute("success");
+                    }
                     %>
-
-
                 </div>
             </div>
         </div>
+
         <jsp:include page="Common/Message.jsp"/>
-        
         <jsp:include page="Common/Js.jsp"/>
+
         <script>
+            // Xử lý đánh giá sao cho customer support
+            document.addEventListener('DOMContentLoaded', function () {
+                // Customer Support Rating
+                const csStars = document.querySelectorAll('#customerFeedbackModal .star-icon');
+                const csRatingInput = document.getElementById('customerFeedbackModal').querySelector('input[name="rating"]');
+
+                csStars.forEach(star => {
+                    star.addEventListener('click', function () {
+                        const rating = this.getAttribute('data-value');
+                        csRatingInput.value = rating;
+
+                        // Cập nhật hiển thị sao
+                        csStars.forEach((s, index) => {
+                            if (index < rating) {
+                                s.classList.add('active');
+                            } else {
+                                s.classList.remove('active');
+                            }
+                        });
+                    });
+
+                    // Hiệu ứng hover
+                    star.addEventListener('mouseover', function () {
+                        const rating = this.getAttribute('data-value');
+                        csStars.forEach((s, index) => {
+                            if (index < rating) {
+                                s.classList.add('hover');
+                            }
+                        });
+                    });
+
+                    star.addEventListener('mouseout', function () {
+                        csStars.forEach(s => {
+                            s.classList.remove('hover');
+                        });
+                    });
+                });
+            });
+
+            function openReviewModal(appointmentId) {
+                if (!appointmentId) {
+                    alert('Lỗi: Không có thông tin lịch hẹn');
+                    return;
+                }
+
+                document.getElementById('appointmentRefId').value = appointmentId;
+                document.getElementById('customerFeedbackModal').style.display = 'flex';
+
+                // Reset sao đánh giá khi mở modal
+                const csStars = document.querySelectorAll('#customerFeedbackModal .star-icon');
+                csStars.forEach(star => {
+                    star.classList.remove('active');
+                });
+                document.querySelector('#customerFeedbackModal input[name="rating"]').value = '0';
+            }
+
+            function closeFeedbackModal() {
+                document.getElementById('customerFeedbackModal').style.display = 'none';
+            }
+        </script>
+        <script>
+            // Xử lý chuyển tab
             document.addEventListener('DOMContentLoaded', function () {
                 const navItems = document.querySelectorAll('.userprofile-nav-item');
                 const sections = {
@@ -347,19 +410,14 @@
                 };
 
                 function showSection(sectionId) {
-                    // Hide all sections
                     Object.values(sections).forEach(section => {
-                        if (section) {
+                        if (section)
                             section.style.display = 'none';
-                        }
                     });
 
-                    // Show selected section
-                    if (sections[sectionId]) {
+                    if (sections[sectionId])
                         sections[sectionId].style.display = 'block';
-                    }
 
-                    // Update active nav item
                     navItems.forEach(item => {
                         item.classList.remove('userprofile-nav-item--active');
                         if (item.getAttribute('data-tab') === sectionId) {
@@ -368,28 +426,22 @@
                     });
                 }
 
-                // Add click event listeners
                 navItems.forEach(item => {
                     item.addEventListener('click', function () {
-                        const tab = this.getAttribute('data-tab');
-                        showSection(tab);
+                        showSection(this.getAttribute('data-tab'));
                     });
                 });
 
-                // Show profile section by default
                 showSection('profile');
             });
-//            function goBack() {
-//                window.history.back(); // Quay lại trang trước đó
-//            }
-        </script>
-        <script>
+
+            // Xử lý đánh giá sao cho customer support
             let selectedRating = 0;
 
             document.querySelectorAll('.star').forEach(star => {
                 star.addEventListener('click', function () {
                     selectedRating = this.getAttribute('data-value');
-                    document.getElementById('rating').value = selectedRating;
+                    document.getElementById('feedbackRating').value = selectedRating;
                     document.querySelectorAll('.star').forEach(s => {
                         s.classList.remove('active');
                     });
@@ -400,7 +452,7 @@
             });
 
             function openReviewModal(appointmentId) {
-                document.getElementById('appointmentId').value = appointmentId;
+                document.getElementById('appointmentRefId').value = appointmentId;
                 document.getElementById('customerFeedbackModal').style.display = 'flex';
             }
 
@@ -410,15 +462,14 @@
                 document.querySelectorAll('.star').forEach(s => {
                     s.classList.remove('active');
                 });
-                document.getElementById('rating').value = '';
+                document.getElementById('feedbackRating').value = '';
             }
 
             function goBack() {
                 window.history.back();
             }
-        </script>
 
-        <script>
+            // Xử lý đánh giá bác sĩ
             document.addEventListener('DOMContentLoaded', function () {
                 const starRatingContainer = document.getElementById('starRating');
                 const feedbackRatingInput = document.getElementById('feedbackRating');
@@ -443,7 +494,7 @@
                     document.getElementById('doctorName').value = doctorName;
                     document.getElementById('doctorId').value = doctorId;
                     document.getElementById('feedbackText').value = feedbackText || '';
-                    console.log(doctorId);
+
                     // Cập nhật sao nếu có đánh giá
                     if (feedbackRating && feedbackRating > 0) {
                         updateStarRating(feedbackRating);
@@ -478,8 +529,6 @@
                     star.addEventListener('mouseout', function () {
                         const currentRating = feedbackRatingInput.value;
                         updateStarRating(currentRating);
-
-                        // Xóa lớp hover
                         stars.forEach(s => s.classList.remove('hovered'));
                     });
                 });
@@ -493,7 +542,7 @@
                         const appointmentId = this.getAttribute('data-appointment-id');
                         const doctorName = this.getAttribute('data-doctor-name');
                         const doctorId = this.getAttribute('data-doctor-id');
-                        console.log(doctorId);
+
                         // Lấy dữ liệu feedback sẵn có từ server (sử dụng EL)
                         const existingFeedbackRating = "${requestScope.feedback != null ? requestScope.feedback.feedback_rating : 0}";
                         const existingFeedbackText = "${requestScope.feedback != null ? requestScope.feedback.feedback_text : ''}";
@@ -535,6 +584,5 @@
                 });
             });
         </script>
-
     </body>
 </html>

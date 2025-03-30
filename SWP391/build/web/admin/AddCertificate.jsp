@@ -77,9 +77,9 @@
 
                                             <div class="col-12">
                                                 <label class="form-label">Certificate Image</label>
-                                                <input type="file" name="certificateImage" class="form-control" required>
+                                                <input accept=".jpg, .jpeg, .webp, .png" type="file" name="certificateImage" class="form-control" required>
                                             </div>
-                                            
+
                                             <div class="col-12">
                                                 <label class="form-label">Date Certificate:</label>
                                                 <input type="date" name="dateCertificate" class="form-control" required>
@@ -135,14 +135,15 @@
 
                 <!-- JavaScript -->
 
-                <script>
 
+                <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         let select = document.querySelector('#certificateSelect');
                         let addNewBtn = document.querySelector('#addNewCertificateBtn');
                         let newCertInput = document.querySelector('#newCertificateInput');
                         let isNewCertificate = document.querySelector('#isNewCertificate');
 
+                        // Toggle between selecting an existing certificate or adding a new one
                         addNewBtn.addEventListener('click', function () {
                             if (isNewCertificate.value === "false") {
                                 select.style.display = "none";
@@ -156,27 +157,77 @@
                                 isNewCertificate.value = "false";
                             }
                         });
+
+                        // Validate form when submitting
+                        document.getElementById("addCertificate").addEventListener("submit", function (event) {
+                            let isValid = true;
+
+                            // 1. Validate newCertificateName if adding a new certificate
+                            if (isNewCertificate.value === "true") {
+                                const newCertificateName = document.querySelector('input[name="newCertificateName"]').value.trim();
+                                const errorNewCertificate = document.querySelector('#newCertificateInput .error-message');
+                                if (newCertificateName === "") {
+                                    isValid = false;
+                                    if (!errorNewCertificate) {
+                                        const errorMessage = document.createElement('p');
+                                        errorMessage.textContent = "Certificate name cannot be empty!";
+                                        errorMessage.style.color = "red";
+                                        document.querySelector('#newCertificateInput').appendChild(errorMessage);
+                                    }
+                                }
+                            }
+
+                            // 2. Validate certificateImage (must be an image)
+                            const certificateImage = document.querySelector('input[name="certificateImage"]').value;
+                            const allowedExtensions = /(\.jpg|\.jpeg|\.webp|\.png)$/i;
+                            const errorImage = document.querySelector('input[name="certificateImage"] ~ .error-message');
+                            if (certificateImage && !allowedExtensions.exec(certificateImage)) {
+                                isValid = false;
+                                if (!errorImage) {
+                                    const errorMessage = document.createElement('p');
+                                    errorMessage.textContent = "Only JPG, JPEG, PNG, and WEBP images are allowed!";
+                                    errorMessage.style.color = "red";
+                                    document.querySelector('input[name="certificateImage"]').after(errorMessage);
+                                }
+                            }
+
+                            // 3. Validate dateCertificate (should be before the current date)
+                            const dateCertificate = document.querySelector('input[name="dateCertificate"]').value;
+                            const errorDate = document.querySelector('input[name="dateCertificate"] ~ .error-message');
+                            const today = new Date();
+                            const date = new Date(dateCertificate);
+                            if (date >= today) {
+                                isValid = false;
+                                if (!errorDate) {
+                                    const errorMessage = document.createElement('p');
+                                    errorMessage.textContent = "Certificate date must be before today!";
+                                    errorMessage.style.color = "red";
+                                    document.querySelector('input[name="dateCertificate"]').after(errorMessage);
+                                }
+                            }
+
+                            // 4. Validate issuedBy (cannot be empty)
+                            const issuedBy = document.querySelector('input[name="issuedBy"]').value.trim();
+                            const errorIssuedBy = document.querySelector('input[name="issuedBy"] ~ .error-message');
+                            if (issuedBy === "") {
+                                isValid = false;
+                                if (!errorIssuedBy) {
+                                    const errorMessage = document.createElement('p');
+                                    errorMessage.textContent = "Institution that issued the certificate cannot be empty!";
+                                    errorMessage.style.color = "red";
+                                    document.querySelector('input[name="issuedBy"]').after(errorMessage);
+                                }
+                            }
+
+                            // Prevent form submission if validation fails
+                            if (!isValid) {
+                                event.preventDefault();
+                                toastr.error("Please fix the errors before submitting!");
+                            }
+                        });
                     });
-
-                  
-
-                    document.getElementById("addCertificate").addEventListener("submit", function (event) {
-                        var certificateSelect = document.getElementById("certificateSelect");
-                        var newCertificateInput = document.getElementById("newCertificateInput");
-                        var isNewCertificate = document.getElementById("isNewCertificate").value;
-
-                        if (isNewCertificate === "true") {
-                            certificateSelect.removeAttribute("required");
-                            newCertificateInput.setAttribute("required", "required");
-                        } else {
-                            certificateSelect.setAttribute("required", "required");
-                            newCertificateInput.removeAttribute("required");
-                        }
-                    });
-
-
-
                 </script>
+
                 </body>
 
                 </html>

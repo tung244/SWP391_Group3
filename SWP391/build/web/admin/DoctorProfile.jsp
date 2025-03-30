@@ -76,11 +76,11 @@
                                                 <div class="col-lg-3 col-md-4">
                                                     <div class="doctor-thumb text-center">
 
-                                                        <img style="width: 250px" src=".${doctor.profile_image}" alt="Doctor Photo" class="rounded-circle img-fluid mb-3"/>
+                                                        <img style="width: 250px" src="${doctor.profile_image}" alt="Doctor Photo" class="rounded-circle img-fluid mb-3"/>
                                                         <div class="star-rating text-warning mb-2">
                                                             <span class="text-muted ml-2">Rating: ${doctor.rating}</span> ★
                                                             </br>
-                                                            <span class="text-muted ml-2">(45 reviews)</span>
+                                                            <span class="text-muted ml-2">(${countReviewers} reviews)</span>
                                                         </div>
 
                                                     </div>

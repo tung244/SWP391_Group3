@@ -64,6 +64,7 @@ public class StaffDAO extends DBContext {
         return addressList;
     }
     
+    
     public List<Staffs> getStaffByPage(ArrayList<Staffs> list, int start, int end) {
         ArrayList<Staffs> arr = new ArrayList<>();
         for (int i = start; i < end; i++) {
@@ -278,10 +279,15 @@ public class StaffDAO extends DBContext {
     public boolean updateStaff(Staffs staff) throws SQLException {
         Connection conn = null;
         PreparedStatement psUpdateStaff = null;
+        PreparedStatement psUpdateAccount = null;
         boolean success = false;
 
+        // Câu lệnh cập nhật bảng Staff
         String updateStaffQuery = "UPDATE Staff SET admin_fullname = ?, admin_address = ?, admin_dob = ?, "
                 + "admin_gender = ?, image_profile_admin = ?, admin_hired_date = ?, admin_salary = ? WHERE account_id = ?";
+
+        // Câu lệnh cập nhật bảng Accounts
+        String updateAccountQuery = "UPDATE Accounts SET role_id = ? WHERE account_id = ?";
 
         try {
             // Khởi tạo kết nối
@@ -294,23 +300,41 @@ public class StaffDAO extends DBContext {
             psUpdateStaff.setString(2, staff.getAdmin_address());
             psUpdateStaff.setDate(3, new java.sql.Date(staff.getAdmin_dob().getTime()));
             psUpdateStaff.setString(4, staff.getAdmin_gender());
-            psUpdateStaff.setString(5, staff.getImage_profile_admin()); // Kiểm tra giá trị này
-            psUpdateStaff.setTimestamp(6, staff.getAdmin_hired_date()); // Kiểm tra giá trị này
-            psUpdateStaff.setBigDecimal(7, staff.getAdmin_salary()); // Kiểm tra giá trị này
+            psUpdateStaff.setString(5, staff.getImage_profile_admin()); // Có thể null
+            psUpdateStaff.setTimestamp(6, staff.getAdmin_hired_date()); // Có thể null
+            psUpdateStaff.setBigDecimal(7, staff.getAdmin_salary()); // Có thể null
             psUpdateStaff.setInt(8, staff.getAccount().getAccount_id());
-
             int rowsUpdatedStaff = psUpdateStaff.executeUpdate();
 
-            // Commit nếu có dòng được cập nhật
-            if (rowsUpdatedStaff > 0) {
+            // Chuyển đổi role_name thành role_id
+            int roleId;
+            String roleName = staff.getAccount().getRole().getRole_name();
+            switch (roleName) {
+                case "Sales":
+                    roleId = 2;
+                    break;
+                case "Customer Support":
+                    roleId = 4;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid role name: " + roleName);
+            }
+
+            // Cập nhật role_id trong bảng Accounts
+            psUpdateAccount = conn.prepareStatement(updateAccountQuery);
+            psUpdateAccount.setInt(1, roleId);
+            psUpdateAccount.setInt(2, staff.getAccount().getAccount_id());
+            int rowsUpdatedAccount = psUpdateAccount.executeUpdate();
+
+            // Commit nếu cả hai bảng đều được cập nhật thành công
+            if (rowsUpdatedStaff > 0 && rowsUpdatedAccount > 0) {
                 conn.commit();
                 success = true;
             } else {
-                conn.rollback(); // Rollback nếu không có dòng nào được cập nhật
+                conn.rollback(); // Rollback nếu một trong hai bảng không được cập nhật
             }
         } catch (SQLException e) {
-            if (conn != null) {
-                conn.rollback(); // Rollback trong trường hợp có exception
+            if (conn != null) {conn.rollback(); // Rollback trong trường hợp có exception
             }
             e.printStackTrace();
         } finally {
@@ -318,9 +342,12 @@ public class StaffDAO extends DBContext {
                 if (psUpdateStaff != null) {
                     psUpdateStaff.close();
                 }
+                if (psUpdateAccount != null) {
+                    psUpdateAccount.close();
+                }
                 if (conn != null) {
-                    conn.setAutoCommit(true); // Reset auto commit về true  
-                    conn.close(); // Đảm bảo đóng kết nối  
+                    conn.setAutoCommit(true); // Reset auto commit về true
+                    conn.close(); // Đảm bảo đóng kết nối
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

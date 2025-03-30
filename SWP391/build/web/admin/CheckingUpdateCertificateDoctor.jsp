@@ -220,7 +220,7 @@
 
                                                         <td>${lcd.certificate_id}</td>
                                                         <td>${lcd.doctor.doctor_name}</td>
-                                                        <td><img src=".${lcd.certificate_image}" width="150px" height="150px" alt="Certificate Image"/></td>
+                                                        <td><img src="${lcd.certificate_image}" width="150px" height="150px" alt="Certificate Image"/></td>
                                                         <td>${lcd.certificate.certificate_name}</td>
                                                         <td>
                                                             <fmt:parseDate value="${lcd.date_certificate}" pattern="yyyy-MM-dd" var="parsedDate" />
@@ -308,7 +308,7 @@
                                                     <tr>
                                                         <td>${hist.certificate_id}</td>
                                                         <td>${hist.doctor.doctor_name}</td>
-                                                        <td><img src=".${hist.certificate_image}" width="150px" height="150px" alt="certificate Image"/></td>
+                                                        <td><img src="${hist.certificate_image}" width="150px" height="150px" alt="certificate Image"/></td>
                                                         <td>${hist.certificate.certificate_name}</td>
                                                         <td>
                                                             <fmt:parseDate value="${hist.date_certificate}" pattern="yyyy-MM-dd" var="parsedDate" />

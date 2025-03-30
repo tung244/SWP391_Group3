@@ -62,7 +62,10 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Role</label>
-                                                    <input type="text" class="form-control" name="role_name" value="${staff.account.role.role_name}" required/>
+                                                    <select class="form-control" name="role_name" required>
+                                                        <option value="Sales" ${"Sales".equals(staff.account.role.role_name) ? "selected" : ""}>Sales</option>
+                                                        <option value="Customer Support" ${"Customer Support".equals(staff.account.role.role_name) ? "selected" : ""}>Customer Support</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>

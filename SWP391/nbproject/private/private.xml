@@ -12,12 +12,21 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/CamPaignDAO.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/EmailStatistics.jsp</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/email/ThongkeEmail.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/model/CamPaign.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/bo/SendMail.java</file>
-            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/email/SendMailAuto.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/filter/Forgot.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/UpdateStaff.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/auth/RoleManagement.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/AccountDAO.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/filter/Authen.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/CreateNewPassword.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/CheckOTP.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Verification_Method.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/homepage/Forgot_Password.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/dashboard/DashBoard.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/UserProfileDAO.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/StaffDAO.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/web/admin/dashboardcustomersupport.jsp</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/controller/admin/doctor/AddFollowUp.java</file>
+            <file>file:/F:/FPT/SWP391/SWP391_Group3/SWP391/src/java/dal/AppointmentDAO.java</file>
         </group>
     </open-files>
 </project-private>

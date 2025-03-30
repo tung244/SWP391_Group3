@@ -5,6 +5,7 @@
 package controller.admin.doctor;
 
 import bo.GetFormatDate;
+import bo.ImageServices;
 import dal.CertificateDAO;
 import dal.Certificate_DoctorDAO;
 import java.io.IOException;
@@ -86,7 +87,11 @@ public class AddCertificate extends HttpServlet {
         Part part = request.getPart("certificateImage");
         String pathHost = getServletContext().getRealPath("");
         String finalPath = pathHost.replace("build\\", "");
-        String linkFile = uploadImage(part, finalPath);
+        String linkFile = "";
+
+        if (part != null && part.getSize() > 0) {
+            linkFile = ImageServices.uploadImage(part, finalPath);
+        }
         response.getWriter().print(linkFile);
         System.out.println(did);
         System.out.println(isNewCertificate);
@@ -99,55 +104,41 @@ public class AddCertificate extends HttpServlet {
 
         Certificate_DoctorDAO cer_docdao = new Certificate_DoctorDAO();
 
-        if (cer_docdao.getCertificateByName(newCertificateName)) {
-            request.getSession().setAttribute("errorMessage", "Certificate name has been existed!");
-            response.sendRedirect("addCertificate?did=" + did);
-            return;
-        }
-
-        if (cer_docdao.checkExistCertificate(certificateId, did, dateCertificate)) {
-            request.getSession().setAttribute("errorMessage", "This certificate has been existed in your profile!");
-            response.sendRedirect("addCertificate?did=" + did);
-            return;
-        }
-
-        boolean success;
+        // Nếu chọn thêm chứng chỉ mới, kiểm tra xem tên chứng chỉ mới đã tồn tại chưa
         if ("true".equals(isNewCertificate)) {
-            success = cer_docdao.addNewCertificate(newCertificateName, did, linkFile, dateCertificate, status, issuedBy);
+            if (cer_docdao.getCertificateByName(newCertificateName)) {
+                request.getSession().setAttribute("errorMessage", "Certificate name has been existed!");
+                response.sendRedirect("addCertificate?did=" + did);
+                return;
+            }
+
+            // Thêm chứng chỉ mới vào cơ sở dữ liệu
+            boolean success = cer_docdao.addNewCertificate(newCertificateName, did, linkFile, dateCertificate, status, issuedBy);
+            if (success) {
+                request.getSession().setAttribute("success", "Add certificate successfully!");
+                response.sendRedirect("doctorProfile?accId=" + a.getAccount_id());
+            } else {
+                request.getSession().setAttribute("errorMessage", "Add certificate unsuccessfully");
+                response.sendRedirect("addCertificate?did=" + did);
+            }
         } else {
-            success = cer_docdao.addCertificate(certificateId, did, linkFile, dateCertificate, status, issuedBy);
-        }
+            // Nếu chọn chứng chỉ có sẵn, kiểm tra nếu chứng chỉ đã có trong bảng
+            if (cer_docdao.checkExistCertificate(certificateId, did, dateCertificate)) {
+                request.getSession().setAttribute("errorMessage", "This certificate has been existed in your profile!");
+                response.sendRedirect("addCertificate?did=" + did);
+                return;
+            }
 
-        if (success) {
-            request.getSession().setAttribute("success", "Add certificate successfully!");
-            response.sendRedirect("doctorProfile?accId=" + a.getAccount_id());
-        } else {
-            request.getSession().setAttribute("errorMessage", "Add certificate unsuccessfully");
-            response.sendRedirect("addCertificate?did=" + did);
-        }
-    }
-
-    public static String uploadImage(Part part, String finalPath) throws ServletException {
-        String uploadPath = finalPath + "images";
-        File uploadDir = new File(uploadPath);
-
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-        String linkFile = "";
-
-        String fileName = part.getSubmittedFileName();
-
-        if (fileName != null && !fileName.isEmpty()) {
-            File filePath = new File(uploadPath + File.separator + fileName);
-            try {
-                Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "./images/" + fileName;
-            } catch (IOException e) {
-                throw new ServletException("File upload failed: " + e.getMessage());
+            // Thêm chứng chỉ đã chọn vào cơ sở dữ liệu
+            boolean success = cer_docdao.addCertificate(certificateId, did, linkFile, dateCertificate, status, issuedBy);
+            if (success) {
+                request.getSession().setAttribute("success", "Add certificate successfully!");
+                response.sendRedirect("doctorProfile?accId=" + a.getAccount_id());
+            } else {
+                request.getSession().setAttribute("errorMessage", "Add certificate unsuccessfully");
+                response.sendRedirect("addCertificate?did=" + did);
             }
         }
-        return linkFile;
     }
 
     @Override

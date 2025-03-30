@@ -68,7 +68,7 @@
                                         </div>
                                         <hr>
 
-                                        
+
 
                                         <form action="createDoctor" method="POST" id="createDoctorform" class="row g-3" enctype="multipart/form-data">
                                             <div class="col-12">
@@ -79,13 +79,13 @@
 
                                             <div class="col-12">
                                                 <label class="form-label">Profile Image:</label>
-                                                <input type="file" id="profileImage" name="profileImage" class="form-control" required>
+                                                <input accept=".jpg, .jpeg, .webp, .png" type="file" id="profileImage" name="profileImage" class="form-control" required>
                                                 <span id="error-profileImage" name="error-profileImage"></span>
                                             </div>
 
                                             <div class="col-12">
                                                 <label class="form-label">Experience Years</label>
-                                                <input type="number" min="1" id="experienceYears" name="experienceYears" class="form-control" placeholder="Experience Years"  required>
+                                                <input type="number" min="0" id="experienceYears" name="experienceYears" class="form-control" placeholder="Experience Years"  required>
                                                 <span id="error-experienceYears" name="error-experienceYears"></span>
                                             </div>
 
@@ -280,25 +280,45 @@
                             const dob = $("#dob").val();
                             const errorSpan = $("#error-dob");
 
+                            if (!dob) {
+                                errorSpan.text("Date of birth is empty. Please enter a date of birth!").css("color", "red");
+                                return;
+                            }
+
+                            const dobDate = new Date(dob);
+                            const today = new Date();
+                            const age = today.getFullYear() - dobDate.getFullYear();
+                            const monthDiff = today.getMonth() - dobDate.getMonth();
+                            const dayDiff = today.getDate() - dobDate.getDate();
+
+                            const isAtLeast18 = age > 18 || (age === 18 && (monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0)));
+
+                            if (!isAtLeast18) {
+                                errorSpan.text("Doctor must be at least 18 years old.").css("color", "red");
+                                return;
+                            }
+
+                            // Gửi Ajax để xác nhận như trước (nếu cần)
                             $.ajax({
                                 url: "createDoctor",
                                 type: 'POST',
                                 data: {action: "checkDOB", dob: dob},
                                 success: function (response) {
                                     console.log(response); // Debug
-                                    if (response.status === "empty") {
-                                        errorSpan.text("Date of birth is empty. Please enter an date of birth!").css("color", "red");
-                                    } else if (response.status === "valid") {
+                                    if (response.status === "valid") {
                                         errorSpan.text("Date of birth is valid").css("color", "green");
+                                    } else if (response.status === "empty") {
+                                        errorSpan.text("Date of birth is empty. Please enter a date of birth!").css("color", "red");
                                     } else {
                                         toastr.error("Error.");
                                     }
                                 },
-                                error: function (xhr, status, error) {
+                                error: function () {
                                     alert("Error.");
                                 }
                             });
                         }
+
 
                         function checkAddress() {
                             const address = $("#address").val();

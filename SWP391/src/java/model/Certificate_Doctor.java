@@ -61,7 +61,6 @@ public class Certificate_Doctor {
         this.certificate_image = certificate_image;
     }
 
-    
 
     public Certificate_Doctor(int certificate_id, int doctor_id, String date_certificate, String issued_by, String certificate_image) {
         this.certificate_id = certificate_id;

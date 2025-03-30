@@ -23,6 +23,23 @@ import model.Specialization;
 
 public class DoctorsDAO extends DBContext {
 
+    public int countRatedPatientsByDoctorId(String doctorId) {
+        String sql = "SELECT COUNT(a.patient_id) "
+                + "FROM dbo.Feedback_Doctor fd "
+                + "JOIN dbo.Appointment a ON a.appointment_id = fd.appointment_id "
+                + "WHERE a.doctor_id = ? AND fd.feedback_rating IS NOT NULL";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, doctorId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1); // trả về số lượng
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0; // nếu lỗi hoặc không có dữ liệu
+    }
+
     public Feedback_Doctor getFeedBackDoctor(String appointmentId) {
         String sql = "SELECT feedback_text, feedback_rating, feedback_id, appointment_id FROM Feedback_Doctor WHERE appointment_id = ?";
         Feedback_Doctor feedback = new Feedback_Doctor();
@@ -46,6 +63,7 @@ public class DoctorsDAO extends DBContext {
 
         return null;
     }
+
     public int getDoctorIdByAppointmentId(int appointmentId) {
         String sql = "SELECT a.doctor_id "
                 + "FROM dbo.Appointment a "
@@ -70,7 +88,7 @@ public class DoctorsDAO extends DBContext {
             return -1; // Return -1 if an error occurs
         }
     }
-    
+
     public boolean insertDoctorFeedback(int appointmentId, String feedbackText, int feedbackRating, String feedback_date) {
         try {
             // Trước tiên, kiểm tra xem đã tồn tại feedback cho appointment này chưa
@@ -119,7 +137,7 @@ public class DoctorsDAO extends DBContext {
             return false;
         }
     }
-    
+
     public boolean updateDoctorRating(int doctorId) {
         String sql = "{CALL UpdateDoctorRating(?)}";
         boolean success = false;
@@ -132,11 +150,10 @@ public class DoctorsDAO extends DBContext {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return false; 
+            return false;
         }
     }
-    
-    
+
     //List doctor in dashboard
     public List<Doctors> getDoctorsDash() {
         List<Doctors> list = new ArrayList<>();
@@ -171,8 +188,8 @@ public class DoctorsDAO extends DBContext {
         }
         return list;
     }
-    
-    public Doctors getDoctorsWithAccId(int account_id){
+
+    public Doctors getDoctorsWithAccId(int account_id) {
         String sql = "SELECT  * FROM [dbo].[Doctors] d\n"
                 + "Where account_id = ?";
         Doctors doctor = new Doctors();
@@ -181,7 +198,7 @@ public class DoctorsDAO extends DBContext {
             st.setInt(1, account_id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                
+
                 doctor.setDoctor_id(rs.getInt("doctor_id"));
                 doctor.setDoctor_name(rs.getString("doctor_name"));
                 doctor.setExperience_years(rs.getInt("experience_years"));
@@ -198,7 +215,6 @@ public class DoctorsDAO extends DBContext {
                 specialization.setSpecialization_status(rs.getString("specialization_status"));
                 doctor.setSpecialization(specialization);
 
-                
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -648,7 +664,7 @@ public class DoctorsDAO extends DBContext {
                 + "ORDER BY total_revenue DESC;";
 
         try {
-           PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, startDate);
             ps.setString(2, endDate);
             ResultSet rs = ps.executeQuery();
@@ -678,9 +694,9 @@ public class DoctorsDAO extends DBContext {
                 + "WHERE d.specialization_id = ?";
         List<Doctors> list = new ArrayList<>();
         try {
-           PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, id);
-             ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int specialization_id = rs.getInt("specialization_id");
                 String spe_name = rs.getString("specialization_name");

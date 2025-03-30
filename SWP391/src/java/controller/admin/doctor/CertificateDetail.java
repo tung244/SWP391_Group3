@@ -5,6 +5,7 @@
 package controller.admin.doctor;
 
 import bo.GetFormatDate;
+import bo.ImageServices;
 import dal.Certificate_DoctorDAO;
 import dal.DoctorsDAO;
 import java.io.IOException;
@@ -91,7 +92,11 @@ public class CertificateDetail extends HttpServlet {
         Part part = request.getPart("updateCertificateImage");
         String pathHost = getServletContext().getRealPath("");
         String finalPath = pathHost.replace("build\\", "");
-        String linkFile = uploadImage(part, finalPath);
+        String linkFile =  "";
+        if(part != null && part.getSize() > 0){
+             linkFile = ImageServices.uploadImage(part, finalPath);
+        }
+        
 
         // ✅ Chỉ log ra console, không trả về response
         System.out.println("Uploaded file path: " + linkFile);
@@ -128,28 +133,7 @@ public class CertificateDetail extends HttpServlet {
         out.flush();
     }
     
-     public static String uploadImage(Part part, String finalPath) throws ServletException {
-        String uploadPath = finalPath + "images";
-        File uploadDir = new File(uploadPath);
-
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-        String linkFile = "";
-
-        String fileName = part.getSubmittedFileName();
-
-        if (fileName != null && !fileName.isEmpty()) {
-            File filePath = new File(uploadPath + File.separator + fileName);
-            try {
-                Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "./images/" + fileName;
-            } catch (IOException e) {
-                throw new ServletException("File upload failed: " + e.getMessage());
-            }
-        }
-        return linkFile;
-    }
+   
      
      public static String convertToYYYYMMDD(String inputDate) {
     try {

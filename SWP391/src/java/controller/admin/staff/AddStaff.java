@@ -4,6 +4,7 @@
  */
 package controller.admin;
 
+import bo.EncryptPassword;
 import dal.AccountDAO;
 import dal.StaffDAO;
 import java.io.IOException;
@@ -137,7 +138,7 @@ public class AddStaff extends HttpServlet {
 
             Account account = new Account();
             account.setUsername(username);
-            account.setPassword(password);
+            account.setPassword(EncryptPassword.hashPassword(password));
             account.setRole(role);
             account.setEmail(email);
             account.setPhonenumber(phone);

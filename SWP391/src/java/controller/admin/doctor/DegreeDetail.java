@@ -5,7 +5,7 @@
 package controller.admin.doctor;
 
 import bo.GetFormatDate;
-import static controller.admin.doctor.CreateDoctor.uploadImage;
+import bo.ImageServices;
 import dal.Degree_DoctorDAO;
 import dal.DoctorsDAO;
 import java.io.IOException;
@@ -74,7 +74,7 @@ public class DegreeDetail extends HttpServlet {
         if (part != null && part.getSize() > 0) {  // Kiểm tra null và file có dữ liệu
             String pathHost = getServletContext().getRealPath("");
             String finalPath = pathHost.replace("build\\", "");
-            linkFile = uploadImage(part, finalPath);
+            linkFile =ImageServices.uploadImage(part, finalPath);
         } else {
             System.out.println("❌ Không có file được tải lên.");
         }
@@ -116,28 +116,7 @@ public class DegreeDetail extends HttpServlet {
         out.flush();
     }
 
-    public static String uploadImage(Part part, String finalPath) throws ServletException {
-        String uploadPath = finalPath + "images";
-        File uploadDir = new File(uploadPath);
-
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-        String linkFile = "";
-
-        String fileName = part.getSubmittedFileName();
-
-        if (fileName != null && !fileName.isEmpty()) {
-            File filePath = new File(uploadPath + File.separator + fileName);
-            try {
-                Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "./images/" + fileName;
-            } catch (IOException e) {
-                throw new ServletException("File upload failed: " + e.getMessage());
-            }
-        }
-        return linkFile;
-    }
+   
 
     @Override
     public String getServletInfo() {

@@ -86,7 +86,7 @@
                                                                             </a>
                                                                         </h6>
                                                                     </c:if>
-                                                                    <img src=".${lce.certificate_image}" class="img-thumbnail" alt="Certificate Image">
+                                                                    <img src="${lce.certificate_image}" class="img-thumbnail" alt="Certificate Image">
                                                                 </div> 
 
                                                             </c:forEach>
@@ -131,10 +131,10 @@
                         <input type="hidden" id="version" name="version"/>
                         <div class="mb-3">
 
-                            <img style="margin-left: 35%" id="certificatePhoto" src="" width="350" height="350" alt="Certificate Photo"/>
+                            <img style="margin-left: 35%" id="certificatePhoto" src="" width="350px" height="350px" alt="Certificate Photo"/>
                             </br>
                             <label for="updateCertificateImage" class="form-label">Certificate Image</label>
-                            <input type="file" name="updateCertificateImage" id="updateCertificateImage" class="form-control" >
+                            <input accept=".jpg, .jpeg, .webp, .png" type="file" name="updateCertificateImage" id="updateCertificateImage" class="form-control" >
                         </div>
                         <div class="mb-3">
                             <label for="dateCertificate" class="form-label">Date Certificate</label>
@@ -257,7 +257,7 @@
                                     // Gán giá trị vào modal
                                     document.getElementById("certificateId").value = certificateId;
                                     document.getElementById("doctorId").value = doctorId;
-                                    document.getElementById("certificatePhoto").src = "." + certificateImg;
+                                    document.getElementById("certificatePhoto").src =  certificateImg;
                                     document.getElementById("updateCertificateIssuedBy").value = issuedBy;
                                     document.getElementById("dateCertificate").value = formattedDate;
                                     document.getElementById("version").value = dataVersion;

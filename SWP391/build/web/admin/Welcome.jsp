@@ -1,9 +1,3 @@
-<%-- 
-    Document   : index
-    Created on : Feb 10, 2025, 11:43:24 PM
-    Author     : DELL
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -42,8 +36,10 @@
                 <!--page-content-wrapper-->
                 <div class="page-content-wrapper">
                     <div class="page-content">
-                        <img src="https://bvtb.org.vn/wp-content/uploads/2022/04/10130-1170x732.jpg"/>
-                        
+                        <div style="position: relative; width: 100%; display: block;">
+                            <img src="http://localhost:8080/SWP391/images/ben-vien-hung-vuong-1-1-1024x580.jpg" style="width: 100%; height: auto; max-width: none; display: block;">
+                            <h1 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #FFD700; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); font-size: 36px; font-weight: bold; text-align: center; margin: 0;">Chào mừng bạn đến với EyeCare</h1>
+                        </div>
                     </div>
                 </div>
                 <!--end page-content-wrapper-->
@@ -97,10 +93,8 @@
         </div>
         <!--end switcher-->
         <!-- JavaScript -->
-
         <!-- Bootstrap JS -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
-
         <!--plugins-->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/plugins/simplebar/js/simplebar.min.js"></script>

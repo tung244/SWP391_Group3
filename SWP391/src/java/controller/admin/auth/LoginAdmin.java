@@ -100,29 +100,31 @@ public class LoginAdmin extends HttpServlet {
                     case 1:
                          s = sdao.getStaffById(a.getAccount_id());
                          request.getSession().setAttribute("profile", s);
-                        response.sendRedirect("dashboard");
+                        response.sendRedirect("welcome");
                         break;
                     case 2:
                          s = sdao.getStaffById(a.getAccount_id());
                          request.getSession().setAttribute("profile", s);
-                        response.sendRedirect("dashboard");
+                        response.sendRedirect("welcome");
                         break;
                     case 3:
                         if (dao.getFirstConfirm(email)) {
+                            Doctors dos = dao.getDoctorsByAccId(a.getAccount_id());
+                            request.getSession().setAttribute("profile", dos);
                             request.getSession().setAttribute("email", email);
                             response.sendRedirect("changePass");
                         } else {
                             int accId = accdao.getAccountIdByEmail(email);
                             Doctors dos = dao.getDoctorsByAccId(a.getAccount_id());
                             request.getSession().setAttribute("profile", dos);
-                            response.sendRedirect("dashboard");
+                            response.sendRedirect("welcome");
                         }
                         
                         break;
                     case 4:
                         s = sdao.getStaffById(a.getAccount_id());
                         request.getSession().setAttribute("profile", s);
-                        response.sendRedirect("dashboard");
+                        response.sendRedirect("welcome");
                         break;
                     case 5:
                         

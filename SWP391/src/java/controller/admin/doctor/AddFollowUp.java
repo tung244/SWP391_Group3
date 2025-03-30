@@ -88,7 +88,7 @@ public class AddFollowUp extends HttpServlet {
 
         if (!check) {
             session.setAttribute("error", "Add Follow Up Failed");
-            response.sendRedirect("AddFollowUp.jsp");
+            response.sendRedirect("addfollowup");
         } else {
             session.setAttribute("ms", "Add Follow Up Successfully");
 
@@ -107,7 +107,7 @@ public class AddFollowUp extends HttpServlet {
                 e.printStackTrace();
             }
 
-            response.sendRedirect("AddFollowUp.jsp");
+            response.sendRedirect("addfollowup");
         }
     }
 

@@ -136,7 +136,7 @@
                             <img style="margin-left: 35%" id="degreePhoto" src="" width="350" height="350" alt="Degree Photo"/>
                             </br>
                             <label for="updateDegreeImage" class="form-label">Degree Image</label>
-                            <input type="file" name="updateDegreeImage" id="updateDegreeImage" class="form-control" >
+                            <input accept=".jpg, .jpeg, .webp, .png" type="file" name="updateDegreeImage" id="updateDegreeImage" class="form-control" >
                         </div>
                         <div class="mb-3">
                             <label for="updateDegreeIssuedBy" class="form-label">Issued By</label>

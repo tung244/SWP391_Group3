@@ -51,32 +51,25 @@
                             <div class="ms-auto d-flex gap-2">
                                 <!-- Sort Role -->
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-primary"> Role</button>
-                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
-                                        <span class="visually-hidden">Toggle Dropdown</span>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-                                        <a class="dropdown-item" href="searchstaff?sortrole=Customer Support">Customer Support</a>
-                                        <a class="dropdown-item" href="searchstaff?sortrole=Sales">Sale</a>
-                                        <div class="dropdown-divider"></div>
-                                    </div>
+                                    
+                                    <select class="form-select" onchange="location.href = 'searchstaff?sortrole=' + encodeURIComponent(this.value)">
+                                        <option value="">Chọn vai trò</option>
+                                        <option value="Customer Support">Customer Support</option>
+                                        <option value="Sales">Sales</option>
+                                    </select>
+
                                 </div>
 
                                 <!-- Search by Address -->
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-primary">Search by Address</button>
-                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
-                                        <span class="visually-hidden">Toggle Dropdown</span>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-                                        <a class="dropdown-item" href="searchstaff?id=0">All Addresses</a>
+
+                                    <select class="form-select" onchange="location.href = 'searchstaff?address=' + this.value">
+                                        <option value="0">All Addresses</option>
                                         <c:forEach var="address" items="${requestScope.addressList}">
-                                            <a class="dropdown-item" href="searchstaff?address=${address}">
-                                                ${address}
-                                            </a>
+                                            <option value="${address}">${address}</option>
                                         </c:forEach>
-                                        <div class="dropdown-divider"></div>
-                                    </div>
+                                    </select>
+
                                 </div>
 
                                 <!-- Search by Name -->

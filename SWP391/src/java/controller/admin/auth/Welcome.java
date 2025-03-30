@@ -5,6 +5,7 @@
 
 package controller.admin.auth;
 
+import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
+import model.Account;
+import model.Modules;
+import model.Permission;
 
 
 @WebServlet(name="Welcome", urlPatterns={"/admin/welcome"})
@@ -39,6 +45,14 @@ public class Welcome extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        AccountDAO adao = new AccountDAO();
+        Account a = (Account) request.getSession().getAttribute("account");
+        Map<Modules, List<Permission>> map = adao.loadMenu(a.getRole().getRole_id());
+        request.getSession().setAttribute("menu", map);
+        
+        
+        
+        
         request.getRequestDispatcher("Welcome.jsp").forward(request, response);
     } 
 

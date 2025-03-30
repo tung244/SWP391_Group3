@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +24,7 @@
             .search-filter-box select,
             .search-filter-box input {
                 flex: 1;
-                min-width: 150px;
+
                 padding: 8px 12px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
@@ -188,7 +189,7 @@
                                             <!-- Start filter area--> 
                                             <form action="DoctorList" method="GET">
 
-                                                <div style="margin: 0px 50px" class="search-filter-box">
+                                                <div style="margin: 0px 20px" class="search-filter-box">
 
                                                     <select  name="sid" id="filterSpecialization" class="form-control" >
                                                         <option value="">All specialization</option>
@@ -269,21 +270,35 @@
                                                             <td>${d.doctor_name}</td>
                                                             <td>${d.experience_years} years</td>
                                                             <td>${d.specialization.specialization_name}</td>
-                                                            <td>${d.rating}</td>
+                                                            <fmt:setLocale value="en" />
+                                                            <td><fmt:formatNumber value="${d.rating}" type="number" maxFractionDigits="1" minFractionDigits="1" /></td>
                                                             <td>${d.gender}</td>
-                                                            <td>${d.dob}</td>
+                                                            <td><fmt:parseDate value="${d.dob}" pattern="yyyy-MM-dd" var="parsedDob" />
+                                                                <fmt:formatDate value="${parsedDob}" pattern="dd/MM/yyyy"/> </li></td>
                                                             <td>${d.address}</td>
                                                             <td>
                                                                 <form action="DoctorList" method="POST">
 
                                                                     <input type="hidden" name="doctor_id" value="${d.doctor_id}"> 
-                                                                    <select style="background-color:#228B22;
-                                                                            color: #ffffff" name="status" onchange="confirmStatusChange(this)" data-original="${d.doctor_status}">
+                                                                    <select name="status"
+                                                                            onchange="confirmStatusChange(this)"
+                                                                            data-original="${d.doctor_status}"
+                                                                            style="background-color: ${d.doctor_status == 'Inactive' ? '#FF2525' : '#228B22'};
+                                                                            color: #ffffff">
                                                                         <option style="background-color:#ffffff;
-                                                                                color: #228B22" value="Active" ${d.doctor_status == 'Active' ? 'selected' :''}>Active</option>
+                                                                                color:#228B22"
+                                                                                value="Active"
+                                                                                ${d.doctor_status == 'Active' ? 'selected' : ''}>
+                                                                            Active
+                                                                        </option>
                                                                         <option style="background-color:#ffffff;
-                                                                                color: #228B22" value="Inactive" ${d.doctor_status == 'Inactive' ? 'selected' :''}>Inactive</option>
+                                                                                color:#FF2525"
+                                                                                value="Inactive"
+                                                                                ${d.doctor_status == 'Inactive' ? 'selected' : ''}>
+                                                                            Inactive
+                                                                        </option>
                                                                     </select>
+
                                                                 </form>  
                                                             </td>
 

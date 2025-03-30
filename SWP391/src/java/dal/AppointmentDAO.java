@@ -566,7 +566,7 @@ public class AppointmentDAO extends DBContext {
             rs = ps.executeQuery();
             while (rs.next()) {
                 return new Checkout(rs.getInt(1), rs.getInt(2), rs.getString(3),
-                        rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getInt(7), rs.getTimestamp(8));
+                        rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getTimestamp(7));
             }
         } catch (Exception e) {
         }

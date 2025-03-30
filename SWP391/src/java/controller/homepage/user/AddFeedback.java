@@ -59,23 +59,7 @@ public class AddFeedback extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         //processRequest(request, response);
-        HttpSession session = request.getSession();
-        String text = request.getParameter("feedback");
-        String rating_Raw = request.getParameter("rating");
-        int rating = Integer.parseInt(rating_Raw);
-        String appointment_id_Raw = request.getParameter("appointment_id");
-        int appointment_id = Integer.parseInt(appointment_id_Raw);
-        FeedbackDAO dao = new FeedbackDAO();
-        System.out.println("aaaaaaaaaaaaaaaaaaaaa");
-        boolean checkAdd = dao.addFeedback(appointment_id, text, rating);
-        if (checkAdd == false) {
-            session.setAttribute("error", "Chưa thể thêm feedback");
-            request.getRequestDispatcher("homepage/detailtransaction.jsp").forward(request, response);
-            return;
-        }
-        session.setAttribute("ms", "Cảm ơn bạn đã đánh giá");
-        request.getRequestDispatcher("/transactiondetail").forward(request, response);
-
+        
     } 
 
     /** 
@@ -87,8 +71,26 @@ public class AddFeedback extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String text = request.getParameter("feedback");
+        String rating_Raw = request.getParameter("rating");
+        int rating = Integer.parseInt(rating_Raw);
+        String appointment_id_Raw = request.getParameter("appointment_id");
+        int appointment_id = Integer.parseInt(appointment_id_Raw);
+        FeedbackDAO dao = new FeedbackDAO();
+        System.out.println("aaaaaaaaaaaaaaaaaaaaa" + rating + appointment_id + text);
+        boolean checkAdd = dao.addFeedback(appointment_id, text, rating);
+        System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbb    " + checkAdd);
+        if (checkAdd == true) {
+            request.getSession().setAttribute("ms", "Rating Customer successfully!");
+            response.sendRedirect("transactiondetail?appointment_id=" + appointment_id);
+            return;
+        }
+
+        request.getSession().setAttribute("ms", "Rating Customer Failed!");
+        response.sendRedirect("transactiondetail?appointment_id=" + appointment_id);
+        
     }
 
     /** 

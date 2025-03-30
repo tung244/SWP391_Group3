@@ -216,7 +216,7 @@
                                                 <i style="color: green" class="fas fa-file-alt icon"></i>
                                             </a>
                                         </c:if> 
-                                        <c:if test="${appointment.appointment_status.equals('Scheduled') ||appointment.appointment_status.equals('Completed') }">
+                                        <c:if test="${appointment.appointment_status.equals('Payed') ||appointment.appointment_status.equals('Completed') }">
                                             <a href="Invoice?appointment=${appointment.appointment_id}" title="Bill"><i style="color: green" class="fas fa-file-invoice-dollar"></i></a>
                                             </c:if>
                                     </td>

@@ -566,7 +566,7 @@ public class SendMail {
                     + "<div class='email-content'>"
                     + "<h2>Hi " + nameUser + "!</h2>"
                     + "<p>Your account password doctor is: <span class='otp'>" + password + "</span></p>"
-                    + "<a href='http://localhost:9999/SWP391/admin/login'>Click here</a>"
+                    + "<a href='http://localhost:8080/SWP391/admin/loginAdmin'>Click here</a>"
                     + "<p>Please use this password to login to your account!</p>"
                     + "</div></div>"
                     + "</body></html>";

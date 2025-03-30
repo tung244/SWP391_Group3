@@ -67,7 +67,7 @@ public class Authen implements Filter {
         }
         if(!adao.hasPermission(a.getRole().getRole_id(), requestPath)){
             request.getSession().setAttribute("error", "Bạn không có quyền để vô trang này!");
-            response.sendRedirect("dashboard");
+            response.sendRedirect("welcome");
             return;
         }
 
