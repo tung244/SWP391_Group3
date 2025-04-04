@@ -4,34 +4,7 @@
 <html lang="en">
     <head>
         <jsp:include page="Common/Css.jsp"/> 
-        <style>
-            .messenger-icon {
-                position: fixed; /* Luôn cố định trên màn hình */
-                bottom: 50px;
-                left: 10px;
-                width: 60px;
-                height: 60px;
-                background-color: #0078FF;
-                border-radius: 50%;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 9999;
-                transition: transform 0.2s ease-in-out, background-color 0.2s;
-                cursor: pointer;
-            }
-
-            .messenger-icon img {
-                width: 40px;
-                height: 40px;
-            }
-
-            .messenger-icon:hover {
-                transform: scale(1.1);
-                background-color: #005ce6;
-            }
-        </style>
+       
     </head>
     <body>
         <div class="boxed_wrapper">
@@ -44,42 +17,7 @@
             <!--End mainmenu area-->     
 
             <!--Start header area-->
-            <header class="mainmenu-bottom-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header-contact-info">
-                                <ul style="text-align: center">
-                                    <li class="col-md-4">
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-signs"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>KM29_Láng Hòa Lạc</h3>
-                                        </div>
-                                    </li>
-                                    <li class="col-md-4">
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-interface"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Group3_SWP391@fpt.edu.vn</h3>
-                                        </div>
-                                    </li>
-                                    <li class="col-md-4">
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-clock"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Weekdays: 09.00am to 18.00pm</h3>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>  
+              
             <!--End header area-->      
 
             <!--Start rev slider wrapper-->     
@@ -304,7 +242,7 @@
                                                            -webkit-box-orient: vertical;
                                                            overflow: hidden;
                                                            text-overflow: ellipsis;font-size: 15px; line-height: 1.5">${machine.machine_description}</p>
-                                                        <a href="#">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
+                                                        <a href="list_machine?machine_id=${machine.machine_id}">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
                                                     </div>
                                                 </div>
                                             </div>
@@ -682,7 +620,7 @@
                                         <div class="row">
                                             <div class="col-md-5 col-sm-5 col-xs-12">
                                                 <div class="img-holder">
-                                                    <img src="${content.image_patient}" alt="Awesome Image">
+                                                    <img src="${content.image_patient}" style="width: 250px!important" alt="Awesome Image">
                                                     <div class="client-name text-center"> <h3>${content.patient_name}</h3> </div>
                                                 </div>
                                             </div>
@@ -979,10 +917,8 @@
                 </div>    
             </section> 
             <!--End footer bottom area-->  
-            <a href="https://m.me/596933063493069" target="_blank" class="messenger-icon">
-                <img src="homepage/images/icon/logo_messenger.webp" alt="Messenger">
-            </a>
-            <iframe height="430" width="350" src="https://bot.dialogflow.com/b57ca0cb-bd6a-4d5b-a3d4-00f9dbffb94f"></iframe>
+            
+            
         </div>
             
         <!--Scroll to top-->

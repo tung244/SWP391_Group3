@@ -96,7 +96,7 @@
             .service-sidebar .sidebar-link {
                 display: flex;
                 align-items: center;
-                padding: 20px 0px;
+                padding: 20px;
                 background: #218838;
                 color: #fff;
                 text-decoration: none;
@@ -158,10 +158,7 @@
                 flex-wrap: wrap;
             }
 
-            .col-md-4, .col-sm-4, .col-xs-12 {
-                display: flex;
-                flex-direction: column;
-            }
+            
 
             .single-team-member {
                 display: flex;

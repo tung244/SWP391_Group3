@@ -31,6 +31,12 @@ public class Doctors {
         this.doctor_id = doctor_id;
     }
 
+    public Doctors(int doctor_id, String doctor_name) {
+        this.doctor_id = doctor_id;
+        this.doctor_name = doctor_name;
+    }
+    
+
     public Doctors(int doctor_id, Account acc, String doctor_name, int experience_years, String profile_image, double rating, String gender, String dob, String address, String doctor_status, Specialization specialization, Certificate certificate, Degree_Doctor degree_doctor) {
         this.doctor_id = doctor_id;
         this.acc = acc;

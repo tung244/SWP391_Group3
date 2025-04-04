@@ -42,7 +42,7 @@
 
             <!--end sidebar-wrapper-->
             <!--header-->
-            <jsp:include page="Common/Sidebar.jsp"/> 
+            <jsp:include page="Common/Navbar.jsp"/> 
             <!--end header-->
             <!--page-wrapper-->
             <div class="page-wrapper">
@@ -76,11 +76,11 @@
                                                 <div class="col-lg-3 col-md-4">
                                                     <div class="doctor-thumb text-center">
 
-                                                        <img style="width: 250px" src=".${doctor.profile_image}" alt="Doctor Photo" class="rounded-circle img-fluid mb-3"/>
+                                                        <img style="width: 250px" src="${doctor.profile_image}" alt="Doctor Photo" class="rounded-circle img-fluid mb-3"/>
                                                         <div class="star-rating text-warning mb-2">
                                                             <span class="text-muted ml-2">Rating: ${doctor.rating}</span> ★
                                                             </br>
-                                                            <span class="text-muted ml-2">(45 reviews)</span>
+                                                            <span class="text-muted ml-2">(${countReviewers} reviews)</span>
                                                         </div>
 
                                                     </div>
@@ -96,7 +96,7 @@
                                                             <button><a style="color: black" href="certificateDetail?did=${doctor.doctor_id}">Certificate Detail</a></button>
                                                             <button><a style="color: black" href="editDoctorProfile?did=${doctor.doctor_id}">Edit Profile</a></button>
                                                             <button><a style="color: black" href="addDegree?did=${doctor.doctor_id}">Add Degree</a></button>
-<!--                                                            <button><a style="color: black" href="">Edit Certificate</a></button>-->
+                                                            <button><a style="color: black" href="addCertificate?did=${doctor.doctor_id}">Add Certificate</a></button>
                                                         </div>
                                                         <!-- Personal Details -->
                                                         <div class="row mb-4">
@@ -166,25 +166,7 @@
                             </div>
                         </section>
                         <!--End doctor detail area-->
-                        <%
-                              String errorMessage = (String) session.getAttribute("error");
-                              String successMessage = (String) session.getAttribute("success");
-                              if(errorMessage != null) {
-                        %>
-                        <script>
-                            alert("<%= errorMessage %> ");
-                        </script>
-                        <%
-                         session.removeAttribute("error");       
-                            }else if(successMessage != null){
-                        %>
-                        <script>
-                             alert("<%= successMessage %> ");
-                        </script>
-                        <%
-                         session.removeAttribute("success");       
-                            }
-                        %>
+
                     </div>
                 </div>
                 <!--end page-content-wrapper-->
@@ -242,28 +224,39 @@
         <!--end switcher-->
         <!-- JavaScript -->
         <!-- Bootstrap JS -->
-        <script src="../admin/assets/js/bootstrap.bundle.min.js"></script>
-
-        <!--plugins-->
-        <script src="../admin/assets/js/jquery.min.js"></script>
-        <script src="../admin/assets/plugins/simplebar/js/simplebar.min.js"></script>
-        <script src="../admin/assets/plugins/metismenu/js/metisMenu.min.js"></script>
-        <script src="../admin/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-        <!--Data Tables js-->
-        <script src="../admin/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+        <%
+                               String errorMessage = (String) session.getAttribute("errorr");
+                               String successMessage = (String) session.getAttribute("success");
+                               if(errorMessage != null) {
+        %>
         <script>
-                             $(document).ready(function () {
-                                 //Default data table
-                                 $('#example').DataTable();
-                                 var table = $('#example2').DataTable({
-                                     lengthChange: false,
-                                     buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
-                                 });
-                                 table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
-                             });
+                            alert("<%= errorMessage %> ");
+        </script>
+        <%
+         session.removeAttribute("errorr");       
+            }else if(successMessage != null){
+        %>
+        <script>
+                            alert("<%= successMessage %> ");
+        </script>
+        <%
+         session.removeAttribute("success");       
+            }
+        %>
+        <jsp:include page="Common/Js.jsp"/>
+        <script>
+            $(document).ready(function () {
+                //Default data table
+                $('#example').DataTable();
+                var table = $('#example2').DataTable({
+                    lengthChange: false,
+                    buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+                });
+                table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+            });
         </script>
         <!-- App JS -->
-        <script src="../admin/assets/js/app.js"></script>
+
     </body>
 
 </html>

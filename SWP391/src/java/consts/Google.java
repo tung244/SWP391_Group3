@@ -5,11 +5,12 @@
 package consts;
 
 public class Google {
-    public static final String GOOGLE_CLIENT_ID = "145515751218-1me7sleh0t92gmt599s2vnrh7bct77th.apps.googleusercontent.com";
+    public static final String GOOGLE_CLIENT_ID = "";
 
-    public static final String GOOGLE_CLIENT_SECRET = "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";
+    public static final String GOOGLE_CLIENT_SECRET = "";
 
     public static final String GOOGLE_REDIRECT_URI = "http://localhost:8080/SWP391/login_google";
+    public static final String GOOGLE_REDIRECT_URI2 = "http://localhost:8080/SWP391/logingoogle";
 
     public static final String GOOGLE_GRANT_TYPE = "authorization_code";
 

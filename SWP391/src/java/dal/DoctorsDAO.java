@@ -4,6 +4,7 @@
  */
 package dal;
 
+import java.sql.CallableStatement;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,10 +17,142 @@ import model.Certificate_Doctor;
 import model.Degree;
 import model.Degree_Doctor;
 import model.Doctors;
+import model.Feedback_Doctor;
 import model.Role;
 import model.Specialization;
 
 public class DoctorsDAO extends DBContext {
+
+    public int countRatedPatientsByDoctorId(String doctorId) {
+        String sql = "SELECT COUNT(a.patient_id) "
+                + "FROM dbo.Feedback_Doctor fd "
+                + "JOIN dbo.Appointment a ON a.appointment_id = fd.appointment_id "
+                + "WHERE a.doctor_id = ? AND fd.feedback_rating IS NOT NULL";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, doctorId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1); // trả về số lượng
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0; // nếu lỗi hoặc không có dữ liệu
+    }
+
+    public Feedback_Doctor getFeedBackDoctor(String appointmentId) {
+        String sql = "SELECT feedback_text, feedback_rating, feedback_id, appointment_id FROM Feedback_Doctor WHERE appointment_id = ?";
+        Feedback_Doctor feedback = new Feedback_Doctor();
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, appointmentId);
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+
+                feedback.setFeedback_id(rs.getInt("feedback_id"));
+                feedback.setAppointment_id(rs.getInt("appointment_id"));
+                feedback.setFeedback_text(rs.getString("feedback_text"));
+                feedback.setFeedback_rating(rs.getInt("feedback_rating"));
+                return feedback;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public int getDoctorIdByAppointmentId(int appointmentId) {
+        String sql = "SELECT a.doctor_id "
+                + "FROM dbo.Appointment a "
+                + "JOIN dbo.Feedback_Doctor fd "
+                + "ON fd.appointment_id = a.appointment_id "
+                + "WHERE a.appointment_id = ?";
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, appointmentId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("doctor_id");
+            }
+
+            return -1; // Return -1 if no doctor found
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1; // Return -1 if an error occurs
+        }
+    }
+
+    public boolean insertDoctorFeedback(int appointmentId, String feedbackText, int feedbackRating, String feedback_date) {
+        try {
+            // Trước tiên, kiểm tra xem đã tồn tại feedback cho appointment này chưa
+            String checkSql = "SELECT COUNT(*) FROM Feedback_Doctor WHERE appointment_id = ?";
+            PreparedStatement checkStmt = connection.prepareStatement(checkSql);
+            checkStmt.setInt(1, appointmentId);
+            ResultSet rs = checkStmt.executeQuery();
+
+            boolean exists = false;
+            if (rs.next()) {
+                exists = rs.getInt(1) > 0;
+            }
+
+            // Nếu đã tồn tại, xóa bản ghi cũ
+            if (exists) {
+                String deleteSql = "DELETE FROM Feedback_Doctor WHERE appointment_id = ?";
+                PreparedStatement deleteStmt = connection.prepareStatement(deleteSql);
+                deleteStmt.setInt(1, appointmentId);
+                deleteStmt.executeUpdate();
+            }
+
+            // Chèn bản ghi mới
+            String insertSql = "INSERT INTO Feedback_Doctor "
+                    + "(appointment_id, feedback_text, feedback_date, feedback_rating) "
+                    + "VALUES (?, ?, ?, ?)";
+            PreparedStatement pstmt = connection.prepareStatement(insertSql);
+            pstmt.setInt(1, appointmentId);
+            pstmt.setString(2, feedbackText);
+            pstmt.setString(3, feedback_date);
+            pstmt.setInt(4, feedbackRating);
+
+            // Thực thi insert
+            int rowsAffected = pstmt.executeUpdate();
+
+            // Đóng các statement
+            if (rs != null) {
+                rs.close();
+            }
+            checkStmt.close();
+            pstmt.close();
+
+            // Trả về true nếu insert thành công
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateDoctorRating(int doctorId) {
+        String sql = "{CALL UpdateDoctorRating(?)}";
+        boolean success = false;
+
+        try {
+            CallableStatement cstmt = connection.prepareCall(sql);
+            cstmt.setInt(1, doctorId);
+            success = cstmt.executeUpdate() > 0; // Returns true if rows were affected
+            return success;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     //List doctor in dashboard
     public List<Doctors> getDoctorsDash() {
@@ -54,6 +187,39 @@ public class DoctorsDAO extends DBContext {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public Doctors getDoctorsWithAccId(int account_id) {
+        String sql = "SELECT  * FROM [dbo].[Doctors] d\n"
+                + "Where account_id = ?";
+        Doctors doctor = new Doctors();
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, account_id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+
+                doctor.setDoctor_id(rs.getInt("doctor_id"));
+                doctor.setDoctor_name(rs.getString("doctor_name"));
+                doctor.setExperience_years(rs.getInt("experience_years"));
+                doctor.setProfile_image(rs.getString("profile_image"));
+                doctor.setRating(rs.getDouble("rating"));
+                doctor.setGender(rs.getString("gender"));
+                doctor.setDob(rs.getString("dob"));
+                doctor.setAddress(rs.getString("address"));
+                doctor.setDoctor_status(rs.getString("doctor_status"));
+
+                Specialization specialization = new Specialization();
+                specialization.setSpecialization_id(rs.getInt("specialization_id"));
+                specialization.setSpecialization_name(rs.getString("specialization_name"));
+                specialization.setSpecialization_status(rs.getString("specialization_status"));
+                doctor.setSpecialization(specialization);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return doctor;
     }
 
     // List all doctor
@@ -478,12 +644,79 @@ public class DoctorsDAO extends DBContext {
         return null;
     }
 
+    public List<Object[]> getDoctorStats(String startDate, String endDate) {
+        List<Object[]> statsList = new ArrayList<>();
+        String sql = "SELECT \n"
+                + "    d.doctor_id,\n"
+                + "    d.doctor_name,\n"
+                + "    COUNT(a.appointment_id) AS total_appointments,\n"
+                + "    SUM(CASE WHEN a.appointment_status = 'Completed' THEN 1 ELSE 0 END) AS successful_appointments,\n"
+                + "    COUNT(CASE WHEN a.appointment_status = 'Completed' THEN 1 END) * 100.0 / NULLIF(COUNT(a.appointment_id), 0) AS success_rate,\n"
+                + "    COUNT(CASE WHEN a.appointment_status = 'Canceled' THEN 1 END) * 100.0 / NULLIF(COUNT(a.appointment_id), 0) AS cancel_rate,\n"
+                + "    ROUND(AVG(CASE WHEN fd.feedback_rating IS NOT NULL THEN fd.feedback_rating END), 2) AS average_rating,\n"
+                + "    COALESCE(SUM(sd.cost), 0) AS total_revenue \n"
+                + "FROM Doctors d\n"
+                + "LEFT JOIN Appointment a ON d.doctor_id = a.doctor_id\n"
+                + "LEFT JOIN Feedback_Doctor fd ON a.appointment_id = fd.appointment_id\n"
+                + "LEFT JOIN Services_Detail sd ON a.service_detail_id = sd.service_detail_id\n"
+                + "WHERE a.appointment_date BETWEEN ? AND ? "
+                + "GROUP BY d.doctor_id, d.doctor_name\n"
+                + "ORDER BY total_revenue DESC;";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, startDate);
+            ps.setString(2, endDate);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                statsList.add(new Object[]{
+                    rs.getString("doctor_name"),
+                    rs.getInt("total_appointments"),
+                    rs.getDouble("total_revenue"),
+                    rs.getDouble("success_rate"),
+                    rs.getDouble("cancel_rate"),
+                    rs.getDouble("average_rating")
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return statsList;
+    }
+
+    public List<Doctors> getSameSpecializationDoctors(int id) {
+        String query = "SELECT DISTINCT d.*,sp.specialization_name \n"
+                + "FROM Doctors d\n"
+                + "LEFT JOIN Specialization sp ON d.specialization_id = sp.specialization_id\n"
+                + "LEFT JOIN [Services] s ON s.specialization_id = sp.specialization_id\n"
+                + "WHERE d.specialization_id = ?";
+        List<Doctors> list = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int specialization_id = rs.getInt("specialization_id");
+                String spe_name = rs.getString("specialization_name");
+                Specialization specialization = new Specialization(specialization_id, spe_name);
+                list.add(new Doctors(rs.getInt("doctor_id"), rs.getString("doctor_name"), rs.getInt("experience_years"),
+                        rs.getString("profile_image"), rs.getDouble("rating"), rs.getString("gender"), rs.getString("dob"), rs.getString("address"), specialization, null));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         DoctorsDAO dao = new DoctorsDAO();
-        List<Doctors> l = dao.getDoctorsDash();
-        for (Doctors doctors : l) {
-            System.out.println(doctors);
-        }
+        Doctors d = dao.getDoctorsByAccId(24);
+        System.out.println(d.toString());
+//        List<Doctors> l = dao.getDoctorsDash();
+//        for (Doctors doctors : l) {
+//            System.out.println(doctors);
+//        }
 //        System.out.println(dao.getDoctorIdByAccId(2));
 
 //        List<Doctors> li = dao.getDoctorsByFilter("1", "", "", "", "asc");

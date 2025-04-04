@@ -21,7 +21,7 @@
     <body>
         <!-- wrapper -->
         <div class="wrapper">
-            <jsp:include page="Common/Sidebar.jsp"/>    
+            <jsp:include page="Common/Navbar.jsp"/>    
             <!--page-wrapper-->
             <div class="page-wrapper">
                 <!--page-content-wrapper-->
@@ -61,7 +61,7 @@
 
                                             <div class="col-12">                                            
                                                 <input name="doctorId" id="doctorId" value="${doctor.doctor_id}" type="hidden" class="form-control" placeholder="Doctor Name" required>
-                                                <span id="error-doctorName" name="error-doctorName"></span>
+                                              
                                             </div>
                                             <div class="col-12">
                                                 <label class="form-label">Doctor Name</label>
@@ -69,18 +69,18 @@
                                                 <span id="error-doctorName" name="error-doctorName"></span>
                                             </div> 
 
-                                                <div class="col-12">
+                                            <div class="col-12">
 
-                                                    <label class="form-label">Profile Image:</label>
-                                                    <img style="width: 150px" src=".${doctor.profile_image}" alt="Doctor Photo" class=" img-fluid mb-3"/>
-                                                    <input type="hidden" name="imageProfile" value="${doctor.profile_image}">
-                                                    <input type="file" id="profileImage" name="profileImage"  class="form-control" >
-                                                    <span id="error-profileImage" name="error-profileImage"></span>
-                                                </div>
+                                                <label class="form-label">Profile Image:</label>
+                                                <img style="width: 150px" src="${doctor.profile_image}" alt="Doctor Photo" class=" img-fluid mb-3"/>
+                                                <input type="hidden" name="imageProfile" value="${doctor.profile_image}">
+                                                <input  accept=".jpg, .jpeg, .webp, .png" type="file" id="profileImage" name="profileImage"  class="form-control" >
+                                                <span id="error-profileImage" name="error-profileImage"></span>
+                                            </div>
 
                                             <div class="col-12">
                                                 <label class="form-label">Experience Years</label>
-                                                <input type="number" min="1" value="${doctor.experience_years}" id="experienceYears" name="experienceYears" class="form-control" placeholder="Experience Years"  required>
+                                                <input type="number" min="0" value="${doctor.experience_years}" id="experienceYears" name="experienceYears" class="form-control" placeholder="Experience Years"  required>
                                                 <span id="error-experienceYears" name="error-experienceYears"></span>
                                             </div>
 
@@ -117,6 +117,7 @@
 
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-success px-5">UPDATE</button>
+                                                 <a href="doctorProfile?accId=${accId}" class="btn btn-danger px-5 me-2">CANCEL</a>
                                             </div>
                                         </form>
 
@@ -193,6 +194,119 @@
                 <script src="../admin/assets/js/app.js"></script>
 
                 <!-- JavaScript -->
+                <script>
+                    $(document).ready(function () {
+                        function validateDoctorName() {
+                            const doctorName = $("#doctorName").val().trim();
+                            const errorSpan = $("#error-doctorName");
+
+                            if (doctorName === "") {
+                                errorSpan.text("Doctor name cannot be empty!").css("color", "red");
+                                return false;
+                            } else {
+                                errorSpan.text("Doctor name is valid").css("color", "green");
+                                return true;
+                            }
+                        }
+
+                        function validateProfileImage() {
+                            const fileInput = $("#profileImage");
+                            const filePath = fileInput.val();
+                            const errorSpan = $("#error-profileImage");
+
+                            if (filePath !== "") {
+                                const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
+                                if (!allowedExtensions.exec(filePath)) {
+                                    errorSpan.text("Only JPG, JPEG, PNG, or WEBP files are allowed!").css("color", "red");
+                                    return false;
+                                } else {
+                                    errorSpan.text("Image profile valid").css("color", "green");
+                                    return true;
+                                }
+                            } else {
+                                // No file selected, but it's optional here
+                                errorSpan.text("");
+                                return true;
+                            }
+                        }
+
+                        function validateExperienceYears() {
+                            const expYears = $("#experienceYears").val().trim();
+                            const errorSpan = $("#error-experienceYears");
+
+                            if (expYears === "") {
+                                errorSpan.text("Experience years cannot be empty!").css("color", "red");
+                                return false;
+                            } else if (parseInt(expYears) < 0) {
+                                errorSpan.text("Experience years must be greater than 0!").css("color", "red");
+                                return false;
+                            } else {
+                                errorSpan.text("Experience years is valid").css("color", "green");
+                                return true;
+                            }
+                        }
+
+                        function validateDOB() {
+                            const dob = $("#dob").val();
+                            const errorSpan = $("#error-dob");
+
+                            if (!dob) {
+                                errorSpan.text("Date of birth cannot be empty!").css("color", "red");
+                                return false;
+                            }
+
+                            const dobDate = new Date(dob);
+                            const today = new Date();
+                            const age = today.getFullYear() - dobDate.getFullYear();
+                            const monthDiff = today.getMonth() - dobDate.getMonth();
+                            const dayDiff = today.getDate() - dobDate.getDate();
+
+                            const isAtLeast18 = age > 18 || (age === 18 && (monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0)));
+
+                            if (!isAtLeast18) {
+                                errorSpan.text("Doctor must be at least 18 years old!").css("color", "red");
+                                return false;
+                            } else {
+                                errorSpan.text("Date of birth is valid").css("color", "green");
+                                return true;
+                            }
+                        }
+
+                        function validateAddress() {
+                            const address = $("#address").val().trim();
+                            const errorSpan = $("#error-address");
+
+                            if (address === "") {
+                                errorSpan.text("Address cannot be empty!").css("color", "red");
+                                return false;
+                            } else {
+                                errorSpan.text("Address is valid").css("color", "green");
+                                return true;
+                            }
+                        }
+
+                        // Gắn sự kiện kiểm tra từng trường
+                        $("#doctorName").on("blur input", validateDoctorName);
+                        $("#profileImage").on("change", validateProfileImage);
+                        $("#experienceYears").on("blur input", validateExperienceYears);
+                        $("#dob").on("blur change", validateDOB);
+                        $("#address").on("blur input", validateAddress);
+
+                        // Validate toàn bộ form khi submit
+                        $("form").on("submit", function (event) {
+                            const validDoctorName = validateDoctorName();
+                            const validImage = validateProfileImage();
+                            const validExp = validateExperienceYears();
+                            const validDob = validateDOB();
+                            const validAddress = validateAddress();
+
+                            if (!validDoctorName || !validImage || !validExp || !validDob || !validAddress) {
+                                event.preventDefault();
+                                toastr.error("Please fix the errors in the form before submitting!");
+                            }
+                        });
+                    });
+                </script>
 
                 </body>
 

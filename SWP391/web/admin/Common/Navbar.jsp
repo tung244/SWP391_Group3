@@ -1,192 +1,103 @@
 <%-- 
     Document   : Navbar
-    Created on : Jan 13, 2025, 5:00:19 PM
+    Created on : Feb 17, 2025, 3:57:55 PM
     Author     : fptshop
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<div class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header" >
+        <div class="">
+            <img src="assets/images/logoicon.png" class="logo-icon-2" alt=""  />
+        </div>
+        <div>
+            <h4 class="logo-text">Dashboard</h4>
+        </div>
+        <a href="javascript:;" class="toggle-btn ms-auto"> <i class="bx bx-menu"></i>
+        </a>
+    </div>
+    <!--navigation-->
+    <ul class="metismenu" id="menu">
 
-<section class="top-bar-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <div class="language-switcher">
-                    <div id="polyglotLanguageSwitcher">
-                        <form action="#">
-                            <select id="polyglot-language-options">
-                                <option id="en" value="en" selected>English</option>
-                                <option id="fr" value="fr">French</option>
-                                <option id="de" value="de">German</option>
-                                <option id="it" value="it">Italian</option>
-                                <option id="es" value="es">Spanish</option>
-                            </select>
-                        </form>
+        <c:forEach var="menu" items="${menu}">
+            <li>
+                <a class="has-arrow" href="javascript:;">
+                    <div class="parent-icon icon-color-10"><i class="${menu.key.module_img}"></i>
                     </div>
-                </div> 
+                    <div class="menu-title">${menu.key.module_name}</div>
+                </a>
+                <ul>
+                    <c:forEach var="entry" items="${menu.value}">
+                        <li> <a href="..${entry.permission_path}"><i class="bx bx-right-arrow-alt"></i>${entry.permission_name}</a>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </li>
+        </c:forEach>
+
+
+    </ul>
+    <!--end navigation-->
+</div>
+<!--end sidebar-wrapper-->
+<!--header-->
+<header class="top-header">
+    <nav class="navbar navbar-expand">
+        <div class="left-topbar d-flex align-items-center">
+            <a href="javascript:;" class="toggle-btn">	<i class="bx bx-menu"></i>
+            </a>
+        </div>
+        <div class="flex-grow-1 search-bar">
+            <div class="input-group">
+                <button class="btn btn-search-back search-arrow-back" type="button"><i class="bx bx-arrow-back"></i></button>
+                <form action="searchService" method="post" style="display: flex; width: 100%; align-items: center;">
+                    <input type="text" class="form-control" name="name" placeholder="search" style="flex: 1; margin-right: 10px;"  value="${not empty Name ? Name : ''}"                                                        }"/>
+                    <button class="btn btn-search" type="submit"><i class="lni lni-search-alt"></i></button>
+                </form>
+
+
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <div class="logo text-center">
-                    <a href="index.html">
-                        <img src="homepage/images/resources/logo.png" alt="Awesome Logo">
+        </div>
+        <div class="right-topbar ms-auto">
+            <ul class="navbar-nav">
+                <li class="nav-item search-btn-mobile">
+                    <a class="nav-link position-relative" href="javascript:;">	<i class="bx bx-search vertical-align-middle"></i>
                     </a>
-                </div>   
-            </div>
-            <c:if test="${empty sessionScope.user}">
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <div class="top-social-links">
-                        <ul style="font-size: 16px; margin-top: 15px">
-                            <!-- <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li> -->
-
-                            <li>
-                                <a href="login" style="color: rgb(34,139,34)">
-                                    <i style="margin-right: 5px;vertical-align: middle;" class="bx bxs-user"></i>Login /
-                                </a>
-                            </li>
-                            <li style="margin-left: 0;">
-                                <a href="login" style="color: rgb(34,139,34)">Register</a>
-                            </li>
-
-
-                        </ul>
-                    </div>     
-                </div>
-            </c:if>
-            <c:if test="${not empty sessionScope.user}">
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="display: flex; justify-content: end; margin-top: 10px;">
-                <div style="position: relative; display: inline-block; width: 225px;">
-                    
-                    <div id="dropdown-title" 
-                         style="background-color: white; border: white; padding: 8px;
-                         border-radius: 6px; display: flex; align-items: center;
-                         gap: 10px; cursor: pointer; box-shadow: none;">
-                        <img src="homepage/images/resources/avatar.jpg" alt="Icon" style="width: 35px; height: 35px; border-radius: 40px">
-                        <span style="color: black;">Hello ${sessionScope.user.fullname}<i class='bx bx-chevron-down'></i></span>
-                    </div>
-
-                    
-                    <ul id="dropdown-menu" 
-                        style="list-style: none; padding: 0; margin: 0;
-                        position: absolute; top: 100%; left: 0; width: 100%;
-                        background-color: white; border: 1px solid #ddd;
-                        border-radius: 6px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                        display: none; z-index: 1000; padding: 20px; color:black; font-size: 16px">
-                        <li style="padding: 4px; cursor: pointer;" ><a href="userprofile"><i style="margin-right: 10px" class='bx bxs-user'></i>Thông tin tài khoản</a></li>
-                        <li style="padding: 4px; cursor: pointer;" ><a><i style="margin-right: 10px" class='bx bx-history' ></i>Lịch sử dịch vụ<a></li>
-                                    <li style="padding: 4px; cursor: pointer;" ><a><i style="margin-right: 10px" class='bx bxs-edit'></i>Đổi mật khẩu</a></li>
-                        <li style="border-top: 1px solid #ddd; margin: 4px 0;"></li>
-                        <li style="padding: 4px; cursor: pointer;" ><a href="logout"><i style="margin-right: 10px" class='bx bx-log-in'></i>Đăng xuất</a></li>
-                    </ul>
-                </div>
-                </div>
-            </c:if>
-
-        </div>
-    </div>
-</section>
-<!--End Top bar area -->
-
-<!--Start mainmenu area-->
-<section class="mainmenu-area stricky">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="left pull-left">
-                    <!--Start mainmenu-->
-                    <nav class="main-menu">
-                        <div class="navbar-header">   	
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
+                </li>
+                
+                
+                <li class="nav-item dropdown dropdown-user-profile">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
+                        <div class="d-flex user-box align-items-center">
+                            <div class="user-info">
+                                <c:if test="${sessionScope.account.role.role_id !=3}">
+                                    <p class="user-name mb-0">${sessionScope.profile.admin_fullname}</p>
+                                </c:if>
+                                <c:if test="${sessionScope.account.role.role_id ==3}">
+                                    <p class="user-name mb-0">${sessionScope.profile.doctor_name}</p>
+                                </c:if>
+                                <p class="designattion mb-0">Online</p>
+                            </div>
+                            
+                            <c:if test="${sessionScope.account.role.role_id !=3}">
+                                <img src="${sessionScope.profile.image_profile_admin}" class="user-img" alt="user avatar">
+                                </c:if>
+                                <c:if test="${sessionScope.account.role.role_id ==3}">
+                                    <img src="${sessionScope.profile.profile_image}" class="user-img" alt="user avatar">
+                                </c:if>
                         </div>
-                        <div class="navbar-collapse collapse clearfix">
-                            <ul class="navigation clearfix">
-                                <li class="current"><a href="index.html">Home</a></li>
-                                <li class="dropdown"><a href="about.html">About Us</a>
-                                    <ul>
-                                        <li><a href="about.html">About Dentalcare</a></li>
-                                        <li><a href="team.html">Meet Our Dentist</a></li>
-                                        <li><a href="special-offers.html">Special Offers</a></li>
-                                        <li><a href="faq.html">FAQâs</a></li>
-                                        <li><a href="testimonials.html">Testimonials</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="services.html">Services</a>
-                                    <ul>
-                                        <li><a href="root-canel.html">Root Canel</a></li>
-                                        <li><a href="clips-braces.html">Clips & Braces</a></li>
-                                        <li><a href="dental-implant.html">Dental Implant</a></li>
-                                        <li><a href="teeth-whitening.html">Teeth Whitening</a></li>
-                                        <li><a href="tooth-jewellery.html">Tooth Jewellery</a></li>
-                                        <li><a href="teeth-filling.html">Teeth Filling</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="appointment.html">Appointment</a></li>
-                                <li class="dropdown"><a href="gallery.html">Gallery</a>
-                                    <ul>
-                                        <li><a href="gallery.html">Gallery Before After</a></li>
-                                        <li><a href="gallery-grid.html">Gallery Grid View</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="blog.html">Blog</a>
-                                    <ul>
-                                        <li><a href="blog.html">Blog Default</a></li>
-                                        <li><a href="blog-with-sidebar.html">Blog With Sidebar</a></li>
-                                        <li><a href="blog-single.html">Blog Single Post</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="contact.html">Contact Us</a></li>
-                            </ul>
-                        </div>
-                    </nav>
-                    <!--End mainmenu-->
-                    <!--Start outer serach box-->
-                    <div class="outer-search-box">
-                        <div class="seach-toggle"><i class="fa fa-search"></i></div>
-                        <ul class="search-box">
-                            <li>
-                                <form method="post" action="index.html">
-                                    <div class="form-group">
-                                        <input type="search" name="search" placeholder="Search Here" required>
-                                        <button type="submit"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </form>
-                            </li>
-                        </ul>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">	
+                        
+                        <div class="dropdown-divider mb-0"></div>	<a class="dropdown-item" href="dang_xuat"><i
+                                class="bx bx-power-off"></i><span>Logout</span></a>
                     </div>
-                    <!--End outer serach box-->
-                </div>
-                <div class="right pull-right">
-                    <div class="icon-box">
-                        <span class="flaticon-technology-1"></span>
-                    </div>
-                    <div class="title-box">
-                        <h3>Call Us: 1-800-901-234</h3>
-                    </div>    
-                </div>
-            </div>
+                </li>
+                
+            </ul>
         </div>
-    </div>
-</section>
-<script>
-    const dropdownTitle = document.getElementById('dropdown-title');
-    const dropdownMenu = document.getElementById('dropdown-menu');
-
-    dropdownTitle.addEventListener('click', () => {
-        const isMenuVisible = dropdownMenu.style.display === 'block';
-        dropdownMenu.style.display = isMenuVisible ? 'none' : 'block';
-    });
-
-    document.addEventListener('click', (event) => {
-        if (!dropdownTitle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-            dropdownMenu.style.display = 'none';
-        }
-    });
-</script>
+    </nav>
+</header>
 

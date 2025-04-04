@@ -23,16 +23,16 @@
                                 <div class="col-xl-6">
                                     <div class="card-body p-5">
                                         <div class="text-center">
-                                            <img src="assets/images/logo-icon.png" width="80" alt="">
-                                            <h3 class="mt-4 font-weight-bold">Welcome Back</h3>
+                                            <img src="assets/images/logoicon.png" width="150" alt="">
+                                            <h3 class="mt-4 font-weight-bold">Xin Chào</h3>
                                         </div>
                                         <div class="">                                 
                                             <div class="form-body">                                           
-                                                <form action="login" method="POST" id="loginForm" class="row g-3">
+                                                <form action="loginAdmin" method="POST" id="loginForm" class="row g-3">
                                                     <input type="hidden" name="action" value="login">
                                                     <div class="col-12">
                                                         <label for="inputEmailAddress" class="form-label">Email Address</label>
-                                                        <input type="email" name="email" class="form-control" id="email" value="${sessionScope.email}" placeholder="Email Address" required>
+                                                        <input type="text" name="email" class="form-control" id="email" value="${sessionScope.email}" placeholder="Email Address" required>
                                                         <div name = "email-error" id="email-error" ></div>
                                                     </div>
                                                     <div class="col-12">
@@ -58,17 +58,7 @@
                                     <img src="assets/images/login-images/login-frent-img.jpg" class="img-fluid" alt="...">
                                 </div>
                             </div>
-                            <%
-                                                      String succesMessage = (String) session.getAttribute("error");
-                                                      if(succesMessage != null) {
-                            %>
-                            <script>
-                                                        alert("<%= succesMessage %> ");
-                            </script>
-                            <%
-                                                        session.removeAttribute("error");
-                                                                                }
-                            %>
+                           
                             <!--end row-->
                         </div>
                     </div>
@@ -78,6 +68,8 @@
         <!-- end wrapper -->
     </body>
 
+    <jsp:include page="Common/Message.jsp"/>
+    
     <!--plugins-->
     <script src="assets/js/jquery.min.js"></script>
     <!--Password show & hide js -->
@@ -121,7 +113,7 @@
 
                 // If client-side validation passes, check with server
                 $.ajax({
-                    url: "login",
+                    url: "loginAdmin",
                     type: 'POST',
                     data: {action: "checkEmail", email: email},
                     success: function (response) {
@@ -147,7 +139,7 @@
                 const pass = $("#pass").val();
                 const errorSpan = $("#pass-error");
                 $.ajax({
-                    url: "login",
+                    url: "loginAdmin",
                     type: 'POST',
                     data: {action: "checkPass", pass: pass},
                     success: function (response) {

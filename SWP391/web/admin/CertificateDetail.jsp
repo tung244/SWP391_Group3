@@ -12,27 +12,7 @@
 
     <head>
         <jsp:include page="Common/Css.jsp"/> 
-        <style>
-            button {
-                background: #E8E7E6; /* Màu xanh lá */
-                border: solid #000 1px;
-                border-radius: 2%;
-                font-size: 20px;
-                font-weight: 100;
-                color: #000;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                min-width: 100px; /* Đảm bảo nút có kích thước đồng đều */
-                margin-right: 1%;
-            }
 
-            /* Hiệu ứng hover */
-            button:hover {
-                background: #009933; /* Xanh đậm hơn khi hover */
-                box-shadow: 0 4px 6px rgba(34, 139, 34, 0.3);
-                transform: translateY(-2px);
-            }
-        </style>
     </head>
 
     <body>
@@ -42,7 +22,7 @@
 
             <!--end sidebar-wrapper-->
             <!--header-->
-            <jsp:include page="Common/Sidebar.jsp"/> 
+            <jsp:include page="Common/Navbar.jsp"/> 
             <!--end header-->
             <!--page-wrapper-->
             <div class="page-wrapper">
@@ -86,8 +66,26 @@
                                                                     <h6 class="text-muted mb-0"><i class='bx bx-book'></i>${lce.certificate.certificate_name}</h6>
                                                                     <h6 class="text-muted mb-0"><i class='bx bx-time'></i> 
                                                                         <fmt:parseDate value="${lce.date_certificate}" pattern="yyyy-MM-dd" var="parsedDate" />
-                                                                        <fmt:formatDate value="${parsedDate}" pattern="dd/MM/yyyy"/></h6>
+                                                                        <fmt:formatDate value="${parsedDate}" pattern="dd/MM/yyyy" /></h6>
                                                                     <h6 class="text-muted mb-0"><i class='bx bxs-map'></i>${lce.issued_by}</h6>
+                                                                    <h6 class="text-muted mb-0"><i class='bx bxs-save'></i>${lce.status}</h6>
+                            
+                                                                        <c:if test="${lce.status eq 'Accept'}">
+                                                                        <h6 class="text-muted mb-0">
+                                                                            <a href="#" title="Update" 
+                                                                               data-bs-toggle="modal" 
+                                                                               data-bs-target="#updateModal" 
+                                                                               data-certificate-id="${lce.certificate_id}" 
+                                                                               data-doctor-id="${lce.doctor_id}" 
+                                                                               data-dateCertificate="<fmt:formatDate value="${parsedDate}" pattern="dd/MM/yyyy"/>"
+                                                                               data-certificate-image="${lce.certificate_image}" 
+                                                                               data-issued-by="${lce.issued_by}"
+                                                                               data-version="${lce.version}"
+                                                                               class="edit-certificate">
+                                                                                <i class="fas fa-edit">Edit Certificate</i>
+                                                                            </a>
+                                                                        </h6>
+                                                                    </c:if>
                                                                     <img src="${lce.certificate_image}" class="img-thumbnail" alt="Certificate Image">
                                                                 </div> 
 
@@ -116,24 +114,63 @@
         <!--End doctor detail area-->
 
     </div>
-</div>
-<!--end page-content-wrapper-->
-</div>
+
+    <!--Edit modal-->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true"  >
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Update Certificate Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="updateModalContent">
+                    <!-- Update form -->
+                    <form id="updateForm" enctype="multipart/form-data" >
+                        <input type="hidden" id="certificateId" name="certificateId">
+                        <input type="hidden" id="doctorId" name="doctorId">
+                        <input type="hidden" id="version" name="version"/>
+                        <div class="mb-3">
+
+                            <img style="margin-left: 35%" id="certificatePhoto" src="" width="350px" height="350px" alt="Certificate Photo"/>
+                            </br>
+                            <label for="updateCertificateImage" class="form-label">Certificate Image</label>
+                            <input accept=".jpg, .jpeg, .webp, .png" type="file" name="updateCertificateImage" id="updateCertificateImage" class="form-control" >
+                        </div>
+                        <div class="mb-3">
+                            <label for="dateCertificate" class="form-label">Date Certificate</label>
+                            <input name="dateCertificate" id="dateCertificate" type="text" class="form-control"  required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateCertificateIssuedBy" class="form-label">Issued By</label>
+                            <input type="text" class="form-control" id="updateCertificateIssuedBy" name="updateCertificateIssuedBy" required>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="updateCertificate()">Update</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
-<!--end page-wrapper-->
-<!--start overlay-->
-<div class="overlay toggle-btn-mobile"></div>
-<!--end overlay-->
-<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
-<!--End Back To Top Button-->
-<!--footer -->
-<div class="footer">
-    <p class="mb-0">Syndash @2020 | Developed By : <a href="https://themeforest.net/user/codervent" target="_blank">codervent</a>
-    </p>
-</div>
-<!-- end footer -->
+
+    <!--end page-wrapper-->
+    <!--start overlay-->
+    <div class="overlay toggle-btn-mobile"></div>
+    <!--end overlay-->
+    <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+    <!--End Back To Top Button-->
+    <!--footer -->
+    <div class="footer">
+        <p class="mb-0">Syndash @2020 | Developed By : <a href="https://themeforest.net/user/codervent" target="_blank">codervent</a>
+        </p>
+    </div>
+    <!-- end footer -->
 </div>
 <!-- end wrapper -->
 <!--start switcher-->
@@ -182,18 +219,98 @@
 <!--Data Tables js-->
 <script src="../admin/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
 <script>
-    $(document).ready(function () {
-        //Default data table
-        $('#example').DataTable();
-        var table = $('#example2').DataTable({
-            lengthChange: false,
-            buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
-        });
-        table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
-    });
+                        $(document).ready(function () {
+                            //Default data table
+                            $('#example').DataTable();
+                            var table = $('#example2').DataTable({
+                                lengthChange: false,
+                                buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+                            });
+                            table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+                        });
 </script>
 <!-- App JS -->
 <script src="../admin/assets/js/app.js"></script>
+
+<script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            document.querySelectorAll(".edit-certificate").forEach(function (button) {
+                                button.addEventListener("click", function () {
+                                    let certificateId = this.getAttribute("data-certificate-id");
+                                    let doctorId = this.getAttribute("data-doctor-id");
+                                    let dateCertificate = this.getAttribute("data-dateCertificate");
+                                    let certificateImg = this.getAttribute("data-certificate-image");
+                                    let issuedBy = this.getAttribute("data-issued-by");
+                                    let dataVersion = this.getAttribute("data-version");
+                                    console.log("certificateId:", certificateId);
+                                    console.log("Doctor ID:", doctorId);
+                                    console.log("dateCertificate:", dateCertificate);
+                                    console.log("Issued By:", issuedBy);
+                                    console.log("certificateImg:", certificateImg);
+                                    console.log("dataVersion", dataVersion);
+
+                                    let formattedDate = "";
+                                    if (dateCertificate) {
+                                        // Extract just the date part
+                                        formattedDate = dateCertificate.split(' ')[0];
+                                    }
+                                    // Gán giá trị vào modal
+                                    document.getElementById("certificateId").value = certificateId;
+                                    document.getElementById("doctorId").value = doctorId;
+                                    document.getElementById("certificatePhoto").src =  certificateImg;
+                                    document.getElementById("updateCertificateIssuedBy").value = issuedBy;
+                                    document.getElementById("dateCertificate").value = formattedDate;
+                                    document.getElementById("version").value = dataVersion;
+                                });
+                            });
+                        });
+                        
+                        function updateCertificate() {
+                            // Lấy giá trị từ modal
+                            let certificateId = document.getElementById("certificateId").value;
+                            let doctorId = document.getElementById("doctorId").value;                 
+                            let certificatePhoto = document.getElementById("certificatePhoto").src;
+                            let issuedBy = document.getElementById("updateCertificateIssuedBy").value;
+                            let updateCertificateImageInput = document.getElementById("updateCertificateImage");
+                            let updateCertificateImage = updateCertificateImageInput.files[0]; // Lấy file thực tế
+                            let dateCertificate = document.getElementById("dateCertificate").value;
+                            let version = document.getElementById("version").value;
+                            // Đối tượng dữ liệu gửi lên server
+                            let formData = new FormData();
+                            formData.append("certificateId", certificateId);
+                            formData.append("doctorId", doctorId);
+                            formData.append("certificatePhoto", certificatePhoto);
+                            formData.append("issuedBy", issuedBy);
+                            formData.append("version", version);
+                            if (updateCertificateImage) {
+                                formData.append("updateCertificateImage", updateCertificateImage);
+                            }
+                            formData.append("dateCertificate", dateCertificate);
+                            console.log(version);
+                            fetch("certificateDetail", {
+                                method: "POST",
+                                body: formData
+                            })
+                                    .then(response => response.text()) // Thay vì .json()
+                                    .then(data => {
+                                        try {
+                                            let jsonData = JSON.parse(data); // Chuyển đổi thành JSON
+                                            if (jsonData.success) {
+                                                alert("Send requirement update certificate successfully!");
+                                                location.reload(); // Load lại trang để hiển thị dữ liệu mới
+                                            } else {
+                                                alert("Send requirement update certificate fail!");
+                                            }
+                                        } catch (error) {
+                                            console.error("Response is not valid JSON:", data); // Debug phản hồi từ server
+                                        }
+                                    })
+                                    .catch(error => console.error("Fail to update:", error));
+                        }
+                        
+                        
+
+</script>
 </body>
 
 </html>

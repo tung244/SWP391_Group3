@@ -11,6 +11,7 @@ import java.sql.Date;
  * @author DELL
  */
 public class Appointments {
+
     public int appointment_id;
     public Date appointment_date;
     public String appointment_status;
@@ -18,8 +19,40 @@ public class Appointments {
     public Slots slot;
     public ServiceDetail service_detail;
     public UserProfile user;
+    public DiscountDetail discount;
+    public double actualCost;
 
+    
     public Appointments() {
+    }
+
+    public Appointments(int appointment_id) {
+        this.appointment_id = appointment_id;
+    }
+
+    public Appointments(int appointment_id, Date appointment_date, String appointment_status, Doctors doctor, Slots slot, ServiceDetail service_detail,
+            UserProfile user, DiscountDetail discount, double actualCost) {
+        this.appointment_id = appointment_id;
+        this.appointment_date = appointment_date;
+        this.appointment_status = appointment_status;
+        this.doctor = doctor;
+        this.slot = slot;
+        this.service_detail = service_detail;
+        this.user = user;
+        this.discount = discount;
+        this.actualCost = actualCost;
+    }
+    
+    
+
+    public Appointments(int appointment_id, Date appointment_date, String appointment_status, Doctors doctor, Slots slot, ServiceDetail service_detail, UserProfile user) {
+        this.appointment_id = appointment_id;
+        this.appointment_date = appointment_date;
+        this.appointment_status = appointment_status;
+        this.doctor = doctor;
+        this.slot = slot;
+        this.service_detail = service_detail;
+        this.user = user;
     }
 
     public Appointments(Date appointment_date, String appointment_status, Doctors doctor, Slots slot, ServiceDetail service_detail, UserProfile user) {
@@ -29,6 +62,18 @@ public class Appointments {
         this.slot = slot;
         this.service_detail = service_detail;
         this.user = user;
+    }
+
+    public Appointments( Date appointment_date, String appointment_status, Doctors doctor, Slots slot, ServiceDetail service_detail,
+            UserProfile user, DiscountDetail discount, double actualCost) {
+        this.appointment_date = appointment_date;
+        this.appointment_status = appointment_status;
+        this.doctor = doctor;
+        this.slot = slot;
+        this.service_detail = service_detail;
+        this.user = user;
+        this.discount = discount;
+        this.actualCost = actualCost;
     }
 
     public int getAppointment_id() {
@@ -87,12 +132,27 @@ public class Appointments {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "Appointments{" + "appointment_id=" + appointment_id + ", appointment_date=" + appointment_date + ", appointment_status=" + appointment_status + ", doctor=" + doctor + ", slot=" + slot + ", service_detail=" + service_detail + ", user=" + user + '}';
+    public DiscountDetail getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(DiscountDetail discount) {
+        this.discount = discount;
     }
 
     
-    
-    
+
+    public double getActualCost() {
+        return actualCost;
+    }
+
+    public void setActualCost(double actualCost) {
+        this.actualCost = actualCost;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointments{" + "appointment_id=" + appointment_id + ", appointment_date=" + appointment_date + ", appointment_status=" + appointment_status + ", doctor=" + doctor + ", slot=" + slot + ", service_detail=" + service_detail + ", user=" + user + ", discount=" + discount + ", actualCost=" + actualCost + '}';
+    }
+
 }

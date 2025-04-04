@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"  %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -25,42 +26,7 @@
             <!--End mainmenu area-->     
 
             <!--Start header area-->
-            <header class="mainmenu-bottom-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header-contact-info">
-                                <ul>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-signs"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>45 West Dental Street, Newyork 1003</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-interface"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Supportuteam@Dentalcare.com</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-clock"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Weekdays: 09.00am to 18.00pm</h3>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>  
+
             <!--End header area-->    
 
             <!-- Start breadcrumb area-->                        
@@ -141,50 +107,7 @@
                     <div class="col-lg-3 col-md-4 col-sm-7 col-xs-12 pull-left">
                         <div class="service-sidebar">
                             <!-- First section: Find Doctor -->
-                            <div class="single-sidebar find-doctor">
-                                <a href="#" class="sidebar-link">
-                                    <span class="icon-holder">
-                                        <i class="flaticon-doctor"></i>
-                                    </span>
-                                    <span  class="text-holder">
-                                        <h3>FIND DOCTOR</h3>
-                                    </span>
-                                    <span class="arrow">
-                                        <i class="flaticon-right-arrow"></i>
-                                    </span>
-                                </a>
-                            </div>
 
-                            <!-- Second section: Special Offers -->
-                            <div class="single-sidebar special-offer">
-                                <a href="#" class="sidebar-link">
-                                    <span class="icon-holder">
-                                        <i class="flaticon-gift"></i>
-                                    </span>
-                                    <span class="text-holder">
-                                        <h3>GET DISCOUNT</h3>
-                                    </span>
-                                    <span class="arrow">
-                                        <i class="flaticon-right-arrow"></i>
-                                    </span>
-                                </a>
-                            </div>
-
-                            <!-- Third section: Contact -->
-                            <div class="single-sidebar special-offer">
-                                <a href="#" class="sidebar-link">
-                                    <span class="icon-holder">
-                                        <i class="flaticon-gift"></i>
-                                    </span>
-                                    <span class="text-holder">
-                                        <h3>HOTLINE</h3>
-                                        <h4>1900 277 227</h4>
-                                    </span>
-                                    <span class="arrow">
-                                        <i class="flaticon-right-arrow"></i>
-                                    </span>
-                                </a>
-                            </div>
 
                             <!--Start single sidebar-->
                             <div class="single-sidebar">
@@ -192,38 +115,27 @@
                                     <li class="active">
                                         <a href="#">OTHER SERVICES</a>
                                     </li>
-                                    <li>
-                                        <a href="clips-braces.html">Clips & Braces</a>
-                                    </li>
-                                    <li>
-                                        <a href="dental-implant.html">Dental Implant</a>
-                                    </li>
-                                    <li>
-                                        <a href="teeth-whitening.html">Teeth Whitening</a>
-                                    </li>
-                                    <li>
-                                        <a href="tooth-jewellery.html">Tooth Jewellery</a>
-                                    </li>
-                                    <li>
-                                        <a href="teeth-filling.html">Teeth Filling</a>
-                                    </li>
+                                    <c:forEach items="${listS}" var="s">
+                                        <li><a href="loadServiceDetailHomepage?id=${s.service_id}">${s.service_name}</a></li>
+                                        </c:forEach>
+
+
                                 </ul> 
                             </div> 
                             <!--Ens single sidebar--> 
                             <!--Start single sidebar-->
-                            <div class="single-sidebar">
+                            <div style="padding: 15px" class="single-sidebar">
                                 <div class="title">
                                     <h3>Working Hours</h3>
                                 </div>
                                 <ul class="opening-time">
-                                    <li>Mon to Friday: <span>06.00 to 18.00</span></li>
-                                    <li>Saturday: <span>10.00 to 16.00</span></li>
-                                    <li>Sunday: <span>10.00 to 14.00</span></li>
+                                    <li>Giờ mở cửa: <span>06.00 to 18.00</span></li>
+
                                 </ul>
                             </div> 
                             <!--Ens single sidebar--> 
                             <!--Start single sidebar-->
-                            <div class="single-sidebar">
+                            <div style="padding: 15px" class="single-sidebar">
                                 <div class="title">
                                     <h3>Quick Contact</h3>
                                 </div>
@@ -234,7 +146,7 @@
                                                 <span class="flaticon-pin"></span>
                                             </div>
                                             <div class="text-holder">
-                                                <h5>Park Drive, Varick 2nd Str <br>NY 10012, USA</h5>
+                                                <h5>KM29 Láng Hòa Lạc</h5>
                                             </div>
                                         </li>
                                         <li>
@@ -242,7 +154,7 @@
                                                 <span class="flaticon-interface"></span>
                                             </div>
                                             <div class="text-holder">
-                                                <h5>Support@Eyecare.com</h5>
+                                                <h5>supporeyecare@gmail.com</h5>
                                             </div>
                                         </li>
                                         <li>
@@ -250,7 +162,7 @@
                                                 <span class="flaticon-technology-1"></span>
                                             </div>
                                             <div class="text-holder">
-                                                <h5>(123) 0200 12345 & 7890</h5>
+                                                <h5>0936971273</h5>
                                             </div>
                                         </li>
                                     </ul>
@@ -269,8 +181,7 @@
                                 <div class="pagination-container" style="margin-left: auto;">
                                     <label for="pageSize">Show:</label>
                                     <select name="pageSize" id="pageSize" style="width: 55px; height: 30px">
-                                        <option value="3" selected >3</option>
-                                        <option value="6">6</option>
+                                        <option value="6" selected>6</option>
                                         <option value="9">9</option>
                                         <option value="12">12</option>
                                     </select>
@@ -295,7 +206,8 @@
                                             <div class="text-holder text-center">
                                                 <h3>${d.doctor_name}</h3>
                                                 <span>${d.specialization.specialization_name}</span>
-                                                <p>Rating: ${d.rating}</p>
+                                                <fmt:setLocale value="en" />
+                                                <p>Rating: <fmt:formatNumber value="${d.rating}" type="number" maxFractionDigits="1" minFractionDigits="1" /></p>
                                                 <p>Gender: ${d.gender}</p>
                                                 <p>Experience years: ${d.experience_years} years</p>
 

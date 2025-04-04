@@ -5,7 +5,7 @@
 package controller.admin.doctor;
 
 import bo.GetFormatDate;
-import static controller.admin.doctor.EditDoctorProfile.uploadImage;
+import bo.ImageServices;
 import dal.DegreeDAO;
 import dal.Degree_DoctorDAO;
 import dal.DoctorsDAO;
@@ -24,8 +24,10 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.List;
+import model.Account;
 import model.Degree;
 import model.Degree_Doctor;
+import model.Doctors;
 
 /**
  *
@@ -40,6 +42,7 @@ import model.Degree_Doctor;
 public class AddDegree extends HttpServlet {
 
     GetFormatDate getdate = new GetFormatDate();
+    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -61,9 +64,10 @@ public class AddDegree extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DoctorsDAO dao = new DoctorsDAO();
-        String did = request.getParameter("did");
-        String accId = dao.getDoctorAccIdByDoctorId(did);
-
+//        String did = request.getParameter("did");
+        Account a = (Account) request.getSession().getAttribute("account");
+//        String accId = dao.getDoctorAccIdByDoctorId(did);
+        Doctors d = dao.getDoctorsByAccId(a.getAccount_id());
         HttpSession session = request.getSession();
 
         // Get the array of selected degree names
@@ -100,12 +104,12 @@ public class AddDegree extends HttpServlet {
 
                 // Upload the image if available
                 if (imagePart != null && imagePart.getSize() > 0) {
-                    imageLink = uploadImage(imagePart, finalPath);
+                    imageLink = ImageServices.uploadImage(imagePart, finalPath) ;
                 }
-
+                System.out.println(imageLink);
                 // Add degree-doctor relationship to database
                 int degreeId = Integer.parseInt(degreeName);
-                int doctorId = Integer.parseInt(did);
+                int doctorId = d.getDoctor_id();
                 String status = "InProgress";
                 String issuedBy = request.getParameter("issuedBy[]") != null
                         ? request.getParameterValues("issuedBy[]")[i] : "";
@@ -131,40 +135,19 @@ public class AddDegree extends HttpServlet {
 
             if (allSuccess) {
                 // All degrees added successfully
-                response.sendRedirect("doctorProfile?accId=" + accId);
+                response.sendRedirect("doctorProfile?accId=" + a.getAccount_id());
             } else {
                 // Some error occurred
-                response.sendRedirect("addDegree?did=" + did);
+                response.sendRedirect("addDegree?did=" + d.getDoctor_id());
             }
         } else {
             // No degrees selected, return to form with error message
             session.setAttribute("errorMessage", "No degrees selected.");
-            response.sendRedirect("addDegree?did=" + did);
+            response.sendRedirect("addDegree?did=" + d.getDoctor_id());
         }
     }
 
-    public static String uploadImage(Part part, String finalPath) throws ServletException {
-        String uploadPath = finalPath + "images";
-        File uploadDir = new File(uploadPath);
-
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-        String linkFile = "";
-
-        String fileName = part.getSubmittedFileName();
-
-        if (fileName != null && !fileName.isEmpty()) {
-            File filePath = new File(uploadPath + File.separator + fileName);
-            try {
-                Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "./images/" + fileName;
-            } catch (IOException e) {
-                throw new ServletException("File upload failed: " + e.getMessage());
-            }
-        }
-        return linkFile;
-    }
+   
 
     @Override
     public String getServletInfo() {
