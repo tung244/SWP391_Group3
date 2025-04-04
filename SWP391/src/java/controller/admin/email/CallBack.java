@@ -39,7 +39,7 @@ public class CallBack extends HttpServlet {
             throws ServletException, IOException {
         String code = request.getParameter("code");
 
-        if (code == null) {
+        if (code == null || code.isEmpty()) {
             response.sendRedirect("login_show_email");
         }
 

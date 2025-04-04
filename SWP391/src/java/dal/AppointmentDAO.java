@@ -18,9 +18,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
+import model.Appointment;
 import model.Appointments;
 import model.Checkout;
 import model.Discount;
+import model.DiscountDetail;
 import model.Doctors;
 import model.MedicalHistory;
 import model.Rank;
@@ -71,10 +73,11 @@ public class AppointmentDAO extends DBContext {
                 + "JOIN dbo.Services_Type st ON st.service_type_id = s.service_type_id\n"
                 + "LEFT JOIN dbo.Doctors d ON a.doctor_id = d.doctor_id\n"
                 + "LEFT JOIN dbo.Slots sl ON a.slot_id = sl.slot_id\n"
-                + "JOIN Customers c ON c.account_id = a.patient_id\n"
-                + "join Accounts acc on acc.account_id = c.account_id\n"
-                + "LEFT JOIN Discount dc on a.discountId = dc.discountId\n"
-                + "WHERE 1=1";
+                + "JOIN dbo.Customers c ON c.account_id = a.patient_id\n"
+                + "JOIN dbo.Accounts acc ON acc.account_id = c.account_id\n"
+                + "left JOIN dbo.DiscountDetail dd ON a.discountDetailId = dd.discountDetailId\n"
+                + "left JOIN dbo.Discount dc ON dd.discountId = dc.discountId\n"
+                + "WHERE 1 = 1";
 
         if (id != null && !id.isEmpty()) {
             sql += " AND a.appointment_id = ? Order by a.appointment_date";
@@ -122,7 +125,8 @@ public class AppointmentDAO extends DBContext {
                 int cost = rs.getInt("cost");
                 int service_detail_id = rs.getInt("service_detail_id");
                 ServiceDetail service_detail = new ServiceDetail(service_detail_id, service, serviceType, cost);
-                Discount discount = new Discount(rs.getInt("discountId"), rs.getInt("percent"));
+                Discount discount = new Discount(rs.getString("discountName"));
+                DiscountDetail discountDetail = new DiscountDetail(rs.getInt("discountDetailId"),discount, rs.getInt("percent"));
                 // Handle patient details
                 int account_id = rs.getInt("patient_id");
                 String email = rs.getString("email");
@@ -133,7 +137,9 @@ public class AppointmentDAO extends DBContext {
                 UserProfile user = new UserProfile(account, fullname, address);
                 double actualCost = rs.getDouble("actualCost");
                 // Create appointment object
-                Appointments appointment = new Appointments(appointment_id, appointment_date, appointment_status, doctor, slot, service_detail, user, discount, actualCost);
+                //Appointments appointment = new Appointments(appointment_id, appointment_date, appointment_status, doctor, slot, service_detail, user, discountDetail, actualCost);
+                Appointments appointment = new Appointments(appointment_id, appointment_date, appointment_status, doctor, slot, service_detail, user, discountDetail, actualCost);
+                
                 list.add(appointment);
             }
         } catch (Exception e) {
@@ -150,25 +156,25 @@ public class AppointmentDAO extends DBContext {
         return list1;
     }
 
-    public Discount getDiscountByRankId(int id) {
-        String query = "select * from Discount d \n"
-                + "join CustomerRank r on d.rankId = r.rankId\n"
-                + "where r.rankId = ?";
-        List<Discount> list = new ArrayList<>();
-        try {
-            ps = connection.prepareStatement(query);
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                Rank rank = new Rank(rs.getInt("rankId"), rs.getString("rankName"));
-                Discount discount = new Discount(rs.getInt("discountId"), rs.getInt("percent"), rank);
-                return discount;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    public Discount getDiscountByRankId(int id) {
+//        String query = "select * from Discount d \n"
+//                + "join CustomerRank r on d.rankId = r.rankId\n"
+//                + "where r.rankId = ?";
+//        List<Discount> list = new ArrayList<>();
+//        try {
+//            ps = connection.prepareStatement(query);
+//            ps.setInt(1, id);
+//            rs = ps.executeQuery();
+//            if (rs.next()) {
+//                Rank rank = new Rank(rs.getInt("rankId"), rs.getString("rankName"));
+//                Discount discount = new Discount(rs.getInt("discountId"), rs.getInt("percent"), rank);
+//                return discount;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     public List<Appointments> getFilterAppointment(String service_Id, String doctor_Id, String date, String status, String name) {
         List<Appointments> list = new ArrayList<>();
@@ -292,14 +298,14 @@ public class AppointmentDAO extends DBContext {
     }
 
     public boolean addAppointment(Appointments appointment) {
-        String query = "INSERT INTO Appointment (appointment_date, appointment_status, service_detail_id, patient_id, discountId,actualCost) VALUES (?, ?, ?, ?,?,?)";
+        String query = "INSERT INTO Appointment (appointment_date, appointment_status, service_detail_id, patient_id, discountDetailId,actualCost) VALUES (?, ?, ?, ?,?,?)";
         try {
             ps = connection.prepareStatement(query);
             ps.setDate(1, appointment.getAppointment_date());
             ps.setString(2, appointment.getAppointment_status());
             ps.setInt(3, appointment.getService_detail().getService_detail_id());
             ps.setInt(4, appointment.getUser().getAccount().getAccount_id());
-            ps.setInt(5, appointment.getDiscount().getDiscountId());
+            ps.setInt(5, appointment.getDiscount().getDiscountDetailId());
             ps.setDouble(6, appointment.getActualCost());
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
@@ -560,7 +566,7 @@ public class AppointmentDAO extends DBContext {
             rs = ps.executeQuery();
             while (rs.next()) {
                 return new Checkout(rs.getInt(1), rs.getInt(2), rs.getString(3),
-                        rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getInt(7), rs.getTimestamp(8));
+                        rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getTimestamp(7));
             }
         } catch (Exception e) {
         }
@@ -577,8 +583,8 @@ public class AppointmentDAO extends DBContext {
 //        for (Discount appointments : list) {
 //            System.out.println(appointments);
 //        }
-        Discount d = dao.getDiscountByRankId(1);
-        System.out.println(d);
+//        Discount d = dao.getDiscountByRankId(1);
+//        System.out.println(d);
 
 //        String date = "03/27/2025";
 //        Date appointment_date = null;

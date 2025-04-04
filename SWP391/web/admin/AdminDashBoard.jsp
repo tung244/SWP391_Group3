@@ -293,6 +293,43 @@
                             <div id="service-revenue-chart"></div>
                         </div>
                     </div> 
+
+                    <%@ page import="java.util.List" %>
+                    <%@ page import="model.UserProfile" %>
+                    <%@ page import="model.Checkout" %>
+
+                    <%
+                        List<UserProfile> topCustomers = (List<UserProfile>) request.getAttribute("tList");
+                    %>
+
+                    <div class="card radius-15">
+                        <div class="card-header border-bottom-0">
+                            <h5 class="mb-2 mb-lg-0">Top 10 Customers by Spending</h5>
+                        </div>
+                        <div class="card-body">
+                            <hr>
+                            <h5>Top Spenders</h5>
+                            <div id="top-spending-customers-chart"></div>
+                        </div>
+                    </div>
+
+                    <%@ page import="java.util.List" %>
+                    <%@ page import="model.AgeGroupStats" %>
+
+                    <%
+                        List<AgeGroupStats> ageStats = (List<AgeGroupStats>) request.getAttribute("aList");
+                    %>
+
+                    <div class="card radius-15">
+                        <div class="card-header border-bottom-0">
+                            <h5 class="mb-2 mb-lg-0">Appointments by Age Group</h5>
+                        </div>
+                        <div class="card-body">
+                            <hr>
+                            <h5>Age Group Statistics</h5>
+                            <div id="appointments-age-group-chart"></div>
+                        </div>
+                    </div>
                     <!--                    <div class="card radius-15">
                                             <div class="card-header border-bottom-0">
                                                 <div class="d-lg-flex align-items-center">
@@ -1104,7 +1141,104 @@
                 .catch(error => console.error("Lỗi khi lấy dữ liệu:", error));
     </script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const customers = [];
+            const totalSpending = [];
 
+        <% if (topCustomers != null) { %>
+        <% for (UserProfile customer : topCustomers) { %>
+            customers.push("<%= customer.getFullname() %>");
+            totalSpending.push(<%= customer.getCheckout().getTotalBill() %>);
+        <% } %>
+        <% } %>
+
+            const spendingChart = new ApexCharts(document.getElementById("top-spending-customers-chart"), {
+                chart: {
+                    type: "bar",
+                    height: 350
+                },
+                series: [{name: "Spending", data: totalSpending}],
+                xaxis: {
+                    categories: customers
+                },
+                yaxis: {
+                    title: {
+                        text: "Total Spending (VNĐ)"
+                    }
+                },
+                title: {
+                    text: "Top 10 Customers by Spending",
+                    align: "center",
+                    style: {fontSize: "12px"}
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: true,
+                        barHeight: "60%"
+                    }
+                },
+                colors: generateColors(customers.length)
+            });
+
+            spendingChart.render();
+        });
+
+        function generateColors(count) {
+            const colors = ["#B03A2E", "#239B56", "#2E86C1", "#922B5D", "#B7950B", "#5B2C6F", "#A04000", "#117864", "#1F618D", "#922B21"];
+            return Array.from({length: count}, (_, i) => colors[i % colors.length]);
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ageGroups = [];
+            const appointmentCounts = [];
+
+        <% if (ageStats != null) { %>
+        <% for (AgeGroupStats age : ageStats) { %>
+            ageGroups.push("<%= age.getAgeGroup() %>");
+            appointmentCounts.push(<%= age.getTotalAppointments() %>);
+        <% } %>
+        <% } %>
+
+            const ageChart = new ApexCharts(document.getElementById("appointments-age-group-chart"), {
+                chart: {
+                    type: "bar",
+                    height: 350
+                },
+                series: [{name: "Appointments", data: appointmentCounts}],
+                xaxis: {
+                    categories: ageGroups
+                },
+                yaxis: {
+                    title: {
+                        text: "Total Appointments"
+                    }
+                },
+                title: {
+                    text: "Appointments by Age Group",
+                    align: "center",
+                    style: {fontSize: "12px"}
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: true,
+                        barHeight: "60%"
+                    }
+                },
+                colors: generateColors(ageGroups.length)
+            });
+
+            ageChart.render();
+        });
+
+        function generateColors(count) {
+            const colors = ["#E74C3C", "#3498DB", "#2ECC71", "#9B59B6", "#F1C40F", "#E67E22", "#1ABC9C"];
+            return Array.from({length: count}, (_, i) => colors[i % colors.length]);
+        }
+    </script>
+    <jsp:include page="Common/Message.jsp"/> 
     <jsp:include page="Common/Js.jsp"/>
 </body>
 </html>

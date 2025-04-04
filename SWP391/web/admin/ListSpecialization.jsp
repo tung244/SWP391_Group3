@@ -156,7 +156,7 @@
         <body>
             <!-- wrapper -->
             <div class="wrapper">
-                <jsp:include page="Common/Sidebar.jsp"/>    
+                <jsp:include page="Common/Navbar.jsp"/>    
                 <!--page-wrapper-->
                 <div class="page-wrapper">
                     <!--page-content-wrapper-->

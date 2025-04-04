@@ -19,7 +19,7 @@ import model.MedicalHistory;
  *
  * @author DELL
  */
-@WebServlet(name="LoadMedicalHistory", urlPatterns={"/LoadMedicalHistory"})
+@WebServlet(name="LoadMedicalHistory", urlPatterns={"/admin/LoadMedicalHistory"})
 public class LoadMedicalHistory extends HttpServlet {
    
     /** 

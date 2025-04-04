@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Account;
 import model.Certificate;
 import model.Degree;
 import model.Degree_Doctor;
@@ -52,24 +53,28 @@ public class DoctorProfile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DoctorsDAO dao = new DoctorsDAO();
-        int accId = Integer.parseInt(request.getParameter("accId"));
-        String doctorId = dao.getDoctorIdByAccId(accId);
-        
-       
-        Doctors doctor = dao.getDoctorsByAccId(accId);
-        SpecializationDAO spdao = new SpecializationDAO();
-        List<Specialization> listSpecializationByDocId = spdao.getSpecializationByDoctorId(doctorId);
-        
-        DegreeDAO dedao = new DegreeDAO();
-        List<Degree> listDegree = dedao.getDegreeByDoctorId(doctorId);
-        CertificateDAO cerdao = new CertificateDAO();
-        List<Certificate> listCer = cerdao.getCertificateByDoctorId(doctorId);
-       
-       
-        request.setAttribute("listDegree", listDegree);
-        request.setAttribute("listSpecById", listSpecializationByDocId);
-        request.setAttribute("listCer", listCer);
-        request.setAttribute("doctor", doctor);
+
+        Account a = (Account) request.getSession().getAttribute("account");
+        if (a.getRole().getRole_id() == 3) {
+            int accId = a.getAccount_id();
+            String doctorId = dao.getDoctorIdByAccId(accId);
+
+            Doctors doctor = dao.getDoctorsByAccId(accId);
+            SpecializationDAO spdao = new SpecializationDAO();
+            List<Specialization> listSpecializationByDocId = spdao.getSpecializationByDoctorId(doctorId);
+
+            DegreeDAO dedao = new DegreeDAO();
+            List<Degree> listDegree = dedao.getDegreeByDoctorId(doctorId);
+            CertificateDAO cerdao = new CertificateDAO();
+            List<Certificate> listCer = cerdao.getCertificateByDoctorId(doctorId);
+            int countReviewers = dao.countRatedPatientsByDoctorId(doctorId);
+            
+            request.setAttribute("countReviewers", countReviewers);
+            request.setAttribute("listDegree", listDegree);
+            request.setAttribute("listSpecById", listSpecializationByDocId);
+            request.setAttribute("listCer", listCer);
+            request.setAttribute("doctor", doctor);
+        }
         request.getRequestDispatcher("DoctorProfile.jsp").forward(request, response);
     }
 

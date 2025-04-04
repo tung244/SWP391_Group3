@@ -15,6 +15,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.gson.Gson;
 import consts.Gmails;
 import consts.Mail;
+import dal.CamPaignDAO;
 import dal.TokenDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,11 +27,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
+import model.CamPaign;
 import model.GmailFetcher;
 @WebServlet(name="ThongkeEmail", urlPatterns={"/admin/email_statistics"})
 public class ThongkeEmail extends HttpServlet {
    
     TokenDAO token = new TokenDAO();
+    CamPaignDAO cdao = new CamPaignDAO();
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
@@ -96,6 +99,9 @@ public class ThongkeEmail extends HttpServlet {
         gmail.fetchAllPages("", null, 0, "to");
         int sumSend = gmail.getTotal();
         
+        CamPaign c = cdao.LoadCapainNewestt();
+        
+        request.setAttribute("campaign", c);
         request.setAttribute("support", totalSupport);
         request.setAttribute("appointment", totalAppointment);
         request.setAttribute("verify", sumVierify);
