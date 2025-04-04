@@ -9,13 +9,13 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
 public class CloudinaryConfig {
-    public static final String CLOUD_NAME = "djmftornv";
-    public static final String CLOUD_APIKEY = "152551622332294";
-    public static final String API_SECRET = "EVyiCbsCBTjGgjvB3dVfsEtGkXE";
+    public static final String CLOUD_NAME = "";
+    public static final String CLOUD_APIKEY = "";
+    public static final String API_SECRET = "";
     public static final Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-            "cloud_name", "djmftornv",
-            "api_key", "152551622332294",
-            "api_secret", "EVyiCbsCBTjGgjvB3dVfsEtGkXE"));
+            "cloud_name", "",
+            "api_key", "",
+            "api_secret", ""));
 
     public CloudinaryConfig() {
     }

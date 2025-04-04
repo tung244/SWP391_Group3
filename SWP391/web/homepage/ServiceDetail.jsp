@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,42 +32,7 @@
             <!--End mainmenu area-->
 
             <!--Start header area-->
-            <header class="mainmenu-bottom-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header-contact-info">
-                                <ul>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-signs"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>45 West Dental Street, Newyork 1003</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-interface"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Supportuteam@Dentalcare.com</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-clock"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Weekdays: 09.00am to 18.00pm</h3>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>  
+            
             <!--End header area-->    
 
             <!--Start breadcrumb area-->     
@@ -150,83 +116,6 @@
                                 </div> 
                             </div>
 
-                            <div class="service-plan">
-                                <div class="sec-title">
-                                    <h1 style="color: green">Types of Procedures</h1>
-                                    <span class="border"></span>
-                                </div>
-                                <div class="row">
-                                    <!--Start single box-->
-                                    <div class="col-md-6">
-                                        <div class="single-box">
-                                            <div class="icon-holder">
-                                                <span class="flaticon-medical-6"></span>
-                                            </div>
-                                            <div class="text-box">
-                                                <h3>Professional</h3>
-                                                <p>How all this mistaken idea denoucing pleasure and praisings pain was born complete account expound.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End single box-->
-                                    <!--Start single box-->
-                                    <div class="col-md-6">
-                                        <div class="single-box">
-                                            <div class="icon-holder">
-                                                <span class="flaticon-church"></span>
-                                            </div>
-                                            <div class="text-box">
-                                                <h3>Laser Procedure</h3>
-                                                <p>There anyone who loves or pursues or to obtain pain of itself, because it is but because occasionally.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End single box-->
-                                    <!--Start single box-->
-                                    <div class="col-md-6">
-                                        <div class="single-box">
-                                            <div class="icon-holder">
-                                                <span class="flaticon-avatar"></span>
-                                            </div>
-                                            <div class="text-box">
-                                                <h3>At Home Procedure</h3>
-                                                <p>Undertakes laborious physical exercise, except to obtain some advantage from it but who has any right.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End single box-->
-                                    <!--Start single box-->
-                                    <div class="col-md-6">
-                                        <div class="single-box">
-                                            <div class="icon-holder">
-                                                <span class="flaticon-medical-7"></span>
-                                            </div>
-                                            <div class="text-box">
-                                                <h3>General Procedure</h3>
-                                                <p>Pursues or desires to obtain pain itself, because is pain, because occasionally circumstances occur procure.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End single box-->
-                                </div>
-                            </div>
-
-                            <div class="pricing-box">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="single-box">
-                                            <h3>Pricing & Plans for Teeth Whitening</h3>
-                                            <ul>
-                                                <li>Oral Consultation(Includes Full Mouth X-Ray & Treatment Plan) <span>Free</span></li>
-                                                <li>Exam & Cleaning (Includes Full Mouth Cleaning) <span>$120</span></li>
-                                                <li>White Filling(Includes One Composite Filling) <span>$175</span></li>
-                                                <li>Laser Teeth Whitening (Minimally Invasive Technology) <span>$340</span></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> 
-
                             <div class="pricing-box">
                                 <h3 style="text-align: center; background-color: #e8ffe8; padding: 18px ">Pricing & Plans for Teeth Whitening</h3>
                                 <table class="table table-bordered">
@@ -247,7 +136,7 @@
                                                 <td style="color: black">${sd.serviceType.service_type_name}</td>
                                                 <td style="color: black">${sd.serviceType.duration_service}</td>
                                                 <td style="color: black">${sd.services.specialization.specialization_name}</td>
-                                                <td style="color: black">$${sd.cost}</td>
+                                                <td style="color: black"><fmt:formatNumber value="${sd.cost}" pattern="#,###" />VNĐ</td>
                                                 <td>
                                                     <a href="appointment?id=${sd.service_detail_id}&type=${sd.serviceType.service_type_id}" class="btn btn-success">
                                                         <i class="fa fa-calendar" aria-hidden="true"></i> Book
@@ -265,84 +154,26 @@
                                     <span class="border"></span>
                                 </div>
                                 <div class="row">
-                                    <!--Start single team member-->
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <div class="single-team-member">
-                                            <div class="img-holder">
-                                                <img src="images/team/1.jpg" alt="Awesome Image">
-                                                <div class="overlay-one">
-                                                    <div class="overlay-inner">
-                                                        <div class="content"></div>
-                                                    </div>
+                                    <c:forEach var="d" items="${doctors}">
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <div class="single-team-member">
+                                                <div class="img-holder">
+                                                    <img  src="${d.profile_image}" alt="Awesome Image">
                                                 </div>
-                                                <ul class="member-social-info">
-                                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-holder text-center">
-                                                <h3>Dr.Eliot Aldwin</h3>
-                                                <span>Hygienist</span>
-                                                <p>Denouncing pleasure and praising pain was born expound.</p>
-                                                <span class="border"></span>
-                                                <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            </div>    
-                                        </div> 
-                                    </div>
-                                    <!--End single team member-->
-                                    <!--Start single team member-->
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <div class="single-team-member">
-                                            <div class="img-holder">
-                                                <img src="images/team/2.jpg" alt="Awesome Image">
-                                                <div class="overlay-one">
-                                                    <div class="overlay-inner">
-                                                        <div class="content"></div>
-                                                    </div>
-                                                </div>
-                                                <ul class="member-social-info">
-                                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-holder text-center">
-                                                <h3>Dr.Barie Findlay</h3>
-                                                <span>Orthodontist</span>
-                                                <p>Great explorer of the truth master builder human happiness.</p>
-                                                <span class="border"></span>
-                                                <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            </div>    
-                                        </div>
-                                    </div> 
-                                    <!--End single team member-->
-                                    <!--Start single team member-->
-                                    <div class="col-md-4 col-sm-4 col-xs-12">
-                                        <div class="single-team-member">
-                                            <div class="img-holder">
-                                                <img src="images/team/3.jpg" alt="Awesome Image">
-                                                <div class="overlay-one">
-                                                    <div class="overlay-inner">
-                                                        <div class="content"></div>
-                                                    </div>
-                                                </div>
-                                                <ul class="member-social-info">
-                                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="text-holder text-center">
-                                                <h3>Dr.Fred Calvin</h3>
-                                                <span>Dentist</span>
-                                                <p>Circumstances occurs in which toil all pain great pleasure.</p>
-                                                <span class="border"></span>
-                                                <a href="#">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                                            </div>    
-                                        </div>
-                                    </div> 
-                                    <!--End single team member-->
+                                                <div class="text-holder text-center">
+                                                    <h3>Dr. ${d.doctor_name}</h3>
+                                                    <span>Doctor</span>
+                                                    <p>${d.specialization.specialization_name}</p>
+                                                    <span class="border"></span>
+                                                    <span class="text-muted ml-2">Rating: ${d.rating}</span> ★
+                                                    <br>
+                                                    <hr>
+                                                    <a href="doctorDetail?doctorid=${d.doctor_id}">View Profile<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                                </div>    
+                                            </div> 
+                                        </div>  
+                                    </c:forEach>
+
                                 </div>
                             </div>
 
@@ -364,9 +195,8 @@
                                         <h3>Opening Hours</h3>
                                     </div>
                                     <ul class="opening-time">
-                                        <li>Mon to Friday: <span>09.00 to 18.00</span></li>
-                                        <li>Saturday: <span>10.00 to 16.00</span></li>
-                                        <li>Sunday: <span>10.00 to 14.00</span></li>
+                                        <li>Giờ mở cửa: <span>7.00 to 18.00</span></li>
+                                        
                                     </ul>
                                 </div> 
                                 <!--Ens single sidebar--> 
@@ -382,7 +212,7 @@
                                                     <span class="flaticon-pin"></span>
                                                 </div>
                                                 <div class="text-holder">
-                                                    <h5>Park Drive, Varick 2nd Str <br>NY 10012, USA</h5>
+                                                    <h5>Km29 Láng Hòa Lạc</h5>
                                                 </div>
                                             </li>
                                             <li>
@@ -390,7 +220,7 @@
                                                     <span class="flaticon-interface"></span>
                                                 </div>
                                                 <div class="text-holder">
-                                                    <h5>Support@Dentalcare.com</h5>
+                                                    <h5>supporeyecare@gmail.com</h5>
                                                 </div>
                                             </li>
                                             <li>
@@ -398,7 +228,7 @@
                                                     <span class="flaticon-technology-1"></span>
                                                 </div>
                                                 <div class="text-holder">
-                                                    <h5>(123) 0200 12345 & 7890</h5>
+                                                    <h5>0936971273</h5>
                                                 </div>
                                             </li>
                                         </ul>

@@ -1,14 +1,11 @@
-
 package bo;
 
-import dal.OTPServicesDAO;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
-import model.OTP_Services;
 
 public class GetFormatDate {
 
@@ -35,17 +32,19 @@ public class GetFormatDate {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime expireTime = LocalDateTime.parse(expertDate, formatter);
-            return now.isBefore(expireTime); 
+            return now.isBefore(expireTime);
         } catch (DateTimeParseException e) {
-            return false; 
+            return false;
         }
     }
 
+    public static String getFirstDateOfMonth() {
+        LocalDate firstDateOfMonth = LocalDate.now().withDayOfMonth(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        return firstDateOfMonth.format(formatter);
+    }
+
     public static void main(String[] args) {
-        GetFormatDate format = new GetFormatDate();
-        OTPServicesDAO otp_dao = new OTPServicesDAO();
-        OTP_Services otp = otp_dao.getOTPNewest("guest1");
-        System.out.println(checkFiveMinute(otp.getOtp_expiry_date()));
+        System.out.println(getFirstDateOfMonth());
     }
 }
-

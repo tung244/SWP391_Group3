@@ -29,53 +29,53 @@
                     <div class="page-content">
                         <!--start email wrapper-->
                         <div class="email-wrapper">
-                            <div class="email-sidebar">
-                                <div class="email-sidebar-header d-grid"> <a href="javascript:;" class="btn btn-primary compose-mail-btn"><i class='bx bx-plus me-2'></i> Compose</a>
-                                </div>
-                                <div class="email-sidebar-content">
-                                    <div class="email-navigation">
-                                        <div class="list-group list-group-flush"> <a href="emailbox.html" class="list-group-item active d-flex align-items-center"><i class='bx bxs-inbox me-3 font-20'></i><span>Inbox</span><span class="badge bg-primary rounded-pill ms-auto">7,513</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-star me-3 font-20'></i><span>Starred</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-alarm-snooze me-3 font-20'></i><span>Snoozed</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-send me-3 font-20'></i><span>Sent</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-file-blank me-3 font-20'></i><span>Drafts</span><span class="badge bg-primary rounded-pill ms-auto">4</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-bookmark me-3 font-20'></i><span>Important</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-message-rounded-error me-3 font-20'></i><span>Chats</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bx-mail-send me-3 font-20'></i><span>Scheduled</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-envelope-open me-3 font-20'></i><span>All Mail</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-info-circle me-3 font-20'></i><span>Spam</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-trash-alt me-3 font-20'></i><span>Trash</span></a>
-                                        </div>
-                                    </div>
-                                    <div class="email-meeting">
-                                        <div class="list-group list-group-flush">
-                                            <div class="list-group-item"><span>Meet</span>
-                                            </div> <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-video me-3 font-20'></i><span>Start a meeting</span></a>
-                                            <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-group me-3 font-20'></i><span>Join a meeting</span></a>
-                                            <div class="list-group-item email-hangout cursor-pointer border-top">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="chat-user-online">
-                                                        <img src="assets/images/avatars/avatar-1.png" width="42" height="42" class="rounded-circle" alt="" />
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        <p class="mb-0">Jessica Doe</p>
-                                                    </div>
-                                                    <div class="dropdown">
-                                                        <div class="font-24 dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown"><i class='bx bx-plus'></i>
-                                                        </div>
-                                                        <div class="dropdown-menu dropdown-menu-end">	<a class="dropdown-item" href="javascript:;">Settings</a>
-                                                            <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Help & Feedback</a>
-                                                            <a class="dropdown-item" href="javascript:;">Enable Split View Mode</a>
-                                                            <a class="dropdown-item" href="javascript:;">Keyboard Shortcuts</a>
-                                                            <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Sign Out</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--                            <div class="email-sidebar">
+                                                            <div class="email-sidebar-header d-grid"> <a href="javascript:;" class="btn btn-primary compose-mail-btn"><i class='bx bx-plus me-2'></i> Compose</a>
+                                                            </div>-->
+                            <!--                                <div class="email-sidebar-content">
+                                                                <div class="email-navigation">
+                                                                    <div class="list-group list-group-flush"> <a href="emailbox.html" class="list-group-item active d-flex align-items-center"><i class='bx bxs-inbox me-3 font-20'></i><span>Inbox</span><span class="badge bg-primary rounded-pill ms-auto">7,513</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-star me-3 font-20'></i><span>Starred</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-alarm-snooze me-3 font-20'></i><span>Snoozed</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-send me-3 font-20'></i><span>Sent</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-file-blank me-3 font-20'></i><span>Drafts</span><span class="badge bg-primary rounded-pill ms-auto">4</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-bookmark me-3 font-20'></i><span>Important</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-message-rounded-error me-3 font-20'></i><span>Chats</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bx-mail-send me-3 font-20'></i><span>Scheduled</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-envelope-open me-3 font-20'></i><span>All Mail</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-info-circle me-3 font-20'></i><span>Spam</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-trash-alt me-3 font-20'></i><span>Trash</span></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="email-meeting">
+                                                                    <div class="list-group list-group-flush">
+                                                                        <div class="list-group-item"><span>Meet</span>
+                                                                        </div> <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-video me-3 font-20'></i><span>Start a meeting</span></a>
+                                                                        <a href="javascript:;" class="list-group-item d-flex align-items-center"><i class='bx bxs-group me-3 font-20'></i><span>Join a meeting</span></a>
+                                                                        <div class="list-group-item email-hangout cursor-pointer border-top">
+                                                                            <div class="d-flex align-items-center">
+                                                                                <div class="chat-user-online">
+                                                                                    <img src="assets/images/avatars/avatar-1.png" width="42" height="42" class="rounded-circle" alt="" />
+                                                                                </div>
+                                                                                <div class="flex-grow-1 ms-2">
+                                                                                    <p class="mb-0">Jessica Doe</p>
+                                                                                </div>
+                                                                                <div class="dropdown">
+                                                                                    <div class="font-24 dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown"><i class='bx bx-plus'></i>
+                                                                                    </div>
+                                                                                    <div class="dropdown-menu dropdown-menu-end">	<a class="dropdown-item" href="javascript:;">Settings</a>
+                                                                                        <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Help & Feedback</a>
+                                                                                        <a class="dropdown-item" href="javascript:;">Enable Split View Mode</a>
+                                                                                        <a class="dropdown-item" href="javascript:;">Keyboard Shortcuts</a>
+                                                                                        <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Sign Out</a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>-->
+                            <!--                            </div>-->
                             <div class="email-header d-xl-flex align-items-center">
                                 <div class="d-flex align-items-center">
                                     <div class="email-toggle-btn"><i class='bx bx-menu'></i>
@@ -84,56 +84,63 @@
                                         <input class="form-check-input" type="checkbox">
                                     </div>
                                     <div class="">
-                                        <button type="button" class="btn btn-white ms-2"><i class='bx bx-refresh me-0'></i>
+                                        <button onclick="window.location.reload();" type="button" class="btn btn-white ms-2"><i class='bx bx-refresh me-0'></i>
                                         </button>
                                     </div>
-                                    <div class="">
-                                        <button type="button" class="btn btn-white ms-2"><i class='bx bx-downvote me-0'></i>
-                                        </button>
-                                    </div>
-                                    <div class="d-none d-md-flex">
-                                        <button type="button" class="btn btn-white ms-2"><i class='bx bx-file me-0'></i>
-                                        </button>
-                                    </div>
-                                    <div class="">
-                                        <button type="button" class="btn btn-white ms-2"><i class='bx bx-trash me-0'></i>
-                                        </button>
-                                    </div>
+                                    <!--                                    <div class="">
+                                                                            <button type="button" class="btn btn-white ms-2"><i class='bx bx-downvote me-0'></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="d-none d-md-flex">
+                                                                            <button type="button" class="btn btn-white ms-2"><i class='bx bx-file me-0'></i>
+                                                                            </button>
+                                                                        </div>-->
+                                    <!--                                    <div class="">
+                                                                            <button type="button" class="btn btn-white ms-2"><i class='bx bx-trash me-0'></i>
+                                                                            </button>
+                                                                        </div>-->
                                 </div>
-                                <div class="flex-grow-1 mx-xl-2 my-2 my-xl-0">
+                                <form class="flex-grow-1 mx-xl-2 my-2 my-xl-0" action="show_email" method="get">
                                     <div class="input-group">	<span class="input-group-text bg-transparent"><i class="bx bx-search"></i></span>
-                                        <input type="text" class="form-control" placeholder="Search mail">
+                                        <input type="text" name="subject" class="form-control" placeholder="Search theo tiêu đề email">
                                     </div>
-                                </div>
+
+                                </form>
                                 <div class="ms-auto d-flex align-items-center">
-                                    <button class="btn btn-sm btn-light">1-50 of 8,740</button>
-                                    <button class="btn btn-white px-2 ms-2"><i class='bx bx-chevron-left me-0'></i>
-                                    </button>
-                                    <button class="btn btn-white px-2 ms-2"><i class='bx bx-chevron-right me-0'></i>
-                                    </button>
+                                    <!--                                    <button class="btn btn-sm btn-light">1-50 of 8,740</button>-->
+                                    <a href="show_email?next_page_token=${thePreviousToken}" class="btn btn-white px-2 ms-2"><i class='bx bx-chevron-left me-0'></i>
+                                    </a>
+                                    <a href="show_email?next_page_token=${theNextPageToken}" class="btn btn-white px-2 ms-2"><i class='bx bx-chevron-right me-0'></i>
+                                    </a>
                                 </div>
                             </div>
                             <div class="email-content">
                                 <div class="">
                                     <div class="email-list">
-                                        <c:forEach var="emailDetails" items="${emailDetails}">
-                                            <a href="emailread.html">
-                                                <div class="d-md-flex align-items-center email-message px-3 py-1">
-                                                    <div class="d-flex align-items-center email-actions">
-                                                        <input class="form-check-input" type="checkbox" value="" /> <i class='bx bx-star font-20 mx-2 email-star'></i>
-                                                        <p class="mb-0"><b>Support</b>
-                                                        </p>
+                                        <c:if test="${not empty emailDetails}">
+                                            <c:forEach var="emailDetails" items="${emailDetails}">
+                                                <a href="read_email?id=${emailDetails.id}">
+                                                    <div class="d-md-flex align-items-center email-message px-3 py-1">
+                                                        <div class="d-flex align-items-center email-actions">
+                                                            <input class="form-check-input" type="checkbox" value="" /> <i class='bx bx-star font-20 mx-2 email-star'></i>
+                                                            <p class="mb-0"><b>Support</b>
+                                                            </p>
+                                                        </div>
+                                                        <div class="">
+                                                            <p class="mb-0">${emailDetails.subject}</p>
+                                                        </div>
+                                                        <div class="ms-auto">
+                                                            <p class="mb-0 email-time">${emailDetails.date}</p>
+                                                        </div>
                                                     </div>
-                                                    <div class="">
-                                                        <p class="mb-0">${emailDetails.subject}</p>
-                                                    </div>
-                                                    <div class="ms-auto">
-                                                        <p class="mb-0 email-time">${emailDetails.date}</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </c:forEach> 
-                                         
+                                                </a>
+                                            </c:forEach> 
+                                        </c:if>
+                                        <c:if test="${empty emailDetails}">
+                                            <img style="display: flex; justify-content: center" src="./assets/images/gallery/anhHetTien.jpg"/>
+                                            
+                                            
+                                        </c:if>
 
                                     </div>
                                 </div>
