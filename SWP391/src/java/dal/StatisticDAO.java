@@ -16,28 +16,28 @@ import java.sql.ResultSet;
 public class StatisticDAO extends DBContext {
 
     public Map<String, Integer> getAppointmentStatistics(String did, String period) {
-        String sql = "SELECT appointment_status, COUNT(*) as count \n"
-                + "FROM Appointment \n"
-                + "WHERE doctor_id = ? AND appointment_status IN ('Completed', 'Cancel') \n";
+        String sql = "SELECT appointment_status, COUNT(*) as count "
+                + "FROM Appointment "
+                + "WHERE doctor_id = ? AND appointment_status IN ('Completed', 'Cancel') ";
 
-        // Add time period condition for SQL Server
+        // Điều kiện thời gian theo SQL Server
         switch (period) {
             case "today":
-                sql += "AND CONVERT(date, appointment_date) = CONVERT(date, GETDATE()) ";
+                sql += "AND CAST(appointment_date AS DATE) = CAST(GETDATE() AS DATE) ";
                 break;
             case "week":
                 sql += "AND DATEPART(WEEK, appointment_date) = DATEPART(WEEK, GETDATE()) "
-                        + "AND DATEPART(YEAR, appointment_date) = DATEPART(YEAR, GETDATE()) ";
+                        + "AND YEAR(appointment_date) = YEAR(GETDATE()) ";
                 break;
             case "month":
-                sql += "AND DATEPART(MONTH, appointment_date) = DATEPART(MONTH, GETDATE()) "
-                        + "AND DATEPART(YEAR, appointment_date) = DATEPART(YEAR, GETDATE()) ";
+                sql += "AND MONTH(appointment_date) = MONTH(GETDATE()) "
+                        + "AND YEAR(appointment_date) = YEAR(GETDATE()) ";
                 break;
             case "3months":
                 sql += "AND appointment_date >= DATEADD(MONTH, -3, GETDATE()) ";
                 break;
             case "year":
-                sql += "AND DATEPART(YEAR, appointment_date) = DATEPART(YEAR, GETDATE()) ";
+                sql += "AND YEAR(appointment_date) = YEAR(GETDATE()) ";
                 break;
         }
 
@@ -45,22 +45,25 @@ public class StatisticDAO extends DBContext {
 
         Map<String, Integer> statistics = new HashMap<>();
 
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, did);
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, Integer.parseInt(did));
             System.err.println(sql);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                String status = rs.getString("appointment_status");
-                int count = rs.getInt("count");
-                statistics.put(status, count);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    String status = rs.getString("appointment_status");
+                    int count = rs.getInt("count");
+                    statistics.put(status, count);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println(e);
         }
 
         return statistics;
     }
+    
+    
 
     private String getDateFilterClause(String period) {
         switch (period) {

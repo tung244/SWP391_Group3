@@ -157,9 +157,9 @@
                                                             <a href="UpdateStaff?id=${a.account.account_id}" title="Update">
                                                                 <i class="fas fa-edit icon"></i>
                                                             </a>
-                                                            <a href="#" onclick="confirmDelete(${a.account.account_id}, '${a.account.username}'); return false;" title="Delete">
+<!--                                                            <a href="#" onclick="confirmDelete(${a.account.account_id}, '${a.account.username}'); return false;" title="Delete">
                                                                 <i class="fas fa-trash-alt icon"></i>
-                                                            </a>    
+                                                            </a>    -->
                                                             <a href="#" title="View" onclick="loadServiceDetails(${a.account.account_id});" data-toggle="modal" data-target="#viewModal">
                                                                 <i class="fas fa-eye icon"></i>
                                                             </a>

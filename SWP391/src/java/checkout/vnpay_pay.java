@@ -13,10 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-/**
- *
- * @author APC
- */
+
 @WebServlet(name = "vnpay_pay", urlPatterns = {"/vnpay"})
 public class vnpay_pay extends HttpServlet {
 

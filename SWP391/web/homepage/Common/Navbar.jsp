@@ -108,9 +108,9 @@
                                                             <div class="navbar-collapse collapse clearfix">
                                                                 <ul class="navigation clearfix">
                                                                     <li class="current"><a href="trangchu">Home</a></li>
-                                                                    <li class="dropdown"><a href="about.html">About Us</a>
+                                                                    <li class="dropdown"><a style="cursor: pointer" >About Us</a>
                                                                         <ul>
-                                                                            <li><a href="about.html">About Dentalcare</a></li>
+                                                                            
 
                                                                             <li><a href="listDoctors">Meet Our Dentist</a></li>
                                                                             <li><a href="list_machine">Machine</a></li>

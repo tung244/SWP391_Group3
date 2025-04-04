@@ -689,7 +689,7 @@
         <jsp:include page="Common/Message.jsp"/>
 
         <!-- Script ResponsiveVoice -->
-        <script src="https://code.responsivevoice.org/responsivevoice.js?key=8e2qFdn3"></script>
+
         <script>
 
 

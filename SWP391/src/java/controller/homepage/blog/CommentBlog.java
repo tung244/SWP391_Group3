@@ -4,6 +4,7 @@
  */
 package controller.homepage.blog;
 
+import bo.GetFormatDate;
 import dal.CommentDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,7 +64,7 @@ public class CommentBlog extends HttpServlet {
                 Comment c = new Comment(comment,
                         a.getAccount(),
                         0, 0,
-                        new Blog(blogId, "", 0, ""));
+                        new Blog(blogId, "", 0, GetFormatDate.getFormString()));
                 System.out.println("Chuẩn bị lưu");
                 if (cdao.createCommentBasic(c)) {
                     ms = "Bình luận thành công!";
@@ -83,10 +84,25 @@ public class CommentBlog extends HttpServlet {
             String blog_id = request.getParameter("blogid");
             String parent_comment_id = request.getParameter("parent_comment_id");
             String comment = request.getParameter("comment");
-            System.out.println("hehe");
-            System.out.println(blog_id);
-            System.out.println(parent_comment_id);
-            System.out.println(comment);
+            try {
+                int blogId = Integer.parseInt(blog_id);
+                int parentId = Integer.parseInt(parent_comment_id);
+                Comment c = new Comment(comment,
+                        a.getAccount(),
+                        0, parentId,
+                        new Blog(blogId, "", 0, GetFormatDate.getFormString()));
+                System.out.println("Chuẩn bị lưu");
+                if (cdao.createCommentBasic(c)) {
+                    ms = "Bình luận thành công!";
+                } else {
+                    error = "Đã có lỗi xảy ra. Vui lòng thử lại!!";
+                }
+
+            } catch (Exception e) {
+            }
+            request.getSession().setAttribute("ms", ms);
+            request.getSession().setAttribute("error", error);
+            response.sendRedirect("blog?blog=" + blog_id);
         }
         
         

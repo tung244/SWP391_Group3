@@ -182,23 +182,7 @@
                             </div>
 
                             <!-- Card Import khách hàng -->
-                            <div class="mei-card">
-                                <div class="mei-card-title">
-                                    <span class="mei-icon">👥</span>
-                                    Danh sách bệnh nhân
-                                </div>
-                                <div class="mei-form-group">
-                                    <input type="file" id="fileInput" class="mei-file-input" accept=".xlsx,.xls">
-                                    <label for="fileInput" class="mei-file-label">
-                                        <span class="mei-icon">📎</span>
-                                        Import Excel
-                                    </label>
-                                    <div id="filePreview" class="mei-preview" style="display: none;">
-                                        <span class="mei-icon">📄</span>
-                                        <span id="fileName"></span>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
 
                         <!-- Card Soạn tin nhắn mới -->

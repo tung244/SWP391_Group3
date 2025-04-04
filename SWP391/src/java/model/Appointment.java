@@ -27,6 +27,31 @@ public class Appointment {
 
     public Appointment() {
     }
+
+    public Appointment(int appointment_id, Date appointment_date, String appointment_status, ServiceTypes service_type, Services service, ServiceDetail service_detail) {
+        this.appointment_id = appointment_id;
+        this.appointment_date = appointment_date;
+        this.appointment_status = appointment_status;
+        this.service_type = service_type;
+        this.service = service;
+        this.service_detail = service_detail;
+    }
+    
+public DiscountDetail getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(DiscountDetail discount) {
+        this.discount = discount;
+    }
+
+    public double getActualCost() {
+        return actualCost;
+    }
+
+    public void setActualCost(double actualCost) {
+        this.actualCost = actualCost;
+    }
     
     public Appointment(int appointment_id, java.util.Date appointment_date, String appointment_status, Doctors doctor, Slots slot, ServiceDetail service_detail,
             UserProfile user, DiscountDetail discount, double actualCost) {

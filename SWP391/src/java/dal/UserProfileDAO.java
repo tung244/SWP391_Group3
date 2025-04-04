@@ -155,7 +155,7 @@ public class UserProfileDAO extends DBContext {
                  JOIN Customers u ON a.patient_id = u.account_id
                  JOIN Accounts ac ON ac.account_id = a.patient_id
                  WHERE a.appointment_status = 'Scheduled' 
-                 AND DATEDIFF(HOUR, a.appointment_date, GETDATE()) >= 12;
+                 AND DATEDIFF(HOUR, a.appointment_date, GETDATE()) >= 6;
                  """;
 
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -287,7 +287,8 @@ public class UserProfileDAO extends DBContext {
     
     public static void main(String[] args) {
         UserProfileDAO udao = new UserProfileDAO();
-        List<Appointment> s = udao.getAppointmentByAppointmentId(7);
+        List<Appointment> s = udao.searchAppointments("",
+                "", "2025-03-30", "");
         for (Appointment appointment : s) {
             System.out.println(appointment.toString());
         }
@@ -595,36 +596,36 @@ public class UserProfileDAO extends DBContext {
         StringBuilder sql = new StringBuilder("""
         SELECT a.appointment_id, a.appointment_date, 
                s.service_name, sd.cost, 
-               st.service_type_name, st.duration_service
+               st.service_type_name, st.duration_service,a.appointment_status
         FROM dbo.Appointment a
         JOIN dbo.Services_Detail sd ON sd.service_detail_id = a.service_detail_id
         JOIN dbo.Services s ON s.service_id = sd.service_id
         JOIN dbo.Services_Type st ON st.service_type_id = sd.service_type_id
         WHERE 1=1
     """);
-        
+
         List<String> params = new ArrayList<>();
-        
+
         if (serviceName != null && !serviceName.isEmpty()) {
             sql.append(" AND s.service_name COLLATE SQL_Latin1_General_CP1_CI_AI LIKE  ? ");
             params.add("%" + serviceName + "%");
         }
-        
+
         if (serviceTypeName != null && !serviceTypeName.isEmpty()) {
             sql.append(" AND st.service_type_name LIKE ? ");
             params.add("%" + serviceTypeName + "%");
         }
-        
+
         if (startDate != null && !startDate.isEmpty()) {
             sql.append(" AND a.appointment_date >= ? ");
             params.add(startDate);
         }
-        
+
         if (endDate != null && !endDate.isEmpty()) {
             sql.append(" AND a.appointment_date <= ? ");
             params.add(endDate);
         }
-        
+
         try (PreparedStatement st = connection.prepareStatement(sql.toString())) {
             for (int i = 0; i < params.size(); i++) {
                 st.setString(i + 1, params.get(i));
@@ -637,12 +638,14 @@ public class UserProfileDAO extends DBContext {
                     int cost = rs.getInt("cost");
                     String serviceTypeNameResult = rs.getString("service_type_name");
                     String duration = rs.getString("duration_service");
+                    String status = rs.getString("appointment_status");
                     
+
                     Services service = new Services(serviceNameResult);
                     ServiceTypes serviceType = new ServiceTypes(serviceTypeNameResult, duration);
-                    ServiceDetail serviceDetail = new ServiceDetail(cost);
-                    
-                    list.add(new Appointment(id, date, service, serviceDetail, serviceType));
+                    ServiceDetail serviceDetail = new ServiceDetail(0,cost);
+
+                    list.add(new Appointment(id, date,status, serviceType,service, serviceDetail));
                 }
             }
         } catch (SQLException e) {
