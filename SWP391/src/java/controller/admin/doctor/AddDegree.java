@@ -5,7 +5,7 @@
 package controller.admin.doctor;
 
 import bo.GetFormatDate;
-import static controller.admin.doctor.EditDoctorProfile.uploadImage;
+import bo.ImageServices;
 import dal.DegreeDAO;
 import dal.Degree_DoctorDAO;
 import dal.DoctorsDAO;
@@ -42,6 +42,7 @@ import model.Doctors;
 public class AddDegree extends HttpServlet {
 
     GetFormatDate getdate = new GetFormatDate();
+    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -103,9 +104,9 @@ public class AddDegree extends HttpServlet {
 
                 // Upload the image if available
                 if (imagePart != null && imagePart.getSize() > 0) {
-                    imageLink = uploadImage(imagePart, finalPath);
+                    imageLink = ImageServices.uploadImage(imagePart, finalPath) ;
                 }
-
+                System.out.println(imageLink);
                 // Add degree-doctor relationship to database
                 int degreeId = Integer.parseInt(degreeName);
                 int doctorId = d.getDoctor_id();
@@ -146,28 +147,7 @@ public class AddDegree extends HttpServlet {
         }
     }
 
-    public static String uploadImage(Part part, String finalPath) throws ServletException {
-        String uploadPath = finalPath + "images";
-        File uploadDir = new File(uploadPath);
-
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-        String linkFile = "";
-
-        String fileName = part.getSubmittedFileName();
-
-        if (fileName != null && !fileName.isEmpty()) {
-            File filePath = new File(uploadPath + File.separator + fileName);
-            try {
-                Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "./images/" + fileName;
-            } catch (IOException e) {
-                throw new ServletException("File upload failed: " + e.getMessage());
-            }
-        }
-        return linkFile;
-    }
+   
 
     @Override
     public String getServletInfo() {

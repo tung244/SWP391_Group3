@@ -22,6 +22,7 @@ public class Appointments {
     public DiscountDetail discount;
     public double actualCost;
 
+    
     public Appointments() {
     }
 
@@ -41,6 +42,8 @@ public class Appointments {
         this.discount = discount;
         this.actualCost = actualCost;
     }
+    
+    
 
     public Appointments(int appointment_id, Date appointment_date, String appointment_status, Doctors doctor, Slots slot, ServiceDetail service_detail, UserProfile user) {
         this.appointment_id = appointment_id;
@@ -136,6 +139,8 @@ public class Appointments {
     public void setDiscount(DiscountDetail discount) {
         this.discount = discount;
     }
+
+    
 
     public double getActualCost() {
         return actualCost;

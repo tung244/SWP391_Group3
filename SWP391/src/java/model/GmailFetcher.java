@@ -80,7 +80,7 @@ public class GmailFetcher {
         String q = "";
         
         if (method.equals("from") && query!=null) {
-            q = "subject:" + query + " after:" + GetFormatDate.getFirstDateOfMonth() + " -from:" + Mail.APP_EMAIL;
+            q = "subject:" + query + " after:" + GetFormatDate.getFirstDateOfMonth();
         }
         if (method.equals("to")&& query!=null) {
             q = "subject:" + query + " after:" + GetFormatDate.getFirstDateOfMonth() + " -to:" + Mail.APP_EMAIL;

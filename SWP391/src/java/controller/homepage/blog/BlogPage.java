@@ -39,23 +39,26 @@ public class BlogPage extends HttpServlet {
         try {
             int blogId = Integer.parseInt(blog_id);
             
+            // cat bo javascript
             Blog blog = bdao.loadBlog(blogId);
             blog.setBlog_content(CutJavaScriptBlog.cutJavaScript(blog.getBlog_content()));
-
+            
+            // load authorBlog
             String[] authorInfo = sdao.loadStaffBlog(blog.getAuthor_id());
-
-            String str = "hehe";
-            
-            char[] s = str.toCharArray();
-            for (int i = 0; i < s.length; i++) {
-                
-            }
             
             
+            // tang 1 view
             System.out.println(bdao.plus1View(blogId));
             
+            // load comment blog
             Map<Comment, List<Comment>> comment = cdao.loadCommentBlog(blogId);
 
+            // load recommend blog
+            List<String> top5Title = TFIDFRecommender.recommend(blog.getTitle_meta(),
+                    bdao.loadAllTitle());
+            List<Blog> load5Blog = bdao.loadBlogFromTitle(top5Title);
+            
+            request.setAttribute("top5", load5Blog);
             request.setAttribute("comment", comment);
             request.setAttribute("author", authorInfo);
             request.setAttribute("blog", blog);

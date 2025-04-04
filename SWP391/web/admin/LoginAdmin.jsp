@@ -23,8 +23,8 @@
                                 <div class="col-xl-6">
                                     <div class="card-body p-5">
                                         <div class="text-center">
-                                            <img src="assets/images/logo-icon.png" width="80" alt="">
-                                            <h3 class="mt-4 font-weight-bold">Welcome Back</h3>
+                                            <img src="assets/images/logoicon.png" width="150" alt="">
+                                            <h3 class="mt-4 font-weight-bold">Xin Chào</h3>
                                         </div>
                                         <div class="">                                 
                                             <div class="form-body">                                           

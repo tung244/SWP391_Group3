@@ -21,8 +21,66 @@ public class Appointment {
     public Services service;
     public ServiceDetail service_detail;
     public UserProfile user;
+    public Staffs staffs;
+    public DiscountDetail discount;
+    public double actualCost;
 
     public Appointment() {
+    }
+
+    public Appointment(int appointment_id, Date appointment_date, String appointment_status, ServiceTypes service_type, Services service, ServiceDetail service_detail) {
+        this.appointment_id = appointment_id;
+        this.appointment_date = appointment_date;
+        this.appointment_status = appointment_status;
+        this.service_type = service_type;
+        this.service = service;
+        this.service_detail = service_detail;
+    }
+    
+public DiscountDetail getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(DiscountDetail discount) {
+        this.discount = discount;
+    }
+
+    public double getActualCost() {
+        return actualCost;
+    }
+
+    public void setActualCost(double actualCost) {
+        this.actualCost = actualCost;
+    }
+    
+    public Appointment(int appointment_id, java.util.Date appointment_date, String appointment_status, Doctors doctor, Slots slot, ServiceDetail service_detail,
+            UserProfile user, DiscountDetail discount, double actualCost) {
+        this.appointment_id = appointment_id;
+        this.appointment_date = appointment_date;
+        this.appointment_status = appointment_status;
+        this.doctor = doctor;
+        this.slot = slot;
+        this.service_detail = service_detail;
+        this.user = user;
+        this.discount = discount;
+        this.actualCost = actualCost;
+    }
+
+    public Staffs getStaffs() {
+        return staffs;
+    }
+
+    public void setStaffs(Staffs staffs) {
+        this.staffs = staffs;
+    }
+
+    public Appointment(int appointment_id, String appointment_status, Doctors doctor, Slots slot, Services service, Staffs staffs) {
+        this.appointment_id = appointment_id;
+        this.appointment_status = appointment_status;
+        this.doctor = doctor;
+        this.slot = slot;
+        this.service = service;
+        this.staffs = staffs;
     }
 
     public Appointment(int appointment_id, Date appointment_date,  Services service, ServiceDetail service_detail, ServiceTypes service_type) {
@@ -31,6 +89,10 @@ public class Appointment {
         this.service_type = service_type;
         this.service = service;
         this.service_detail = service_detail;
+    }
+
+    public Appointment(Staffs staffs) {
+        this.staffs = staffs;
     }
 
     public Appointment(int appointment_id, String appointment_status, Doctors doctor, Slots slot, Services service) {

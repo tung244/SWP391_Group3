@@ -23,7 +23,7 @@ public class GiaiMaGson {
             ObjectMapper mapper = new ObjectMapper();
 
             // Đọc JSON vào danh sách List<MyJsonData>
-            List<BlogCrawl> dataList = mapper.readValue(new File("F:\\Download\\toolCrawlNhaVua\\blog_posts.json"), new TypeReference<List<BlogCrawl>>() {
+            List<BlogCrawl> dataList = mapper.readValue(new File(""), new TypeReference<List<BlogCrawl>>() {
             });
 
             // In ra danh sách phần tử đã giải mã
@@ -32,7 +32,7 @@ public class GiaiMaGson {
                         10,
                         GetFormatDate.getFormString(),
                         item.getTitle(),
-                        "http://localhost:8080/SWP391/images/duy.png", "Public");
+                        "", "Public");
                 if(bdao.createBlog(b)){
                     System.out.println(b.getTitle_meta()); 
                 }

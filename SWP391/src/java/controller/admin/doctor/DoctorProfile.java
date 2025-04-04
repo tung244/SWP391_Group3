@@ -67,7 +67,9 @@ public class DoctorProfile extends HttpServlet {
             List<Degree> listDegree = dedao.getDegreeByDoctorId(doctorId);
             CertificateDAO cerdao = new CertificateDAO();
             List<Certificate> listCer = cerdao.getCertificateByDoctorId(doctorId);
-
+            int countReviewers = dao.countRatedPatientsByDoctorId(doctorId);
+            
+            request.setAttribute("countReviewers", countReviewers);
             request.setAttribute("listDegree", listDegree);
             request.setAttribute("listSpecById", listSpecializationByDocId);
             request.setAttribute("listCer", listCer);

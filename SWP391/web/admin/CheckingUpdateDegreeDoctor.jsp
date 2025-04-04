@@ -219,7 +219,7 @@
 
                                                     <td>${ldd.doctor_id}</td>
                                                     <td>${ldd.degree_id}</td>
-                                                    <td><img src=".${ldd.degree_image}" width="150px" height="150px" alt="Degree Image"/></td>
+                                                    <td><img src="${ldd.degree_image}" width="150px" height="150px" alt="Degree Image"/></td>
                                                     <td>${ldd.degree.degree_name}</td>
                                                     <td>
                                                 <fmt:parseDate value="${ldd.date_degree}" pattern="yyyy-MM-dd" var="parsedDate" />
@@ -307,7 +307,7 @@
                                                 <tr>
                                                     <td>${hist.doctor_id}</td>
                                                     <td>${hist.degree_id}</td>
-                                                    <td><img src=".${hist.degree_image}" width="150px" height="150px" alt="Degree Image"/></td>
+                                                    <td><img src="${hist.degree_image}" width="150px" height="150px" alt="Degree Image"/></td>
                                                     <td>${hist.degree.degree_name}</td>
                                                     <td>
                                                 <fmt:parseDate value="${hist.date_degree}" pattern="yyyy-MM-dd" var="parsedDate" />

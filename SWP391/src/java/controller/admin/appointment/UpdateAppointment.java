@@ -253,8 +253,8 @@ public class UpdateAppointment extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.print(jsonResponse.toString());
         out.flush();
-    }
 
+    }
     private static void sendMail(Appointments a) {
         Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
             try {
@@ -267,7 +267,34 @@ public class UpdateAppointment extends HttpServlet {
         });
         emailThread.start();
     }
-
+    
+//    public boolean sendOTP(Appointments appointment) {
+//        final boolean[] sendEmailResult = {false}; // Mảng để lưu kết quả
+//
+//        Thread emailThread = new Thread(() -> {
+//            try {
+//                System.out.println("đến 3");
+//                sendEmailResult[0] = SendMail.MailConfirmAppointment(appointment);
+//            } catch (Exception e) {
+//                e.printStackTrace(); // Log lỗi nếu có
+//            }
+//        });
+//
+//        emailThread.start();
+//
+//        try {
+//            emailThread.join(); // Chờ cho luồng kết thúc
+//        } catch (InterruptedException e) {
+//            e.printStackTrace(); // Log lỗi nếu có
+//        }
+//
+//        return sendEmailResult[0]; // Trả về kết quả gửi email
+//    }
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";

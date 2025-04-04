@@ -100,15 +100,14 @@ public class ServiceDao extends DBContext {
         }
         return list;
     }
-
-    public List<ServiceDetail> getPaginationService(List<ServiceDetail> list, int start, int end) {
+    
+    public List<ServiceDetail> getPaginationService(List<ServiceDetail> list, int start, int end){
         List<ServiceDetail> list1 = new ArrayList<>();
         for (int i = start; i < end; i++) {
             list1.add(list.get(i));
         }
         return list1;
     }
-
     public ServiceDetail getServiceDetailById(int id) {
         String query = "SELECT \n"
                 + "    sd.service_detail_id, \n"
@@ -183,7 +182,6 @@ public class ServiceDao extends DBContext {
         }
         return null;
     }
-
     public ServiceDetail getServiceDetailByServiceAndType(int sId, int tId) {
         String query = "select * from Services_Detail\n"
                 + "where service_id = ? and service_type_id = ?";
@@ -588,7 +586,7 @@ public class ServiceDao extends DBContext {
         }
         return list;
     }
-
+    
     public ImagesService getServiceWithImageById(int id) {
         String query = "select * from Images_Service i join [Services] s on i.service_id = s.service_id where s.service_id =?";
         try {
@@ -891,11 +889,12 @@ public class ServiceDao extends DBContext {
     public static void main(String[] args) {
         ServiceDao dao = new ServiceDao();
         String name = "Khám mắt tổng quát";
-//        List<ImagesService> list = dao.getAllServiceWithImage();
-//        for (ImagesService serviceDetail : list) {
-//            System.out.println(serviceDetail);
-//        }
-        ServiceDetail s = dao.getServiceDetailByServiceAndType(12, 1);
-        System.out.println(s);
+        List<ImagesService> list = dao.getAllServiceWithImage();
+        for (ImagesService serviceDetail : list) {
+            System.out.println(serviceDetail);
+        }
+
+//        ServiceDetail s = dao.getServiceDetailById(1);
+//        System.out.println(s);
     }
 }

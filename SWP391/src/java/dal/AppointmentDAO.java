@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
+import model.Appointment;
 import model.Appointments;
 import model.Checkout;
 import model.Discount;
@@ -136,7 +137,9 @@ public class AppointmentDAO extends DBContext {
                 UserProfile user = new UserProfile(account, fullname, address);
                 double actualCost = rs.getDouble("actualCost");
                 // Create appointment object
+                //Appointments appointment = new Appointments(appointment_id, appointment_date, appointment_status, doctor, slot, service_detail, user, discountDetail, actualCost);
                 Appointments appointment = new Appointments(appointment_id, appointment_date, appointment_status, doctor, slot, service_detail, user, discountDetail, actualCost);
+                
                 list.add(appointment);
             }
         } catch (Exception e) {
@@ -563,7 +566,7 @@ public class AppointmentDAO extends DBContext {
             rs = ps.executeQuery();
             while (rs.next()) {
                 return new Checkout(rs.getInt(1), rs.getInt(2), rs.getString(3),
-                        rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getInt(7), rs.getTimestamp(8));
+                        rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getTimestamp(7));
             }
         } catch (Exception e) {
         }

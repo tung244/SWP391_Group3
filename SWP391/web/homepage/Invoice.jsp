@@ -185,7 +185,7 @@
 
                                 <div class="col-xs-4 text-right payment-details">
                                     <p class="lead marginbottom payment-info">Payment details</p>
-                                    <p>Date: <fmt:formatDate value="${checkout.checkoutTime}" pattern="dd-MM-yyyy"/></p>
+                                    <p>Date: <fmt:formatDate value="${checkout.checkoutTime}" pattern="dd/MM/yyyy HH:mm:ss"/></p>
                                     <p>VAT: DK888-777 </p>
                                     <p>Total Amount: <fmt:formatNumber value="${checkout.totalBill}" pattern="#,###"/></p>
 <!--                                    <p>Account Name: ${appointment.user.account.username}</p>-->
@@ -199,13 +199,11 @@
                                         <tr>
                                             <th class="text-center" style="width:5%">#</th>
                                             <th class="text-left" style="width:20%">Service</th>
-                                            <th class="text-center" style="width:10%">Type</th>
-                                            <th class="text-center" style="width:10%">Date</th>
-                                            <th class="text-center" style="width:10%">Time</th>
-                                            <th class="text-center" style="width:10%">Doctor</th>
-                                            <th class="text-center" style="width:10%">Total Cost</th>
-                                            <th class="text-center" style="width:10%">Discount</th>
-                                            <th class="text-center" style="width:10%">Price</th>
+                                            <th class="text-center" style="width:15%">Type</th>
+                                            <th class="text-center" style="width:15%">Date</th>
+                                            <th class="text-center" style="width:15%">Time</th>
+                                            <th class="text-center" style="width:15%">Doctor</th>
+                                            <th class="text-center" style="width:15%">Price</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -217,8 +215,6 @@
                                             <td class="text-center">${appointment.slot.start_time} - ${appointment.slot.end_time}</td>
                                             <td class="text-center">${appointment.doctor.doctor_name}</td>
                                             <td class="text-center"><fmt:formatNumber value="${appointment.service_detail.cost}" pattern="#,###"/></td>
-                                            <td class="text-center">${appointment.discount.percent}%</td>
-                                            <td class="text-center"><fmt:formatNumber value="${appointment.actualCost}" pattern="#,###"/></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -237,10 +233,9 @@
                                     <img src="homepage/images/resources/signature.png" width="150px" height="80px" alt="Signature">
                                 </div>
                                 <div class="col-xs-4 text-right pull-right invoice-total">
-                                    <p>Subtotal : $1019</p>
-                                    <p>Discount (10%) : $101 </p>
-                                    <p>VAT (8%) : $73 </p>
-                                    <p>Total : $991 </p>
+                                    <p>Subtotal : <fmt:formatNumber value="${appointment.service_detail.cost}" pattern="#,###"/></p>
+                                    <p>Discount (${appointment.discount.percent}%)</p>
+                                    <p>Total : <fmt:formatNumber value="${appointment.actualCost}" pattern="#,###"/> </p>
                                 </div>
                             </div>
 
@@ -273,6 +268,7 @@
                     doc.save("Invoice-" + new Date().getTime() + ".pdf");
                 });
             });
+
         </script>
 
     </body>

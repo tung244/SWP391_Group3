@@ -45,7 +45,7 @@ public class Authen implements Filter {
             chain.doFilter(request, response);
             return;
         }
-        if (requestPath.equals("/admin/login_show_email") || requestPath.equals("/admin/callback")) {
+        if (requestPath.equals("/admin/login_show_email") || requestPath.equals("/admin/callback") || requestPath.equals("/admin/dang_xuat")) {
             chain.doFilter(request, response);
             return;
         }
@@ -65,9 +65,9 @@ public class Authen implements Filter {
             response.sendRedirect("loginAdmin");
             return;
         }
-        if(!adao.hasPermission(a.getRole().getRole_id(), requestPath) && !requestPath.equals("/admin/dang_xuat")){
-            request.getSession().setAttribute("error", "hehe");
-            response.sendRedirect("dashboard");
+        if(!adao.hasPermission(a.getRole().getRole_id(), requestPath)){
+            request.getSession().setAttribute("error", "Bạn không có quyền để vô trang này!");
+            response.sendRedirect("welcome");
             return;
         }
 

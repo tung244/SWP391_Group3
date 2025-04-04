@@ -512,7 +512,7 @@
                     success: function (data) {
                         if (data.success) {
                             alert('Cập nhật thành công!\n' + data.message);
-                             window.location.reload();
+                            window.location.reload();
                         } else {
                             alert('Cập nhật thất bại: ' + data.message);
                         }

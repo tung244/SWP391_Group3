@@ -17,42 +17,7 @@
             <!--End mainmenu area-->     
 
             <!--Start header area-->
-            <header class="mainmenu-bottom-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header-contact-info">
-                                <ul style="text-align: center">
-                                    <li class="col-md-4">
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-signs"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>KM29_Láng Hòa Lạc</h3>
-                                        </div>
-                                    </li>
-                                    <li class="col-md-4">
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-interface"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Group3_SWP391@fpt.edu.vn</h3>
-                                        </div>
-                                    </li>
-                                    <li class="col-md-4">
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-clock"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Weekdays: 09.00am to 18.00pm</h3>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>  
+              
             <!--End header area-->      
 
             <!--Start rev slider wrapper-->     
@@ -277,7 +242,7 @@
                                                            -webkit-box-orient: vertical;
                                                            overflow: hidden;
                                                            text-overflow: ellipsis;font-size: 15px; line-height: 1.5">${machine.machine_description}</p>
-                                                        <a href="#">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
+                                                        <a href="list_machine?machine_id=${machine.machine_id}">Read More<i class="fa fa-caret-right" aria-hidden="true"></i></a>    
                                                     </div>
                                                 </div>
                                             </div>
@@ -655,7 +620,7 @@
                                         <div class="row">
                                             <div class="col-md-5 col-sm-5 col-xs-12">
                                                 <div class="img-holder">
-                                                    <img src="${content.image_patient}" alt="Awesome Image">
+                                                    <img src="${content.image_patient}" style="width: 250px!important" alt="Awesome Image">
                                                     <div class="client-name text-center"> <h3>${content.patient_name}</h3> </div>
                                                 </div>
                                             </div>

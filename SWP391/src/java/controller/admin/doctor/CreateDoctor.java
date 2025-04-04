@@ -4,6 +4,7 @@
  */
 package controller.admin.doctor;
 
+import bo.ImageServices;
 import bo.SendMail;
 import dal.DoctorsDAO;
 import dal.SpecializationDAO;
@@ -22,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import model.Doctors;
 import model.Specialization;
@@ -84,7 +86,11 @@ public class CreateDoctor extends HttpServlet {
             Part part = request.getPart("profileImage");
             String pathHost = getServletContext().getRealPath("");
             String finalPath = pathHost.replace("build\\", "");
-            String linkFile = uploadImage(part, finalPath);
+            String linkFile = "";
+            if (part != null && part.getSize() > 0) {
+                linkFile = ImageServices.uploadImage(part, finalPath);
+            }
+
             response.getWriter().print(linkFile);
 
             // Tạo đối tượng chuyên khoa
@@ -113,6 +119,7 @@ public class CreateDoctor extends HttpServlet {
                 SendMail.guiMailDoctor(doctor.getAcc().email, pass, doctorName);
 
                 HttpSession session = request.getSession();
+                session.setAttribute("success", "Create doctor successfully!");
                 session.setAttribute("progress", 100);
                 response.sendRedirect("DoctorList");
             } else {
@@ -154,7 +161,7 @@ public class CreateDoctor extends HttpServlet {
                     } else {
                         try {
                             int expYears = Integer.parseInt(expYearsStr);
-                            if (expYears <= 0) {
+                            if (expYears < 0) {
                                 jsonResponse.put("status", "invalid");
                             } else {
                                 jsonResponse.put("status", "valid");
@@ -175,11 +182,19 @@ public class CreateDoctor extends HttpServlet {
                     break;
 
                 case "checkDOB":
-                    String dob = request.getParameter("dob");
-                    if (dob == null || dob.trim().isEmpty()) {
+                    String dobStr = request.getParameter("dob");
+                    if (dobStr == null || dobStr.trim().isEmpty()) {
                         jsonResponse.put("status", "empty");
                     } else {
-                        jsonResponse.put("status", "valid");
+                        LocalDate dobDate = LocalDate.parse(dobStr);
+                        LocalDate today = LocalDate.now();
+                        Period age = Period.between(dobDate, today);
+                        if (age.getYears() >= 18) {
+                            jsonResponse.put("status", "valid");
+                        } else {
+                            jsonResponse.put("status", "invalid");
+                            jsonResponse.put("message", "Doctor must be at least 18 years old.");
+                        }
                     }
                     break;
 
@@ -203,29 +218,6 @@ public class CreateDoctor extends HttpServlet {
 
         out.print(jsonResponse.toString());
         out.flush();
-    }
-
-    public static String uploadImage(Part part, String finalPath) throws ServletException {
-        String uploadPath = finalPath + "images";
-        File uploadDir = new File(uploadPath);
-
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-        String linkFile = "";
-
-        String fileName = part.getSubmittedFileName();
-
-        if (fileName != null && !fileName.isEmpty()) {
-            File filePath = new File(uploadPath + File.separator + fileName);
-            try {
-                Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "./images/" + fileName;
-            } catch (IOException e) {
-                throw new ServletException("File upload failed: " + e.getMessage());
-            }
-        }
-        return linkFile;
     }
 
     @Override
