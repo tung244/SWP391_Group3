@@ -5,14 +5,16 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <jsp:include page="Common/Css.jsp"/>
         <title>Update Staff</title>
         <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+       
         <style>
             .form-container {
                 max-width: 800px;
@@ -42,48 +44,63 @@
                 margin-bottom: 1rem;
             }
         </style>
+         
     </head>
     <body class="bg-light">
+        
+        
+        <jsp:include page="Common/Navbar.jsp"/>
+        <div class="page-wrapper">
+            <!--page-content-wrapper-->
+            <div class="page-content-wrapper">
+                <div class="page-content">
         <div class="container">
             <div class="form-container">
-                <h2 class="page-title">Add Staff Details</h2>
+                <h2 class="page-title">Add Staff</h2>
 
-                <c:if test="${not empty error}">
+
+                <c:if test="${error != null}">
                     <div class="alert alert-danger" role="alert">
                         ${error}
-                    </div>
+                    </div>  
                 </c:if>
 
                 <form action="AddStaff" method="post">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Account Id</label>
-                                <input type="text" class="form-control" name="account_id" value="${staff.account.account_id}" readonly/>
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" name="username" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="text" class="form-control" name="password" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Full Name</label>
-                                <input type="text" class="form-control" name="admin_fullname" value="${staff.admin_fullname}" required/>
+                                <input type="text" class="form-control" name="staff_fullname" required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Address</label>
-                                <input type="text" class="form-control" name="admin_address" value="${staff.admin_address}" required/>
+                                <input type="text" class="form-control" name="staff_address"  required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">DOB</label>
-                                <input type="date" class="form-control" name="admin_dob" value="${staff.admin_dob}" required/>
+                                <input type="date" class="form-control" name="staff_dob"  required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Gender</label>
-                                <select class="form-control" name="admin_gender" required>
+                                <select class="form-control" name="staff_gender" required>
                                     <option value="" disabled ${staff.admin_gender == null ? "selected" : ""}>Select Gender</option>
                                     <option value="Male" ${"Male".equals(staff.admin_gender) ? "selected" : ""}>Male</option>
                                     <option value="Female" ${"Female".equals(staff.admin_gender) ? "selected" : ""}>Female</option>
@@ -102,32 +119,37 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Phone</label>
-                                <input type="tel" class="form-control" name="phone" value="${staff.phone}" required/>
+                                <input type="tel" class="form-control" name="phone"  required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" value="${staff.email}" required/>
+                                <input type="email" class="form-control" name="email" required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Created Date</label>
-                                <input type="date" class="form-control" name="created_date" value="${staff.created_date}" required/>
+                                <label class="form-label">Salary</label>
+                                <input type="text" class="form-control" name="salary" required/>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-primary btn-update">Update Staff</button>
+                        <button type="submit" class="btn btn-primary btn-update">Add Staff</button>
                         <a href="ListStaff" class="btn btn-secondary ms-2">Cancel</a>
                     </div>
                 </form>
             </div>
         </div>
-
+</div></div></div>
         <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <jsp:include page="Common/Message.jsp"/>
+        <jsp:include page="Common/Js.jsp"/>
+        
     </body>
+    
 </html>

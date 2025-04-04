@@ -30,6 +30,49 @@ public class StaffDAO extends DBContext {
 
     ResultSet rs = null;
 
+    public boolean deleteStaff(int id) {
+        String deleteStaffSQL = "DELETE FROM Staff WHERE account_id = ?";
+        String deleteAccountSQL = "DELETE FROM Accounts WHERE account_id = ?";
+
+        try (PreparedStatement st1 = connection.prepareStatement(deleteStaffSQL); PreparedStatement st2 = connection.prepareStatement(deleteAccountSQL)) {
+
+            st1.setInt(1, id);
+            int rowsDeletedFromStaff = st1.executeUpdate();
+
+            st2.setInt(1, id);
+            int rowsDeletedFromAccounts = st2.executeUpdate();
+
+            return rowsDeletedFromStaff > 0 || rowsDeletedFromAccounts > 0;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+    
+    public List<String> getAllAddresses() {
+        List<String> addressList = new ArrayList<>();
+        String sql = "SELECT DISTINCT admin_address FROM Staff";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                addressList.add(rs.getString("admin_address"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return addressList;
+    }
+    
+    
+    public List<Staffs> getStaffByPage(ArrayList<Staffs> list, int start, int end) {
+        ArrayList<Staffs> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
+    
     public List<Staffs> getAllStaff() {
         List<Staffs> list = new ArrayList<>();
         String query = "SELECT \n"
@@ -95,6 +138,77 @@ public class StaffDAO extends DBContext {
         return list;
     }
 
+    public List<Staffs> searchStaffs(String name, String address, String phone, String roleName) {
+        List<Staffs> staffList = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("""
+        SELECT s.account_id, a.username, a.email, a.phone_number, a.created_date, 
+               r.role_id, r.role_name, s.admin_fullname, s.admin_address, 
+               s.admin_dob, s.admin_gender, s.image_profile_admin, 
+               s.admin_hired_date, s.admin_salary
+        FROM Staff s
+        JOIN Accounts a ON s.account_id = a.account_id
+        JOIN Role r ON a.role_id = r.role_id
+        WHERE 1=1
+    """);
+
+        List<String> params = new ArrayList<>();
+
+        if (name != null && !name.isEmpty()) {
+            sql.append(" AND s.admin_fullname COLLATE SQL_Latin1_General_CP1_CI_AI LIKE ?");
+            System.out.println(name);
+            params.add("%" + name + "%");
+        }
+
+        if (address != null && !address.isEmpty()) {
+            sql.append(" AND s.admin_address LIKE ?");
+            params.add("%" + address + "%");
+        }
+
+        if (phone != null && !phone.isEmpty()) {
+            sql.append(" AND a.phone_number LIKE  ?");
+            params.add("%" + phone + "%");
+        }
+
+        if (roleName != null && !roleName.isEmpty()) {
+            sql.append(" AND r.role_name LIKE  ?");
+            params.add("%" + roleName + "%");
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                ps.setString(i + 1, params.get(i));
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int accountId = rs.getInt("account_id");
+                    String username = rs.getString("username");
+                    String email = rs.getString("email");
+                    String phoneNumber = rs.getString("phone_number");
+                    String createdDate = rs.getString("created_date");
+                    int roleId = rs.getInt("role_id");
+                    String role_name = rs.getString("role_name");
+                    String adminFullname = rs.getString("admin_fullname");
+                    String adminAddress = rs.getString("admin_address");
+                    Date adminDob = rs.getDate("admin_dob");
+                    String adminGender = rs.getString("admin_gender");
+                    String imageProfileAdmin = rs.getString("image_profile_admin");
+                    Timestamp adminHiredDate = rs.getTimestamp("admin_hired_date");
+                    BigDecimal adminSalary = rs.getBigDecimal("admin_salary");
+
+                    Role role = new Role(roleId, role_name);
+                    Account account = new Account(accountId, username, email, phoneNumber, createdDate, role);
+                    Staffs staff = new Staffs(account, adminFullname, adminAddress, adminDob, adminGender, imageProfileAdmin, adminHiredDate, adminSalary);
+
+                    staffList.add(staff);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return staffList;
+    }
+    
+    
     public Staffs getStaffById(int id) {
         List<Staffs> list = new ArrayList<>();
         String query = "SELECT \n"
@@ -165,10 +279,15 @@ public class StaffDAO extends DBContext {
     public boolean updateStaff(Staffs staff) throws SQLException {
         Connection conn = null;
         PreparedStatement psUpdateStaff = null;
+        PreparedStatement psUpdateAccount = null;
         boolean success = false;
 
+        // Câu lệnh cập nhật bảng Staff
         String updateStaffQuery = "UPDATE Staff SET admin_fullname = ?, admin_address = ?, admin_dob = ?, "
                 + "admin_gender = ?, image_profile_admin = ?, admin_hired_date = ?, admin_salary = ? WHERE account_id = ?";
+
+        // Câu lệnh cập nhật bảng Accounts
+        String updateAccountQuery = "UPDATE Accounts SET role_id = ? WHERE account_id = ?";
 
         try {
             // Khởi tạo kết nối
@@ -181,29 +300,50 @@ public class StaffDAO extends DBContext {
             psUpdateStaff.setString(2, staff.getAdmin_address());
             psUpdateStaff.setDate(3, new java.sql.Date(staff.getAdmin_dob().getTime()));
             psUpdateStaff.setString(4, staff.getAdmin_gender());
-            psUpdateStaff.setString(5, staff.getImage_profile_admin()); // Kiểm tra giá trị này
-            psUpdateStaff.setTimestamp(6, staff.getAdmin_hired_date()); // Kiểm tra giá trị này
-            psUpdateStaff.setBigDecimal(7, staff.getAdmin_salary()); // Kiểm tra giá trị này
+            psUpdateStaff.setString(5, staff.getImage_profile_admin()); // Có thể null
+            psUpdateStaff.setTimestamp(6, staff.getAdmin_hired_date()); // Có thể null
+            psUpdateStaff.setBigDecimal(7, staff.getAdmin_salary()); // Có thể null
             psUpdateStaff.setInt(8, staff.getAccount().getAccount_id());
-
             int rowsUpdatedStaff = psUpdateStaff.executeUpdate();
 
-            // Commit nếu có dòng được cập nhật
-            if (rowsUpdatedStaff > 0) {
+            // Chuyển đổi role_name thành role_id
+            int roleId;
+            String roleName = staff.getAccount().getRole().getRole_name();
+            switch (roleName) {
+                case "Sales":
+                    roleId = 2;
+                    break;
+                case "Customer Support":
+                    roleId = 4;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid role name: " + roleName);
+            }
+
+            // Cập nhật role_id trong bảng Accounts
+            psUpdateAccount = conn.prepareStatement(updateAccountQuery);
+            psUpdateAccount.setInt(1, roleId);
+            psUpdateAccount.setInt(2, staff.getAccount().getAccount_id());
+            int rowsUpdatedAccount = psUpdateAccount.executeUpdate();
+
+            // Commit nếu cả hai bảng đều được cập nhật thành công
+            if (rowsUpdatedStaff > 0 && rowsUpdatedAccount > 0) {
                 conn.commit();
                 success = true;
             } else {
-                conn.rollback(); // Rollback nếu không có dòng nào được cập nhật
+                conn.rollback(); // Rollback nếu một trong hai bảng không được cập nhật
             }
         } catch (SQLException e) {
-            if (conn != null) {
-                conn.rollback(); // Rollback trong trường hợp có exception
+            if (conn != null) {conn.rollback(); // Rollback trong trường hợp có exception
             }
             e.printStackTrace();
         } finally {
             try {
                 if (psUpdateStaff != null) {
                     psUpdateStaff.close();
+                }
+                if (psUpdateAccount != null) {
+                    psUpdateAccount.close();
                 }
                 if (conn != null) {
                     conn.setAutoCommit(true); // Reset auto commit về true
@@ -305,14 +445,23 @@ public class StaffDAO extends DBContext {
         return success;
     }
 
-    public static void main(String[] args) {
-        StaffDAO dao = new StaffDAO();
-        List<Staffs> list = dao.getAllStaff();
-        for (Staffs staffs : list) {
-            System.out.println(staffs);
+    public String[] loadStaffBlog(int account_id) {
+        String sql = "SELECT admin_fullname,image_profile_admin FROM dbo.Staff WHERE account_id = ?";
+        String[] s = new String[3];
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, account_id);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                s[0] = rs.getString(1);
+                s[1] = rs.getString(2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-//        int id = 8;
-//        Staffs s = dao.getStaffById(id);
-//        System.out.println(s);
+        return s;
     }
+
+    
 }

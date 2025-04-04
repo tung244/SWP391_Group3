@@ -42,65 +42,83 @@ public class CustomerDAO extends DBContext {
         return list;
     }
 
-public List<Customers> getPagination(List<Customers> list, int start, int limit) {
-    List<Customers> paginatedList = new ArrayList<>();
+    public List<Customers> getPagination(List<Customers> list, int start, int limit) {
+        List<Customers> paginatedList = new ArrayList<>();
 
-    if (start >= list.size()) {
+        if (start >= list.size()) {
+            return paginatedList;
+        }
+
+        int end = Math.min(start + limit, list.size());
+
+        for (int i = start; i < end; i++) {
+            paginatedList.add(list.get(i));
+        }
         return paginatedList;
     }
 
-    int end = Math.min(start + limit, list.size());
-
-    for (int i = start; i < end; i++) {
-        paginatedList.add(list.get(i));
-    }
-    return paginatedList;
-}
     public Customers GetCustomerById(int account_id) {
-    String sql = """
+        String sql = """
                  SELECT c.full_name, c.dob,c.gender,c.address,a.phone_number,a.email,a.created_date,a.role_id,c.image_profile_user FROM dbo.Customers c
                  JOIN dbo.Accounts a ON a.account_id = c.account_id WHERE c.account_id = ?""";
-    try {
-        PreparedStatement st = connection.prepareStatement(sql);
-        st.setInt(1, account_id);
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, account_id);
 
-        ResultSet rs = st.executeQuery();
+            ResultSet rs = st.executeQuery();
 
-        if (rs.next()) {
-            return new Customers(rs.getString("role_id"), rs.getString("full_name"), rs.getString("address"), rs.getString("dob"),
-                    rs.getString("gender"), rs.getString("phone_number"), rs.getString("email"), rs.getString("created_date"),
-                    rs.getString("image_profile_user"));
+            if (rs.next()) {
+                return new Customers(rs.getString("role_id"), rs.getString("full_name"), rs.getString("address"), rs.getString("dob"),
+                        rs.getString("gender"), rs.getString("phone_number"), rs.getString("email"), rs.getString("created_date"),
+                        rs.getString("image_profile_user"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
         }
-    } catch (SQLException e) {
-        System.out.println("Database error: " + e.getMessage());
+        return null;
     }
-    return null;
-}
-public List<Customers> searchCustomers(String keyword){
-    List<Customers> list = new ArrayList<>();
-    String sql = """
+
+    public List<Customers> searchCustomers(String keyword) {
+        List<Customers> list = new ArrayList<>();
+        String sql = """
                  SELECT * FROM dbo.Customers c
                  JOIN dbo.Accounts a ON
                  a.account_id = c.account_id
                  WHERE c.full_name LIKE ? 
                  """;
-    
-    try{
-        PreparedStatement st = connection.prepareStatement(sql);
-        st.setString(1, "%" + keyword + "%");
-        ResultSet rs = st.executeQuery();
-        
-        while(rs.next()){
-            Customers c = new Customers(rs.getInt("account_id"),
-                    rs.getString("full_name"),
-                    rs.getString("gender"),
-                    rs.getString("username"),
-                    rs.getString("image_profile_user"));
-            list.add(c);
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + keyword + "%");
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                Customers c = new Customers(rs.getInt("account_id"),
+                        rs.getString("full_name"),
+                        rs.getString("gender"),
+                        rs.getString("username"),
+                        rs.getString("image_profile_user"));
+                list.add(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e){
-        e.printStackTrace();
-    }
         return list;
-}
+    }
+
+    public int countAllCustomer() {
+        String sql = "SELECT COUNT(*) FROM dbo.Customers c\n"
+                + "JOIN dbo.Accounts a ON a.account_id = c.account_id\n"
+                + "WHERE a.role_id = '5'";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
