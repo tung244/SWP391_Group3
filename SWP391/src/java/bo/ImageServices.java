@@ -12,9 +12,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 public class ImageServices {
 
+
+    
     public static String uploadImage(Part part, String finalPath) throws ServletException {
 //  Thêm đoạn dưới đây vào servlet
 
@@ -39,7 +42,7 @@ public class ImageServices {
             File filePath = new File(uploadPath + File.separator + fileName);
             try {
                 Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "./images" + "/" + fileName;
+                linkFile = ConfigWeb.URL_IMAGE_IMAGE + "/" + fileName;
             } catch (IOException e) {
                 throw new ServletException("File upload failed: " + e.getMessage());
             }
@@ -54,7 +57,7 @@ public class ImageServices {
 //         String pathHost = getServletContext().getRealPath("");
 //
 //        String finalPath = pathHost.replace("build\\", ""); 
-        String uploadPath = finalPath + "public" + File.separator + "images";
+        String uploadPath = finalPath + "images";
         System.out.println(uploadPath);
 
         // Tạo thư mục "uploads" nếu chưa tồn tại
@@ -88,7 +91,7 @@ public class ImageServices {
 //         String pathHost = getServletContext().getRealPath("");
 //
 //        String finalPath = pathHost.replace("build\\", ""); 
-        String uploadPath = finalPath + "public"  + File.separator + "thumb";
+        String uploadPath = finalPath +  "thumb";
         System.out.println(uploadPath);
 
         // Tạo thư mục "uploads" nếu chưa tồn tại

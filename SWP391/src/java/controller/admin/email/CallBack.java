@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.admin.email;
 
 import com.google.api.client.http.GenericUrl;
@@ -15,6 +14,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.gson.Gson;
 import consts.Gmails;
 import dal.TokenDAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -24,36 +24,22 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-
-@WebServlet(name="CallBack", urlPatterns={"/admin/callback"})
+@WebServlet(name = "CallBack", urlPatterns = {"/admin/callback"})
 public class CallBack extends HttpServlet {
-   
-    TokenDAO token = new TokenDAO();
-    
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CallBack</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CallBack at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    } 
 
-    
+    TokenDAO token = new TokenDAO();
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String code = request.getParameter("code");
 
-        if (code == null) {
+        if (code == null || code.isEmpty()) {
             response.sendRedirect("login_show_email");
         }
 
@@ -75,12 +61,23 @@ public class CallBack extends HttpServlet {
 
         String accessToken = (String) jsonMap.get("access_token");
         String refreshToken = (String) jsonMap.get("refresh_token");
-        response.getWriter().print(accessToken +"   " + refreshToken);
-    } 
+        
+        if (refreshToken != null) {
+            token.addRefreshToken(refreshToken);
+        }// Lưu refresh Token vô db 
+        
+        // Lưu Access Token vào session
+        request.getSession().setAttribute("accessToken", accessToken);
+        request.getSession().setAttribute("refreshToken", refreshToken);
+        
+        request.getSession().setMaxInactiveInterval(3600);
+        
+        response.sendRedirect("show_email"); // Chuyển đến trang hiển thị email
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 

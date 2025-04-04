@@ -4,6 +4,7 @@
  */
 package controller.admin.doctor;
 
+import bo.EncryptPassword;
 import dal.AccountDAO;
 import dal.PassWordDAO;
 import java.io.IOException;
@@ -61,7 +62,7 @@ public class ChangePass extends HttpServlet {
         PassWordDAO pdao = new PassWordDAO();
         
         String newpass = request.getParameter("new-pass").trim();
-        String encryptPass = pdao.hashPasswordMD5(newpass);
+        String encryptPass =EncryptPassword.hashPassword(newpass);
         String email = (String) request.getSession().getAttribute("email");
         
         if (newpass != null && !newpass.isEmpty()) {
@@ -70,7 +71,7 @@ public class ChangePass extends HttpServlet {
             if(success){
                 String firstConfirm = "false";
                 accdao.changeFirstConfirm(firstConfirm, accId);
-                response.sendRedirect("doctorProfile?accId=" + accId);
+                response.sendRedirect("dashboard");
             }
             
         }

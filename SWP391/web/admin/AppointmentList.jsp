@@ -86,6 +86,7 @@
                                                         <th scope="col" style="color: green">Date</th>
                                                         <th scope="col" style="color: green">Cost</th>
                                                         <th scope="col" style="color: green">Discount</th>
+                                                        <th scope="col" style="color: green">DiscountName</th>
                                                         <th scope="col" style="color: green">ActualCost</th>
                                                         <th scope="col" style="color: green">Status</th>
                                                         <th scope="col" style="color: green">Action</th>
@@ -136,6 +137,9 @@
                                                         </td>
                                                         <td>
                                                             <span>${a.discount.percent}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span>${a.discount.discount.discountName}</span>
                                                         </td>
                                                         <td>
                                                             <fmt:formatNumber value="${a.actualCost}" pattern="#,###" />
@@ -508,7 +512,7 @@
                     success: function (data) {
                         if (data.success) {
                             alert('Cập nhật thành công!\n' + data.message);
-                             window.location.reload();
+                            window.location.reload();
                         } else {
                             alert('Cập nhật thất bại: ' + data.message);
                         }

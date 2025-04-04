@@ -85,7 +85,7 @@
                                                                             </a>
                                                                         </h6>
                                                                     </c:if>
-                                                                    <img src=".${lde.degree_image}" class="img-thumbnail" alt="Degree Image">
+                                                                    <img src="${lde.degree_image}" class="img-thumbnail" alt="Degree Image">
                                                                 </div> 
 
                                                             </c:forEach>
@@ -136,7 +136,7 @@
                             <img style="margin-left: 35%" id="degreePhoto" src="" width="350" height="350" alt="Degree Photo"/>
                             </br>
                             <label for="updateDegreeImage" class="form-label">Degree Image</label>
-                            <input type="file" name="updateDegreeImage" id="updateDegreeImage" class="form-control" >
+                            <input accept=".jpg, .jpeg, .webp, .png" type="file" name="updateDegreeImage" id="updateDegreeImage" class="form-control" >
                         </div>
                         <div class="mb-3">
                             <label for="updateDegreeIssuedBy" class="form-label">Issued By</label>
@@ -214,7 +214,7 @@
                                     // Gán giá trị vào modal
                                     document.getElementById("degreeId").value = degreeId;
                                     document.getElementById("doctorId").value = doctorId;
-                                    document.getElementById("degreePhoto").src = "." + degreeImage;
+                                    document.getElementById("degreePhoto").src =degreeImage;
                                     document.getElementById("updateDegreeIssuedBy").value = issuedBy;
                                     document.getElementById("dateDegree").value = dateDegree;
                                     document.getElementById("version").value = dataVersion;

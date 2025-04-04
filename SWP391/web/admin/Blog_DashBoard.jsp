@@ -101,12 +101,57 @@
                     max-width: 100%;
                 }
             }
+            /* Style cho nút gạt với tên class unique */
+            .xai-toggle-wrapper {
+                position: relative;
+                width: 37.5px;
+                height: 21.25px;
+                display: inline-block;
+            }
+
+            .xai-toggle-input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            .xai-toggle-slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc; /* Màu xám khi tắt */
+                transition: 0.4s;
+                border-radius: 21.25px;
+            }
+
+            .xai-toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 16.25px;
+                width: 16.25px;
+                left: 2.5px;
+                bottom: 2.5px;
+                background-color: white;
+                transition: 0.4s;
+                border-radius: 50%;
+            }
+
+            .xai-toggle-input:checked + .xai-toggle-slider {
+                background-color: rgb(34,139,34);
+            }
+
+            .xai-toggle-input:checked + .xai-toggle-slider:before {
+                transform: translateX(16.25px);
+            }
         </style>
     </head>
     <body>
         <div class="wrapper">
             <jsp:include page="Common/Navbar.jsp"/>
-            <jsp:include page="Common/Search.jsp"/>
+            
             <div class="page-wrapper">
                 <div style="padding: 0" class="page-content-wrapper">
                     <div style="background-color: white" class="page-content">
@@ -133,7 +178,7 @@
                                 </div>
                                 <div class="stat-card">
                                     <h4>Tổng lượt xem</h4>
-                                    <div style="font-size: 25px">42,591</div>
+                                    <div style="font-size: 25px">${totalView}</div>
                                 </div>
                             </div>
 
@@ -141,7 +186,9 @@
                             <form action="blog_dashboard" method="get" class="filter-section">
                                 <div class="status-filter">
                                     <label>Loại:</label>
-                                    <select style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px" name="type" onchange="this.form.submit()" class="status-select">
+                                    <select style="padding: 10px;
+                                            border: 1px solid #cbd5e1;
+                                            border-radius: 6px" name="type" onchange="this.form.submit()" class="status-select">
                                         <option value="All">Tất cả</option>
                                         <option value="Public">Đã xuất bản</option>
                                         <option value="Draft">Bản nháp</option>
@@ -185,16 +232,24 @@
                                                         <td>${list.title_meta}</td>
                                                         <td>${list.created_date_blog}</td>
                                                         <td>${list.author_name}</td>
-                                                        <td>${list.status_blog}</td>
-                                                        <td>320,800</td>
                                                         <td>
-                                                            <div class="btn-group">
-                                                                <button type="button" class="btn btn-success dropdown-toggle" 
-                                                                        data-bs-toggle="dropdown">
-                                                                    Action
-                                                                </button>
-                                                                <div class="dropdown-menu">
-                                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                            <label class="xai-toggle-wrapper">
+                                                                <input type="checkbox" class="xai-toggle-input" 
+                                                                       data-blog="${list.blog_id}" 
+                                                                       <c:if test="${list.status_blog == 'Public'}">checked</c:if> 
+                                                                           onclick="updateStatus(this)">
+                                                                       <span class="xai-toggle-slider"></span>
+                                                                </label>
+                                                            </td>
+                                                            <td>${list.blog_view}</td>
+                                                            <td>
+                                                                <div class="btn-group">
+                                                                    <button type="button" class="btn btn-success dropdown-toggle" 
+                                                                            data-bs-toggle="dropdown">
+                                                                        Action
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <a class="dropdown-item" href="update_blog?blog_id=${list.blog_id}">Edit</a>
 
                                                                     <a class="dropdown-item" href="javascript:void(0);" data-blog="${list.blog_id}" onclick="confirmDelete(this)">Delete</a>
                                                                 </div>
@@ -204,17 +259,21 @@
                                                 </c:forEach>
                                             </tbody>
                                         </table>
-                                        <nav style="margin-top: 20px; display: flex; justify-content: end" aria-label="Page navigation example">
+                                        <nav style="margin-top: 20px;
+                                             display: flex;
+                                             justify-content: end" aria-label="Page navigation example">
                                             <ul class="pagination round-pagination">
 
                                                 <li class="page-item"><button onclick="previousPage()" class="page-link">Previous</button>
                                                 </li>
 
-                                                <c:forEach var="i" begin="1" end="${numberPage}">
+                                                <c:forEach var="i" begin="${currentPage}" end="${nextNumber}">
                                                     <li class="page-item"><button onclick="choosePage(this)" data-index ="${i}" class="page-link" href="blog_dashboard?page=${i}">${i}</button>
                                                     </li>
                                                     <input type="hidden" value="${numberPage}" id="numberPage"/>
                                                 </c:forEach>
+                                                <li class="page-item"><button class="page-link" type="button">...</button>
+                                                </li>
 
                                                 <li class="page-item"><button class="page-link" onclick="nextPage()">Next</button>
                                                 </li>
@@ -241,8 +300,8 @@
                 var param = new URLSearchParams(window.location.search);
                 var page = parseInt(param.get("page"));
                 if (!isNaN(page) && page > 1) {
-                    param.set("page",page-1);
-                    window.location.search = param.toString(); 
+                    param.set("page", page - 1);
+                    window.location.search = param.toString();
                 }
             }
             function choosePage(element) {
@@ -250,23 +309,53 @@
                 var index = element.getAttribute("data-index");
 
                 if (!index)
-                    return; 
+                    return;
 
-                param.set("page", index); 
+                param.set("page", index);
 
-                window.location.search = param.toString(); 
+                window.location.search = param.toString();
             }
-            function nextPage(){
+            function nextPage() {
                 var numberPage = document.getElementById("numberPage").value;
-                
+
                 var param = new URLSearchParams(window.location.search);
                 var index = parseInt(param.get("page"));
-                if(param.get("page") < numberPage){
-                    param.set("page",index + 1);
+                if (param.get("page") < numberPage) {
+                    param.set("page", index + 1);
                     window.location.search = param.toString();
                 }
-                
+
             }
+
+
+        </script>
+        <script>
+            function updateStatus(Element) {
+                const blog = Element.getAttribute("data-blog");
+                        $.ajax({
+                            url: "update_status_blog",
+                            type: "POST",
+                            data: {
+                                
+                                blog: blog
+                            },
+                            success: function (response) {
+                                if (response.status === "oke") {
+                                    toastr.success("Update Status thành công");
+
+                                } else if (response.status === "notOke") {
+                                    toastr.success("Update Status thất bại");
+
+                                } else {
+                                    toastr.error("Error.");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert("Error");
+                            }
+                        });
+            }
+
 
 
         </script>

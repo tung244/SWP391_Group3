@@ -10,7 +10,7 @@ public class Mail {
 
     public static final int TSL_PORT = 587;
 
-    public static final String APP_EMAIL = "supporeyecare@gmail.com";
+    public static final String APP_EMAIL = "";
 
-    public static final String APP_PASSWORD = "ufho dzhc hilr ryrb";
+    public static final String APP_PASSWORD = "";
 }

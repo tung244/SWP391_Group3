@@ -6,8 +6,8 @@ package consts;
 
 
 public class ConfigWeb {
-    public static final String URL_IMAGE_THUMB = "http://localhost:8080/SWP391/public/thumb";
-    public static final String URL_IMAGE_IMAGE = "http://localhost:8080/SWP391/public/images";
+    public static final String URL_IMAGE_THUMB = "http://localhost:8080/SWP391/thumb";
+    public static final String URL_IMAGE_IMAGE = "http://localhost:8080/SWP391/images";
     public static final String URL_IMAGE_THUMB_TEMP = "http://localhost:8080/SWP391/public/temp/thumb";
     public static final String URL_IMAGE_IMAGE_TEMP = "http://localhost:8080/SWP391/public/temp/images";
     public static final String URL_POST_TEMP = "http://localhost:8080/SWP391/public/temp/post";

@@ -4,6 +4,7 @@
  */
 package controller.admin.doctor;
 
+import bo.EncryptPassword;
 import bo.GetFormatDate;
 import dal.AccountDAO;
 import dal.DoctorsDAO;
@@ -29,15 +30,6 @@ public class CreateAccDoctor extends HttpServlet {
 
     GetFormatDate getdate = new GetFormatDate();
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -55,29 +47,12 @@ public class CreateAccDoctor extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("createAccDoctor.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -103,10 +78,13 @@ public class CreateAccDoctor extends HttpServlet {
         if (action.equals("checkPhone")) {
             String phone = request.getParameter("phone").trim();
             String status = "valid";
-            if (accdao.checkExistPhone(phone)) {
-                status = "exist";
-            } else if (phone.isEmpty()) {
+
+            if (phone.isEmpty()) {
                 status = "empty";
+            } else if (!phone.matches("^0\\d{9}$")) {
+                status = "invalid";
+            } else if (accdao.checkExistPhone(phone)) {
+                status = "exist";
             }
 
             respsonse = "{\"status\":\"" + status + "\"}";
@@ -115,10 +93,13 @@ public class CreateAccDoctor extends HttpServlet {
         if (action.equals("checkEmail")) {
             String email = request.getParameter("email").trim();
             String status = "valid";
-            if (accdao.CheckExistEmail(email)) {
-                status = "exist";
-            } else if (email.isEmpty()) {
+
+            if (email.isEmpty()) {
                 status = "empty";
+            } else if (!email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
+                status = "invalid";
+            } else if (accdao.CheckExistEmail(email)) {
+                status = "exist";
             }
 
             respsonse = "{\"status\":\"" + status + "\"}";
@@ -128,12 +109,13 @@ public class CreateAccDoctor extends HttpServlet {
 
         if (action.equals("register")) {
             String username = request.getParameter("username");
+            username = username.replaceAll("\\s+", "");
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
             String pass = passdao.randomPassword();
-            String passEncrypt = passdao.hashPasswordMD5(pass);
+            String passEncrypt = EncryptPassword.hashPassword(pass);
             String firstConfirm = "true";
-            
+
             Account acc = new Account();
             acc.setUsername(username);
             acc.setPhonenumber(phone);
@@ -144,7 +126,7 @@ public class CreateAccDoctor extends HttpServlet {
             acc.setFirst_confirm(firstConfirm);
 
             Doctors doc = new Doctors();
-            doc.setAcc(acc);       
+            doc.setAcc(acc);
             request.getSession().setAttribute("pass", pass);
             request.getSession().setAttribute("doctor", doc);
             request.getSession().setAttribute("progress", 50);

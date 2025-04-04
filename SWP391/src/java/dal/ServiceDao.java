@@ -182,6 +182,47 @@ public class ServiceDao extends DBContext {
         }
         return null;
     }
+    public ServiceDetail getServiceDetailByServiceAndType(int sId, int tId) {
+        String query = "select * from Services_Detail\n"
+                + "where service_id = ? and service_type_id = ?";
+
+        try {
+
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, sId);
+            ps.setInt(2, tId);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                // Lấy dữ liệu từ ResultSet
+                ServiceDetail serviceDetail = new ServiceDetail();
+                serviceDetail.setService_detail_id(rs.getInt(1));
+                Services service = new Services();
+                service.setService_id(rs.getInt(3));
+                serviceDetail.setServices(service);
+                ServiceTypes type = new ServiceTypes();
+                type.setService_type_id(rs.getInt(2));
+                serviceDetail.setServiceType(type);
+                serviceDetail.setCost(rs.getDouble(4));
+                return serviceDetail;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng tài nguyên
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
 //    public List<ServiceDetail> getServiceByName(String name) {
 //        List<ServiceDetail> list = new ArrayList<>();
