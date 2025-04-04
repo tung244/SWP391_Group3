@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -128,7 +129,7 @@
                 <div style="padding: 0" class="page-content-wrapper">
                     <div style="background-color: white" class="page-content">
                         <!--start email wrapper-->
-                        <form id="formSubmitBlog" action="demo_Post" method="post" enctype="multipart/form-data">
+                        <form id="formSubmitBlog" action="update_blog" method="post" enctype="multipart/form-data">
                             <!-- Title/Meta Input -->
                             <div class="form-group">
                                 <label for="title_meta" class="form-label">Tiêu đề bài viết:</label>
@@ -141,13 +142,22 @@
                                 <div class="custom-file-upload">
                                     <label for="thumbnail_image" class="file-upload-label">
                                         <span class="upload-icon"><i class='bx bx-upload'></i></span>
-                                        <span class="upload-text">Chọn ảnh hoặc kéo thả vào đây</span>
+                                        <c:if test="${empty blog.title_image_blog}">
+                                            <span class="upload-text">Chọn ảnh hoặc kéo thả vào đây</span></c:if>
+                                        <c:if test="${not empty blog.title_image_blog}">
+                                            <span class="upload-text">${blog.title_image_blog}</span>
+
+                                        </c:if>
+                                        
                                     </label>
+                                    <input type="hidden" name="blog_id" value="${blog.blog_id}"/>
+                                    <input type="hidden" id="thumb_old" name="thumb_old" value="${blog.title_image_blog}"/>
                                     <input type="file" id="thumbnail_image" name="thumbnail_image"/>
                                 </div>
 
                                 <div id="image_preview" class="image-preview-container">
                                     <div class="preview-header">
+                                        
                                         <span class="preview-title">Ảnh xem trước:</span>
                                         <button type="button" id="remove_image" class="remove-image">Xóa ảnh</button>
                                     </div>
@@ -161,21 +171,11 @@
                             <button style="margin-top: 20px; padding: 10px 15px; background-color: rgb(34,139,34);
                                     color: white; border: none; border-radius: 5px; display: flex; align-items: center; gap: 8px;" 
                                     type="submit">
-                                <i class='bx bx-play'></i> Xem Demo
+                                <i class='bx bx-play'></i> Lưu thay đổi
                             </button>
                         </form>
 
-                        <form id="formSaveDraft" action="save_draft" method="post">
-                            <input type="hidden" id="tieude_draft" name="tieude_draft"/>
-                            <input type="hidden" id="content_draft" name="content_draft"/>
-                            <input type="hidden" id="method" name="method" value="step1"/>
-                            <button style="margin-top: 20px; padding: 10px 15px; background-color: #ff007c;
-                                    color: white; border: none; border-radius: 5px; position: relative;
-                                    top: -61px; left: 150px; display: flex; align-items: center; gap: 8px;" 
-                                    type="submit">
-                                <i class='bx bx-save'></i> Lưu bản nháp
-                            </button>
-                        </form>
+                        
                         <!--end email wrapper-->
                     </div>
                 </div>
@@ -213,6 +213,10 @@
                         editorInstance = editor;
                         document.querySelector('#toolbar-container')
                                 .appendChild(editor.ui.view.toolbar.element);
+                        let postContent = '${blog.blog_content}';
+                        if (postContent.trim() !== "") {
+                            editorInstance.setData(postContent);
+                        }
                     })
                     .catch(error => {
                         console.error('CKEditor lỗi:', error);
@@ -230,11 +234,11 @@
                     const preview = document.getElementById('preview');
                     const previewContainer = document.getElementById('image_preview');
                     const uploadLabel = document.querySelector('.file-upload-label');
-                    
+                    const oldThumb = document.getElementById('thumb_old');
 
                     reader.onload = function (e) {
                         preview.src = e.target.result;
-                        
+                        oldThumb.value = '';
                         previewContainer.style.display = 'block';
                         uploadLabel.innerHTML = '<span class="upload-text">' + file.name + '</span>';
                     };

@@ -65,21 +65,23 @@ public class GetDoctorCalendar extends HttpServlet {
     throws ServletException, IOException {
         AppointmentDAO dao = new AppointmentDAO();
         DoctorsDAO dao1 = new DoctorsDAO();
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDate = currentDate.format(formatter);
+//        LocalDate currentDate = LocalDate.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        String formattedDate = currentDate.format(formatter);
         String doctor_id = request.getParameter("doctor_id");
-        String date = request.getParameter("date");
+//        String date = request.getParameter("date");
         List<Appointments> list = new ArrayList<>();
-        if(date==null || date.isEmpty()){
-            list = dao.getFilterAppointment(null, doctor_id, formattedDate, null, null);
+        if(doctor_id==null || doctor_id.isEmpty() || doctor_id == "0"){
+            list = dao.getFilterAppointment(null, null, null, null, null);
         }else{
-            list = dao.getFilterAppointment(null, doctor_id, date, null, null);
+            list = dao.getFilterAppointment(null, doctor_id, null, null, null);
         }
         Doctors doctor = dao1.getDoctorsById(doctor_id);
+        List<Doctors> listD = dao1.getAllDoctors();
         request.setAttribute("listA", list);
+        request.setAttribute("listD", listD);
         request.setAttribute("doctor", doctor);
-        request.setAttribute("date", formattedDate);
+//        request.setAttribute("date", formattedDate);
         request.getRequestDispatcher("DoctorCalendar.jsp").forward(request, response);
     } 
 

@@ -185,7 +185,7 @@
 
                                 <div class="col-xs-4 text-right payment-details">
                                     <p class="lead marginbottom payment-info">Payment details</p>
-                                    <p>Date: <fmt:formatDate value="${checkout.checkoutTime}" pattern="dd-MM-yyyy"/></p>
+                                    <p>Date: <fmt:formatDate value="${checkout.checkoutTime}" pattern="dd/MM/yyyy HH:mm:ss"/></p>
                                     <p>VAT: DK888-777 </p>
                                     <p>Total Amount: <fmt:formatNumber value="${checkout.totalBill}" pattern="#,###"/></p>
 <!--                                    <p>Account Name: ${appointment.user.account.username}</p>-->
@@ -233,10 +233,9 @@
                                     <img src="homepage/images/resources/signature.png" width="150px" height="80px" alt="Signature">
                                 </div>
                                 <div class="col-xs-4 text-right pull-right invoice-total">
-                                    <p>Subtotal : $1019</p>
-                                    <p>Discount (10%) : $101 </p>
-                                    <p>VAT (8%) : $73 </p>
-                                    <p>Total : $991 </p>
+                                    <p>Subtotal : <fmt:formatNumber value="${appointment.service_detail.cost}" pattern="#,###"/></p>
+                                    <p>Discount (${appointment.discount.percent}%)</p>
+                                    <p>Total : <fmt:formatNumber value="${appointment.actualCost}" pattern="#,###"/> </p>
                                 </div>
                             </div>
 

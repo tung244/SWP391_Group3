@@ -16,19 +16,17 @@ public class ServiceTypes {
     public ServiceTypes() {
     }
 
+    public ServiceTypes(int service_type_id) {
+        this.service_type_id = service_type_id;
+    }
+    
+    
     public ServiceTypes(int service_type_id, String service_type_name, String duration_service) {
         this.service_type_id = service_type_id;
         this.service_type_name = service_type_name;
         this.duration_service = duration_service;
     }
 
-<<<<<<< HEAD
-    public ServiceTypes(int service_type_id) {
-        this.service_type_id = service_type_id;
-    }
-
-=======
->>>>>>> test
     public ServiceTypes(String service_type_name, String duration_service) {
         this.service_type_name = service_type_name;
         this.duration_service = duration_service;
@@ -36,10 +34,6 @@ public class ServiceTypes {
     
     
     
-<<<<<<< HEAD
-
-=======
->>>>>>> test
     public int getService_type_id() {
         return service_type_id;
     }

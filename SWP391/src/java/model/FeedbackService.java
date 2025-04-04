@@ -23,6 +23,7 @@ public class FeedbackService {
     public int totalStars ;
     public String full_name;
     public int month;
+    public Staffs staff;
  
      
     public FeedbackService() {
@@ -31,6 +32,13 @@ public class FeedbackService {
     public FeedbackService(double average_rating, int month) {
         this.average_rating = average_rating;
         this.month = month;
+    }
+
+    public FeedbackService(int rating, int feedback_id, Date feedback_date,  Staffs staff) {
+        this.rating = rating;
+        this.feedback_id = feedback_id;
+        this.feedback_date = feedback_date;
+        this.staff = staff;
     }
 
    
@@ -90,6 +98,14 @@ public class FeedbackService {
         this.totalStars = totalStars;
     }
 
+    public Staffs getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staffs staff) {
+        this.staff = staff;
+    }
+
     public double getAverage_rating() {
         return average_rating;
     }
@@ -114,8 +130,6 @@ public class FeedbackService {
         return full_name;
     }
 
-<<<<<<< HEAD
-=======
     public int getMonth() {
         return month;
     }
@@ -124,7 +138,6 @@ public class FeedbackService {
         this.month = month;
     }
 
->>>>>>> test
     public void setFull_name(String full_name) {
         this.full_name = full_name;
     }
@@ -172,11 +185,7 @@ public class FeedbackService {
     public void setAppointment_id(int appointment_id) {
         this.appointment_id = appointment_id;
     }
-<<<<<<< HEAD
-
-=======
     
->>>>>>> test
     @Override
     public String toString() {
         return "FeedbackService{" + "status=" + status + ", rating=" + rating + ", feedback_id=" + feedback_id + ", average_rating=" + average_rating + ", feedback_date=" + feedback_date + ", appointment=" + appointment + ", appointment_id=" + appointment_id + ", staff_id=" + staff_id + ", total_feedback=" + total_feedback + ", totalStars=" + totalStars + ", full_name=" + full_name + '}';

@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import dal.DegreeDAO;
 import dal.DoctorsDAO;
+import dal.ServiceDao;
 import dal.SpecializationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Degree;
 import model.Doctors;
+import model.Services;
 import model.Specialization;
 
 /**
@@ -54,15 +56,6 @@ public class ListDoctors extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -75,7 +68,7 @@ public class ListDoctors extends HttpServlet {
 
         // Lấy thông tin phân trang
         int page = 1;
-        int pageSize = 3;
+        int pageSize = 6;
         String pageParam = request.getParameter("page");
         if (pageParam != null && !pageParam.isEmpty()) {
             page = Integer.parseInt(pageParam);
@@ -84,12 +77,14 @@ public class ListDoctors extends HttpServlet {
         if (pageSizeParam != null && !pageSizeParam.isEmpty()) {
             pageSize = Integer.parseInt(pageSizeParam);
         }
-        
+
         // lấy chuyên khoa vs bằng cấp
         SpecializationDAO spdao = new SpecializationDAO();
         List<Specialization> listSpecialization = spdao.getAllSpecialization();
         DegreeDAO dedao = new DegreeDAO();
         List<Degree> listDegree = dedao.getAllDegree();
+        ServiceDao serdao = new ServiceDao();
+        List<Services> listSer = serdao.getAllServicesOnly();
 
         DoctorsDAO dao = new DoctorsDAO();
         List<Doctors> listD = dao.getDoctorsByFilter(specializationId, degreeId, searchName, sortBy, option);
@@ -108,6 +103,7 @@ public class ListDoctors extends HttpServlet {
         jsonResponse.addProperty("currentPage", page);
         jsonResponse.addProperty("totalPages", totalPages);
 
+        request.setAttribute("listS", listSer);
         request.setAttribute("listDegree", listDegree);
         request.setAttribute("listSpecialization", listSpecialization);
         request.setAttribute("listDoctor", listD);
@@ -118,14 +114,7 @@ public class ListDoctors extends HttpServlet {
         request.getRequestDispatcher("homepage/listdoctors.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

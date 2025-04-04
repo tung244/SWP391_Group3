@@ -49,10 +49,14 @@
                             <i class="bx bx-send"></i>
                             Gửi yêu cầu
                         </button>
+                        
                     </form>
+                    
                 </div>
             </div>
         </div>
+        
+        
         <script>
             const supportBtn = document.querySelector(".custom-support-btn");
             const modal = document.querySelector(".custom-support-modal");

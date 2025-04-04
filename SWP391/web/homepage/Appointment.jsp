@@ -23,42 +23,7 @@
             <!--End mainmenu area-->     
 
             <!--Start header area-->
-            <header class="mainmenu-bottom-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header-contact-info">
-                                <ul style="text-align: center">
-                                    <li class="col-md-4">
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-signs"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>KM29_Láng Hòa Lạc</h3>
-                                        </div>
-                                    </li>
-                                    <li class="col-md-4">
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-interface"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Group3_SWP391@fpt.edu.vn</h3>
-                                        </div>
-                                    </li>
-                                    <li class="col-md-4">
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-clock"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Weekdays: 09.00am to 18.00pm</h3>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>  
+            
             <!--End header area-->      
 
             <!--Start breadcrumb area-->     
@@ -112,54 +77,95 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="input-box">
                                                     <input type="text" value="${sessionScope.user.account.phonenumber}" placeholder="Your Phone" required="">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <!--                                                <div class="input-box">
-                                                                                                    <input type="date" name="date" placeholder="Date" id="datepicker">
-                                                                                                    <div class="icon-box">
-                                                                                                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                                                                                                    </div>
-                                                                                                </div>-->
+                                            <div class="col-md-4">
                                                 <div class="input-box">
-                                                    <input type="date" name="date" id="datepicker">
-                                                    <div class="icon-box">
-                                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                    <input type="text" name="date" id="date" placeholder="Chọn ngày"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4" >
+                                                <select class="form-select" id="discountList" name="discountId">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--                                        <div class="row">
+                                                                                    <div class="col-md-4">
+                                                                                        <div class="input-box">
+                                                                                            <input type="text"  placeholder="Service Name" value="${s.services.service_name}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <div class="input-box">
+                                                                                            <input type="text" placeholder="Service Type" value="${s.serviceType.service_type_name}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <div class="input-box">
+                                                                                            <input type="text" name="cost" placeholder="Cost" value="<fmt:formatNumber value="${s.cost}" pattern="#,###" />VNĐ">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>-->
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="input-box">
+                                                    <c:choose>
+                                                        <c:when test="${not empty s.services.service_name}">
+                                                            <input type="text" placeholder="Service Name" value="${s.services.service_name}" readonly>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <select class="form-control" name="serviceId" id="serviceList">
+                                                                <c:forEach var="list" items="${listS}">
+                                                                    <option value="${list.service_id}">${list.service_name}</option>
+                                                                    <!-- Populate service options dynamically -->
+                                                                </c:forEach>
+                                                            </select>
+
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-box">
+                                                    <c:choose>
+                                                        <c:when test="${not empty s.serviceType.service_type_name}">
+                                                            <input type="text" placeholder="Service Type" value="${s.serviceType.service_type_name}" readonly>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <select class="form-control" name="serviceTypeId" id="serviceTypeList" onchange="updateServiceDetail()">
+                                                                <option value="1">Cơ bản</option>
+                                                                <option value="2">Nâng cao</option>
+                                                                <!-- Populate service type options dynamically -->
+                                                            </select>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-box">
+<!--                                                    <input type="text" name="cost" id="cost" placeholder="Cost" value="${not empty s.cost ? s.cost : ''}" readonly>-->
+                                                    <input type="text" name="cost" id="cost" placeholder="Cost" 
+                                                           value="<c:if test='${not empty s.cost}'><fmt:formatNumber value='${s.cost}' pattern='#,###' /> VNĐ</c:if>" readonly>
+
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="input-box">
-                                                    <input type="text"  placeholder="Service Name" value="${s.services.service_name}">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <textarea name="form_message" placeholder="Your Message.." required=""></textarea>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="input-box">
-                                                    <input type="text" placeholder="Service Type" value="${s.serviceType.service_type_name}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="input-box">
-                                                    <input type="text" name="cost" placeholder="Cost" value="<fmt:formatNumber value="${s.cost}" pattern="#,###" />VNĐ">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <textarea name="form_message" placeholder="Your Message.." required=""></textarea>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" name="service" value="${s.service_detail_id}">
+                                            <input type="hidden" id="serviceDetailId" name="service" value="${s.service_detail_id}">
                                         <input type="hidden" name="patient" value="${sessionScope.user.account.account_id}">
+
                                         <input type="hidden" name="rank" value="${sessionScope.user.rank.rankId}">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <button class="thm-btn bg-1" type="submit">submit</button>   
+                                                <button class="thm-btn bg-1" type="submit">Submit</button>   
                                             </div>
                                         </div>
                                     </form>  
@@ -471,7 +477,83 @@
         </div>
         <!--Scroll to top-->
         <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
-
+        <!--                <script>
+                            document.getElementById("date").addEventListener("change", function () {
+                                let selectedDate = this.value; // Lấy ngày người dùng chọn
+                                console.log("Ngày được chọn:", selectedDate);
+                
+                                fetch(`/SWP391/GetDiscountsByDate?date=`+selectedDate)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            let discountList = document.getElementById("discountList");
+                                            discountList.innerHTML = ""; // Xóa nội dung cũ
+                
+                                            if (data.length === 0) {
+                                                discountList.innerHTML = "<p>Không có giảm giá nào trong ngày này.</p>";
+                                                return;
+                                            }
+                
+                                            let html = "<ul>";
+                                            data.forEach(discounts => {
+                                                var discountName = discounts.discount.discountName;
+                                                var percent= discounts.percent;
+                                                html += `<li>`+discountName+ `- Giảm:`+ percent+`%</li>`;
+                                                console.log("Name:", discountName);
+                                                console.log("Percent:", percent);
+                                            });
+                                            html += "</ul>";
+                                            discountList.innerHTML = html;
+                                        })
+                                        .catch(error => console.error("Lỗi khi lấy dữ liệu giảm giá:", error));
+                            });
+                
+                
+                        </script>-->
+        <!--                <script>
+                            document.getElementById("date").addEventListener("change", function () {
+                                let selectedDate = this.value;
+                                // Chuyển đổi sang dd/MM/yyyy
+                                let parts = selectedDate.split("-");
+                                let formattedDate = parts[2] + "/" + parts[1] + "/" + parts[0]; // Chuyển sang dd/MM/yyyy
+                
+                                document.getElementById("formattedDate").textContent = formattedDate;
+                                // Hiển thị ngày đã định dạng trong span
+                                console.log("Ngày được chọn:", selectedDate);
+                
+                                fetch(`/SWP391/GetDiscountsByDate?date=` + selectedDate)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            let discountList = document.getElementById("discountList");
+                                            discountList.innerHTML = "";
+                
+                                            let defaultOption = document.createElement("option");
+                                            defaultOption.value = "";
+                                            defaultOption.text = data.length === 0 ? "Không có giảm giá" : "Chọn giảm giá";
+                                            defaultOption.disabled = true;
+                                            defaultOption.selected = true;
+                                            discountList.appendChild(defaultOption);
+                
+                                            if (data.length > 0) {
+                                                data.forEach(discounts => {
+                                                    let option = document.createElement("option");
+                                                    var discountName = discounts.discount.discountName;
+                                                    var percent = discounts.percent;
+                                                    option.value = discounts.discountDetailId;
+                                                    option.text = `` + discountName + `- Giảm: ` + percent + `%`;
+                                                    discountList.appendChild(option);
+                                                });
+                                            }
+                
+                                            // Thêm sự kiện change để lấy giá trị được chọn
+                                            discountList.addEventListener("change", function () {
+                                                let selectedDiscountId = this.value;
+                                                console.log("Đã chọn giảm giá với ID:", selectedDiscountId);
+                                                // Có thể gửi selectedDiscountId đến server hoặc xử lý tiếp
+                                            });
+                                        })
+                                        .catch(error => console.error("Lỗi khi lấy dữ liệu giảm giá:", error));
+                            });
+                        </script>-->
         <script>
             // Lấy ngày hiện tại theo định dạng YYYY-MM-DD
             let today = new Date().toISOString().split('T')[0];
@@ -479,6 +561,88 @@
             // Đặt giá trị min cho input date
             document.getElementById("datepicker").setAttribute("min", today);
         </script>
+        <!-- Thêm flatpickr -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+        <script>
+            flatpickr("#date", {
+                dateFormat: "d/m/Y",
+                altInput: true,
+                altFormat: "d/m/Y",
+                minDate: "today",
+                onChange: function (selectedDates, dateStr, instance) {
+                    let selectedDate = selectedDates[0].toISOString().split('T')[0];
+                    console.log("Ngày được chọn (gửi servlet):", selectedDate);
+
+                    fetch(`/SWP391/GetDiscountsByDate?date=` + selectedDate)
+                            .then(response => response.json())
+                            .then(data => {
+                                let discountList = document.getElementById("discountList");
+                                discountList.innerHTML = "";
+
+                                let defaultOption = document.createElement("option");
+                                defaultOption.value = "";
+                                defaultOption.text = data.length === 0 ? "Không có giảm giá" : "Chọn giảm giá";
+                                defaultOption.disabled = true;
+                                defaultOption.selected = true;
+                                discountList.appendChild(defaultOption);
+
+                                if (data.length > 0) {
+                                    data.forEach(discounts => {
+                                        let option = document.createElement("option");
+                                        var discountName = discounts.discount.discountName;
+                                        var percent = discounts.percent;
+                                        option.value = discounts.discountDetailId;
+                                        option.text = `` + discountName + `-` + `Giảm:` + percent + `%`;
+                                        discountList.appendChild(option);
+                                    });
+                                }
+
+                                discountList.addEventListener("change", function () {
+                                    let selectedDiscountId = this.value;
+                                    console.log("Đã chọn giảm giá với ID:", selectedDiscountId);
+                                });
+                            })
+                            .catch(error => console.error("Lỗi khi lấy dữ liệu giảm giá:", error));
+                }
+            });
+        </script>
+
+        <script>
+            function updateServiceDetail() {
+                var serviceId = document.getElementById("serviceList").value;
+                var serviceTypeId = document.getElementById("serviceTypeList").value;
+                var costInput = document.getElementById("cost");
+                var serviceDetailIdInput = document.getElementById("serviceDetailId");
+
+                if (!serviceId || !serviceTypeId)
+                    return; // Kiểm tra nếu chưa chọn đủ
+
+                fetch('getServiceDetail?serviceId=' + serviceId + '&serviceTypeId=' + serviceTypeId)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data) {
+                                costInput.value = new Intl.NumberFormat('vi-VN').format(data.cost) + " VNĐ";
+                                serviceDetailIdInput.value = data.serviceDetailId;
+                                console.log("ServiceDetail:" + data.serviceDetailId, );
+                            } else {
+                                costInput.value = "Không tìm thấy giá";
+                                serviceDetailIdInput.value = "";
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Lỗi khi lấy thông tin dịch vụ:', error);
+                            costInput.value = "Lỗi khi tải giá";
+                            serviceDetailIdInput.value = "";
+                        });
+            }
+        </script>
+        <!-- Flatpickr CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <!-- Flatpickr JS -->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
         <!-- main jQuery -->
         <jsp:include page="Common/Message.jsp"/>
 

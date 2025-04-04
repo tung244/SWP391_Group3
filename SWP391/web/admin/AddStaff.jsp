@@ -11,9 +11,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <jsp:include page="Common/Css.jsp"/>
         <title>Update Staff</title>
         <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+       
         <style>
             .form-container {
                 max-width: 800px;
@@ -43,25 +44,28 @@
                 margin-bottom: 1rem;
             }
         </style>
+         
     </head>
     <body class="bg-light">
+        
+        
+        <jsp:include page="Common/Navbar.jsp"/>
+        <div class="page-wrapper">
+            <!--page-content-wrapper-->
+            <div class="page-content-wrapper">
+                <div class="page-content">
         <div class="container">
             <div class="form-container">
                 <h2 class="page-title">Add Staff</h2>
-<<<<<<< HEAD
-                
-
-=======
 
 
->>>>>>> test
                 <c:if test="${error != null}">
                     <div class="alert alert-danger" role="alert">
                         ${error}
                     </div>  
                 </c:if>
 
-                <form action="${pageContext.request.contextPath}/admin/AddStaff" method="get">
+                <form action="AddStaff" method="post">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -140,8 +144,12 @@
                 </form>
             </div>
         </div>
-
+</div></div></div>
         <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <jsp:include page="Common/Message.jsp"/>
+        <jsp:include page="Common/Js.jsp"/>
+        
     </body>
+    
 </html>

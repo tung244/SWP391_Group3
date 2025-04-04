@@ -43,8 +43,10 @@ public class FeedbackDAO extends DBContext {
 
     public static void main(String[] args) {
         FeedbackDAO dao = new FeedbackDAO();
-        List<String> list = dao.getCustomerSupportNames();
-        System.out.println(list);
+        List<FeedbackService> list = dao.searchCustomerSupportFeedback("Lê", "5", "", "");
+        for (FeedbackService a : list) {
+            System.out.println(a);
+        }
     }
 
     public List<FeedbackService> getCustomerSupportFeedbackWithPercentage() {
@@ -162,6 +164,72 @@ public class FeedbackDAO extends DBContext {
             e.printStackTrace();
         }
         return names;
+    }
+
+    public List<FeedbackService> searchCustomerSupportFeedback(String staffName, String stars, String startDate, String endDate) {
+        List<FeedbackService> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("""
+        SELECT 
+            f.feedback_id, 
+            f.feedback_text, 
+            f.feedback_rating, 
+            f.feedback_date, 
+            c.full_name, 
+            s.admin_fullname
+        FROM Feedback_Service f
+        JOIN Appointment a ON f.appointment_id = a.appointment_id
+        JOIN Customers c ON c.account_id = a.patient_id
+        JOIN Staff s ON s.account_id = a.staff_id
+        WHERE 1=1
+    """);
+
+        List<String> params = new ArrayList<>();
+
+        if (staffName != null && !staffName.isEmpty()) {
+            sql.append(" AND s.admin_fullname COLLATE SQL_Latin1_General_CP1_CI_AI LIKE ? ");
+            params.add("%" + staffName + "%");
+        }
+
+        if (stars != null && !stars.isEmpty()) {
+            sql.append(" AND f.feedback_rating = ? ");
+            params.add(stars);
+        }
+
+        if (startDate != null && !startDate.isEmpty()) {
+            sql.append(" AND f.feedback_date >= ? ");
+            params.add(startDate);
+        }
+
+        if (endDate != null && !endDate.isEmpty()) {
+            sql.append(" AND f.feedback_date <= ? ");
+            params.add(endDate);
+        }
+
+        sql.append(" ORDER BY f.feedback_date DESC ");
+
+        try (PreparedStatement st = connection.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                st.setString(i + 1, params.get(i));
+            }
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    int feedback_id = rs.getInt("feedback_id");
+                    String feedback_text = rs.getString("feedback_text");
+                    int feedback_rating = rs.getInt("feedback_rating");
+                    Date feedback_date = rs.getDate("feedback_date");
+                    String full_name = rs.getString("full_name");
+                    String admin_fullname = rs.getString("admin_fullname");
+
+                    Staffs staff = new Staffs(admin_fullname);
+                    Appointment appointment = new Appointment(staff);
+                    FeedbackService feedbackService = new FeedbackService(feedback_text, feedback_rating, feedback_id, feedback_date, appointment, full_name);
+                    list.add(feedbackService);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 }

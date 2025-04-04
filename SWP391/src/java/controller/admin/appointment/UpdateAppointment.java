@@ -227,8 +227,8 @@ public class UpdateAppointment extends HttpServlet {
                 appointment = appointments;
             }
             if (status.equals("Scheduled")) {
-                boolean sendEmail = SendMail.MailConfirmAppointment(appointment);
-                String mail = sendEmail ? "Send Email Completed" : "Send Email Fail";
+                sendMail(appointment);
+                Thread.sleep(3000);
             }
             // Tạo phản hồi JSON
             jsonResponse.put("success", isUpdated);
@@ -254,6 +254,18 @@ public class UpdateAppointment extends HttpServlet {
         out.print(jsonResponse.toString());
         out.flush();
 
+    }
+    private static void sendMail(Appointments a) {
+        Thread emailThread = new Thread(() -> {  // thread gửi mail khác luồng
+            try {
+                System.out.println("đến 3");
+                SendMail.MailConfirmAppointment(a);
+
+            } catch (Exception e) {
+                e.printStackTrace();  // Log lỗi nếu có
+            }
+        });
+        emailThread.start();
     }
     
 //    public boolean sendOTP(Appointments appointment) {

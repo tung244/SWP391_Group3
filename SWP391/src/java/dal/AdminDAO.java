@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import model.Account;
 
 /**
  *
@@ -33,6 +34,9 @@ public class AdminDAO extends DBContext {
         return -1;
     }
 
+    
+    
+    
     public int getCountCustomerSupport() {
         String query = "select Count(*) from Accounts a\n"
                 + "join Role r on a.role_id = r.role_id\n"

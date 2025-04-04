@@ -10,7 +10,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Trang Tin Tức</title>
+        <title>${blog.title_meta}</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <jsp:include page="Common/Css.jsp"/>
         <style>
@@ -77,6 +77,13 @@
             }
             .main-content h2 {
                 line-height: 1.6;
+                margin: 20px 0px;
+            }
+
+            .main-content li{
+                font-size: 20px;
+                line-height: 1.6;
+                padding: 10px;
             }
             .content-left img {
                 max-width: 100%;
@@ -93,6 +100,7 @@
             }
             .content-right li {
                 margin-bottom: 10px;
+
             }
             .blog-meta {
                 margin-bottom: 20px;
@@ -141,6 +149,10 @@
                 font-weight: bold !important;
                 margin-bottom: 8px !important;
             }
+            #content h3 {
+
+                margin-bottom: 8px !important;
+            }
             #content p {
                 font-size: 20px !important;
                 line-height: 1.6 !important;
@@ -161,6 +173,9 @@
             #content figcaption{
                 text-align: center;
                 margin: 5px 0px;
+            }
+            #content img{
+                margin: 30px 0;
             }
             /* Style mới cho nút Play và Stop */
             .control-buttons {
@@ -413,6 +428,62 @@
             #load-more-btn:hover {
                 background-color: #eee;
             }
+            .related-articles {
+                max-width: 350px;
+                
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .related-articles-title {
+                background-color: #228B22;
+                color: white;
+                padding: 10px 15px;
+                margin: 0;
+                font-size: 18px;
+            }
+
+            .article-list {
+                padding: 10px;
+            }
+
+            .article-item {
+                margin-bottom: 30px;
+                border-bottom: 1px solid #f0f0f0;
+                padding-bottom: 10px;
+            }
+
+            .article-item:last-child {
+                border-bottom: none;
+            }
+
+            .article-link {
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                color: #333;
+            }
+
+            .article-thumbnail {
+                width: 280px;
+                height: 80px;
+                margin-right: 10px;
+                overflow: hidden;
+                border-radius: 4px;
+            }
+
+            .article-thumbnail img {
+/*                width: 100%;
+                height: 100%;
+                object-fit: cover;*/
+            }
+
+            .article-title {
+                margin: 0;
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 1.5;
+            }
         </style>
     </head>
     <body>
@@ -467,83 +538,74 @@
                                             <i class="fas fa-user"></i>
                                         </div>
                                         <input type="hidden" name="method" value="basicComment"/>
-                                        <input type="hidden" id="blog-id" name="blog-id" value=""/>
-                                        <input type="hidden" id="account_id" name="account_id" value=""/>
+                                        <input type="hidden" id="blog-id" name="blog_id" value="${blog.blog_id}"/>
+
                                         <div class="form-input">
                                             <textarea name="comment" placeholder="Viết bình luận của bạn..."></textarea>
-                                            <button class="submit-comment">Gửi</button>
+                                            <button type="submit" class="submit-comment">Gửi</button>
                                         </div>
                                     </div>
                                 </form>
                             </c:if>
                             <c:if test="${empty sessionScope.user}">
                                 <div style="display: flex; justify-content: center; margin: 40px 0px; font-size: 20px">
-                                <label>Vui lòng đăng nhập để có thể bình luận</label>
+                                    <label>Vui lòng đăng nhập để có thể bình luận</label>
                                 </div>
                             </c:if>
                             <!-- Comment list - Newest -->
+
                             <div class="comment-list active" id="newest-comments">
                                 <!-- Comment 1 -->
-                                <div class="comment">
-                                    <div class="comment-avatar">
-                                        <img src="" alt="User">
-                                    </div>
-                                    <div class="comment-content">
-                                        <div class="comment-header">
-                                            <span class="comment-author">Nguyễn Văn A</span>
-                                            <span class="comment-time">2 giờ trước</span>
+                                <c:forEach var="comment" items="${comment}">
+                                    <div class="comment">
+                                        <div class="comment-avatar">
+                                            <img src="" alt="User">
                                         </div>
-                                        <div class="comment-text">
-                                            <p>Bài viết rất hay và bổ ích. Cảm ơn tác giả đã chia sẻ!</p>
-                                        </div>
-                                        <div class="comment-actions">
-                                            <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>23</span></button>
-                                            <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
-                                        </div>
-
-                                        <!-- Replies -->
-                                        <div class="comment-replies">
-                                            <div class="comment reply">
-                                                <div class="comment-avatar">
-                                                    <img src="" alt="User">
-                                                </div>
-                                                <div class="comment-content">
-                                                    <div class="comment-header">
-                                                        <span class="comment-author">Trần Thị B</span>
-                                                        <span class="comment-time">1 giờ trước</span>
-                                                    </div>
-                                                    <div class="comment-text">
-                                                        <p>Tôi hoàn toàn đồng ý với bạn!</p>
-                                                    </div>
-                                                    <div class="comment-actions">
-                                                        <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>5</span></button>
-                                                        <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
-                                                    </div>
-                                                </div>
+                                        <div class="comment-content" data-comment-id="${comment.key.comment_blog_id}">
+                                            <div class="comment-header">
+                                                <span class="comment-author">${comment.key.comment_name}</span>
+                                                <span class="comment-time">${comment.key.comment_date}</span>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            <div class="comment-text">
+                                                <p>${comment.key.comment}</p>
+                                            </div>
 
-                                <!-- Comment 2 -->
-                                <div class="comment">
-                                    <div class="comment-avatar">
-                                        <img src="" alt="User">
+                                            <div class="comment-actions">
+                                                <button onclick="likeComment(this)" data-comment="${comment.key.comment_blog_id}" class="like-btn">
+                                                    <i class="far fa-thumbs-up"></i> 
+                                                    <span id="numberLike-${comment.key.comment_blog_id}" class="numberLike">${comment.key.tuongtac}</span>
+                                                </button>
+                                                <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
+                                            </div>
+                                            <c:forEach var="chilComment" items="${comment.value}">
+                                                <!-- Replies -->
+                                                <div class="comment-replies">
+                                                    <div class="comment reply">
+                                                        <div class="comment-avatar">
+                                                            <img src="" alt="User">
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="comment-header">
+                                                                <span class="comment-author">${chilComment.comment_name}</span>
+                                                                <span class="comment-time">${chilComment.comment_date}</span>
+                                                                <input type="hidden" name="parent_id" value="${chilComment.parent_comment_id}"/>
+                                                            </div>
+                                                            <div class="comment-text">
+                                                                <p>${chilComment.comment}</p>
+                                                            </div>
+                                                            <div class="comment-actions">
+                                                                <button data-comment="${chilComment.comment_blog_id}" onclick="likeComment(this)" class="like-btn">
+                                                                    <i class="far fa-thumbs-up"></i> 
+                                                                    <span id="numberLike-${chilComment.comment_blog_id}">${chilComment.tuongtac}</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
                                     </div>
-                                    <div class="comment-content">
-                                        <div class="comment-header">
-                                            <span class="comment-author">Phạm Văn C</span>
-                                            <span class="comment-time">15 phút trước</span>
-                                        </div>
-                                        <div class="comment-text">
-                                            <p>Tôi có vài câu hỏi về nội dung này. Làm thế nào để áp dụng những điều này vào thực tế?</p>
-                                        </div>
-                                        <div class="comment-actions">
-                                            <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>7</span></button>
-                                            <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                </c:forEach>
                             </div>
 
                             <!-- Comment list - Popular -->
@@ -590,25 +652,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Comment 2 -->
-                                <div class="comment">
-                                    <div class="comment-avatar">
-                                        <img src="" alt="User">
-                                    </div>
-                                    <div class="comment-content">
-                                        <div class="comment-header">
-                                            <span class="comment-author">Trương Minh F</span>
-                                            <span class="comment-time">2 ngày trước</span>
-                                        </div>
-                                        <div class="comment-text">
-                                            <p>Tôi đã theo dõi chủ đề này từ lâu và phải nói rằng quan điểm của tác giả rất đáng suy ngẫm. Mong được đọc thêm nhiều bài viết như thế này!</p>
-                                        </div>
-                                        <div class="comment-actions">
-                                            <button class="like-btn"><i class="far fa-thumbs-up"></i> <span>89</span></button>
-                                            <button class="reply-btn"><i class="far fa-comment"></i> Trả lời</button>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
 
                             <!-- Load more comments button -->
@@ -617,14 +661,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="content-right">
-                        <h2 style="color: rgb(34,139,34)">Bài viết liên quan</h2>
-                        <ul>
-                            <li>Chuyện ở Ukraine 3/3: Kiev...</li>
-                            <li>Ông Zelensky gặp...</li>
-                            <li>Tổng Trump tuyên bố...</li>
-                        </ul>
-                    </div>
+<!--                    <div class="content-right">-->
+                        <div class="related-articles">
+                            <h2 class="related-articles-title">Bài viết liên quan</h2>
+                            <div class="article-list">
+                                <c:forEach var="item" items="${top5}">
+                                <article class="article-item">
+                                    <a href="blog?blog=${item.blog_id}" class="article-link">
+                                        <div class="article-thumbnail">
+                                            <img src="${item.title_image_blog}" alt="Chuyện ở Ukraine 3/3: Kiev" />
+                                        </div>
+                                        <h3 class="article-title">${item.title_meta}</h3>
+                                    </a>
+                                </article>
+                                </c:forEach>
+                            </div>
+                        </div>
+<!--                    </div>-->
 
 
 
@@ -633,39 +686,79 @@
             </div>
         </div>
 
+        <jsp:include page="Common/Message.jsp"/>
+
         <!-- Script ResponsiveVoice -->
-        <script src="https://code.responsivevoice.org/responsivevoice.js?key=8e2qFdn3"></script>
+
         <script>
 
 
-            const playButton = document.getElementById('playButton');
-            const stopButton = document.getElementById('stopButton');
-            const contentDiv = document.getElementById('content');
+                                                                    const playButton = document.getElementById('playButton');
+                                                                    const stopButton = document.getElementById('stopButton');
+                                                                    const contentDiv = document.getElementById('content');
 
 
-            if (playButton && stopButton && contentDiv) {
-                // Nút Play
-                playButton.addEventListener('click', function () {
-                    let textToSpeak = contentDiv.textContent || contentDiv.innerText;
-                    console.log("Nội dung để đọc:", textToSpeak);
-                    if (textToSpeak.trim() !== "") {
-                        responsiveVoice.speak(textToSpeak, "Vietnamese Female");
-                    } else {
-                        responsiveVoice.speak("Không có nội dung để đọc!", "Vietnamese Female");
+                                                                    if (playButton && stopButton && contentDiv) {
+                                                                        // Nút Play
+                                                                        playButton.addEventListener('click', function () {
+                                                                            let textToSpeak = contentDiv.textContent || contentDiv.innerText;
+                                                                            console.log("Nội dung để đọc:", textToSpeak);
+                                                                            if (textToSpeak.trim() !== "") {
+                                                                                responsiveVoice.speak(textToSpeak, "Vietnamese Female");
+                                                                            } else {
+                                                                                responsiveVoice.speak("Không có nội dung để đọc!", "Vietnamese Female");
+                                                                            }
+                                                                        });
+
+                                                                        // Nút Stop
+                                                                        stopButton.addEventListener('click', function () {
+                                                                            if (responsiveVoice.isPlaying()) {
+                                                                                responsiveVoice.cancel();
+                                                                                console.log("Đã dừng đọc.");
+                                                                            }
+                                                                        });
+                                                                    } else {
+                                                                        console.error("Không tìm thấy nút hoặc contentDiv.");
+                                                                    }
+
+        </script>
+
+        <script>
+            function likeComment(Element) {
+                const comment_id = Element.getAttribute("data-comment");
+
+                $.ajax({
+                    url: "comment",
+                    type: "POST",
+                    data: {
+                        method: "likeComment",
+                        comment_id: comment_id
+                    },
+                    success: function (response) {
+                        const numberLikeElement = document.getElementById("numberLike-" + comment_id);
+                        if (!numberLikeElement) {
+                            console.error("Element with id 'numberLike' not found");
+                            return;
+                        }
+
+                        if (response.status === "Oke") {
+                            // Kiểm tra xem element có thuộc tính .value không
+                            if (typeof numberLikeElement.value !== "undefined") {
+                                numberLikeElement.value = response.like;
+                            } else {
+                                numberLikeElement.innerHTML = response.like;
+                            }
+                        } else if (response.status === "notOke") {
+                            // Xử lý nếu cần
+                        } else {
+                            toastr.error("Error.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error");
                     }
                 });
-
-                // Nút Stop
-                stopButton.addEventListener('click', function () {
-                    if (responsiveVoice.isPlaying()) {
-                        responsiveVoice.cancel();
-                        console.log("Đã dừng đọc.");
-                    }
-                });
-            } else {
-                console.error("Không tìm thấy nút hoặc contentDiv.");
             }
-
         </script>
         <script>
             document.getElementById("facebook-share").addEventListener("click", function () {
@@ -675,14 +768,7 @@
             });
 
         </script>
-        <script>
-            document.getElementById("commentBlog").addEventListener("submit", function () {
-                let link = window.location.search;
-                var blog_id = parseInt(link.get("blog"));
-                document.getElementById("blog-id").value = blog_id;
-            });
 
-        </script>
         <script>
             document.getElementById("linkIn-share").addEventListener("click", function () {
                 let linkInShareURL = 'https://www.linkedin.com/sharing/share-offsite/?url=<%= request.getRequestURL() %>';
@@ -703,53 +789,87 @@
 
         </script>
         <script>
+            const isUserLoggedIn = ${not empty sessionScope.user ? 'true' : 'false'};
+        </script>
+
+        <script>
+
 
             const replyButtons = document.querySelectorAll('.reply-btn');
+
             replyButtons.forEach(button => {
                 button.addEventListener('click', function () {
                     const parentComment = this.closest('.comment-content');
 
-                    // check lặp form
-                    if (parentComment.querySelector('.reply-form')) {
-                        parentComment.querySelector('.reply-form').remove();
+                    if (!parentComment) {
+                        console.error("Parent comment (.comment-content) not found");
                         return;
                     }
-                    const isUserLoggedIn = ${not empty sessionScope.user ? 'true' : 'false'};
-                    if (!isUserLoggedIn) {
-                        
+
+                    const existingForm = parentComment.querySelector('.reply-form');
+                    if (existingForm) {
+                        existingForm.remove();
+                        return;
+                    }
+
+                    const commentId = parentComment.getAttribute('data-comment-id');
+                    console.log("commentId:", commentId);
+
                     const replyForm = document.createElement('div');
                     replyForm.className = 'reply-form';
-                    replyForm.innerHTML = `
-            <div class="comment-form" style="margin-top: 15px;">
-                <div class="user-avatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="form-input">
-                    <textarea placeholder="Viết trả lời của bạn..."></textarea>
-                    <div style="display: flex; gap: 10px; align-self: flex-end;">
-                        <button class="cancel-reply" style="padding: 8px 15px; background: #f1f1f1; border: none; border-radius: 20px; cursor: pointer;">Hủy</button>
-                        <button class="submit-reply" style="padding: 8px 15px; background: rgb(34,139,34); color: white; border: none; border-radius: 20px; cursor: pointer;">Gửi</button>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-                    // Add reply form after comment actions
-                    const commentActions = this.parentElement;
-                    commentActions.insertAdjacentElement('afterend', replyForm);
+                    replyForm.setAttribute('data-comment-id', commentId);
 
-                    // Focus on textarea
-                    replyForm.querySelector('textarea').focus();
+                    if (isUserLoggedIn) {
+                        if (!commentId || commentId === '0' || commentId === '') {
+                            console.error("commentId is invalid:", commentId);
+                            alert("Cannot create reply form: Comment ID is invalid.");
+                            return;
+                        }
 
-                    // Handle cancel reply
-                    replyForm.querySelector('.cancel-reply').addEventListener('click', function () {
-                        replyForm.remove();
-                    });
-                }
-                    
+                        // Tạo form HTML cơ bản
+                        replyForm.innerHTML = `
+                    <form action="comment" method="post">
+                        <div class="comment-form" style="margin-top: 15px;">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <input type="hidden" name="method" value="childComment">
+                            <input type="hidden" name="blogid" value="${blog.blog_id}">
+                            <input type="hidden" name="parent_comment_id" class="parent-comment-id">
+                            <div class="form-input">
+                                <textarea name="comment" placeholder="Viết trả lời của bạn..."></textarea>
+                                <div style="display: flex; gap: 10px; align-self: flex-end;">
+                                    <button class="cancel-reply" style="padding: 8px 15px; background: #f1f1f1; border: none; border-radius: 20px; cursor: pointer;">Hủy</button>
+                                    <button type="submit" class="submit-comment">Gửi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                `;
 
+                        // Gán giá trị cho input parent_comment_id sau khi tạo form
+                        const parentCommentInput = replyForm.querySelector('.parent-comment-id');
+                        if (parentCommentInput) {
+                            parentCommentInput.value = commentId;
+                        } else {
+                            console.error("Cannot find .parent-comment-id input");
+                        }
+
+                        const commentActions = this.parentElement;
+                        commentActions.insertAdjacentElement('afterend', replyForm);
+
+                        replyForm.querySelector('.cancel-reply').addEventListener('click', () => {
+                            replyForm.remove();
+                        });
+
+                    } else {
+                        replyForm.innerHTML = '<p style="color: red;">Vui lòng đăng nhập để trả lời!</p>';
+                        const commentActions = this.parentElement;
+                        commentActions.insertAdjacentElement('afterend', replyForm);
+                    }
                 });
             });
         </script>
+
     </body>
 </html>

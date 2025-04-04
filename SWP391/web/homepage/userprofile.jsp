@@ -132,7 +132,7 @@
                     </div>
 
 
-                    <form action="updateuserprofile" method="get">
+                    <form action="userprofile" method="post">
 
                         <div class="userprofile-change-password-container userprofile-section" id="password-section">
                             <div class="userprofile-header">
