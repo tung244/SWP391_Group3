@@ -11,7 +11,20 @@ public class Blog {
     private String title_image_blog;
     private String status_blog;
     private String author_name;
+    private int blog_view;
 
+    public Blog(int blog_id, String blog_content, int author_id, String created_date_blog, String title_meta, String title_image_blog, String status_blog, String author_name, int blog_view) {
+        this.blog_id = blog_id;
+        this.blog_content = blog_content;
+        this.author_id = author_id;
+        this.created_date_blog = created_date_blog;
+        this.title_meta = title_meta;
+        this.title_image_blog = title_image_blog;
+        this.status_blog = status_blog;
+        this.author_name = author_name;
+        this.blog_view = blog_view;
+    }
+    
     public Blog(int blog_id, String blog_content, int author_id, String created_date_blog, String title_meta, String title_image_blog, String status_blog, String author_name) {
         this.blog_id = blog_id;
         this.blog_content = blog_content;
@@ -21,6 +34,20 @@ public class Blog {
         this.title_image_blog = title_image_blog;
         this.status_blog = status_blog;
         this.author_name = author_name;
+    }
+
+    public int getBlog_view() {
+        return blog_view;
+    }
+
+    public void setBlog_view(int blog_view) {
+        this.blog_view = blog_view;
+    }
+
+    public Blog(int blog_id, String title_meta, String title_image_blog) {
+        this.blog_id = blog_id;
+        this.title_meta = title_meta;
+        this.title_image_blog = title_image_blog;
     }
     
 

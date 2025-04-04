@@ -166,7 +166,7 @@ public class UpdateDoctor extends HttpServlet {
         if (isDoctorUpdated && isDegreeUpdated && isCertificateUpdated) {
             response.sendRedirect("DoctorList");
         } else {
-            request.setAttribute("error", "Failed to update doctor information.");
+            request.setAttribute("errorr", "Failed to update doctor information.");
             request.getRequestDispatcher("UpdateDoctor.jsp").forward(request, response);
         }
     }

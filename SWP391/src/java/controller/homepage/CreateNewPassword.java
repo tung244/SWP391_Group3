@@ -5,6 +5,7 @@
 
 package controller.homepage;
 
+import bo.EncryptPassword;
 import dal.AccountDAO;
 import dal.UserProfileDAO;
 import java.io.IOException;
@@ -65,9 +66,10 @@ public class CreateNewPassword extends HttpServlet {
         }
         int account_id = adao.getAccountID((String)session.getAttribute("username_forgot"));
         
-        udao.updatePassword(password_new, account_id);
+        udao.updatePassword(EncryptPassword.hashPassword(password_new), account_id);
         ms = "Update mật khẩu thành công!!";
         session.setAttribute("ms", ms);
+        request.getSession().removeAttribute("username_forgot");
         response.sendRedirect("trangchu");
     }
 

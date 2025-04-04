@@ -25,42 +25,7 @@
             <!--End mainmenu area-->     
 
             <!--Start header area-->
-            <header class="mainmenu-bottom-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header-contact-info">
-                                <ul>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-signs"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>45 West Dental Street, Newyork 1003</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-interface"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Supportuteam@Dentalcare.com</h3>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="iocn-holder">
-                                            <span class="flaticon-clock"></span>
-                                        </div>
-                                        <div class="text-holder">
-                                            <h3>Weekdays: 09.00am to 18.00pm</h3>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>  
+             
             <!--End header area-->    
 
             <!-- Start breadcrumb area-->                        

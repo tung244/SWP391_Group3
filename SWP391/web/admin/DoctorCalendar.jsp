@@ -1,229 +1,567 @@
-<%-- 
-    Document   : DoctorCalendar
-    Created on : Feb 26, 2025, 11:35:00 PM
-    Author     : DELL
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html>
+<html lang="vi">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lịch Trình Bác Sĩ</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <jsp:include page="Common/Css.jsp"/>
+        <style>
+            .calendar-day {
+                height: 120px;
+                border: 1px solid #dee2e6;
+                padding: 5px;
+                vertical-align: top;
+                overflow-y: auto;
+            }
+            .calendar-day:hover {
+                background-color: #f8f9fa;
+            }
+            .calendar-day.today {
+                background-color: #e2f0ff;
+            }
+            .calendar-day.has-appointments {
+                position: relative;
+            }
+            .calendar-day.has-appointments::after {
+                content: '';
+                position: absolute;
+                right: 5px;
+                top: 5px;
+                width: 10px;
+                height: 10px;
+                background-color: #0d6efd;
+                border-radius: 50%;
+            }
+            .appointment-item {
+                font-size: 0.8rem;
+                padding: 2px 4px;
+                margin-bottom: 2px;
+                background-color: #e7f5ff;
+                border-left: 3px solid #0d6efd;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: pointer;
+            }
+            .appointment-item:hover {
+                background-color: #cce5ff;
+            }
+            .appointment-count {
+                font-size: 0.75rem;
+                color: #0d6efd;
+                font-weight: bold;
+                margin-top: 2px;
+            }
+            .day-number {
+                font-weight: bold;
+                margin-bottom: 4px;
+            }
+            .doctor-info {
+                background-color: #f8f9fa;
+                border-radius: 10px;
+                padding: 20px;
+                margin-bottom: 20px;
+                height: 100%;
+            }
+            .doctor-image {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+            #doctor_select {
+                border: 1px solid #6f42c1; /* Màu viền giống nút */
+                color: #6f42c1; /* Màu chữ */
+                background-color: white; /* Màu nền */
+                padding: 5px 15px; /* Điều chỉnh padding */
+                border-radius: 5px; /* Bo tròn góc */
+                cursor: pointer;
+                appearance: none; /* Ẩn kiểu mặc định */
+                width: auto;
+                font-size: 17px;
+                height: 45px;
+            }
+
+            #doctor_select:focus {
+                outline: none;
+                box-shadow: 0 0 5px rgba(111, 66, 193, 0.5); /* Hiệu ứng focus */
+            }
+
+
+        </style>
     </head>
-    <body>
+    <body> 
         <jsp:include page="Common/Navbar.jsp"/>
         <div class="page-wrapper">
-            <!--page-content-wrapper-->
-            <div class="page-content-wrapper">
-                <div class="page-content">
-                    <!--breadcrumb-->
-                    <div class="page-breadcrumb d-none d-md-flex align-items-center mb-3">
-                        <div class="breadcrumb-title pe-3">Calendar</div>
-                        <div class="ps-3">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="javascript:;"><i class='bx bx-home-alt'></i></a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Calendar of ${doctor.doctor_name}</li>
-                                </ol>
-                            </nav>
+            <div class="container mt-6 mb-6" style="width: 80%; margin-left: 20%">
+                <h1 class="text-center mb-4">Lịch Trình Bác Sĩ</h1>
+
+                <!--                <div class="row">-->
+                <!-- Doctor Information (Left side) -->
+                <!--                    <div class="col-md-3">
+                                        <div class="doctor-info">
+                                            <div class="text-center mb-3">
+                                                <img src="${doctor.profile_image}" 
+                                                     alt="Doctor's Photo" class="doctor-image">
+                                            </div>
+                                            <h3 style="text-align: center">${doctor.doctor_name}</h3>
+                                            <p><strong>Chuyên khoa:</strong> ${doctor.specialization.specialization_name}</p>
+                                            <p><strong>Giờ làm việc:</strong> 08:00 - 17:00 (Thứ 2 - Thứ 6)</p>
+                                            <p><strong>Địa chỉ phòng khám:</strong> 123 Nguyễn Văn A, Quận 1, TP. HCM</p>
+                                            <p><strong>Liên hệ:</strong> 0123 456 789</p>
+                                        </div>
+                                    </div>-->
+
+                <!-- Calendar (Right side) -->
+                <div class="col-md-12">
+                    <!-- Calendar Controls -->
+                    <div class="row mb-6">
+                        <div class="col-md-4">
+                            <button id="prev-month" class="btn btn-outline-primary">
+                                <i class="bi bi-chevron-left"></i> Tháng trước
+                            </button>
+                            <button id="next-month" class="btn btn-outline-primary">
+                                Tháng sau <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+
+                        <div class="col-md-4 text-center">
+                            <h4 id="current-month-year">Tháng 6, 2023</h4>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <button id="today" class="btn btn-primary">Hôm nay</button>
                         </div>
                     </div>
+                    <div class="row mb-6" style="margin-top: 2%">
+                        <form action="GetDoctorCalendar">
+                            <select id="doctor_select" name="doctor_id">
+                                <option value="">All Doctors</option>
+                                <c:forEach var="d" items="${listD}">
+                                    <option value="${d.doctor_id}" ${doctor != null && d.doctor_id == doctor.doctor_id ? 'selected' : ''}>${d.doctor_name}</option>
+                                </c:forEach>  
+                            </select>
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="bi bi-chevron-left"></i> Tìm
+                            </button>
+                        </form>
+                    </div>
 
-                    <!--end breadcrumb-->
-
-
-                    <div class="card">
-                        <div class="card-body">
-                            <div>
-                                <div style="display: flex; align-items: center;">
-                                    <h4 style="color: green; font-weight: bold; margin: 0;">Appointment Table</h4>
-                                    <form action="GetDoctorCalendar" method="post" style="display: flex; align-items: center; margin-top: 10px; margin-left: auto;">
-                                        <input class="form-control"  name="name" value="${name}" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; " type="text" placeholder="Choose the name">
-                                        <!--                                        <select class="form-control" name="service_name" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px;">
-                                                                                    <option value="">-Select Service_Name-</option>
-                                        <c:forEach var="s" items="${listS}">
-                                            <option value="${s.service_id}" ${s.service_id==service_id?'selected':''}>${s.service_name}</option>  
-                                        </c:forEach>    
-                                    </select>-->
-                                        <input class="form-control"  name="doctor_id" value="${doctor.doctor_id}" type="hidden">
-                                        <input class="form-control"  name="date" value="${date}" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; " type="date">
-                                        <button type="submit" style="margin-left: 10px; padding: 5px 10px; border-radius: 5px; border: 1px solid #ccc; background-color: green; cursor: pointer; color: white; display: flex; align-items: center;">
-                                            <img src="https://img.icons8.com/material-outlined/24/ffffff/search.png" alt="Search" style="filter: brightness(0) invert(1);" />
-                                        </button>
-                                    </form>
-                                </div>
-
-                                <hr>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered mb-0" id="table3">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th scope="col" style="color: green">#</th>
-                                                <th scope="col" style="color: green">CusId</th>
-                                                <th scope="col" style="color: green">CusName</th>
-                                                <th scope="col" style="color: green">Service_Name</th>
-                                                <th scope="col" style="color: green">Type</th>
-                                                <th scope="col" style="color: green">Time</th>
-                                                <th scope="col" style="color: green">Date</th>
-                                                <th scope="col" style="color: green">Cost</th>
-                                                <th scope="col" style="color: green">Status</th>
-                                                <th scope="col" style="color: green">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach var="a" items="${listA}">
-                                                <tr>
-                                                    <td>${a.appointment_id}</td>
-                                                    <td>${a.user.account.account_id}</td>
-                                                    <td>${a.user.fullname}</td>
-                                                    <td>${a.service_detail.services.service_name}</td>
-                                                    <td>${a.service_detail.serviceType.service_type_name}</td>
-                                                    <td>
-                                                        <span>${a.slot.start_time} - ${a.slot.end_time}</span>
-                                                    </td>
-                                                    <td><fmt:formatDate value="${a.appointment_date}" pattern="dd/MM/yyyy"/></td>
-                                                    <td>
-                                                        <fmt:formatNumber value="${a.service_detail.cost}" pattern="#,###" />
-                                                    </td>
-                                                    <td style="font-weight: bold">
-                                                        <c:choose>
-                                                            <c:when test="${a.appointment_status == 'Waiting Scheduled'}">
-                                                                <span style="color: orange;">${a.appointment_status}</span>
-                                                            </c:when>
-                                                            <c:when test="${a.appointment_status == 'Scheduled'}">
-                                                                <span style="color: blue;">${a.appointment_status}</span>
-                                                            </c:when>
-                                                            <c:when test="${a.appointment_status == 'Completed'}">
-                                                                <span style="color: green;">${a.appointment_status}</span>
-                                                            </c:when>
-                                                            <c:when test="${a.appointment_status == 'Canceled'}">
-                                                                <span style="color: red;">${a.appointment_status}</span>
-                                                            </c:when>
-                                                            <c:when test="${a.appointment_status == 'Payed'}">
-                                                                <span style="color: purple;">${a.appointment_status}</span>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <span>${a.appointment_status}</span>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </td>
-                                                    <td>
-                                                        <a href="NoteMedical?id=${a.appointment_id}" title="Delete">
-                                                            <i class="fas fa-file-alt icon"></i>
-                                                        </a>    
-                                                        <a href="#" title="View" onclick="loadMedicalHistory(${a.appointment_id});" data-toggle="modal" data-target="#viewModal">
-                                                            <i class="fas fa-eye icon"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination justify-content-center">
-                                        <c:forEach var="i" begin="1" end="${requestScope.number}">
-                                            <li class="page-item ${i == page ? 'active' : ''}">
-                                                <a class="page-link" href="ServiceList?page=${i}">${i}</a>
-                                            </li>
-                                        </c:forEach>
-                                    </ul>
-                                </nav>
+                    <!-- Calendar -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">CN</th>
+                                    <th class="text-center">T2</th>
+                                    <th class="text-center">T3</th>
+                                    <th class="text-center">T4</th>
+                                    <th class="text-center">T5</th>
+                                    <th class="text-center">T6</th>
+                                    <th class="text-center">T7</th>
+                                </tr>
+                            </thead>
+                            <tbody id="calendar-body">
+                                <!-- Calendar days will be generated here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal fade" id="appointmentModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Chi Tiết Lịch Hẹn</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="appointment-details">
+                                <!-- Appointment details will be loaded here -->
+                            </div>
+                            <div class="modal-footer">
+                                <button id="loadMedicalNoteBtn" class="btn btn-primary">View Medical</button>
+                                <button id="recordMedicalNoteBtn" class="btn btn-primary">Medical Note</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
             </div>
-            <!--end page-content-wrapper-->
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
 
-            <div class="modal-dialog modal-xl"> <!-- Thêm lớp modal-lg -->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel">Medical History</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modalContent">
-                        <!-- Nội dung chi tiết đơn hàng sẽ được cập nhật ở đây -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" style="background-color: green" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <!-- Appointment Details Modal -->
+            <div class="modal fade" id="appointmentModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Chi Tiết Lịch Hẹn</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="appointment-details">
+                            <!-- Appointment details will be loaded here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button id="loadMedicalNoteBtn" class="btn btn-primary">View Medical</button>
+                            <button id="recordMedicalNoteBtn" class="btn btn-primary">Medical Note</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--end page-wrapper-->
-        <!--start overlay-->
-        <div class="overlay toggle-btn-mobile"></div>
-        <!--end overlay-->
-        <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
-        <!--End Back To Top Button-->
-        <!--footer -->
-        <div class="footer">
-            <p class="mb-0">Syndash @2020 | Developed By : <a href="https://themeforest.net/user/codervent" target="_blank">codervent</a>
-            </p>
-        </div>
-        <!-- end footer -->
-    </div>
-    <!-- end wrapper -->
-    <!--start switcher-->
-    <div class="switcher-body">
-        <button class="btn btn-primary btn-switcher shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="bx bx-cog bx-spin"></i></button>
-        <div class="offcanvas offcanvas-end shadow border-start-0 p-2" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling">
-            <div class="offcanvas-header border-bottom">
-                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Theme Customizer</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
-            </div>
-            <div class="offcanvas-body">
-                <h6 class="mb-0">Theme Variation</h6>
-                <hr>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="lightmode" value="option1" checked>
-                    <label class="form-check-label" for="lightmode">Light</label>
-                </div>
-                <hr>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="darkmode" value="option2">
-                    <label class="form-check-label" for="darkmode">Dark</label>
-                </div>
-                <hr>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="darksidebar" value="option3">
-                    <label class="form-check-label" for="darksidebar">Semi Dark</label>
-                </div>
-                <hr>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="ColorLessIcons" value="option3">
-                    <label class="form-check-label" for="ColorLessIcons">Color Less Icons</label>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        function loadMedicalHistory(id) {
-            console.log("Loading medical history for ID:", id);
-            var modalContent = document.getElementById("modalContent");
-            modalContent.innerHTML = "Loading...";
+            <div class="modal fade" id="medicalModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
 
-            // Send request to servlet
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/SWP391/LoadMedicalHistory?aId=" + id, true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log("Response from server:", xhr.responseText);
-                    modalContent.innerHTML = xhr.responseText;
-                    // Show the modal after content is loaded
-                    var modal = new bootstrap.Modal(document.getElementById('viewModal'));
+                <div class="modal-dialog modal-xl"> <!-- Thêm lớp modal-lg -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Medical Record</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="modalContent">
+                            <!-- Nội dung chi tiết đơn hàng sẽ được cập nhật ở đây -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" style="background-color: green" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+
+
+        <!--        </div>-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!--        <script>
+                    document.getElementById("doctor_select").addEventListener("change", function () {
+                        const doctorId = this.value;
+                        window.location.href = "DoctorCalendar?doctor_id=" + doctorId;
+                    });
+                </script>-->
+        <script>
+            // Khởi tạo mảng appointments rỗng
+            var appointments = [];
+
+            <%-- Tạo dữ liệu từ Java --%>
+            <% 
+                if (request.getAttribute("listA") != null) {
+                    java.util.List listA = (java.util.List)request.getAttribute("listA");
+                    for (int i = 0; i < listA.size(); i++) {
+                        Object app = listA.get(i);
+                        try {
+                            String date = app.getClass().getMethod("getAppointment_date").invoke(app).toString();
+                            Object slot = app.getClass().getMethod("getSlot").invoke(app);
+                            String startTime = slot.getClass().getMethod("getStart_time").invoke(slot).toString();
+                            String endTime = slot.getClass().getMethod("getEnd_time").invoke(slot).toString();
+                            Object user = app.getClass().getMethod("getUser").invoke(app);
+                            String fullname = user.getClass().getMethod("getFullname").invoke(user).toString();
+                            Object serviceDetail = app.getClass().getMethod("getService_detail").invoke(app);
+                            Object service = serviceDetail.getClass().getMethod("getServices").invoke(serviceDetail);
+                            String serviceName = service.getClass().getMethod("getService_name").invoke(service).toString();
+                            String status = app.getClass().getMethod("getAppointment_status").invoke(app).toString();
+                            int id = Integer.parseInt(app.getClass().getMethod("getAppointment_id").invoke(app).toString());
+            %>
+            appointments.push({
+                date: "<%= date %>",
+                time: "<%= startTime %>",
+                endTime: "<%= endTime %>",
+                patient: "<%= fullname.replace("\"", "\\\"") %>",
+                purpose: "<%= serviceName.replace("\"", "\\\"") %>",
+                status: "<%= status %>",
+                id: <%= id %>
+            });
+            <%
+                        } catch (Exception e) {
+                            e.printStackTrace(new java.io.PrintWriter(out));
+                        }
+                    }
+                }
+            %>
+
+            // In ra console để debug
+            console.log("Database appointments:", appointments);
+        </script>
+        <script>
+            function loadMedicalRecord(id) {
+                console.log("Loading medical history for ID:", id);
+                var modalContent = document.getElementById("modalContent");
+                modalContent.innerHTML = "Loading...";
+
+                // Send request to servlet
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "/SWP391/admin/LoadMedicalHistory?aId=" + id, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        console.log("Response from server:", xhr.responseText);
+                        modalContent.innerHTML = xhr.responseText;
+                        // Show the modal after content is loaded
+                        var modal = new bootstrap.Modal(document.getElementById('medicalModal'));
+                        modal.show();
+                    }
+                };
+                xhr.send();
+            }
+        </script>
+        <%-- Script chính --%>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                let currentDate = new Date();
+
+                // Tạo hàm để thay thế padStart
+                function padZero(num) {
+                    return num < 10 ? '0' + num : num;
+                }
+
+                // Thêm dữ liệu mẫu chỉ khi không có dữ liệu
+                if (appointments.length === 0) {
+                    const today = new Date();
+                    const currentMonth = today.getMonth() + 1;
+                    const currentYear = today.getFullYear();
+
+                    appointments = [
+                        // Dữ liệu mẫu cho tháng hiện tại
+                        {
+                            date: currentYear + '-' + padZero(currentMonth) + '-10',
+                            time: '09:30',
+                            patient: 'Nguyễn Văn X',
+                            purpose: 'Khám định kỳ',
+                            status: 'Completed'
+                        },
+                                // ... các dữ liệu mẫu khác
+                    ];
+                }
+
+                // Đảm bảo định dạng ngày tháng nhất quán
+                appointments.forEach(app => {
+                    console.log("Processing appointment:", app);
+                    // Kiểm tra nếu ngày không có dấu gạch ngang, thêm vào
+                    if (app.date && app.date.indexOf('-') === -1) {
+                        // Giả sử định dạng là yyyyMMdd
+                        const year = app.date.substring(0, 4);
+                        const month = app.date.substring(4, 6);
+                        const day = app.date.substring(6, 8);
+                        app.date = year + '-' + month + '-' + day;
+                        console.log("Reformatted date:", app.date);
+                    }
+                });
+
+                console.log("Final appointments data:", appointments);
+
+                function renderCalendar(year, month) {
+                    // Ghi log để kiểm tra tham số gọi hàm
+                    console.log("Rendering calendar for:", year, month + 1);
+
+                    const firstDay = new Date(year, month, 1);
+                    const lastDay = new Date(year, month + 1, 0);
+                    const daysInMonth = lastDay.getDate();
+                    const startingDayOfWeek = firstDay.getDay();
+
+                    // Cập nhật tiêu đề tháng - lưu ý dòng này
+                    const monthTitle = document.getElementById('current-month-year');
+                    monthTitle.textContent = 'Tháng ' + (month + 1) + ', ' + year;
+                    console.log("Updated month title to:", monthTitle.textContent);
+
+                    const calendarBody = document.getElementById('calendar-body');
+                    calendarBody.innerHTML = '';
+
+                    let date = 1;
+                    for (let i = 0; i < 6; i++) {
+                        // Tạo hàng tuần
+                        const row = document.createElement('tr');
+
+                        for (let j = 0; j < 7; j++) {
+                            const cell = document.createElement('td');
+                            cell.className = 'calendar-day';
+
+                            if (i === 0 && j < startingDayOfWeek) {
+                                // Các ô trống trước ngày đầu tiên của tháng
+                                cell.textContent = '';
+                            } else if (date > daysInMonth) {
+                                // Các ô trống sau ngày cuối cùng của tháng
+                                cell.textContent = '';
+                            } else {
+                                // Ngày hợp lệ trong tháng
+                                const dayDiv = document.createElement('div');
+                                dayDiv.textContent = date;
+                                dayDiv.className = 'day-number';
+                                cell.appendChild(dayDiv);
+
+                                // Định dạng chuỗi ngày tháng để so sánh với dữ liệu cuộc hẹn
+                                const dateStr = year + '-' + padZero(month + 1) + '-' + padZero(date);
+
+                                // Kiểm tra xem có phải là hôm nay không
+                                const today = new Date();
+                                if (date === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                                    cell.classList.add('today');
+                                }
+
+                                // Tìm các cuộc hẹn cho ngày này
+                                const dayAppointments = appointments.filter(app => {
+                                    console.log("Comparing:", app.date, "with", dateStr);
+                                    return app.date === dateStr;
+                                });
+
+                                console.log("Appointments for", dateStr, ":", dayAppointments.length);
+
+                                if (dayAppointments.length > 0) {
+                                    cell.classList.add('has-appointments');
+
+                                    // Hiển thị số lượng cuộc hẹn nếu nhiều hơn 3
+                                    const maxVisibleAppointments = 3;
+                                    const showCount = dayAppointments.length > maxVisibleAppointments;
+
+                                    // Hiển thị các cuộc hẹn có thể nhìn thấy
+                                    const visibleAppointments = showCount ?
+                                            dayAppointments.slice(0, maxVisibleAppointments) :
+                                            dayAppointments;
+
+                                    visibleAppointments.forEach(app => {
+                                        const appDiv = document.createElement('div');
+                                        appDiv.className = 'appointment-item';
+                                        appDiv.textContent = app.time + ' - ' + app.patient;
+                                        appDiv.title = app.time + ' - ' + app.patient + ' (' + app.purpose + ')';
+                                        appDiv.dataset.appointmentDate = dateStr;
+                                        appDiv.dataset.appointmentTime = app.time;
+                                        appDiv.addEventListener('click', function () {
+                                            showAppointmentDetails(app);
+                                        });
+                                        cell.appendChild(appDiv);
+                                    });
+
+                                    // Hiển thị số lượng các cuộc hẹn bổ sung
+                                    if (showCount) {
+                                        const countDiv = document.createElement('div');
+                                        countDiv.className = 'appointment-count';
+                                        const remaining = dayAppointments.length - maxVisibleAppointments;
+                                        countDiv.textContent = '+ ' + remaining + ' cuộc hẹn khác';
+                                        countDiv.addEventListener('click', function () {
+                                            showDayAppointments(dateStr, dayAppointments);
+                                        });
+                                        cell.appendChild(countDiv);
+                                    }
+                                }
+
+                                date++;
+                            }
+
+                            row.appendChild(cell);
+                        }
+
+                        calendarBody.appendChild(row);
+
+                        if (date > daysInMonth) {
+                            break;
+                        }
+                    }
+                }
+
+                function showAppointmentDetails(appointment) {
+                    console.log("Showing appointment details for:", appointment);
+
+                    const modalBody = document.getElementById('appointment-details');
+
+                    // Sửa hàm hiển thị chi tiết cuộc hẹn
+                    const appointmentHTML =
+                            '<p><strong>Ngày:</strong> ' + formatDate(appointment.date) + '</p>' +
+                            '<p><strong>Thời gian:</strong> ' + appointment.time +
+                            (appointment.endTime ? ' - ' + appointment.endTime : '') + '</p>' +
+                            '<p><strong>Bệnh nhân:</strong> ' + appointment.patient + '</p>' +
+                            '<p><strong>Dịch vụ:</strong> ' + appointment.purpose + '</p>' +
+                            '<p><strong>Trạng thái:</strong> <span class="badge ' +
+                            (appointment.status === 'Completed' ? 'bg-success' :
+                                    appointment.status === 'Payed' ? 'bg-warning' : 'bg-primary') +
+                            '">' + appointment.status + '</span></p>';
+
+                    modalBody.innerHTML = appointmentHTML;
+                    document.getElementById('recordMedicalNoteBtn').addEventListener('click', function () {
+                        const id = appointment.id; // Giả sử bạn có thuộc tính id trong appointment
+                        window.location.href = '/SWP391/admin/NoteMedical?id=' + id; // Gọi đến servlet NoteMedical với id
+                    });
+
+//                    document.getElementById("loadMedicalNoteBtn").addEventListener("click", function () {
+//                        const id = appointment.id;
+//                        loadMedicalRecord(id);
+//                    });
+                    document.getElementById("loadMedicalNoteBtn").addEventListener("click", function () {
+                        const appointmentModal = bootstrap.Modal.getInstance(document.getElementById('appointmentModal'));
+                        if (appointmentModal) {
+                            appointmentModal.hide(); // Đóng modal hiện tại trước
+                        }
+
+                        setTimeout(() => {
+                            loadMedicalRecord(appointment.id); // Gọi hàm load modal mới
+                        }, 300); // Delay 1 chút để modal hiện tại đóng hoàn toàn
+                    });
+                    const modal = new bootstrap.Modal(document.getElementById('appointmentModal'));
                     modal.show();
                 }
-            };
-            xhr.send();
-        }
-    </script>
-    <jsp:include page="Common/Js.jsp"/>
-</body>
-</html>
+
+
+                function showDayAppointments(dateStr, appointments) {
+                    const modalBody = document.getElementById('appointment-details');
+                    const formattedDate = formatDate(dateStr);
+
+                    // Sử dụng cú pháp nối chuỗi thay vì template literals
+                    let appointmentsHTML = '<h5>Các cuộc hẹn ngày ' + formattedDate + '</h5><hr>';
+
+                    appointments.forEach(app => {
+                        appointmentsHTML +=
+                                '<div class="card mb-2">' +
+                                '<div class="card-body">' +
+                                '<h6 class="card-title">' + app.time + ' - ' + app.patient + '</h6>' +
+                                '<p class="card-text mb-1"><strong>Mục đích:</strong> ' + app.purpose + '</p>' +
+                                '<p class="card-text mb-0"><strong>Trạng thái:</strong> ' +
+                                '<span class="badge ' + (app.status === 'Đã xác nhận' ? 'bg-success' : 'bg-warning') + '">' +
+                                app.status + '</span>' +
+                                '</p>' +
+                                '</div>' +
+                                '</div>';
+                    });
+
+                    modalBody.innerHTML = appointmentsHTML;
+
+                    // Update modal title
+                    document.querySelector('#appointmentModal .modal-title').textContent = 'Lịch hẹn ngày ' + formattedDate;
+
+                    const modal = new bootstrap.Modal(document.getElementById('appointmentModal'));
+                    modal.show();
+                }
+
+                function formatDate(dateString) {
+                    if (!dateString)
+                        return "N/A";
+
+                    try {
+                        const [year, month, day] = dateString.split('-');
+                        if (!year || !month || !day)
+                            return "Invalid date";
+                        return day + '/' + month + '/' + year;
+                    } catch (e) {
+                        console.error("Error formatting date:", e);
+                        return "Error";
+                    }
+                }
+
+                // Initialize calendar với tháng hiện tại
+                renderCalendar(currentDate.getFullYear(), currentDate.getMonth());
+
+                // Xử lý các sự kiện điều hướng
+                document.getElementById('prev-month').addEventListener('click', function () {
+                    currentDate.setMonth(currentDate.getMonth() - 1);
+                    renderCalendar(currentDate.getFullYear(), currentDate.getMonth());
+                });
+
+                document.getElementById('next-month').addEventListener('click', function () {
+                    currentDate.setMonth(currentDate.getMonth() + 1);
+                    renderCalendar(currentDate.getFullYear(), currentDate.getMonth());
+                });
+
+                document.getElementById('today').addEventListener('click', function () {
+                    currentDate = new Date();
+                    renderCalendar(currentDate.getFullYear(), currentDate.getMonth());
+                });
+            });
+        </script>
+        <jsp:include page="Common/Message.jsp"/>
+        <jsp:include page="Common/Js.jsp"/>
+    </body>
+</html> 

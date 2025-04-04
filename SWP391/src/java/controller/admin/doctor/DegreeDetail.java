@@ -5,7 +5,7 @@
 package controller.admin.doctor;
 
 import bo.GetFormatDate;
-import static controller.admin.doctor.CreateDoctor.uploadImage;
+import bo.ImageServices;
 import dal.Degree_DoctorDAO;
 import dal.DoctorsDAO;
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class DegreeDetail extends HttpServlet {
             System.out.println(degree_Doctor.getVersion());
         }
         if (listDeDoc.size() == 0) {
-            request.getSession().setAttribute("error", "List Degree is empty. Please update degree before view detail degree!");
+            request.getSession().setAttribute("errorr", "List Degree is empty. Please update degree before view detail degree!");
             response.sendRedirect("doctorProfile?accId=" + accId);
         } else {
             request.setAttribute("listDeDoc", listDeDoc);
@@ -70,12 +70,16 @@ public class DegreeDetail extends HttpServlet {
 
         // Xử lý upload ảnh
         Part part = request.getPart("updateDegreeImage");
-        String pathHost = getServletContext().getRealPath("");
-        String finalPath = pathHost.replace("build\\", "");
-        String linkFile = uploadImage(part, finalPath);
+        String linkFile = "";
+        if (part != null && part.getSize() > 0) {  // Kiểm tra null và file có dữ liệu
+            String pathHost = getServletContext().getRealPath("");
+            String finalPath = pathHost.replace("build\\", "");
+            linkFile =ImageServices.uploadImage(part, finalPath);
+        } else {
+            System.out.println("❌ Không có file được tải lên.");
+        }
 
-        // ✅ Chỉ log ra console, không trả về response
-        System.out.println("Uploaded file path: " + linkFile);
+       
 
         // Tạo đối tượng degree doctor mới để update
         Degree_Doctor newdedoc = new Degree_Doctor();
@@ -112,28 +116,7 @@ public class DegreeDetail extends HttpServlet {
         out.flush();
     }
 
-    public static String uploadImage(Part part, String finalPath) throws ServletException {
-        String uploadPath = finalPath + "images";
-        File uploadDir = new File(uploadPath);
-
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-        String linkFile = "";
-
-        String fileName = part.getSubmittedFileName();
-
-        if (fileName != null && !fileName.isEmpty()) {
-            File filePath = new File(uploadPath + File.separator + fileName);
-            try {
-                Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "./images/" + fileName;
-            } catch (IOException e) {
-                throw new ServletException("File upload failed: " + e.getMessage());
-            }
-        }
-        return linkFile;
-    }
+   
 
     @Override
     public String getServletInfo() {

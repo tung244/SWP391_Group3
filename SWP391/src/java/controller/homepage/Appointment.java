@@ -5,6 +5,7 @@
 package controller.homepage;
 
 import dal.AppointmentDAO;
+import dal.DiscountDAO;
 import dal.DoctorsDAO;
 import dal.ServiceDao;
 import java.io.IOException;
@@ -21,8 +22,10 @@ import java.util.List;
 import model.Account;
 import model.Appointments;
 import model.Discount;
+import model.DiscountDetail;
 import model.Doctors;
 import model.ServiceDetail;
+import model.Services;
 import model.Slots;
 import model.UserProfile;
 
@@ -74,19 +77,21 @@ public class Appointment extends HttpServlet {
         ServiceDetail s = null;
         String id_raw = request.getParameter("id");
         String type_raw = request.getParameter("type");
-        List<Doctors> listD = dao1.getAllDoctors();
-        List<Slots> slots = null;
+//        List<Doctors> listD = dao1.getAllDoctors();
+//        List<Slots> slots = null;
+        List<Services> listS = dao.getAllServicesOnly();
         try {
             int id = Integer.parseInt(id_raw);
             int type = Integer.parseInt(type_raw);
-            slots = dao2.getSlotByServiceType(type);
+//            slots = dao2.getSlotByServiceType(type);
             s = dao.getServiceDetailById(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
         request.setAttribute("s", s);
-        request.setAttribute("listD", listD);
-        request.setAttribute("slots", slots);
+//        request.setAttribute("listD", listD);
+//        request.setAttribute("slots", slots);
+        request.setAttribute("listS", listS);
         request.getRequestDispatcher("/homepage/Appointment.jsp").forward(request, response);
     }
 
@@ -103,15 +108,15 @@ public class Appointment extends HttpServlet {
             throws ServletException, IOException {
         AppointmentDAO dao = new AppointmentDAO();
         ServiceDao serDao = new ServiceDao();
+        DiscountDAO disDao = new DiscountDAO();
         String date = request.getParameter("date");
         String user_raw = request.getParameter("patient");
-        String rankId_raw = request.getParameter("rank");
+//        String rankId_raw = request.getParameter("rank");
+        String discountDetailId_raw = request.getParameter("discountId");
         String service_detail_raw = request.getParameter("service");
         Date appointment_date = null;
-
         // Sử dụng DateTimeFormatter để định dạng ngày
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         if (date != null && !date.isEmpty()) {
             LocalDate localDate = LocalDate.parse(date, formatter); // Chuyển đổi sang LocalDate
             appointment_date = Date.valueOf(localDate); // Chuyển đổi LocalDate sang java.sql.Date
@@ -119,33 +124,26 @@ public class Appointment extends HttpServlet {
         try {
             int user_id = Integer.parseInt(user_raw);
             int service_detail_id = Integer.parseInt(service_detail_raw);
-            int rankId = Integer.parseInt(rankId_raw);
             Account account = new Account(user_id);
             UserProfile user = new UserProfile(account);
+            DiscountDetail discountDetail = disDao.getDiscountDetailById(Integer.parseInt(discountDetailId_raw));
             Slots slot = new Slots();
             Doctors doctor = new Doctors();
 //            ServiceDetail service_detail = new ServiceDetail(service_detail_id);
             ServiceDetail service_detail = serDao.getServiceDetailById(service_detail_id);
-            Discount discount = dao.getDiscountByRankId(rankId);
-            int percent = 0;
+            int percent = discountDetail.getPercent();
             double actualCost = 0.0;
             Appointments appointment = new Appointments();
-            if (discount != null) {
-                percent = discount.getPercent();
-                actualCost = service_detail.getCost() - (service_detail.getCost() *((double)percent/100));
-                appointment = new Appointments(appointment_date, "Waiting Scheduled", doctor, slot, service_detail, user, discount,actualCost);
-            }else{
-                percent = 0;
-                actualCost = service_detail.getCost() - (service_detail.getCost() *(percent/100));
-                appointment = new Appointments(appointment_date, "Waiting Scheduled", doctor, slot, service_detail, user, discount,actualCost);
-            } 
+            actualCost = service_detail.getCost() - (service_detail.getCost() * ((double)percent / 100));
+            appointment = new Appointments(appointment_date, "Waiting Scheduled", doctor, slot, service_detail, user, discountDetail, actualCost);
+
             boolean correct = dao.addAppointment(appointment);
             if (correct) {
                 request.setAttribute("mess", "Completed");
-                request.getRequestDispatcher("/homepage/Test.jsp").forward(request, response);
+                request.getRequestDispatcher("/homepage/Success.jsp").forward(request, response);
             } else {
                 request.setAttribute("mess", "Error");
-                request.getRequestDispatcher("/homepage/Test.jsp").forward(request, response);
+                request.getRequestDispatcher("/homepage/Success.jsp").forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();

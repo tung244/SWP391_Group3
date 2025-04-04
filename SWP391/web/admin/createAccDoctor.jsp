@@ -66,7 +66,7 @@
                                         </c:if>
 
                                         <form action="createAccount" method="POST" class="row g-3" id="doctorRegisterForm">
-                                            
+
                                             <!-- username -->
                                             <div class="col-12">
                                                 <label for="inputUserName" class="form-label">User Name</label>
@@ -97,7 +97,7 @@
                                                 </div>
                                                 <div name = "email-error" id="email-error" ></div>
                                             </div>
-                                            
+
                                             <input type="hidden" name="action" value="register">
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-success px-5">CREATE</button>     
@@ -184,79 +184,92 @@
     <script>
         $(document).ready(function () {
             function checkUserName() {
-                const username = $("#username").val();
+                const username = $("#username").val().trim().replace(/\s+/g, "");
+                $("#username").val(username); // Cập nhật lại field
                 const errorSpan = $("#username-error");
+
+                if (username === "") {
+                    errorSpan.text("User name is empty. Please enter username!").css("color", "red");
+                    return;
+                }
 
                 $.ajax({
                     url: "createAccount",
                     type: 'POST',
                     data: {action: "checkUserName", user_name: username},
                     success: function (response) {
-                        console.log(response); // Debug
                         if (response.status === "exist") {
                             errorSpan.text("User name is existed. Please try again!").css("color", "red");
-                        } else if (response.status === "empty") {
-                            errorSpan.text("User name is empty. Please enter username!").css("color", "red");
                         } else if (response.status === "valid") {
                             errorSpan.text("User name is valid").css("color", "green");
                         } else {
-                            toastr.error("Error.");
+                            errorSpan.text("Unknown error").css("color", "red");
                         }
                     },
-                    error: function (xhr, status, error) {
-                        alert("Error.");
+                    error: function () {
+                        errorSpan.text("Server error.").css("color", "red");
                     }
                 });
             }
 
             function checkPhone() {
-                const phone = $("#phone").val();
+                const phone = $("#phone").val().trim();
                 const errorSpan = $("#phone-error");
+
+                const phoneRegex = /^0\d{9}$/;
+
+                if (phone === "") {
+                    errorSpan.text("Phone number is empty. Please enter phone number!").css("color", "red");
+                    return;
+                } else if (!phoneRegex.test(phone)) {
+                    errorSpan.text("Phone number must start with 0 and contain exactly 10 digits.").css("color", "red");
+                    return;
+                }
 
                 $.ajax({
                     url: "createAccount",
                     type: 'POST',
                     data: {action: "checkPhone", phone: phone},
                     success: function (response) {
-                        console.log(response); // Debug
                         if (response.status === "exist") {
                             errorSpan.text("Phone number is existed. Please try again!").css("color", "red");
-                        } else if (response.status === "empty") {
-                            errorSpan.text("Phone number is empty. Please enter phone number!").css("color", "red");
                         } else if (response.status === "valid") {
                             errorSpan.text("Phone number is valid").css("color", "green");
-                        } else {
-                            toastr.error("Error.");
                         }
                     },
-                    error: function (xhr, status, error) {
-                        alert("Error.");
+                    error: function () {
+                        errorSpan.text("Server error.").css("color", "red");
                     }
                 });
             }
 
             function checkEmail() {
-                const email = $("#email").val();
+                const email = $("#email").val().trim();
                 const errorSpan = $("#email-error");
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (email === "") {
+                    errorSpan.text("Email is empty. Please enter an email!").css("color", "red");
+                    return;
+                } else if (!emailRegex.test(email)) {
+                    errorSpan.text("Invalid email format!").css("color", "red");
+                    return;
+                }
 
                 $.ajax({
                     url: "createAccount",
                     type: 'POST',
                     data: {action: "checkEmail", email: email},
                     success: function (response) {
-                        console.log(response); // Debug
                         if (response.status === "exist") {
                             errorSpan.text("Email is existed. Please try again!").css("color", "red");
-                        } else if (response.status === "empty") {
-                            errorSpan.text("Email is empty. Please enter an email!").css("color", "red");
                         } else if (response.status === "valid") {
                             errorSpan.text("Email is valid").css("color", "green");
-                        } else {
-                            toastr.error("Error.");
                         }
                     },
-                    error: function (xhr, status, error) {
-                        alert("Error.");
+                    error: function () {
+                        errorSpan.text("Server error.").css("color", "red");
                     }
                 });
             }

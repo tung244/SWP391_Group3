@@ -17,10 +17,10 @@ public class SendSMS {
     public static boolean guiSMS(String otp, String phone) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("ApiKey", "9CEACFF036A16A863E417F32239D58");
+        jsonObject.put("ApiKey", "");
         jsonObject.put("Content", otp+" la ma xac minh dang ky Baotrixemay cua ban");
         jsonObject.put("Phone",phone);
-        jsonObject.put("SecretKey", "C93FBDAD470640514931DF273D462B");
+        jsonObject.put("SecretKey", "");
         jsonObject.put("Brandname", "Baotrixemay");
         jsonObject.put("SmsType", "2");
         jsonObject.put("IsUnicode", 1);
@@ -34,7 +34,7 @@ public class SendSMS {
         RequestBody body = RequestBody.create(mediaType, jsonObject.toString());
 
         Request request = new Request.Builder()
-                .url("https://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_post_json/")
+                .url("")
                 .method("POST", body)
                 .addHeader("Content-Type", "application/json")
                 .build();
@@ -57,6 +57,6 @@ public class SendSMS {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(guiSMS("128745","0357159967"));
+        System.out.println(guiSMS("",""));
     }
 }

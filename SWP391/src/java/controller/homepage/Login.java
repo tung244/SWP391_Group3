@@ -104,6 +104,7 @@ public class Login extends HttpServlet {
                     response.addCookie(passCookie);
                     session.setAttribute("user", user);
                     session.setAttribute("username", username);
+                    session.setAttribute("account_id", user.getAccount().getAccount_id());
                     session.setAttribute("password", password);
                     session.setAttribute("ms", "Login Successfully!");
                     response.sendRedirect("trangchu");

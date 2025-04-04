@@ -168,10 +168,11 @@ public class ShowEmail extends HttpServlet {
     //load hết id email ra
     private String getAllIDEmail(String accessToken, String nextPageToken) throws UnsupportedEncodingException, IOException {
         HttpRequestFactory requestFactory = new NetHttpTransport().createRequestFactory();
-        String query = "subject:(\"Yêu cầu hỗ trợ\") -from:" + Mail.APP_EMAIL;
+        String query = "subject:(\"Yêu cầu hỗ trợ\")";
 
         // Tạo URL cơ bản với query
-        String url = Gmails.GMAIL_API_URL + "?q=" + URLEncoder.encode(query, "UTF-8") + "&maxResults=3";
+        String url = Gmails.GMAIL_API_URL + "?q=" + URLEncoder.encode(query, "UTF-8") + "&maxResults=10";
+//        String url = Gmails.GMAIL_API_URL + "?maxResults=10";
 
         // Nếu nextPageToken không null hoặc không rỗng, thêm vào URL
         if (nextPageToken != null && !nextPageToken.isEmpty()) {

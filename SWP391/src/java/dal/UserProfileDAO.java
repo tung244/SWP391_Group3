@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.Account;
+import model.AgeGroupStats;
 import model.Appointment;
+import model.Checkout;
 import model.Doctors;
 import model.FaceBookAccount;
 import model.GoogleAccount;
@@ -28,6 +30,163 @@ import model.Slots;
 import model.Staffs;
 
 public class UserProfileDAO extends DBContext {
+    
+    public boolean cancelAppointment(int appointment_id, String status) {
+        String sql = "UPDATE Appointment SET appointment_status = ? WHERE appointment_id = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, status);
+            st.setInt(2, appointment_id);
+
+            int rowsUpdated = st.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public List<UserProfile> getTop10CustomersBySpending() {
+        List<UserProfile> topCustomers = new ArrayList<>();
+        String sql = """
+                 SELECT TOP 10 
+                        c.account_id, 
+                        c.full_name, 
+                        SUM(co.total_bill) AS total_spent
+                 FROM Customers c
+                 JOIN Appointment a ON c.account_id = a.patient_id
+                 JOIN CheckOut co ON a.appointment_id = co.appointment_id
+                 GROUP BY c.account_id, c.full_name
+                 ORDER BY total_spent DESC;
+                 """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                // Tạo đối tượng Account
+                Account account = new Account();
+                account.setAccount_id(rs.getInt("account_id"));
+
+                // Tạo đối tượng UserProfile
+                UserProfile user = new UserProfile();
+                user.setAccount(account);
+                user.setFullname(rs.getString("full_name"));
+
+                // Tạo đối tượng Checkout để lưu total_spent
+                Checkout checkout = new Checkout();
+                checkout.setTotalBill(rs.getDouble("total_spent"));
+
+                user.setCheckout(checkout);
+                topCustomers.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return topCustomers;
+    }
+    
+    public List<AgeGroupStats> getAppointmentsByAgeGroup() {
+        List<AgeGroupStats> ageGroups = new ArrayList<>();
+        String sql = """
+        SELECT 
+            CASE 
+                WHEN DATEDIFF(YEAR, c.dob, GETDATE()) BETWEEN 0 AND 10 THEN '0-10' 
+                WHEN DATEDIFF(YEAR, c.dob, GETDATE()) BETWEEN 11 AND 20 THEN '11-20' 
+                WHEN DATEDIFF(YEAR, c.dob, GETDATE()) BETWEEN 21 AND 30 THEN '21-30' 
+                WHEN DATEDIFF(YEAR, c.dob, GETDATE()) BETWEEN 31 AND 40 THEN '31-40' 
+                WHEN DATEDIFF(YEAR, c.dob, GETDATE()) BETWEEN 41 AND 50 THEN '41-50' 
+                WHEN DATEDIFF(YEAR, c.dob, GETDATE()) BETWEEN 51 AND 60 THEN '51-60' 
+                ELSE '60+' END AS Age_Group, 
+            COUNT(a.appointment_id) AS Total_Appointments
+        FROM Customers c
+        JOIN Appointment a ON c.account_id = a.patient_id
+        GROUP BY 
+            CASE 
+                WHEN DATEDIFF(YEAR, c.dob, GETDATE()) BETWEEN 0 AND 10 THEN '0-10' 
+                WHEN DATEDIFF(YEAR, c.dob, GETDATE()) BETWEEN 11 AND 20 THEN '11-20' 
+                WHEN DATEDIFF(YEAR, c.dob, GETDATE()) BETWEEN 21 AND 30 THEN '21-30' 
+                WHEN DATEDIFF(YEAR, c.dob, GETDATE()) BETWEEN 31 AND 40 THEN '31-40' 
+                WHEN DATEDIFF(YEAR, c.dob, GETDATE()) BETWEEN 41 AND 50 THEN '41-50' 
+                WHEN DATEDIFF(YEAR, c.dob, GETDATE()) BETWEEN 51 AND 60 THEN '51-60' 
+                ELSE '60+' END 
+        ORDER BY Total_Appointments DESC;
+    """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                // Tạo đối tượng AgeGroupStats
+                AgeGroupStats ageGroupStats = new AgeGroupStats();
+                ageGroupStats.setAgeGroup(rs.getString("Age_Group"));
+                ageGroupStats.setTotalAppointments(rs.getInt("Total_Appointments"));
+
+                ageGroups.add(ageGroupStats);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ageGroups;
+    }
+    
+    public Account getAccountByAppointmentId(int id) {
+        String sql = "select * from Accounts a \n"
+                + "join Appointment app on a.account_id = app.patient_id\n"
+                + "where app.appointment_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return new Account(rs.getInt("account_id"));
+            }
+        } catch (Exception e) {
+            
+        }
+        return null;
+    }
+    
+    public List<Appointment> getExpiredAppointments() {
+        List<Appointment> expiredAppointments = new ArrayList<>();
+        String sql = """
+                 SELECT a.appointment_id, a.appointment_date,  
+                        u.full_name, ac.account_id, ac.email
+                 FROM  Appointment a
+                 JOIN Customers u ON a.patient_id = u.account_id
+                 JOIN Accounts ac ON ac.account_id = a.patient_id
+                 WHERE a.appointment_status = 'Scheduled' 
+                 AND DATEDIFF(HOUR, a.appointment_date, GETDATE()) >= 6;
+                 """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                // Tạo đối tượng Appointment
+                Appointment appointment = new Appointment();
+                appointment.setAppointment_id(rs.getInt("appointment_id"));
+                appointment.setAppointment_date(rs.getTimestamp("appointment_date"));
+
+                // Tạo đối tượng Account
+                Account account = new Account();
+                account.setAccount_id(rs.getInt("account_id"));
+                account.setEmail(rs.getString("email"));
+
+                // Tạo đối tượng UserProfile và gán Account
+                UserProfile user = new UserProfile();
+                user.setFullname(rs.getString("full_name"));
+                user.setAccount(account);
+
+                // Gán user vào appointment
+                appointment.setUser(user);
+
+                expiredAppointments.add(appointment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return expiredAppointments;
+    }
     
     public boolean addAccount(UserProfile p) {
         
@@ -128,9 +287,11 @@ public class UserProfileDAO extends DBContext {
     
     public static void main(String[] args) {
         UserProfileDAO udao = new UserProfileDAO();
-        List<Appointment> list = udao.getAppointmentByAppointmentId(7);
-        System.out.println(list);
-        
+        List<Appointment> s = udao.searchAppointments("",
+                "", "2025-03-30", "");
+        for (Appointment appointment : s) {
+            System.out.println(appointment.toString());
+        }
     }
     
     public String[] loadBasicInfoUser(String username) {
@@ -391,7 +552,7 @@ public class UserProfileDAO extends DBContext {
         return list;
     }
     
-     public List<Appointment> getAppointmentByAppointmentId(int appointment_id) {
+    public List<Appointment> getAppointmentByAppointmentId(int appointment_id) {
         List<Appointment> list = new ArrayList<>();
         String sql = """
             SELECT a.appointment_id, a.appointment_status, 
@@ -421,7 +582,7 @@ public class UserProfileDAO extends DBContext {
                     Doctors doctor = new Doctors(id, doctorName);
                     Services service = new Services(doctorName, serviceDescription);
 
-                    list.add(new Appointment(id, status, staff, doctor, slot, service));
+                    list.add(new Appointment(id, status, doctor, slot, service, staff));
                 }
             }
         } catch (SQLException e) {
@@ -435,36 +596,36 @@ public class UserProfileDAO extends DBContext {
         StringBuilder sql = new StringBuilder("""
         SELECT a.appointment_id, a.appointment_date, 
                s.service_name, sd.cost, 
-               st.service_type_name, st.duration_service
+               st.service_type_name, st.duration_service,a.appointment_status
         FROM dbo.Appointment a
         JOIN dbo.Services_Detail sd ON sd.service_detail_id = a.service_detail_id
         JOIN dbo.Services s ON s.service_id = sd.service_id
         JOIN dbo.Services_Type st ON st.service_type_id = sd.service_type_id
         WHERE 1=1
     """);
-        
+
         List<String> params = new ArrayList<>();
-        
+
         if (serviceName != null && !serviceName.isEmpty()) {
             sql.append(" AND s.service_name COLLATE SQL_Latin1_General_CP1_CI_AI LIKE  ? ");
             params.add("%" + serviceName + "%");
         }
-        
+
         if (serviceTypeName != null && !serviceTypeName.isEmpty()) {
             sql.append(" AND st.service_type_name LIKE ? ");
             params.add("%" + serviceTypeName + "%");
         }
-        
+
         if (startDate != null && !startDate.isEmpty()) {
             sql.append(" AND a.appointment_date >= ? ");
             params.add(startDate);
         }
-        
+
         if (endDate != null && !endDate.isEmpty()) {
             sql.append(" AND a.appointment_date <= ? ");
             params.add(endDate);
         }
-        
+
         try (PreparedStatement st = connection.prepareStatement(sql.toString())) {
             for (int i = 0; i < params.size(); i++) {
                 st.setString(i + 1, params.get(i));
@@ -477,12 +638,14 @@ public class UserProfileDAO extends DBContext {
                     int cost = rs.getInt("cost");
                     String serviceTypeNameResult = rs.getString("service_type_name");
                     String duration = rs.getString("duration_service");
+                    String status = rs.getString("appointment_status");
                     
+
                     Services service = new Services(serviceNameResult);
                     ServiceTypes serviceType = new ServiceTypes(serviceTypeNameResult, duration);
-                    ServiceDetail serviceDetail = new ServiceDetail(cost);
-                    
-                    list.add(new Appointment(id, date, service, serviceDetail, serviceType));
+                    ServiceDetail serviceDetail = new ServiceDetail(0,cost);
+
+                    list.add(new Appointment(id, date,status, serviceType,service, serviceDetail));
                 }
             }
         } catch (SQLException e) {
@@ -571,6 +734,19 @@ public class UserProfileDAO extends DBContext {
         }
         return false;
     }
-    
+    public boolean cancelExpiredAppointments() {
+        String sql = """
+                     UPDATE Appointment
+                     SET appointment_status = 'Cancelled'
+                     WHERE appointment_status = 'Scheduled'
+                     AND DATEDIFF(HOUR, appointment_date, GETDATE()) >= 12;""";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            return st.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
     
 }

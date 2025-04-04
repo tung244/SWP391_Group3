@@ -23,6 +23,7 @@ public class FeedbackService {
     public int totalStars ;
     public String full_name;
     public int month;
+    public Staffs staff;
  
      
     public FeedbackService() {
@@ -31,6 +32,13 @@ public class FeedbackService {
     public FeedbackService(double average_rating, int month) {
         this.average_rating = average_rating;
         this.month = month;
+    }
+
+    public FeedbackService(int rating, int feedback_id, Date feedback_date,  Staffs staff) {
+        this.rating = rating;
+        this.feedback_id = feedback_id;
+        this.feedback_date = feedback_date;
+        this.staff = staff;
     }
 
    
@@ -88,6 +96,14 @@ public class FeedbackService {
 
     public void setTotalStars(int totalStars) {
         this.totalStars = totalStars;
+    }
+
+    public Staffs getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staffs staff) {
+        this.staff = staff;
     }
 
     public double getAverage_rating() {

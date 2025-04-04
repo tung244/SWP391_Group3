@@ -4,7 +4,7 @@
  */
 package controller.admin.doctor;
 
-import static controller.admin.doctor.CreateDoctor.uploadImage;
+import bo.ImageServices;
 import dal.CertificateDAO;
 import dal.DegreeDAO;
 import dal.DoctorsDAO;
@@ -96,7 +96,10 @@ public class EditDoctorProfile extends HttpServlet {
         Part part = request.getPart("profileImage");
         String pathHost = getServletContext().getRealPath("");
         String finalPath = pathHost.replace("build\\", "");
-        String linkFile = uploadImage(part, finalPath);
+        String linkFile = "";
+        if(part!= null && part.getSize() > 0){
+            linkFile = ImageServices.uploadImage(part, finalPath);
+        }       
         response.getWriter().print(linkFile);
         // Tạo đối tượng bác sĩ để cập nhật
         Doctors doctor = new Doctors();
@@ -133,33 +136,12 @@ public class EditDoctorProfile extends HttpServlet {
             request.getSession().setAttribute("success", "Edit doctor profile successfully!");
             response.sendRedirect("doctorProfile?accId=" + accId);          
         } else {
-            request.setAttribute("error", "Update failed. Please try again.");
+            request.setAttribute("errorr", "Update failed. Please try again.");
             request.getRequestDispatcher("editDoctorProfile?did=" + did).forward(request, response);
         }
     }
 
-    public static String uploadImage(Part part, String finalPath) throws ServletException {
-        String uploadPath = finalPath + "images";
-        File uploadDir = new File(uploadPath);
-
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-        String linkFile = "";
-
-        String fileName = part.getSubmittedFileName();
-
-        if (fileName != null && !fileName.isEmpty()) {
-            File filePath = new File(uploadPath + File.separator + fileName);
-            try {
-                Files.copy(part.getInputStream(), filePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                linkFile = "./images/" + fileName;
-            } catch (IOException e) {
-                throw new ServletException("File upload failed: " + e.getMessage());
-            }
-        }
-        return linkFile;
-    }
+    
 
     @Override
     public String getServletInfo() {

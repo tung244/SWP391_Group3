@@ -32,7 +32,7 @@ public class Checkout {
 
     
         
-    public Checkout(int checkoutId, int appointmentId, String transactionType, String transactionStatus, double totalBill, String checkoutCode, int discount, Timestamp checkoutTime) {
+    public Checkout(int checkoutId, int appointmentId, String transactionType, String transactionStatus, double totalBill, String checkoutCode, Timestamp checkoutTime) {
         this.checkoutId = checkoutId;
         this.appointmentId = appointmentId;
         this.transactionType = transactionType;
